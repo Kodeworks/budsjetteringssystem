@@ -1,5 +1,6 @@
 {
   "name": "liquidator",
+  "description": "The frontend for liquidator.",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
