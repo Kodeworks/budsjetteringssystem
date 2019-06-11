@@ -1,8 +1,11 @@
 import React from 'react';
 
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
-import Heading from './components/molecules/atoms/Heading';
+import { BrowserRouter, Route } from 'react-router-dom';
+
+import FAQ from './components/FAQ';
+import Homepage from './components/Homepage';
 
 // Reset
 const GlobalStyle = createGlobalStyle`
@@ -14,14 +17,13 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App: React.FC = () => (
-  <ThemeProvider theme={{}} /* Insert theme specific variables here */>
-    <>
-      {/* ThemeProvider can only have one child */}
-      <Heading>Welcome to Liquidator</Heading>
-      <h5>welcome</h5>
-      <GlobalStyle />
-    </>
-  </ThemeProvider>
+  <>
+    <BrowserRouter>
+      <Route path="/" exact={true} component={Homepage} />
+      <Route path="/faq" component={FAQ} />
+    </BrowserRouter>
+    <GlobalStyle />
+  </>
 );
 
 export default App;
