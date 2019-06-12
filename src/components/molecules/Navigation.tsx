@@ -34,7 +34,7 @@ export default styled(withRouter(Navigation))`
   position: sticky;
 
   /* Colors */
-  background: ${props => props.theme.navigationWithAlpha()};
+  background: ${props => props.theme.primary};
 
   /* Content management */
   overflow-y: auto;

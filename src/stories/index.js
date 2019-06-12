@@ -12,6 +12,7 @@ import { theme } from '../styling/theme';
 import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
 import NavigationPill from '../components/molecules/atoms/NavigationPill';
 import Toolbar from '../components/molecules/Toolbar';
+import AddButton from '../components/molecules/atoms/AddButton';
 
 addDecorator(storyFn => (
   <>
@@ -44,4 +45,7 @@ storiesOf('App', module)
   .add('Full', () => <App />);
 
 storiesOf('Toolbar', module)
-  .add('Default', () => <Toolbar />)
+  .add('Default', () => <Toolbar />);
+
+storiesOf('Button/add', module)
+  .add('Normal', () => <AddButton />);

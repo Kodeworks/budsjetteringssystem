@@ -31,5 +31,5 @@ export default styled(NavigationPill)`
 
   /* Colors */
   color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.9)'};
-  background: ${props => props.active ? theme.lightenedBgWithAlpha(0.5) : 'rgba(0,0,0,0)'};
+  background: ${props => props.active ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0)'};
 `;
