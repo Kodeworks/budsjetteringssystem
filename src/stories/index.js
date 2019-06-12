@@ -13,6 +13,7 @@ import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
 import NavigationPill from '../components/molecules/atoms/NavigationPill';
 import Toolbar from '../components/molecules/Toolbar';
 import AddButton from '../components/molecules/atoms/AddButton';
+import OutlinedButton from '../components/molecules/atoms/OutlinedButton';
 
 addDecorator(storyFn => (
   <>
@@ -47,5 +48,8 @@ storiesOf('App', module)
 storiesOf('Toolbar', module)
   .add('Default', () => <Toolbar />);
 
-storiesOf('Button/add', module)
+storiesOf('Button/Add', module)
   .add('Normal', () => <AddButton />);
+
+storiesOf('Button/Outlined', module)
+  .add('Normal', () => <OutlinedButton>Lipsum</OutlinedButton>);

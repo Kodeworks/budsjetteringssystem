@@ -8,16 +8,16 @@ interface IProps {
   className?: string;
 }
 
-const AddButton: React.FC<IProps> = props => (
-  <button className={props.className}>+</button>
+const OutlinedButton: React.FC<IProps> = props => (
+  <button className={props.className}>{props.children}</button>
 );
 
-export default styled(AddButton)`
+export default styled(OutlinedButton)`
   /* Sizing */
-  height: 2em;
-  width: 2em;
-  margin: .5em calc(.5em + 4px) calc(.5em + 4px) .5em; /* We need to factor in
+  height: 2.5em;
+  margin: .5em calc(.5em + 5px) calc(.5em + 5px) .5em; /* We need to factor in
                                                           the box-shadow. */
+  padding: .5em 2em;
 
   /* Positioning */
   position: relative;
@@ -28,11 +28,12 @@ export default styled(AddButton)`
   outline: none;
 
   /* Border */
-  border: 0;
+  border: 2px solid ${theme.accent};
   border-radius: 3px;
 
   /* Shadow of Mordor */
-  box-shadow: 4px 4px 7px 0px #ddd;
+  box-shadow: 5px 5px 0px -2px white,
+              5px 5px 0px 0px ${theme.accent};
 
   /* Other */
   cursor: pointer;
@@ -42,7 +43,10 @@ export default styled(AddButton)`
   color: ${theme.accentSecond};
 
   /* Font */
-  font-size: 1.3em;
+  font-size: .9em;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+  font-weight: 800;
 
   /* Transition */
   transition: top .1s, left .1s, box-shadow .1s, color .1s;
@@ -50,13 +54,15 @@ export default styled(AddButton)`
   &:hover {
     top: 2px;
     left: 2px;
-    box-shadow: 2px 2px 7px 0px #ddd;
+    box-shadow: 3px 3px 0px -2px white,
+                3px 3px 0px 0px ${theme.accent};
   }
 
   &:active {
-    top: 4px;
-    left: 4px;
-    box-shadow: 0px 0px 7px 0px #ddd;
+    top: 5px;
+    left: 5px;
+    box-shadow: 0px 0px 0px -2px white,
+                0px 0px 0px 0px ${theme.accent};
     color: white;
   }
 `;
