@@ -40,7 +40,4 @@ export default styled(withRouter(Navigation))`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-
-  /* Borders */
-  border-radius: 0 5px 5px 0;
 `;

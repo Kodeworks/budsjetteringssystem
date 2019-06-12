@@ -5,6 +5,10 @@ import Toolbar from './Toolbar';
 
 const Container = styled.div`
   padding: 4em;
+
+  &>h1 {
+    margin-bottom: 1em;
+  }
 `;
 
 const Separator = styled.hr`

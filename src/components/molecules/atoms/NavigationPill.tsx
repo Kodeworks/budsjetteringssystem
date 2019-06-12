@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { theme } from '../../../styling/theme';
+
 interface IProps {
   to: string;
   className?: string;
@@ -25,9 +27,9 @@ export default styled(NavigationPill)`
   font-family: "Open Sans", sans-serif;
 
   /* Border */
-  border-left: ${props => props.active ? '2px solid white' : 'none'};
+  border-left: ${props => props.active ? `2px solid ${theme.backgroundColor}` : 'none'};
 
   /* Colors */
-  color: ${props => !props.active ? 'rgba(255, 255, 255, 0.8)' : 'white'};
-  background-color: ${props => props.active ? '#7540E8' : 'rgba(0, 0, 0, 0)'};
+  color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.9)'};
+  background: ${props => props.active ? theme.lightenedBgWithAlpha(0.5) : 'rgba(0,0,0,0)'};
 `;
