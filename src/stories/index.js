@@ -11,6 +11,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from '../styling/theme';
 import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
 import NavigationPill from '../components/molecules/atoms/NavigationPill';
+import Toolbar from '../components/molecules/Toolbar';
 
 addDecorator(storyFn => (
   <>
@@ -33,6 +34,7 @@ storiesOf('Navigation', module)
       <NavigationBrand />
     </div>
   ));
+
 storiesOf('Navigation/Pill', module)
   .addDecorator(fn => <div style={{ width: navbarWidth, padding: '1em', backgroundImage: theme.navigationGradient }}>{fn()}</div>)
   .add('Pill // inactive', () => <NavigationPill to="/" active={false}>Inactive</NavigationPill>)
@@ -40,3 +42,6 @@ storiesOf('Navigation/Pill', module)
 
 storiesOf('App', module)
   .add('Full', () => <App />);
+
+storiesOf('Toolbar', module)
+  .add('Default', () => <Toolbar />)

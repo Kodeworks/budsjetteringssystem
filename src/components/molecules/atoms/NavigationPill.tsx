@@ -22,6 +22,7 @@ export default styled(NavigationPill)`
 
   /* Font */
   text-decoration: none;
+  font-family: "Open Sans", sans-serif;
 
   /* Border */
   border-left: ${props => props.active ? '2px solid white' : 'none'};

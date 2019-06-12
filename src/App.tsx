@@ -9,6 +9,7 @@ import { theme } from './styling/theme';
 import FAQ from './components/FAQ';
 import Homepage from './components/Homepage';
 import Navigation from './components/molecules/Navigation';
+import Page from './components/molecules/Page';
 import { GlobalStyle } from './styling/global';
 import { navbarWidth } from './styling/sizes';
 
@@ -17,17 +18,21 @@ interface IProps {
 }
 
 const App: React.FC<IProps> = ({ className }) => (
-  <div className={className}>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <Navigation />
-      </ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <div className={className}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <Navigation />
+        </ThemeProvider>
 
-      <Route path="/" exact={true} component={Homepage} />
-      <Route path="/faq" component={FAQ} />
-    </BrowserRouter>
-    <GlobalStyle />
-  </div>
+        <Page>
+          <Route path="/" exact={true} component={Homepage} />
+          <Route path="/faq" component={FAQ} />
+        </Page>
+      </BrowserRouter>
+      <GlobalStyle />
+    </div>
+  </ThemeProvider >
 );
 
 export default styled(App)`
@@ -37,5 +42,5 @@ export default styled(App)`
   grid-template-columns: ${navbarWidth} auto;
 
   /* Colors */
-  background-color: #F8F9FD;
+  background-color: ${props => props.theme.backgroundColor};
 `;
