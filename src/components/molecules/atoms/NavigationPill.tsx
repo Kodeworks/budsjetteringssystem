@@ -28,5 +28,5 @@ export default styled(NavigationPill)`
 
   /* Colors */
   color: ${props => !props.active ? 'rgba(255, 255, 255, 0.8)' : 'white'};
-  background-color: ${props => props.active ? '#7540E8' : 'initial'};
+  background-color: ${props => props.active ? '#7540E8' : 'rgba(0, 0, 0, 0)'};
 `;
