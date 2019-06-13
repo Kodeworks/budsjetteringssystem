@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { theme } from '../styling/theme';
 
 import AccentedLink from './molecules/atoms/AccentedLink';
-import BenefitGrid from './molecules/atoms/BenefitGrid';
 import OutlinedButton from './molecules/atoms/OutlinedButton';
 
 interface ILandingPage {
@@ -16,9 +15,9 @@ interface ILandingPage {
 const BrandTitle = styled.h1`
   font-family: "Montserrat", sans-serif;
   text-transform: uppercase;
-  font-size: 3em;
+  font-size: 4em;
   font-weight: 300;
-  color: white;
+  color: ${theme.contrast};
 `;
 
 const ButtonContainer = styled.div`
@@ -46,21 +45,18 @@ const LandingPage: React.FC<ILandingPage> = ({ className }) => (
         </ButtonContainer>
       </TextContainer>
     </header>
-    <section>
-      <h2>What separates Liquidator from the rest?</h2>
-      <BenefitGrid />
-    </section>
   </div>
 );
 
 export default styled(LandingPage)`
-  background-color: ${theme.primary};
-  padding-bottom: 4em;
+  background: ${theme.main}
+
+  padding: 0;
 
   /* Subcomponent styling */
   header {
-    height: 75vh;
-    margin-left: 20vw;
+    height: 100vh;
+    margin-left: 15vw;
 
     /* Vertically align the content to the center */
     display: flex;
@@ -71,24 +67,8 @@ export default styled(LandingPage)`
   }
 
   p {
-    color: white;
+    color: ${theme.contrast};
     font-size: 1.2em;
-  }
-
-  section {
-    background: ${theme.primary};
-
-    h2 {
-      font-weight: 300;
-      color: white;
-      font-size: 1.8em;
-      margin-bottom: 1em;
-    }
-
-    width: 70vw;
-    margin: auto;
-    padding: 2em;
-    box-shadow: 0px 0px 20px 0px ${theme.secondary};
   }
 
   /* Media queries */

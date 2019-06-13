@@ -11,11 +11,13 @@ interface IProps {
 }
 
 const AccentedLink: React.FC<IProps> = props => (
-  <Link to={props.to}><span className={props.className}>{props.children}</span></Link>
+  <Link style={{ textDecoration: 'none' }} to={props.to}>
+    <span className={props.className}>{props.children}</span>
+  </Link>
 );
 
 export default styled(AccentedLink)`
-  color: ${theme.accent};
+  color: ${theme.contrast};
   font-family: "Open Sans", sans-serif;
   vertical-align: middle;
   margin-left: .7em;

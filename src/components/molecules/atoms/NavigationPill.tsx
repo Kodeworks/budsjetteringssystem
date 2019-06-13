@@ -27,7 +27,7 @@ export default styled(NavigationPill)`
   font-family: "Open Sans", sans-serif;
 
   /* Border */
-  border-left: ${props => props.active ? `2px solid ${theme.backgroundColor}` : 'none'};
+  border-left: ${props => props.active ? `2px solid ${theme.main}` : 'none'};
 
   /* Colors */
   color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.9)'};

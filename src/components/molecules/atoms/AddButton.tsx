@@ -38,8 +38,8 @@ export default styled(AddButton)`
   cursor: pointer;
 
   /* Color */
-  background: ${theme.accent};
-  color: ${theme.accentSecond};
+  background: ${theme.accent1};
+  color: ${theme.contrast};
 
   /* Font */
   font-size: 1.3em;

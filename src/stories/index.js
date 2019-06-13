@@ -13,7 +13,6 @@ import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
 import NavigationPill from '../components/molecules/atoms/NavigationPill';
 import Toolbar from '../components/molecules/Toolbar';
 import AddButton from '../components/molecules/atoms/AddButton';
-import BenefitGrid from '../components/molecules/atoms/BenefitGrid';
 import OutlinedButton from '../components/molecules/atoms/OutlinedButton';
 import LandingPage from '../components/LandingPage';
 
@@ -34,13 +33,13 @@ storiesOf('Navigation', module)
     <Navigation />
   ))
   .add('Brand', () => (
-    <div style={{ width: navbarWidth, background: theme.primary, display: 'flex', flexDirection: "column", paddingBottom: '1em' }}>
+    <div style={{ width: navbarWidth, background: theme.main, display: 'flex', flexDirection: "column", paddingBottom: '1em' }}>
       <NavigationBrand />
     </div>
   ));
 
 storiesOf('Navigation/Pill', module)
-  .addDecorator(fn => <div style={{ width: navbarWidth, padding: '1em', background: theme.primary }}>{fn()}</div>)
+  .addDecorator(fn => <div style={{ width: navbarWidth, padding: '1em', background: theme.accent1 }}>{fn()}</div>)
   .add('Inactive', () => <NavigationPill to="/" active={false}>Inactive</NavigationPill>)
   .add('Active', () => <NavigationPill to="/" active={true}>Active</NavigationPill>);
 
@@ -57,10 +56,5 @@ storiesOf('Button/Outlined', module)
   .add('Normal', () => <OutlinedButton>Lipsum</OutlinedButton>);
 
 storiesOf('LandingPage', module)
-  .add('Full', () => <LandingPage />)
-  .add('BenefitGrid', () => (
-    <div style={{ width: '70vw', padding: '2em', background: theme.primary }}>
-      <BenefitGrid />
-    </div>
-  ));
+  .add('Full', () => <LandingPage />);
 

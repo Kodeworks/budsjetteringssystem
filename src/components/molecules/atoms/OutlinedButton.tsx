@@ -6,6 +6,7 @@ import { theme } from '../../../styling/theme';
 
 interface IProps {
   className?: string;
+  backgroundColor?: string;
 }
 
 const OutlinedButton: React.FC<IProps> = props => (
@@ -28,19 +29,22 @@ export default styled(OutlinedButton)`
   outline: none;
 
   /* Border */
-  border: 2px solid ${theme.accent};
+  border: 2px solid ${theme.contrast};
   border-radius: 3px;
 
+  /* Variables */
+  --box-shadow-background: ${props => props.backgroundColor || theme.main};
+
   /* Shadow of Mordor */
-  box-shadow: 5px 5px 0px -2px ${theme.primary},
-              5px 5px 0px 0px ${theme.accent};
+  box-shadow: 5px 5px 0px -2px var(--box-shadow-background),
+              5px 5px 0px 0px ${theme.contrast};
 
   /* Other */
   cursor: pointer;
 
   /* Color */
-  background: ${theme.accent};
-  color: ${theme.accentSecond};
+  background: ${theme.main};
+  color: ${theme.contrast};
 
   /* Font */
   font-size: .9em;
@@ -54,15 +58,14 @@ export default styled(OutlinedButton)`
   &:hover {
     top: 2px;
     left: 2px;
-    box-shadow: 3px 3px 0px -2px ${theme.primary},
-                3px 3px 0px 0px ${theme.accent};
+    box-shadow: 3px 3px 0px -2px var(--box-shadow-background),
+                3px 3px 0px 0px ${theme.contrast};
   }
 
   &:active {
     top: 5px;
     left: 5px;
-    box-shadow: 0px 0px 0px -2px ${theme.primary},
-                0px 0px 0px 0px ${theme.accent};
-    color: white;
+    box-shadow: 0px 0px 0px -2px var(--box-shadow-background),
+                0px 0px 0px 0px ${theme.contrast};
   }
 `;
