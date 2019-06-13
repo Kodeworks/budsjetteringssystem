@@ -7,6 +7,12 @@ interface ITabMenuProps {
   tabLabels: Array<string>;
 }
 
+const UL = styled.ul`
+  border-bottom: 1px solid #ccc;
+  padding-left: 0;
+  list-style-type: none;
+`;
+
 const TabMenu: React.FC<ITabMenuProps> = ({className, tabLabels, children}) => {
   const [activeTab, setActiveTab] =  useState(0);
 
@@ -18,16 +24,8 @@ const TabMenu: React.FC<ITabMenuProps> = ({className, tabLabels, children}) => {
       )
   );
   return (
-    <React.Fragment>
-      <ul className={className} style={{listStyleType: 'none'}} >
-        {renderTabs()}
-      </ul>
-    </React.Fragment>
-
+      <UL>{renderTabs()}</UL>
   );
 };
 
-export default styled(TabMenu)`
-  border-bottom: 1px solid #ccc;
-  padding-left: 0;
-`;
+export default TabMenu;
