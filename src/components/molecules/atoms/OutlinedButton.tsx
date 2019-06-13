@@ -32,7 +32,7 @@ export default styled(OutlinedButton)`
   border-radius: 3px;
 
   /* Shadow of Mordor */
-  box-shadow: 5px 5px 0px -2px white,
+  box-shadow: 5px 5px 0px -2px ${theme.primary},
               5px 5px 0px 0px ${theme.accent};
 
   /* Other */
@@ -54,14 +54,14 @@ export default styled(OutlinedButton)`
   &:hover {
     top: 2px;
     left: 2px;
-    box-shadow: 3px 3px 0px -2px white,
+    box-shadow: 3px 3px 0px -2px ${theme.primary},
                 3px 3px 0px 0px ${theme.accent};
   }
 
   &:active {
     top: 5px;
     left: 5px;
-    box-shadow: 0px 0px 0px -2px white,
+    box-shadow: 0px 0px 0px -2px ${theme.primary},
                 0px 0px 0px 0px ${theme.accent};
     color: white;
   }
