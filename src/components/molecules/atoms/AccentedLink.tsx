@@ -10,11 +10,11 @@ interface IProps {
   to: string;
 }
 
-const RegisterLink: React.FC<IProps> = props => (
+const AccentedLink: React.FC<IProps> = props => (
   <Link to={props.to}><span className={props.className}>{props.children}</span></Link>
 );
 
-export default styled(RegisterLink)`
+export default styled(AccentedLink)`
   color: ${theme.accent};
   font-family: "Open Sans", sans-serif;
   vertical-align: middle;

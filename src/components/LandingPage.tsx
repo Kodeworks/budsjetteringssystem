@@ -5,8 +5,9 @@ import styled from 'styled-components';
 
 import { theme } from '../styling/theme';
 
+import AccentedLink from './molecules/atoms/AccentedLink';
+import BenefitGrid from './molecules/atoms/BenefitGrid';
 import OutlinedButton from './molecules/atoms/OutlinedButton';
-import RegisterLink from './molecules/atoms/RegisterLink';
 
 interface ILandingPage {
   className?: string;
@@ -38,18 +39,23 @@ const LandingPage: React.FC<ILandingPage> = ({ className }) => (
           molestiae doloremque Dolore ut error quae culpa iure eius Quisquam.
         </p>
         <ButtonContainer>
-          <Link to="/login">
-            <OutlinedButton>Login</OutlinedButton>
+          <Link to="/register">
+            <OutlinedButton>Join now</OutlinedButton>
           </Link>
-          <RegisterLink to="/register">Don't have an account? Sign up</RegisterLink>
+          <AccentedLink to="/login">Already have an account? Sign in</AccentedLink>
         </ButtonContainer>
       </TextContainer>
     </header>
+    <section>
+      <h2>What separates Liquidator from the rest?</h2>
+      <BenefitGrid />
+    </section>
   </div>
 );
 
 export default styled(LandingPage)`
   background-color: ${theme.primary};
+  padding-bottom: 4em;
 
   /* Subcomponent styling */
   header {
@@ -67,6 +73,22 @@ export default styled(LandingPage)`
   p {
     color: white;
     font-size: 1.2em;
+  }
+
+  section {
+    background: ${theme.primary};
+
+    h2 {
+      font-weight: 300;
+      color: white;
+      font-size: 1.8em;
+      margin-bottom: 1em;
+    }
+
+    width: 70vw;
+    margin: auto;
+    padding: 2em;
+    box-shadow: 0px 0px 20px 0px ${theme.secondary};
   }
 
   /* Media queries */

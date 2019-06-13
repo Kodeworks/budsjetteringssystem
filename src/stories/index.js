@@ -13,6 +13,7 @@ import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
 import NavigationPill from '../components/molecules/atoms/NavigationPill';
 import Toolbar from '../components/molecules/Toolbar';
 import AddButton from '../components/molecules/atoms/AddButton';
+import BenefitGrid from '../components/molecules/atoms/BenefitGrid';
 import OutlinedButton from '../components/molecules/atoms/OutlinedButton';
 import LandingPage from '../components/LandingPage';
 
@@ -56,4 +57,10 @@ storiesOf('Button/Outlined', module)
   .add('Normal', () => <OutlinedButton>Lipsum</OutlinedButton>);
 
 storiesOf('LandingPage', module)
-  .add('Full', () => <LandingPage />);
+  .add('Full', () => <LandingPage />)
+  .add('BenefitGrid', () => (
+    <div style={{ width: '70vw', padding: '2em', background: theme.primary }}>
+      <BenefitGrid />
+    </div>
+  ));
+
