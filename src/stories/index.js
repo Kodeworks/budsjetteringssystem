@@ -12,6 +12,7 @@ import { theme } from '../styling/theme';
 import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
 import NavigationPill from '../components/molecules/atoms/NavigationPill';
 import Toolbar from '../components/molecules/Toolbar';
+import TabMenu from '../components/molecules/TabMenu'
 
 addDecorator(storyFn => (
   <>
@@ -45,3 +46,12 @@ storiesOf('App', module)
 
 storiesOf('Toolbar', module)
   .add('Default', () => <Toolbar />)
+
+  const tabs = [
+    'Tab 1',
+    'Tab 2',
+    'Tab 3',
+  ];
+
+storiesOf('Page', module)
+  .add('Tabs', () => <TabMenu tabLabels={tabs}/>)
