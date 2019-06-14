@@ -13,6 +13,7 @@ media
 .env
 .venv
 .direnv
+.envrc
 env/
 venv/
 ENV/
