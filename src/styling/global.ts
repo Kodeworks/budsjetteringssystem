@@ -18,18 +18,13 @@ export const GlobalStyle = createGlobalStyle`
 
   /* Typography */
 
-  h1, h2, h3, h4, h5, h6, p, a, span, li {
+  h1, h2, h3, h4, h5, h6, p, a, span, li, strong {
     font-family: "Open Sans", sans-serif;
-    color: ${theme.contrast};
   }
 
   h1 {
     font-weight: 400;
     font-size: 2em;
-  }
-
-  h1, h2, h3, h4, h5, h6, a, p, label {
-    color: ${theme.contrast}
   }
 
   p {
