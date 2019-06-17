@@ -15,6 +15,7 @@ import Toolbar from '../components/molecules/Toolbar';
 import AddButton from '../components/molecules/atoms/AddButton';
 import OutlinedButton from '../components/molecules/atoms/OutlinedButton';
 import LandingPage from '../components/LandingPage';
+import TabMenu from '../components/molecules/TabMenu'
 
 addDecorator(storyFn => (
   <>
@@ -58,3 +59,11 @@ storiesOf('Button/Outlined', module)
 storiesOf('LandingPage', module)
   .add('Full', () => <LandingPage />);
 
+const tabs = [
+  'Tab 1',
+  'Tab 2',
+  'Tab 3',
+];
+
+storiesOf('Page', module)
+  .add('Tabs', () => <TabMenu tabLabels={tabs}/>)
