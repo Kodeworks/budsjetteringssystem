@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { theme } from '../../../styling/theme';
+import { theme } from '../../styling/theme';
 
 interface IProps {
   className?: string;

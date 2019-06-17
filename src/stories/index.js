@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
 
 import App from '../App';
-import Navigation from '../components/molecules/Navigation';
+import Navigation from '../components/organism/Navigation';
 import { navbarWidth } from '../styling/sizes';
 import { GlobalStyle } from '../styling/global';
 import { BrowserRouter } from 'react-router-dom';
@@ -11,10 +11,10 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from '../styling/theme';
 import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
 import NavigationPill from '../components/molecules/atoms/NavigationPill';
-import Toolbar from '../components/molecules/Toolbar';
+import Toolbar from '../components/organism/Toolbar';
 import AddButton from '../components/molecules/atoms/AddButton';
 import OutlinedButton from '../components/molecules/atoms/OutlinedButton';
-import LandingPage from '../components/LandingPage';
+import LandingPage from '../components/pages/LandingPage';
 import TabMenu from '../components/molecules/TabMenu'
 import DashboardTransactions from '../components/molecules/DashboardTransactions';
 import DashboardTransactionEntry from '../components/molecules/atoms/DashboardTransactionEntry';

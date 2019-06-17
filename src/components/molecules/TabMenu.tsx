@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import TabLabel from './atoms/TabLabel';
+import TabLabel from '../atoms/TabLabel';
 
 interface ITabMenuProps {
   className?: string;

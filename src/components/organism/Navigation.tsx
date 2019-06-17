@@ -1,11 +1,10 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-
 import styled from 'styled-components';
 import { navbarWidth } from '../../styling/sizes';
-import NavigationBrand from './atoms/NavigationBrand';
-import NavigationPill from './atoms/NavigationPill';
-import NavigationSeparator from './atoms/NavigationSeparator';
+import NavigationBrand from '../atoms/NavigationBrand';
+import NavigationPill from '../atoms/NavigationPill';
+import NavigationSeparator from '../atoms/NavigationSeparator';
 
 interface IProps {
   className?: string;
@@ -21,7 +20,7 @@ const Navigation: React.FC<IProps & RouteComponentProps> = ({ className, locatio
     <NavigationBrand />
     <NavigationSeparator />
     <div>
-      {links.map(l => <NavigationPill key={l.to} to={l.to} active={pathname === `/${l.to}`}>{l.name}</NavigationPill>)}
+      {links.map(l => <NavigationPill key={l.to} to={l.to} active={pathname === `/${l.to}` ? 1 : 0}>{l.name}</NavigationPill>)}
     </div>
     <NavigationSeparator style={{ marginTop: 'auto' }} />
   </nav>
