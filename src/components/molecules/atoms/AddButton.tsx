@@ -28,7 +28,7 @@ export default styled(AddButton)`
   outline: none;
 
   /* Border */
-  border: 0;
+  border: 2px solid ${theme.contrast};
   border-radius: 3px;
 
   /* Shadow of Mordor */
