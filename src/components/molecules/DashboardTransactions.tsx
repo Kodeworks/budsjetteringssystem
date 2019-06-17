@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { ITransaction } from '../../declarations/transaction';
-import DashboardTransactionEntry from './atoms/DashboardTransactionEntry';
+import DashboardTransactionEntry from '../atoms/DashboardTransactionEntry';
 
 interface IProps {
   className?: string;

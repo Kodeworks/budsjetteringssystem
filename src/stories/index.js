@@ -9,15 +9,15 @@ import { GlobalStyle } from '../styling/global';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styling/theme';
-import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
-import NavigationPill from '../components/molecules/atoms/NavigationPill';
+import NavigationBrand from '../components/atoms/NavigationBrand';
+import NavigationPill from '../components/atoms/NavigationPill';
 import Toolbar from '../components/organism/Toolbar';
-import AddButton from '../components/molecules/atoms/AddButton';
-import OutlinedButton from '../components/molecules/atoms/OutlinedButton';
+import AddButton from '../components/atoms/AddButton';
+import OutlinedButton from '../components/atoms/OutlinedButton';
 import LandingPage from '../components/pages/LandingPage';
 import TabMenu from '../components/molecules/TabMenu'
 import DashboardTransactions from '../components/molecules/DashboardTransactions';
-import DashboardTransactionEntry from '../components/molecules/atoms/DashboardTransactionEntry';
+import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
 
 addDecorator(storyFn => (
   <>

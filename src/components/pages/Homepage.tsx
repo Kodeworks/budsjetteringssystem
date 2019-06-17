@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ITransaction, TransactionType } from '../declarations/transaction';
-import DashboardTransactions from './molecules/DashboardTransactions';
+import { ITransaction, TransactionType } from '../../declarations/transaction';
+import DashboardTransactions from '../molecules/DashboardTransactions';
 
 const txEntries: Array<ITransaction> = [
   { id: 0, name: 'Cute otter pictures', money: 25089, type: TransactionType.expense, date: '23. august', companyId: 0 },
