@@ -34,13 +34,10 @@ export default styled(withRouter(Navigation))`
   position: sticky;
 
   /* Colors */
-  background-image: ${props => props.theme.navigationGradient};
+  background: ${props => props.theme.accent2};
 
   /* Content management */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-
-  /* Borders */
-  border-radius: 0 5px 5px 0;
 `;

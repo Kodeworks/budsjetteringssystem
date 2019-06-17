@@ -42,5 +42,5 @@ export default styled(App)`
   grid-template-columns: ${navbarWidth} auto;
 
   /* Colors */
-  background-color: ${props => props.theme.backgroundColor};
+  background-color: ${props => props.theme.main};
 `;
