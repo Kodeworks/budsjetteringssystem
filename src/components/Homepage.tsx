@@ -1,28 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { ITransaction, TransactionType } from '../declarations/transaction';
+import DashboardTransactions from './molecules/DashboardTransactions';
 
-const Homepage: React.FC = () => (
-  <>
-    <h1>Dashboard</h1>
-    <Link to="/faq">Welcome to the jungle</Link>
+const txEntries: Array<ITransaction> = [
+  { id: 0, name: 'Cute otter pictures', money: 25089, type: TransactionType.expense, date: '23. august', companyId: 0 },
+  {
+    companyId: 0, notes: 'Welcome to the jungle compadre.',
+    date: '23. august',
+    id: 1,
+    money: 120308,
+    name: 'Weird gerbils',
+    type: TransactionType.expense,
+  },
+  { id: 2, name: 'Cats with hats', money: 6516813, type: TransactionType.expense, date: '23. august', companyId: 0 },
+  { id: 3, name: 'Constructive', money: 2105089, type: TransactionType.income, date: '26. august', companyId: 0 },
+  { id: 4, name: 'Cute hats', money: 616823, type: TransactionType.expense, date: '23. august', companyId: 0 },
+];
 
-    <br/>
-    <br/>
+interface IProps {
+  className?: string;
+}
 
-    <ul>
-      <li>Sit aliquam sit sunt incidunt culpa Libero incidunt excepturi sequi?</li>
-      <li>Ipsum ullam cupiditate quo adipisci quasi velit neque, illum Consequatur.</li>
-      <li>Lorem dolor repellendus vel quaerat officia quam harum quo. Quas.</li>
-      <li>Ipsum rem possimus ab harum id Quibusdam quod atque a</li>
-      <li>Dolor doloremque alias at qui libero. Suscipit accusantium illum iste?</li>
-    </ul>
-
-    <br/>
-    <br/>
-
-    <img src="https://placehold.it/400x400" alt="" />
-
-  </>
+const Homepage: React.FC<IProps> = ({ className }) => (
+  <div className={className}>
+    <DashboardTransactions transactions={txEntries} />
+  </div>
 );
 
-export default Homepage;
+export default styled(Homepage)`
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+`;
