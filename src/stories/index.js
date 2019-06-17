@@ -71,15 +71,18 @@ storiesOf('Page', module)
   .add('Tabs', () => <TabMenu tabLabels={tabs} />)
 
 const txEntries = [
-  { id: 0, name: 'Cute Otter Pictures', money: 25089, type: 'Expense', date: '23.08.1999' },
+  { id: 0, name: 'Cute Otter Pictures', money: 25089, type: 'Expense', date: '23.08.1999', companyId: 12 },
   { id: 1, name: 'Weird Gerbils', money: 120308, type: 'Expense', date: '23.08.1999' },
   { id: 2, name: 'Cats with hats', money: 6516813, type: 'Expense', date: '23.08.1999' },
   { id: 3, name: 'Constructive Criticism', money: 2105089, type: 'Income', date: '26.09.1993' },
-  { id: 4, name: 'Cute Otter Pictures', money: 616823, type: 'Expense', date: '23.08.1999' },
+  {
+    id: 4, name: 'Cute Otter Pictures', money: 616823, type: 'Expense',
+    date: '23.08.1999', notes: 'Otters are the supreme animals. All other animals are to be ignored.'
+  },
 ]
 
 storiesOf('Dashboard', module)
-  .addDecorator(fn => <div style={{ width: '30vw', margin: '2em' }}>{fn()}</div>)
+  .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)
   .add('Transactions', () => <DashboardTransactions transactions={txEntries} />)
 
 storiesOf('Dashboard/Transactions', module)

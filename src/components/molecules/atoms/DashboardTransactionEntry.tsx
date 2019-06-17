@@ -18,7 +18,7 @@ const DashboardTransactionEntry: React.FC<ITransaction & { className?: string }>
 
   return (
     <div className={props.className} onMouseEnter={toggleNotes} onMouseLeave={toggleNotes}>
-      <h4>{props.name}</h4>
+      <h4>{props.name} {props.companyId && `- ${props.companyId}`}</h4>
       <strong>
         {props.type === TransactionType.expense ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
       </strong>
