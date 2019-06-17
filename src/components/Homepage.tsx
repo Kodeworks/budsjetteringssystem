@@ -5,7 +5,14 @@ import DashboardTransactions from './molecules/DashboardTransactions';
 
 const txEntries: Array<ITransaction> = [
   { id: 0, name: 'Cute otter pictures', money: 25089, type: TransactionType.expense, date: '23. august', companyId: 0 },
-  { id: 1, name: 'Weird gerbils', money: 120308, type: TransactionType.expense, date: '23. august', companyId: 0 },
+  {
+    companyId: 0, notes: 'Welcome to the jungle compadre.',
+    date: '23. august',
+    id: 1,
+    money: 120308,
+    name: 'Weird gerbils',
+    type: TransactionType.expense,
+  },
   { id: 2, name: 'Cats with hats', money: 6516813, type: TransactionType.expense, date: '23. august', companyId: 0 },
   { id: 3, name: 'Constructive', money: 2105089, type: TransactionType.income, date: '26. august', companyId: 0 },
   { id: 4, name: 'Cute hats', money: 616823, type: TransactionType.expense, date: '23. august', companyId: 0 },
