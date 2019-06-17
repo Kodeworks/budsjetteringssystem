@@ -57,9 +57,8 @@ export default styled(DashboardTransactionEntry)`
   }
 
   &:hover {
-    ${theme.emphasisShadow};
-    padding: 1em;
-    margin: 0px -1em;
+    padding-left: .3em;
     cursor: pointer;
+    border-left: 2px solid black;
   }
 `;
