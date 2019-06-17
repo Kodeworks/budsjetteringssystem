@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import TabItem from './atoms/TabItem';
+import TabLabel from './atoms/TabLabel';
 
 interface ITabMenuProps {
   className?: string;
@@ -19,8 +19,8 @@ const TabMenu: React.FC<ITabMenuProps> = ({className, tabLabels, children}) => {
   const handleTabClick = (index: number) => setActiveTab(index);
 
   const renderTabs = () => (
-    tabLabels.map((e, i) => (
-      <TabItem key={e} tabIndex={i} onClick={handleTabClick} isActive={i === activeTab}>{e}</TabItem>),
+    tabLabels.map((label, i) => (
+      <TabLabel key={label} tabIndex={i} onClick={handleTabClick} isActive={i === activeTab}>{label}</TabLabel>),
       )
   );
   return (
