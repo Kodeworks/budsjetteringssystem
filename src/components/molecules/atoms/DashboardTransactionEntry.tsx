@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ITransaction, TransactionType } from '../../../declarations/transaction';
+import { theme } from '../../../styling/theme';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => props.type === TransactionType.expense ? '#ff6961' : '#77dd77'};
@@ -56,7 +57,7 @@ export default styled(DashboardTransactionEntry)`
   }
 
   &:hover {
-    box-shadow: 2px 2px 5px 0px #ccc;
+    ${theme.emphasisShadow};
     padding: 1em;
     margin: 0px -1em;
     cursor: pointer;
