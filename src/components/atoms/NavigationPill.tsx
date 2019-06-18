@@ -10,7 +10,7 @@ interface IProps {
   active: boolean;
 }
 
-const NavigationPill: React.FC<IProps> = ({ children, ...props }) => (
+const NavigationPill: React.FC<IProps> = ({ children, active, ...props }) => (
   <Link {...props}>
     {children}
   </Link>

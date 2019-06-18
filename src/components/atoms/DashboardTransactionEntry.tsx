@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ITransaction, TransactionType } from '../../declarations/transaction';
-import { theme } from '../../styling/theme';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => props.type === TransactionType.expense ? '#ff6961' : '#77dd77'};
