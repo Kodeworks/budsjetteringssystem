@@ -2,22 +2,23 @@ import React from 'react';
 
 import { storiesOf, addDecorator } from '@storybook/react';
 
+import AddButton from '../components/molecules/atoms/AddButton';
 import App from '../App';
+import DashboardTransactionEntry from '../components/molecules/atoms/DashboardTransactionEntry';
+import DashboardTransactions from '../components/molecules/DashboardTransactions';
+import LandingPage from '../components/LandingPage';
 import Navigation from '../components/molecules/Navigation';
-import { navbarWidth } from '../styling/sizes';
-import { GlobalStyle } from '../styling/global';
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { theme } from '../styling/theme';
 import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
 import NavigationPill from '../components/molecules/atoms/NavigationPill';
-import Toolbar from '../components/molecules/Toolbar';
-import AddButton from '../components/molecules/atoms/AddButton';
 import OutlinedButton from '../components/molecules/atoms/OutlinedButton';
-import LandingPage from '../components/LandingPage';
 import TabMenu from '../components/molecules/TabMenu'
-import DashboardTransactions from '../components/molecules/DashboardTransactions';
-import DashboardTransactionEntry from '../components/molecules/atoms/DashboardTransactionEntry';
+import Toolbar from '../components/molecules/Toolbar';
+import Transactions from '../components/Transactions';
+import { BrowserRouter } from 'react-router-dom';
+import { GlobalStyle } from '../styling/global';
+import { ThemeProvider } from 'styled-components';
+import { navbarWidth } from '../styling/sizes';
+import { theme } from '../styling/theme';
 
 addDecorator(storyFn => (
   <>
@@ -88,3 +89,7 @@ storiesOf('Dashboard', module)
 storiesOf('Dashboard/Transactions', module)
   .add('Entry (expense)', () => <DashboardTransactionEntry {...txEntries[0]} />)
   .add('Entry (income)', () => <DashboardTransactionEntry {...txEntries[3]} />)
+
+storiesOf('Transactions', module)
+  .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)
+  .add('Transaction page', () => <Transactions />);

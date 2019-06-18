@@ -13,6 +13,7 @@ interface IProps {
 
 const links: Array<{ to: string; name: string; }> = [
   { to: '', name: 'Dashboard' },
+  { to: 'transactions', name: 'Transactions' },
   { to: 'faq', name: 'FAQ' },
 ];
 

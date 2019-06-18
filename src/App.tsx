@@ -10,6 +10,7 @@ import FAQ from './components/FAQ';
 import Homepage from './components/Homepage';
 import Navigation from './components/molecules/Navigation';
 import Page from './components/molecules/Page';
+import Transactions from './components/Transactions';
 import { GlobalStyle } from './styling/global';
 import { navbarWidth } from './styling/sizes';
 
@@ -28,6 +29,7 @@ const App: React.FC<IProps> = ({ className }) => (
         <Page>
           <Route path="/" exact={true} component={Homepage} />
           <Route path="/faq" component={FAQ} />
+          <Route path="/transactions" component={Transactions} />
         </Page>
       </BrowserRouter>
       <GlobalStyle />
