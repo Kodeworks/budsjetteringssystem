@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../../styling/theme';
-import Toolbar from './Toolbar';
+import Toolbar from '../organism/Toolbar';
 
 const Container = styled.div`
   padding: 4em;
