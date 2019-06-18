@@ -4,6 +4,7 @@ import { storiesOf, addDecorator } from '@storybook/react';
 
 import AddButton from '../components/molecules/atoms/AddButton';
 import App from '../App';
+<<<<<<< HEAD
 import DashboardTransactionEntry from '../components/molecules/atoms/DashboardTransactionEntry';
 import DashboardTransactions from '../components/molecules/DashboardTransactions';
 import LandingPage from '../components/LandingPage';
@@ -19,6 +20,23 @@ import { GlobalStyle } from '../styling/global';
 import { ThemeProvider } from 'styled-components';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
+=======
+import Navigation from '../components/organism/Navigation';
+import { navbarWidth } from '../styling/sizes';
+import { GlobalStyle } from '../styling/global';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { theme } from '../styling/theme';
+import NavigationBrand from '../components/atoms/NavigationBrand';
+import NavigationPill from '../components/atoms/NavigationPill';
+import Toolbar from '../components/organism/Toolbar';
+import AddButton from '../components/atoms/AddButton';
+import OutlinedButton from '../components/atoms/OutlinedButton';
+import LandingPage from '../components/pages/LandingPage';
+import TabMenu from '../components/molecules/TabMenu'
+import DashboardTransactions from '../components/molecules/DashboardTransactions';
+import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
+>>>>>>> f57c7c959512fd9cad0cccdd9000fa61ac21d33a
 
 addDecorator(storyFn => (
   <>

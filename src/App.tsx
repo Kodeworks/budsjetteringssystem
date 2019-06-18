@@ -6,11 +6,11 @@ import { Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { theme } from './styling/theme';
 
-import FAQ from './components/FAQ';
-import Homepage from './components/Homepage';
-import Navigation from './components/molecules/Navigation';
-import Page from './components/molecules/Page';
-import Transactions from './components/Transactions';
+import Navigation from './components/organism/Navigation';
+import Transactions from './components/organism/Transactions';
+import FAQ from './components/pages/FAQ';
+import Homepage from './components/pages/Homepage';
+import Page from './components/templates/Page';
 import { GlobalStyle } from './styling/global';
 import { navbarWidth } from './styling/sizes';
 

@@ -1,12 +1,11 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { theme } from '../styling/theme';
+import { theme } from '../../styling/theme';
 
-import AccentedLink from './molecules/atoms/AccentedLink';
-import OutlinedButton from './molecules/atoms/OutlinedButton';
+import AccentedLink from '../atoms/AccentedLink';
+import OutlinedButton from '../atoms/OutlinedButton';
 
 interface ILandingPage {
   className?: string;
