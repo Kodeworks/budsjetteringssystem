@@ -18,6 +18,7 @@ import LandingPage from '../components/pages/LandingPage';
 import TabMenu from '../components/molecules/TabMenu'
 import DashboardTransactions from '../components/molecules/DashboardTransactions';
 import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
+import CardContainer from '../components/atoms/CardContainer';
 
 addDecorator(storyFn => (
   <>
@@ -84,6 +85,11 @@ const txEntries = [
 storiesOf('Dashboard', module)
   .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)
   .add('Transactions', () => <DashboardTransactions transactions={txEntries} />)
+  .add('CardContainer', () => (
+  <CardContainer>
+    <header>Card</header>
+    <p>Lorem ipsum dolor amet waistcoat VHS migas, you probably haven't heard of them gastropub hammock poke. Disrupt you probably haven't heard of them prism, truffaut brunch blue bottle heirloom. Pork belly bicycle rights viral cliche direct trade everyday carry. Try-hard thundercats affogato brunch hella messenger bag 3 wolf moon celiac ramps heirloom DIY palo santo. Church-key salvia pug 8-bit sustainable activated charcoal tattooed direct trade aesthetic narwhal asymmetrical retro food truck paleo keytar.</p>
+    </CardContainer>))
 
 storiesOf('Dashboard/Transactions', module)
   .add('Entry (expense)', () => <DashboardTransactionEntry {...txEntries[0]} />)
