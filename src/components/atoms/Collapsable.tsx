@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface IProps {
-  collapsed?: boolean;
+  open?: boolean;
   className?: string;
   heading: React.ReactNode;
 }
@@ -17,7 +17,7 @@ const Arrow = styled.span`
 `;
 
 const Collapsable: React.FC<IProps> = props => {
-  const [collapsed, setCollapsed] = React.useState(props.collapsed || true);
+  const [collapsed, setCollapsed] = React.useState(!props.open);
   const toggle = () => setCollapsed(!collapsed);
 
   return (

@@ -1,42 +1,27 @@
 import React from 'react';
 
-import { storiesOf, addDecorator } from '@storybook/react';
+import { storiesOf, addDecorator, action } from '@storybook/react';
 
-import AddButton from '../components/molecules/atoms/AddButton';
+import AddButton from '../components/atoms/AddButton';
 import App from '../App';
-<<<<<<< HEAD
-import DashboardTransactionEntry from '../components/molecules/atoms/DashboardTransactionEntry';
+import Checkbox from '../components/atoms/Checkbox';
+import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
 import DashboardTransactions from '../components/molecules/DashboardTransactions';
-import LandingPage from '../components/LandingPage';
-import Navigation from '../components/molecules/Navigation';
-import NavigationBrand from '../components/molecules/atoms/NavigationBrand';
-import NavigationPill from '../components/molecules/atoms/NavigationPill';
-import OutlinedButton from '../components/molecules/atoms/OutlinedButton';
-import TabMenu from '../components/molecules/TabMenu'
-import Toolbar from '../components/molecules/Toolbar';
-import Transactions from '../components/Transactions';
-import { BrowserRouter } from 'react-router-dom';
-import { GlobalStyle } from '../styling/global';
-import { ThemeProvider } from 'styled-components';
-import { navbarWidth } from '../styling/sizes';
-import { theme } from '../styling/theme';
-=======
+import Filters from '../components/molecules/Filters';
+import LandingPage from '../components/pages/LandingPage';
 import Navigation from '../components/organism/Navigation';
-import { navbarWidth } from '../styling/sizes';
-import { GlobalStyle } from '../styling/global';
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { theme } from '../styling/theme';
 import NavigationBrand from '../components/atoms/NavigationBrand';
 import NavigationPill from '../components/atoms/NavigationPill';
-import Toolbar from '../components/organism/Toolbar';
-import AddButton from '../components/atoms/AddButton';
 import OutlinedButton from '../components/atoms/OutlinedButton';
-import LandingPage from '../components/pages/LandingPage';
 import TabMenu from '../components/molecules/TabMenu'
-import DashboardTransactions from '../components/molecules/DashboardTransactions';
-import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
->>>>>>> f57c7c959512fd9cad0cccdd9000fa61ac21d33a
+import Input from '../components/atoms/Input';
+import Toolbar from '../components/organism/Toolbar';
+import Transactions from '../components/organism/Transactions';
+import { BrowserRouter } from 'react-router-dom';
+import { GlobalStyle } from '../styling/global';
+import { ThemeProvider } from 'styled-components';
+import { navbarWidth } from '../styling/sizes';
+import { theme } from '../styling/theme';
 
 addDecorator(storyFn => (
   <>
@@ -109,5 +94,21 @@ storiesOf('Dashboard/Transactions', module)
   .add('Entry (income)', () => <DashboardTransactionEntry {...txEntries[3]} />)
 
 storiesOf('Transactions', module)
-  .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)
+  .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
   .add('Transaction page', () => <Transactions />);
+
+storiesOf('Input/Text', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('With placeholder', () => <Input type="text" id="lipsum" placeholder="Welcome to the jungle">Lorem ipsum</Input>)
+
+storiesOf('Input/Date', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('With placeholder', () => <Input type="date" id="lipsum" placeholder="Welcome to the jungle">Lorem ipsum</Input>)
+
+storiesOf('Input/Checkbox', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('Default', () => <Checkbox id="lipsum">Lipsum?</Checkbox>)
+
+storiesOf('Filters', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('With placeholder', () => <Filters />)

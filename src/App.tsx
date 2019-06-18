@@ -42,6 +42,15 @@ export default styled(App)`
   display: grid;
   grid-template-rows: 100%;
   grid-template-columns: ${navbarWidth} auto;
+  max-height: 100vh;
+
+  nav {
+    overflow-y: hidden;
+  }
+
+  &>section {
+    overflow-y: auto;
+  }
 
   /* Colors */
   background-color: ${props => props.theme.main};

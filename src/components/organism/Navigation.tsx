@@ -21,7 +21,7 @@ const Navigation: React.FC<IProps & RouteComponentProps> = ({ className, locatio
     <NavigationBrand />
     <NavigationSeparator />
     <div>
-      {links.map(l => <NavigationPill key={l.to} to={l.to} active={pathname === `/${l.to}` ? 1 : 0}>{l.name}</NavigationPill>)}
+      {links.map(l => <NavigationPill key={l.to} to={l.to} active={pathname === `/${l.to}`}>{l.name}</NavigationPill>)}
     </div>
     <NavigationSeparator style={{ marginTop: 'auto' }} />
   </nav>
@@ -31,7 +31,6 @@ export default styled(withRouter(Navigation))`
   /* Positioning and size */
   width: ${navbarWidth};
   height: 100vh;
-  position: sticky;
 
   /* Colors */
   background: ${props => props.theme.accent2};
