@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { storiesOf, addDecorator, action } from '@storybook/react';
+import { storiesOf, addDecorator } from '@storybook/react';
 
 import AddButton from '../components/atoms/AddButton';
 import App from '../App';
@@ -14,8 +14,6 @@ import NavigationBrand from '../components/atoms/NavigationBrand';
 import NavigationPill from '../components/atoms/NavigationPill';
 import OutlinedButton from '../components/atoms/OutlinedButton';
 import TabMenu from '../components/molecules/TabMenu'
-import DashboardTransactions from '../components/molecules/DashboardTransactions';
-import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
 import CardContainer from '../components/atoms/CardContainer';
 import Input from '../components/atoms/Input';
 import Toolbar from '../components/organism/Toolbar';
