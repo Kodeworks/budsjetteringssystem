@@ -42,6 +42,7 @@ export default styled(Checkbox)`
     background: ${theme.accent1};
     border: 2px solid ${theme.contrast};
     border-radius: 3px;
+    cursor: pointer;
     color: ${theme.contrast};
     outline: none;
     transition: background .1s, color .1s;

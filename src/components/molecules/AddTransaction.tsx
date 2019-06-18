@@ -4,6 +4,7 @@ import Checkbox from '../atoms/Checkbox';
 import Collapsable from '../atoms/Collapsable';
 import Input from '../atoms/Input';
 import OutlinedButton from '../atoms/OutlinedButton';
+import RecurringTransactionOptions from '../atoms/RecurringTransactionOptions';
 import TextArea from '../atoms/TextArea';
 
 import styled from 'styled-components';
@@ -19,6 +20,22 @@ const AddTransaction: React.FC<IProps> = props => {
   const [customer, setCustomer] = React.useState('');
   const [notes, setNotes] = React.useState('');
   const [recurring, setRecurring] = React.useState(false);
+
+  const [interval, setInterval] = React.useState(1);
+  const [intervalType, setIntervalType] = React.useState('Month');
+  const [dayOfMonth, setDayOfMonth] = React.useState(23);
+
+  const recurringTransactionOptions = (
+    <RecurringTransactionOptions
+      intervalValue={interval}
+      intervalTypeValue={intervalType}
+      DoMValue={dayOfMonth}
+
+      setInterval={setInterval}
+      setTypeInterval={setIntervalType}
+      setDoM={setDayOfMonth}
+    />
+  );
 
   return (
     <Collapsable heading={<h3>Add new transaction</h3>} open={true}>
@@ -45,6 +62,7 @@ const AddTransaction: React.FC<IProps> = props => {
         </TextArea>
         <Checkbox value={recurring} setState={setRecurring} id="recurring">Recurring?</Checkbox>
         <br />
+        {recurring && recurringTransactionOptions}
 
         <OutlinedButton variant="success">Add income</OutlinedButton>
         <OutlinedButton variant="error">Add expense</OutlinedButton>

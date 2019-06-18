@@ -4,6 +4,7 @@ import { storiesOf, addDecorator } from '@storybook/react';
 
 import AddButton from '../components/atoms/AddButton';
 import AddTransaction from '../components/molecules/AddTransaction';
+import RecurringTransactionOptions from '../components/atoms/RecurringTransactionOptions';
 import App from '../App';
 import Checkbox from '../components/atoms/Checkbox';
 import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
@@ -58,7 +59,7 @@ storiesOf('Toolbar', module)
   .add('Default', () => <Toolbar />);
 
 storiesOf('Button/Add', module)
-  .add('Normal', () => <AddButton />);
+  .add('Normal', () => <AddButton>+</AddButton>);
 
 storiesOf('Button/Outlined', module)
   .add('Normal', () => <OutlinedButton>Lipsum</OutlinedButton>);
@@ -95,8 +96,9 @@ storiesOf('Dashboard/Transactions', module)
   .add('Entry (income)', () => <DashboardTransactionEntry {...txEntries[3]} />)
 
 storiesOf('Transactions', module)
-  .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
-  .add('Transaction page', () => <Transactions />);
+  .addDecorator(fn => <div style={{ width: '80vw', margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('Transaction page', () => <Transactions />)
+  .add('Recurring options', () => <RecurringTransactionOptions/>);
 
 storiesOf('Input/Text', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
@@ -122,3 +124,4 @@ storiesOf('Add new transaction', module)
 storiesOf('Input/Textarea', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
   .add('With placeholder', () => <TextArea placeholder="Insert a funny otter fact.">Welcome to the jungle</TextArea>)
+

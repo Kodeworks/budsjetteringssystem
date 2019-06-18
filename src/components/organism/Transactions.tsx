@@ -32,18 +32,18 @@ const Transactions: React.FC<IProps> = ({ className }) => (
       <div>
         <ExpenseTransactions />
       </div>
-  </Content>
+    </Content>
   </div>
 );
 
 export default styled(Transactions)`
- h1 {
-  font-weight: 700;
-  font-size: 1.8em;
- }
+  h1 {
+    font-weight: 700;
+    font-size: 1.8em;
+  }
 
- h5 {
-  font-weight: 300;
-  line-height: .7em;
- }
+  h5 {
+    font-weight: 300;
+    line-height: .7em;
+  }
 `;

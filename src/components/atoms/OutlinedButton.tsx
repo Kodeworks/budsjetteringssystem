@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styled from 'styled-components';
 
 interface IProps {
@@ -7,11 +5,7 @@ interface IProps {
   variant?: 'error' | 'success';
 }
 
-const OutlinedButton: React.FC<IProps> = props => (
-  <button className={props.className}>{props.children}</button>
-);
-
-export default styled(OutlinedButton)`
+const OutlinedButton = styled.button<IProps>`
   /* Sizing */
   height: 2.5em;
   margin: .5em calc(.5em + 5px) calc(.5em + 5px) .5em; /* We need to factor in
@@ -68,3 +62,5 @@ export default styled(OutlinedButton)`
                 0px 0px 0px 0px var(--main-color);
   }
 `;
+
+export default OutlinedButton;
