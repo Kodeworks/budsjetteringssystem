@@ -17,6 +17,7 @@ import NavigationPill from '../components/atoms/NavigationPill';
 import OutlinedButton from '../components/atoms/OutlinedButton';
 import TabMenu from '../components/molecules/TabMenu'
 import TextArea from '../components/atoms/TextArea';
+import CardContainer from '../components/atoms/CardContainer';
 import Toolbar from '../components/organism/Toolbar';
 import Transactions from '../components/organism/Transactions';
 import { BrowserRouter } from 'react-router-dom';
@@ -24,7 +25,6 @@ import { GlobalStyle } from '../styling/global';
 import { ThemeProvider } from 'styled-components';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
-import CardContainer from '../components/atoms/CardContainer';
 
 addDecorator(storyFn => (
   <>
