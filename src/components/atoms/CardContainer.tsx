@@ -1,21 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface ICardContainerProps {
-
-}
-
 const Wrapper = styled.div`
-/* TODO: add theme props */
+/* TODO: add theme props, add grid */
   background-color: ghostwhite;
   border-radius: 5px;
   box-shadow: 5px 5px 15px grey;
   padding: 20px;
+
 `;
 
-const CardContainer: React.FC<ICardContainerProps> = ({children}) => {
+const CardContainer: React.FC = ({children, ...props}) => {
     return (
-      <Wrapper>{children}</Wrapper>
+      <Wrapper {...props}>{children}</Wrapper>
     );
 };
 
