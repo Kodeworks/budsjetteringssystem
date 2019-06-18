@@ -8,7 +8,6 @@ import RecurringTransactionOptions from '../components/atoms/RecurringTransactio
 import App from '../App';
 import Checkbox from '../components/atoms/Checkbox';
 import TransactionEntry from '../components/atoms/TransactionEntry';
-import DashboardTransactions from '../components/molecules/DashboardTransactions';
 import Filters from '../components/molecules/Filters';
 import Input from '../components/atoms/Input';
 import LandingPage from '../components/pages/LandingPage';
@@ -25,6 +24,8 @@ import { GlobalStyle } from '../styling/global';
 import { ThemeProvider } from 'styled-components';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
+import CardContainer from '../components/atoms/CardContainer';
+
 addDecorator(storyFn => (
   <>
     <GlobalStyle />
@@ -85,11 +86,16 @@ const txEntries = [
     id: 4, name: 'Cute Otter Pictures', money: 616823, type: 'Expense',
     date: '23.08.1999', notes: 'Otters are the supreme animals. All other animals are to be ignored.'
   },
-]
+];
 
 storiesOf('Dashboard', module)
   .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)
-  .add('Transactions', () => <DashboardTransactions transactions={txEntries} />)
+  .add('Transactions', () => <Transactions transactions={txEntries} />)
+  .add('CardContainer', () => (
+  <CardContainer>
+    <header>Card</header>
+    <p>Lorem ipsum dolor amet waistcoat VHS migas, you probably haven't heard of them gastropub hammock poke. Disrupt you probably haven't heard of them prism, truffaut brunch blue bottle heirloom. Pork belly bicycle rights viral cliche direct trade everyday carry. Try-hard thundercats affogato brunch hella messenger bag 3 wolf moon celiac ramps heirloom DIY palo santo. Church-key salvia pug 8-bit sustainable activated charcoal tattooed direct trade aesthetic narwhal asymmetrical retro food truck paleo keytar.</p>
+    </CardContainer>))
 
 storiesOf('Dashboard/Transactions', module)
   .add('Entry (expense)', () => <TransactionEntry {...txEntries[0]} />)
