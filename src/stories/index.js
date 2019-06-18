@@ -1,20 +1,22 @@
 import React from 'react';
 
-import { storiesOf, addDecorator, action } from '@storybook/react';
+import { storiesOf, addDecorator } from '@storybook/react';
 
 import AddButton from '../components/atoms/AddButton';
+import AddTransaction from '../components/molecules/AddTransaction';
 import App from '../App';
 import Checkbox from '../components/atoms/Checkbox';
 import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
 import DashboardTransactions from '../components/molecules/DashboardTransactions';
 import Filters from '../components/molecules/Filters';
+import Input from '../components/atoms/Input';
 import LandingPage from '../components/pages/LandingPage';
 import Navigation from '../components/organism/Navigation';
 import NavigationBrand from '../components/atoms/NavigationBrand';
 import NavigationPill from '../components/atoms/NavigationPill';
 import OutlinedButton from '../components/atoms/OutlinedButton';
 import TabMenu from '../components/molecules/TabMenu'
-import Input from '../components/atoms/Input';
+import TextArea from '../components/atoms/TextArea';
 import Toolbar from '../components/organism/Toolbar';
 import Transactions from '../components/organism/Transactions';
 import { BrowserRouter } from 'react-router-dom';
@@ -22,7 +24,6 @@ import { GlobalStyle } from '../styling/global';
 import { ThemeProvider } from 'styled-components';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
-
 addDecorator(storyFn => (
   <>
     <GlobalStyle />
@@ -107,8 +108,17 @@ storiesOf('Input/Date', module)
 
 storiesOf('Input/Checkbox', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
-  .add('Default', () => <Checkbox id="lipsum">Lipsum?</Checkbox>)
+  .add('Unticked', () => <Checkbox>Lipsum?</Checkbox>)
+  .add('Ticked', () => <Checkbox value={true}>Lipsum?</Checkbox>)
 
 storiesOf('Filters', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
   .add('With placeholder', () => <Filters />)
+
+storiesOf('Add new transaction', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('Default', () => <AddTransaction />)
+
+storiesOf('Input/Textarea', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('With placeholder', () => <TextArea placeholder="Insert a funny otter fact.">Welcome to the jungle</TextArea>)

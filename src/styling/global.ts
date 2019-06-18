@@ -18,7 +18,7 @@ export const GlobalStyle = createGlobalStyle`
 
   /* Typography */
 
-  h1, h2, h3, h4, h5, h6, p, a, span, li, strong, label, input {
+  h1, h2, h3, h4, h5, h6, p, a, span, li, strong, label, input, textarea {
     font-family: "Open Sans", sans-serif;
   }
 

@@ -16,31 +16,37 @@ const Arrow = styled.span`
   margin-left: calc(-22px - .1em);
 `;
 
+const CollapsableHeading = styled.button`
+  -webkit-appearance: none;
+  display: inline-block;
+  background: ${props => props.theme.accent1};
+  text-align: left;
+  border: 0;
+  margin-left: .5em;
+  cursor: pointer;
+  width: 100%;
+
+  &, * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+`;
+
 const Collapsable: React.FC<IProps> = props => {
   const [collapsed, setCollapsed] = React.useState(!props.open);
   const toggle = () => setCollapsed(!collapsed);
 
   return (
-    <div className={props.className}>
-      <span onClick={toggle}>
+    <div>
+      <CollapsableHeading onClick={toggle}>
         <Arrow>
           {collapsed ? arrowUp : arrowDown}
         </Arrow>
         {props.heading}
-      </span>
+      </CollapsableHeading>
       {!collapsed && props.children}
     </div>
   );
 };
 
-export default styled(Collapsable)`
-  span {
-    margin-right: .5em;
-    cursor: pointer;
-
-    &, * {
-      display: inline-block;
-      vertical-align: middle;
-    }
-  }
-`;
+export default Collapsable;

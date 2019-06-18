@@ -7,52 +7,53 @@ import { theme } from '../../styling/theme';
 interface IProps {
   className?: string;
   id: string;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
-  value: boolean;
+  placeholder?: string;
+  setState: React.Dispatch<React.SetStateAction<any>>;
+  value: string | number;
 }
 
-const Checkbox: React.FC<IProps> = props => {
-  const updateState = (e: React.FormEvent<HTMLInputElement>) => props.setState(e.currentTarget.checked);
+const TextArea: React.FC<IProps> = props => {
+  const updateState = (e: React.FormEvent<HTMLTextAreaElement>) => props.setState(e.currentTarget.value);
 
   return (
     <div className={props.className}>
       <label htmlFor={props.id}>{props.children}</label>
-      <input defaultChecked={props.value} onChange={updateState} type="checkbox" id={props.id}/>
+      <textarea
+        value={props.value}
+        onChange={updateState}
+        id={props.id}
+        placeholder={props.placeholder}
+      />
     </div>
   );
 };
 
-export default styled(Checkbox)`
-  label, input {
-    vertical-align: middle;
-  }
+export default styled(TextArea)`
+  grid-column: 1 / span 2;
 
   label {
-    margin-right: .7em;
+    display: block;
     font-size: .8em;
     margin-bottom: .2em;
     font-weight: 700;
     letter-spacing: .4px;
   }
 
-  input {
-    -webkit-appearance: none;
-    width: 1.5em;
-    height: 1.5em;
+  textarea {
+    font-size: .8em;
+    padding: .5em .75em;
     background: ${theme.accent1};
     border: 2px solid ${theme.contrast};
     border-radius: 3px;
     color: ${theme.contrast};
     outline: none;
     transition: background .1s, color .1s;
+    width: 100%;
+    height: 5em;
 
     &:focus {
-      background: lightgrey;
-      color: ${theme.accent1};
-    }
-
-    &[checked] {
       background: ${theme.contrast};
+      color: ${theme.accent1};
     }
   }
 `;

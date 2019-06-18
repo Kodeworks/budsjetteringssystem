@@ -1,9 +1,62 @@
 import React from 'react';
 
-const AddTransaction: React.FC = () => (
-  <div>
-    <h1>Welcome to the otter jungle.</h1>
-  </div>
-);
+import Checkbox from '../atoms/Checkbox';
+import Collapsable from '../atoms/Collapsable';
+import Input from '../atoms/Input';
+import OutlinedButton from '../atoms/OutlinedButton';
+import TextArea from '../atoms/TextArea';
 
-export default AddTransaction;
+import styled from 'styled-components';
+
+interface IProps {
+  className?: string;
+}
+
+const AddTransaction: React.FC<IProps> = props => {
+  const [date, setDate] = React.useState('1970-01-01');
+  const [amount, setAmount] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [customer, setCustomer] = React.useState('');
+  const [notes, setNotes] = React.useState('');
+  const [recurring, setRecurring] = React.useState(false);
+
+  return (
+    <Collapsable heading={<h3>Add new transaction</h3>} open={true}>
+      <div className={props.className}>
+        <Input value={date} id="date" type="date" setState={setDate}>Date</Input>
+        <Input value={amount} id="amount" type="number" setState={setAmount} placeholder="0.00">Amount</Input>
+        <Input value={name} id="name" type="text" setState={setName} placeholder="John Doe">Name</Input>
+        <Input
+          value={customer}
+          id="customer"
+          type="text"
+          setState={setCustomer}
+          placeholder="Otter Accessories Inc."
+        >
+          Customer
+        </Input>
+        <TextArea
+          value={notes}
+          id="notes"
+          setState={setNotes}
+          placeholder="Notes regarding the transaction"
+        >
+          Notes
+        </TextArea>
+        <Checkbox value={recurring} setState={setRecurring} id="recurring">Recurring?</Checkbox>
+        <br />
+
+        <OutlinedButton variant="success">Add income</OutlinedButton>
+        <OutlinedButton variant="error">Add expense</OutlinedButton>
+      </div>
+    </Collapsable>
+  );
+};
+
+export default styled(AddTransaction)`
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin-top: 1em;
+  width: 40%;
+  grid-gap: 1em 4em;
+`;

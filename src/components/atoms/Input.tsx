@@ -9,8 +9,8 @@ interface IProps {
   id: string;
   placeholder?: string;
   type: string;
-  setState: React.Dispatch<React.SetStateAction<string>>;
-  value: string;
+  setState: React.Dispatch<React.SetStateAction<any>>;
+  value: string | number;
 }
 
 const Input: React.FC<IProps> = props => {
@@ -41,14 +41,14 @@ export default styled(Input)`
 
   input {
     font-size: .8em;
-    padding: .4em;
+    padding: .5em .75em;
     background: ${theme.accent1};
     border: 2px solid ${theme.contrast};
     border-radius: 3px;
     color: ${theme.contrast};
     outline: none;
     transition: background .1s, color .1s;
-    width: 70%;
+    width: 100%;
 
     &:focus {
       background: ${theme.contrast};
