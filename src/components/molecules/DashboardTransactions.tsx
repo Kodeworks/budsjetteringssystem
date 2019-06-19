@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { ITransaction } from '../../declarations/transaction';
-import DashboardTransactionEntry from '../atoms/DashboardTransactionEntry';
+import TransactionEntry from '../atoms/TransactionEntry';
 
 interface IProps {
   className?: string;
@@ -15,7 +15,7 @@ const DashboardTransactions: React.FC<IProps> = ({ className, transactions }) =>
     <h5>Last 5 transactions</h5>
 
     <div>
-      {transactions.slice(0, 5).map(e => <DashboardTransactionEntry key={e.id} {...e} />)}
+      {transactions.slice(0, 5).map(e => <TransactionEntry key={e.id} {...e} />)}
     </div>
   </div>
 );

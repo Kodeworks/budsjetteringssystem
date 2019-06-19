@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { theme } from './styling/theme';
 
 import Navigation from './components/organism/Navigation';
+import Transactions from './components/organism/Transactions';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
@@ -28,6 +29,7 @@ const App: React.FC<IProps> = ({ className }) => (
         <Page>
           <Route path="/" exact={true} component={Homepage} />
           <Route path="/faq" component={FAQ} />
+          <Route path="/transactions" component={Transactions} />
         </Page>
       </BrowserRouter>
       <GlobalStyle />
@@ -40,6 +42,15 @@ export default styled(App)`
   display: grid;
   grid-template-rows: 100%;
   grid-template-columns: ${navbarWidth} auto;
+  max-height: 100vh;
+
+  nav {
+    overflow-y: hidden;
+  }
+
+  &>section {
+    overflow-y: auto;
+  }
 
   /* Colors */
   background-color: ${props => props.theme.main};
