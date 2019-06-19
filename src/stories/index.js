@@ -7,7 +7,7 @@ import AddTransaction from '../components/molecules/AddTransaction';
 import RecurringTransactionOptions from '../components/atoms/RecurringTransactionOptions';
 import App from '../App';
 import Checkbox from '../components/atoms/Checkbox';
-import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
+import TransactionEntry from '../components/atoms/TransactionEntry';
 import DashboardTransactions from '../components/molecules/DashboardTransactions';
 import Filters from '../components/molecules/Filters';
 import Input from '../components/atoms/Input';
@@ -92,8 +92,8 @@ storiesOf('Dashboard', module)
   .add('Transactions', () => <DashboardTransactions transactions={txEntries} />)
 
 storiesOf('Dashboard/Transactions', module)
-  .add('Entry (expense)', () => <DashboardTransactionEntry {...txEntries[0]} />)
-  .add('Entry (income)', () => <DashboardTransactionEntry {...txEntries[3]} />)
+  .add('Entry (expense)', () => <TransactionEntry {...txEntries[0]} />)
+  .add('Entry (income)', () => <TransactionEntry {...txEntries[3]} />)
 
 storiesOf('Transactions', module)
   .addDecorator(fn => <div style={{ width: '80vw', margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
