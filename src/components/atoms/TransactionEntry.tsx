@@ -20,17 +20,20 @@ const incomeExpenseBadge = (type: TransactionType) => (
 );
 
 const TransactionEntry: React.FC<IProps> = props => {
+  const [displayNotes, setDisplayNotes] = React.useState(false);
   const { money, hideIncomeExpenseBadge } = props;
 
+  const updateDisplayNotesState = () => setDisplayNotes(!displayNotes);
+
   return (
-    <div className={props.className}>
+    <div className={props.className} onMouseEnter={updateDisplayNotesState} onMouseLeave={updateDisplayNotesState}>
       <h4>{props.name}</h4>
       <strong>
         {props.type === TransactionType.expense ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
       </strong>
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
       <h6>{props.date}</h6>
-      <p>{props.notes}</p>
+      <p>{displayNotes && props.notes}</p>
     </div>
   );
 };
