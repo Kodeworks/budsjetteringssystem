@@ -2,8 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { theme } from '../../styling/theme';
-
 interface IProps {
   className?: string;
   id: string;
@@ -42,18 +40,18 @@ export default styled(TextArea)`
   textarea {
     font-size: .8em;
     padding: .5em .75em;
-    background: ${theme.accent1};
-    border: 2px solid ${theme.contrast};
+    background: ${props => props.theme.accent1};
+    border: 2px solid ${props => props.theme.contrast};
     border-radius: 3px;
-    color: ${theme.contrast};
+    color: ${props => props.theme.contrast};
     outline: none;
     transition: background .1s, color .1s;
     width: 100%;
     height: 5em;
 
     &:focus {
-      background: ${theme.contrast};
-      color: ${theme.accent1};
+      background: ${props => props.theme.contrast};
+      color: ${props => props.theme.accent1};
     }
   }
 `;

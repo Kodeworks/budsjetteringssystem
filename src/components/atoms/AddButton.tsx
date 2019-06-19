@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { theme } from '../../styling/theme';
-
 const AddButton = styled.button`
   /* Sizing */
   height: 2em;
@@ -18,7 +16,7 @@ const AddButton = styled.button`
   outline: none;
 
   /* Border */
-  border: 2px solid ${theme.contrast};
+  border: 2px solid ${props => props.theme.contrast};
   border-radius: 3px;
 
   /* Shadow of Mordor */
@@ -28,8 +26,8 @@ const AddButton = styled.button`
   cursor: pointer;
 
   /* Color */
-  background: ${theme.accent1};
-  color: ${theme.contrast};
+  background: ${props => props.theme.accent1};
+  color: ${props => props.theme.contrast};
 
   /* Font */
   font-size: 1.3em;

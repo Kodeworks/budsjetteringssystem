@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { theme } from '../../styling/theme';
-
 import AccentedLink from '../atoms/AccentedLink';
 import OutlinedButton from '../atoms/OutlinedButton';
 
@@ -16,7 +14,7 @@ const BrandTitle = styled.h1`
   text-transform: uppercase;
   font-size: 4em;
   font-weight: 300;
-  color: ${theme.contrast};
+  color: ${props => props.theme.contrast};
 `;
 
 const ButtonContainer = styled.div`
@@ -48,7 +46,7 @@ const LandingPage: React.FC<ILandingPage> = ({ className }) => (
 );
 
 export default styled(LandingPage)`
-  background: ${theme.main}
+  background: ${props => props.theme.main}
 
   padding: 0;
 
@@ -66,7 +64,7 @@ export default styled(LandingPage)`
   }
 
   p {
-    color: ${theme.contrast};
+    color: ${props => props.theme.contrast};
     font-size: 1.2em;
   }
 

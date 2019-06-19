@@ -2,8 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { theme } from '../../styling/theme';
-
 interface IProps {
   className?: string;
   id: string;
@@ -39,21 +37,21 @@ export default styled(Checkbox)`
     -webkit-appearance: none;
     width: 1.5em;
     height: 1.5em;
-    background: ${theme.accent1};
-    border: 2px solid ${theme.contrast};
+    background: ${props => props.theme.accent1};
+    border: 2px solid ${props => props.theme.contrast};
     border-radius: 3px;
     cursor: pointer;
-    color: ${theme.contrast};
+    color: ${props => props.theme.contrast};
     outline: none;
     transition: background .1s, color .1s;
 
     &:focus {
       background: lightgrey;
-      color: ${theme.accent1};
+      color: ${props => props.theme.accent1};
     }
 
     &[checked] {
-      background: ${theme.contrast};
+      background: ${props => props.theme.contrast};
     }
   }
 `;

@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { theme } from '../../styling/theme';
-
 const ToolbarContainer = styled.div`
   /* Pos */
   display: flex;
@@ -12,7 +10,7 @@ const ToolbarContainer = styled.div`
   top: 0;
 
   /* Coloring */
-  background: ${theme.accent1};
+  background: ${props => props.theme.accent1};
 
   box-shadow: 0px 3px 4px 0 #ccc;
 `;
