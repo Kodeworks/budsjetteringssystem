@@ -1,7 +1,29 @@
 import React from 'react';
 
-const ExpenseTransactions: React.FC = () => (
-  <h3>Welcome to the otter jungle.</h3>
+import { ITransaction, TransactionType as TT } from '../../declarations/transaction';
+
+import TransactionEntry from '../atoms/TransactionEntry';
+
+import styled from 'styled-components';
+
+interface IProps {
+  tx: Array<ITransaction>;
+  className?: string;
+}
+
+const txEntry = (t: ITransaction) => (
+  <TransactionEntry hideIncomeExpenseBadge={true} key={t.id} {...t} />
 );
 
-export default ExpenseTransactions;
+const ExpenseTransactions: React.FC<IProps> = props => (
+  <div className={props.className}>
+    <h2>Expenses</h2>
+    {props.tx.filter(e => e.type === TT.expense).map(txEntry)}
+  </div>
+);
+
+export default styled(ExpenseTransactions)`
+  h2 {
+    margin-bottom: 1em;
+  }
+`;

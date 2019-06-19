@@ -38,7 +38,7 @@ const AddTransaction: React.FC<IProps> = props => {
   );
 
   return (
-    <Collapsable heading={<h3>Add new transaction</h3>} open={true}>
+    <Collapsable heading={<h3>Add new transaction</h3>}>
       <div className={props.className}>
         <Input value={date} id="date" type="date" setState={setDate}>Date</Input>
         <Input value={amount} id="amount" type="number" setState={setAmount} placeholder="0.00">Amount</Input>
@@ -75,6 +75,6 @@ export default styled(AddTransaction)`
   display: grid;
   grid-template-columns: 50% 50%;
   margin-top: 1em;
-  width: 40%;
-  grid-gap: 1em 4em;
+  grid-gap: 1em;
+  width: calc(100% - 1em);
 `;

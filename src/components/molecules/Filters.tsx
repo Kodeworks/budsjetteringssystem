@@ -17,7 +17,7 @@ const Filters: React.FC<IProps> = props => {
   const [recurring, setRecurring] = React.useState(false);
 
   return (
-    <Collapsable heading={<h3>Filters</h3>} open={true}>
+    <Collapsable heading={<h3>Filters</h3>}>
       <div className={props.className}>
         <Input value={fromDate} id="fromDate" type="date" setState={setFromDate}>From date</Input>
         <Input value={toDate} id="toDate" type="date" setState={setToDate}>To date</Input>
@@ -41,6 +41,6 @@ export default styled(Filters)`
   display: grid;
   grid-template-columns: 50% 50%;
   margin-top: 1em;
-  width: 40%;
-  grid-gap: 1em 4em;
+  grid-gap: 1em;
+  width: calc(100% - 1em);
 `;

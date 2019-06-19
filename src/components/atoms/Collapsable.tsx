@@ -12,8 +12,8 @@ const arrowDown: string = String.fromCharCode(9660);
 const arrowUp: string = String.fromCharCode(9650);
 
 const Arrow = styled.span`
-  margin-right: .1em;
-  margin-left: calc(-22px - .1em);
+  margin-right: .5em;
+  margin-left: calc(-13.2px - 1em);
 `;
 
 const CollapsableHeading = styled.button`
