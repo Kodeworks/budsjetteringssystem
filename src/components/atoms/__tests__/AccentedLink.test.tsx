@@ -1,5 +1,6 @@
-import { getByText, render} from '@testing-library/react';
 import React from 'react';
+
+import { getByText, render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import AccentedLink from '../AccentedLink';
 

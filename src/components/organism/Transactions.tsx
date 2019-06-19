@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ITransaction, TransactionType } from '../../declarations/transaction';
+import { TransactionCtx } from '../../contexts/transaction';
 
 import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
@@ -19,40 +19,30 @@ const Content = styled.div`
   width: calc(100% - 4em);
   margin-top: 2em;
 `;
-const txEntries: Array<ITransaction> = [
-  { id: 0, name: 'Cute otter pictures', money: 25089, type: TransactionType.expense, date: '23. august', companyId: 0 },
-  {
-    companyId: 0, notes: 'Welcome to the jungle compadre.',
-    date: '23. august',
-    id: 1,
-    money: 120308,
-    name: 'Weird gerbils',
-    type: TransactionType.expense,
-  },
-  { id: 2, name: 'Cats with hats', money: 6516813, type: TransactionType.expense, date: '23. august', companyId: 0 },
-  { id: 3, name: 'Constructive', money: 2105089, type: TransactionType.income, date: '26. august', companyId: 0 },
-  { id: 4, name: 'Cute hats', money: 616823, type: TransactionType.expense, date: '23. august', companyId: 0 },
-];
 
-const Transactions: React.FC<IProps> = ({ className }) => (
-  <div className={className}>
-    <h1>Transactions</h1>
-    <h5>Showing all transactions</h5>
+const Transactions: React.FC<IProps> = ({ className }) => {
+  const { store } = React.useContext(TransactionCtx);
 
-    <Content>
-      <AddTransaction />
-      <Filters />
+  return (
+    <div className={className}>
+      <h1>Transactions</h1>
+      <h5>Showing all transactions</h5>
 
-      <div>
-        <IncomeTransactions tx={txEntries} fetchMore={alert}/>
-      </div>
+      <Content>
+        <AddTransaction />
+        <Filters />
 
-      <div>
-        <ExpenseTransactions tx={txEntries} fetchMore={alert}/>
-      </div>
-    </Content>
-  </div>
-);
+        <div>
+          <IncomeTransactions tx={store.transactions} fetchMore={alert}/>
+        </div>
+
+        <div>
+          <ExpenseTransactions tx={store.transactions} fetchMore={alert}/>
+        </div>
+      </Content>
+    </div>
+  );
+};
 
 export default styled(Transactions)`
   h1 {
