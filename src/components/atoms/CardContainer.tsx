@@ -7,7 +7,6 @@ const Wrapper = styled.div`
   border-radius: 5px;
   box-shadow: 5px 5px 15px grey;
   padding: 20px;
-
 `;
 
 const CardContainer: React.FC = ({children, ...props}) => {
