@@ -2,23 +2,29 @@ import React from 'react';
 
 import { storiesOf, addDecorator } from '@storybook/react';
 
+import AddButton from '../components/atoms/AddButton';
+import AddTransaction from '../components/molecules/AddTransaction';
+import RecurringTransactionOptions from '../components/atoms/RecurringTransactionOptions';
 import App from '../App';
+import Checkbox from '../components/atoms/Checkbox';
+import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
+import DashboardTransactions from '../components/molecules/DashboardTransactions';
+import Filters from '../components/molecules/Filters';
+import Input from '../components/atoms/Input';
+import LandingPage from '../components/pages/LandingPage';
 import Navigation from '../components/organism/Navigation';
-import { navbarWidth } from '../styling/sizes';
-import { GlobalStyle } from '../styling/global';
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { theme } from '../styling/theme';
 import NavigationBrand from '../components/atoms/NavigationBrand';
 import NavigationPill from '../components/atoms/NavigationPill';
-import Toolbar from '../components/organism/Toolbar';
-import AddButton from '../components/atoms/AddButton';
 import OutlinedButton from '../components/atoms/OutlinedButton';
-import LandingPage from '../components/pages/LandingPage';
 import TabMenu from '../components/molecules/TabMenu'
-import DashboardTransactions from '../components/molecules/DashboardTransactions';
-import DashboardTransactionEntry from '../components/atoms/DashboardTransactionEntry';
-
+import TextArea from '../components/atoms/TextArea';
+import Toolbar from '../components/organism/Toolbar';
+import Transactions from '../components/organism/Transactions';
+import { BrowserRouter } from 'react-router-dom';
+import { GlobalStyle } from '../styling/global';
+import { ThemeProvider } from 'styled-components';
+import { navbarWidth } from '../styling/sizes';
+import { theme } from '../styling/theme';
 addDecorator(storyFn => (
   <>
     <GlobalStyle />
@@ -53,7 +59,7 @@ storiesOf('Toolbar', module)
   .add('Default', () => <Toolbar />);
 
 storiesOf('Button/Add', module)
-  .add('Normal', () => <AddButton />);
+  .add('Normal', () => <AddButton>+</AddButton>);
 
 storiesOf('Button/Outlined', module)
   .add('Normal', () => <OutlinedButton>Lipsum</OutlinedButton>);
@@ -88,3 +94,34 @@ storiesOf('Dashboard', module)
 storiesOf('Dashboard/Transactions', module)
   .add('Entry (expense)', () => <DashboardTransactionEntry {...txEntries[0]} />)
   .add('Entry (income)', () => <DashboardTransactionEntry {...txEntries[3]} />)
+
+storiesOf('Transactions', module)
+  .addDecorator(fn => <div style={{ width: '80vw', margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('Transaction page', () => <Transactions />)
+  .add('Recurring options', () => <RecurringTransactionOptions/>);
+
+storiesOf('Input/Text', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('With placeholder', () => <Input type="text" id="lipsum" placeholder="Welcome to the jungle">Lorem ipsum</Input>)
+
+storiesOf('Input/Date', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('With placeholder', () => <Input type="date" id="lipsum" placeholder="Welcome to the jungle">Lorem ipsum</Input>)
+
+storiesOf('Input/Checkbox', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('Unticked', () => <Checkbox>Lipsum?</Checkbox>)
+  .add('Ticked', () => <Checkbox value={true}>Lipsum?</Checkbox>)
+
+storiesOf('Filters', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('With placeholder', () => <Filters />)
+
+storiesOf('Add new transaction', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('Default', () => <AddTransaction />)
+
+storiesOf('Input/Textarea', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('With placeholder', () => <TextArea placeholder="Insert a funny otter fact.">Welcome to the jungle</TextArea>)
+

@@ -1,18 +1,6 @@
-import React from 'react';
-
 import styled from 'styled-components';
 
-import { theme } from '../../styling/theme';
-
-interface IProps {
-  className?: string;
-}
-
-const AddButton: React.FC<IProps> = props => (
-  <button className={props.className}>+</button>
-);
-
-export default styled(AddButton)`
+const AddButton = styled.button`
   /* Sizing */
   height: 2em;
   width: 2em;
@@ -28,7 +16,7 @@ export default styled(AddButton)`
   outline: none;
 
   /* Border */
-  border: 2px solid ${theme.contrast};
+  border: 2px solid ${props => props.theme.contrast};
   border-radius: 3px;
 
   /* Shadow of Mordor */
@@ -38,8 +26,8 @@ export default styled(AddButton)`
   cursor: pointer;
 
   /* Color */
-  background: ${theme.accent1};
-  color: ${theme.contrast};
+  background: ${props => props.theme.accent1};
+  color: ${props => props.theme.contrast};
 
   /* Font */
   font-size: 1.3em;
@@ -57,6 +45,7 @@ export default styled(AddButton)`
     top: 4px;
     left: 4px;
     box-shadow: 0px 0px 7px 0px #ddd;
-    color: white;
   }
 `;
+
+export default AddButton;
