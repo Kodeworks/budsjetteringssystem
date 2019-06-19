@@ -5,7 +5,7 @@ import AddButton from '../AddButton';
 test('AddButton loads with text: \'+\' and given \'className\'', () => {
   const testClassName = 'testClassName';
   const { container } = render((
-    <AddButton className={'testClassName'} />
+    <AddButton className={'testClassName'}>+</AddButton>
   ));
 
   expect(getByText(container, '+').textContent).toEqual('+');
