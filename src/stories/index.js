@@ -2,6 +2,8 @@ import React from 'react';
 
 import { storiesOf, addDecorator } from '@storybook/react';
 
+import { createDummyTransaction } from '../helpers/transaction_creator';
+
 import AddButton from '../components/atoms/AddButton';
 import AddTransaction from '../components/molecules/AddTransaction';
 import RecurringTransactionOptions from '../components/atoms/RecurringTransactionOptions';
@@ -25,12 +27,17 @@ import { GlobalStyle } from '../styling/global';
 import { ThemeProvider } from 'styled-components';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
-import { reducer, initialState } from '../reducers/transactions';
+import { reducer, initialState, addTransaction } from '../reducers/transactions';
 import { TransactionCtx, createTransactionCtx } from '../contexts/transaction';
 
 const Wrapper = props => {
   const [store, dispatch] = React.useReducer(reducer, initialState);
   createTransactionCtx(store, dispatch);
+
+  if (store.transactions.length === 0) {
+    const txEntries = (new Array(100)).fill(1).map(createDummyTransaction);
+    txEntries.map(e => dispatch(addTransaction(e)));
+  }
 
   return (
     <TransactionCtx.Provider value={{store, dispatch}}>
@@ -92,16 +99,7 @@ const tabs = [
 storiesOf('Page', module)
   .add('Tabs', () => <TabMenu tabLabels={tabs} />)
 
-const txEntries = [
-  { id: 0, name: 'Cute Otter Pictures', money: 25089, type: 'Expense', date: '23.08.1999', companyId: 12 },
-  { id: 1, name: 'Weird Gerbils', money: 120308, type: 'Expense', date: '23.08.1999' },
-  { id: 2, name: 'Cats with hats', money: 6516813, type: 'Expense', date: '23.08.1999' },
-  { id: 3, name: 'Constructive Criticism', money: 2105089, type: 'Income', date: '26.09.1993' },
-  {
-    id: 4, name: 'Cute Otter Pictures', money: 616823, type: 'Expense',
-    date: '23.08.1999', notes: 'Otters are the supreme animals. All other animals are to be ignored.'
-  },
-]
+const txEntries = (new Array(100)).fill(1).map(createDummyTransaction);
 
 storiesOf('Dashboard', module)
   .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)

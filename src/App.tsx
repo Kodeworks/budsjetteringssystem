@@ -7,9 +7,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { theme } from './styling/theme';
 
 import { createTransactionCtx, TransactionCtx } from './contexts/transaction';
+import { createDummyTransaction } from './helpers/transaction_creator';
 import { addTransaction, initialState, reducer } from './reducers/transactions';
-
-import { TransactionType } from './declarations/transaction';
 
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
@@ -31,41 +30,10 @@ const App: React.FC<IProps> = ({ className }) => {
    */
   if (!TransactionCtx) {
     createTransactionCtx(store, dispatch);
-    dispatch(
-      addTransaction(
-        { id: 42, name: 'Test tx', money: 123123123, date: '23.08.1999', companyId: 0, type:
-          TransactionType.income, notes: 'Lipsum',
-        },
-      ),
-    );
-    dispatch(
-      addTransaction(
-        { id: 43, name: 'Test tx', money: 123123123, date: '23.08.1999', companyId: 0, type:
-          TransactionType.expense, notes: 'Lipsum',
-        },
-      ),
-    );
-    dispatch(
-      addTransaction(
-        { id: 44, name: 'Test tx', money: 123123123, date: '23.08.1999', companyId: 0, type:
-          TransactionType.income, notes: 'Lipsum',
-        },
-      ),
-    );
-    dispatch(
-      addTransaction(
-        { id: 45, name: 'Test tx', money: 123123123, date: '23.08.1999', companyId: 0, type:
-          TransactionType.income, notes: 'Lipsum',
-        },
-      ),
-    );
-    dispatch(
-      addTransaction(
-        { id: 46, name: 'Test tx', money: 123123123, date: '23.08.1999', companyId: 0, type:
-          TransactionType.expense, notes: 'Lipsum',
-        },
-      ),
-    );
+
+    for (let i = 0; i < 100; i++) {
+      dispatch(addTransaction(createDummyTransaction()));
+    }
   }
 
   return (
