@@ -44,11 +44,11 @@ const Transactions: React.FC<IProps> = ({ className }) => (
       <Filters />
 
       <div>
-        <IncomeTransactions tx={txEntries} />
+        <IncomeTransactions tx={txEntries} fetchMore={alert}/>
       </div>
 
       <div>
-        <ExpenseTransactions tx={txEntries} />
+        <ExpenseTransactions tx={txEntries} fetchMore={alert}/>
       </div>
     </Content>
   </div>
