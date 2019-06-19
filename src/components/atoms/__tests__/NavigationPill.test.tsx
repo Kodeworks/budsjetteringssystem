@@ -23,4 +23,4 @@ test('loads with children and href', () => {
   if (anchor) {
     expect(anchor.href).toEqual(`http://localhost${testHref}`);
   }
-})
+});
