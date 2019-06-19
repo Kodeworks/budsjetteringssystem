@@ -1,3 +1,4 @@
+[**Milestones**](https://github.com/Kodeworks/liquidator-frontend/milestones) and [**Project Board**](https://github.com/Kodeworks/liquidator-frontend/projects/2)
 # Liquidator [Frontend]
 
 This is the frontend for liquidator.
