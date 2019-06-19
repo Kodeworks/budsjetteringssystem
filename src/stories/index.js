@@ -25,15 +25,31 @@ import { GlobalStyle } from '../styling/global';
 import { ThemeProvider } from 'styled-components';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
+import { reducer, initialState } from '../reducers/transactions';
+import { TransactionCtx, createTransactionCtx } from '../contexts/transaction';
+
+const Wrapper = props => {
+  const [store, dispatch] = React.useReducer(reducer, initialState);
+  createTransactionCtx(store, dispatch);
+
+  return (
+    <TransactionCtx.Provider value={{store, dispatch}}>
+      <>
+        <GlobalStyle />
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            {props.children}
+          </ThemeProvider>
+        </BrowserRouter>
+      </>
+    </TransactionCtx.Provider>
+  )
+};
+
 addDecorator(storyFn => (
-  <>
-    <GlobalStyle />
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        {storyFn()}
-      </ThemeProvider>
-    </BrowserRouter>
-  </>
+  <Wrapper>
+    {storyFn()}
+  </Wrapper>
 ));
 
 
