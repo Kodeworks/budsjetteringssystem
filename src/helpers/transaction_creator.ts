@@ -33,5 +33,6 @@ export const createDummyTransaction = (): ITransaction => ({
   money: Math.random() * 10000,
   name: `${randomWord()} ${randomWord()}`,
   notes: Math.random() > 0.5 ? (new Array(30)).fill(null).map(randomWord).join(' ') : undefined,
+  recurringId: Math.random() > 0.5 ? Math.floor(Math.random() * 10) : undefined,
   type: randomType(),
 });
