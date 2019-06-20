@@ -12,9 +12,6 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  body {
-    background: ${theme.accent1};
-  }
 
   /* Typography */
 

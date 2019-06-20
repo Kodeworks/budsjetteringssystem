@@ -63,8 +63,9 @@ export default styled(App)`
   grid-template-rows: 100%;
   grid-template-columns: ${navbarWidth} auto;
   max-height: 100vh;
+  background: ${theme.accent1};
 
-  nav {
+    nav {
     overflow-y: hidden;
   }
 
