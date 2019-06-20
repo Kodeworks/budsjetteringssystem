@@ -38,7 +38,7 @@ const AddTransaction: React.FC<IProps> = props => {
   );
 
   return (
-    <Collapsable heading={<h3>Add new transaction</h3>}>
+    <Collapsable heading={<h1>Add new transaction</h1>}>
       <div className={props.className}>
         <Input value={date} id="date" type="date" setState={setDate}>Date</Input>
         <Input value={amount} id="amount" type="number" setState={setAmount} placeholder="0.00">Amount</Input>
