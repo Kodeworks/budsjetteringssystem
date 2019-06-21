@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { TransactionCtx } from '../../contexts/transaction';
+import { ITransaction } from '../../declarations/transaction';
 
 import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
@@ -24,22 +25,23 @@ const Content = styled.div`
 const Transactions: React.FC<IProps> = ({ className }) => {
   const { store } = React.useContext(TransactionCtx);
 
+  const [filter, setFilter] = React.useState<(t: ITransaction) => boolean>(() => ((t: ITransaction) => true));
+
   return (
     <div className={className}>
       <div>
         <h1>Transactions</h1>
         <h5>Showing all transactions</h5>
-
         <Content>
           <AddTransaction />
-          <Filters />
+          <Filters setFilter={setFilter} />
 
           <div>
-            <IncomeTransactions tx={store.transactions} fetchMore={alert}/>
+            <IncomeTransactions tx={store.transactions.filter(filter)} fetchMore={alert}/>
           </div>
 
           <div>
-            <ExpenseTransactions tx={store.transactions} fetchMore={alert}/>
+            <ExpenseTransactions tx={store.transactions.filter(filter)} fetchMore={alert}/>
           </div>
         </Content>
       </div>
