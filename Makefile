@@ -11,7 +11,7 @@ run:
 
 .PHONY: up
 up:
-	docker-compose up -d --build
+	docker-compose up -d
 
 .PHONY: down
 down:
