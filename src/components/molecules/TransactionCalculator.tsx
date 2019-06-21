@@ -14,11 +14,11 @@ import { sum } from '../../helpers/intermediary_calc';
 
 import TransactionEntry from '../atoms/TransactionEntry';
 
-interface IShoppingCartProps {
+interface ITransactionCalculatorProps {
   className?: string;
 }
 
-const ShoppingCart: React.FC<IShoppingCartProps> = props => {
+const TransactionCalculator: React.FC<ITransactionCalculatorProps> = props => {
   const { store, dispatch } = React.useContext(TransactionCtx);
 
   const findById = (e: number) => store.transactions.find(t => e === t.id)!;
@@ -33,7 +33,7 @@ const ShoppingCart: React.FC<IShoppingCartProps> = props => {
     </div>
   );
 };
-export default styled(ShoppingCart)`
+export default styled(TransactionCalculator)`
   ${props => props.theme.emphasisShadow};
   padding: 2em;
   height: calc(100vh - 78px - 8em);

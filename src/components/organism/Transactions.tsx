@@ -7,7 +7,7 @@ import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
 import Filters from '../molecules/Filters';
 import IncomeTransactions from '../molecules/IncomeTransactions';
-import ShoppingCart from '../molecules/ShoppingCart';
+import TransactionCalculator from '../molecules/TransactionCalculator';
 
 interface IProps {
   className?: string;
@@ -43,7 +43,7 @@ const Transactions: React.FC<IProps> = ({ className }) => {
           </div>
         </Content>
       </div>
-      <ShoppingCart/>
+      <TransactionCalculator/>
     </div>
   );
 };
