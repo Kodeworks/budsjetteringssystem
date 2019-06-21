@@ -33,7 +33,8 @@ const TransactionEntry: React.FC<IProps> = props => {
 
   const { store, dispatch } = React.useContext(TransactionCtx);
 
-  const updateDisplayNotesState = () => setDisplayNotes(!displayNotes);
+  const disableNotes = () => setDisplayNotes(false);
+  const enableNotes = () => setDisplayNotes(true);
 
   const isInIntermediary = !(store.intermediary.find(e => e === props.id) === undefined);
 
@@ -44,12 +45,12 @@ const TransactionEntry: React.FC<IProps> = props => {
   return (
     <a
       className={props.className}
-      onMouseEnter={updateDisplayNotesState}
-      onMouseLeave={updateDisplayNotesState}
+      onMouseEnter={enableNotes}
+      onMouseLeave={disableNotes}
       onClick={onClick}
       style={isInIntermediary ? {paddingLeft: '.6em', borderLeft: '4px solid black'} : {}}
     >
-      <h4>{props.name} - {sum(store).toFixed(2)}</h4>
+      <h4>{props.name}</h4>
       <strong>
         {props.type === TransactionType.expense ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
       </strong>
