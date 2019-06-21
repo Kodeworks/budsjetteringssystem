@@ -100,7 +100,7 @@ storiesOf('Page', module)
 const txEntries = (new Array(100)).fill(1).map(createDummyTransaction);
 
 storiesOf('Dashboard', module)
-  .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)
   .add('Transactions', () => <Transactions transactions={txEntries} />)
   .add('CardContainer', () => (
   <CardContainer>
