@@ -1,7 +1,21 @@
 import { fireEvent, getByText, render } from '@testing-library/react';
 import React from 'react';
+import { createTransactionCtx, TransactionCtx } from '../../../contexts/transaction';
 import { ITransaction, TransactionType } from '../../../declarations/transaction';
+import { initialState, reducer } from '../../../reducers/transactions';
 import TransactionEntry from '../TransactionEntry';
+
+const Wrapper: React.FC = props => {
+  const [store, dispatch] = React.useReducer(reducer, initialState);
+
+  createTransactionCtx(store, dispatch);
+
+  return (
+    <TransactionCtx.Provider value={{store, dispatch}}>
+      {props.children}
+    </TransactionCtx.Provider>
+  );
+};
 
 test('TransactionEntry', () => {
   const testId = 0;
@@ -14,27 +28,29 @@ test('TransactionEntry', () => {
   const testNotes = 'Edgy';
 
   const { container } = render((
-    <TransactionEntry
-      id={testId}
-      className={testClassName}
-      name={testName}
-      money={testMoney}
-      date={testDate}
-      companyId={testCompanyId}
-      type={TransactionType.income}
-      notes={testNotes}
-    />
+    <Wrapper>
+      <TransactionEntry
+        id={testId}
+        className={testClassName}
+        name={testName}
+        money={testMoney}
+        date={testDate}
+        companyId={testCompanyId}
+        type={TransactionType.income}
+        notes={testNotes}
+      />
+    </Wrapper>
   ));
-  const div = container.querySelector('div');
+  const a = container.querySelector('a');
   const header4 = container.querySelector('h4');
   const header6Array = container.querySelectorAll('h6');
   const paragraph = container.querySelector('p');
   const strong = container.querySelector('strong');
 
   /* Component should render with props given */
-  expect(div).not.toBe(null);
-  if (div) {
-    expect(div.className).toContain(testClassName);
+  expect(a).not.toBe(null);
+  if (a) {
+    expect(a.className).toContain(testClassName);
   }
   expect(header4).not.toBe(null);
   if (header4) {

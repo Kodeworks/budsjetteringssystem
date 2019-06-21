@@ -8,7 +8,7 @@ import { theme } from './styling/theme';
 
 import { createTransactionCtx, TransactionCtx } from './contexts/transaction';
 import { createDummyTransaction } from './helpers/transaction_creator';
-import { addTransaction, initialState, reducer } from './reducers/transactions';
+import { ActionCreators, initialState, reducer } from './reducers/transactions';
 
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
@@ -32,7 +32,7 @@ const App: React.FC<IProps> = ({ className }) => {
     createTransactionCtx(store, dispatch);
 
     for (let i = 0; i < 100; i++) {
-      dispatch(addTransaction(createDummyTransaction()));
+      dispatch(ActionCreators.addTransaction(createDummyTransaction()));
     }
   }
 
