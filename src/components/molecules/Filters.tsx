@@ -17,7 +17,7 @@ const Filters: React.FC<IProps> = props => {
   const [recurring, setRecurring] = React.useState(false);
 
   return (
-    <Collapsable heading={<h3>Filters</h3>}>
+    <Collapsable heading={<h1>Filters</h1>}>
       <div className={props.className}>
         <Input value={fromDate} id="fromDate" type="date" setState={setFromDate}>From date</Input>
         <Input value={toDate} id="toDate" type="date" setState={setToDate}>To date</Input>

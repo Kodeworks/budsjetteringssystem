@@ -2,6 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import Label from './Label';
+
 interface IProps {
   className?: string;
   id: string;
@@ -14,7 +16,7 @@ const Checkbox: React.FC<IProps> = props => {
 
   return (
     <div className={props.className}>
-      <label htmlFor={props.id}>{props.children}</label>
+      <Label htmlFor={props.id} checkboxLabel={true}>{props.children}</Label>
       <input defaultChecked={props.value} onChange={updateState} type="checkbox" id={props.id}/>
     </div>
   );
@@ -23,14 +25,6 @@ const Checkbox: React.FC<IProps> = props => {
 export default styled(Checkbox)`
   label, input {
     vertical-align: middle;
-  }
-
-  label {
-    margin-right: .7em;
-    font-size: .8em;
-    margin-bottom: .2em;
-    font-weight: 700;
-    letter-spacing: .4px;
   }
 
   input {

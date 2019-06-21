@@ -2,6 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import Label from './Label';
+
 interface IProps {
   className?: string;
   id: string;
@@ -15,7 +17,7 @@ const TextArea: React.FC<IProps> = props => {
 
   return (
     <div className={props.className}>
-      <label htmlFor={props.id}>{props.children}</label>
+      <Label htmlFor={props.id}>{props.children}</Label>
       <textarea
         value={props.value}
         onChange={updateState}
@@ -28,14 +30,6 @@ const TextArea: React.FC<IProps> = props => {
 
 export default styled(TextArea)`
   grid-column: 1 / span 2;
-
-  label {
-    display: block;
-    font-size: .8em;
-    margin-bottom: .2em;
-    font-weight: 700;
-    letter-spacing: .4px;
-  }
 
   textarea {
     font-size: .8em;
