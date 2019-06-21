@@ -1,6 +1,14 @@
 import React from 'react';
+
 import styled from 'styled-components';
+
+import { ActionCreators } from '../../reducers/transactions';
+
 import { ITransaction, TransactionType } from '../../declarations/transaction';
+
+import { sum } from '../../helpers/intermediary_calc';
+
+import { TransactionCtx } from '../../contexts/transaction';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => props.type === TransactionType.expense ? '#ff6961' : '#77dd77'};
@@ -23,11 +31,25 @@ const TransactionEntry: React.FC<IProps> = props => {
   const [displayNotes, setDisplayNotes] = React.useState(false);
   const { money, hideIncomeExpenseBadge } = props;
 
+  const { store, dispatch } = React.useContext(TransactionCtx);
+
   const updateDisplayNotesState = () => setDisplayNotes(!displayNotes);
 
+  const isInIntermediary = !(store.intermediary.find(e => e === props.id) === undefined);
+
+  const onClick = () => isInIntermediary ?
+    dispatch(ActionCreators.removeFromIntermediary(props.id)) :
+    dispatch(ActionCreators.addToIntermediary(props.id));
+
   return (
-    <div className={props.className} onMouseEnter={updateDisplayNotesState} onMouseLeave={updateDisplayNotesState}>
-      <h4>{props.name}</h4>
+    <div
+      className={props.className}
+      onMouseEnter={updateDisplayNotesState}
+      onMouseLeave={updateDisplayNotesState}
+      onClick={onClick}
+      style={isInIntermediary ? {paddingLeft: '.6em', borderLeft: '4px solid black'} : {}}
+    >
+      <h4>{props.name} - {sum(store).toFixed(2)}</h4>
       <strong>
         {props.type === TransactionType.expense ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
       </strong>

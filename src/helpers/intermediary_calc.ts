@@ -5,9 +5,12 @@
 
 import { IState as IStore } from '../reducers/transactions';
 
+import { TransactionType } from '../declarations/transaction'
+
 export const sum = (store: IStore) => (
-  store.intermediary.reduce((prev, curr) => (
+  store.intermediary.reduce((prev, curr) => {
     // We definitely know that this transaction will exist as we're adding transaction ids to the intermediary array.
-    prev + store.transactions.find(e => e.id === curr)!.money
-  ), 0)
+    const tx = store.transactions.find(e => e.id === curr)!;
+    return prev + (tx.type === TransactionType.expense ? -tx.money : tx.money) / 100;
+  }, 0)
 );
