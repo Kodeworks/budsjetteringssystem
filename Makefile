@@ -19,24 +19,28 @@ down:
 
 .PHONY: makemigrations
 makemigrations:
-	docker-compose run web python /code/manage.py makemigrations
+	docker-compose exec web python /code/manage.py makemigrations
 
 .PHONY: migrate
 migrate: makemigrations
-	docker-compose run web python /code/manage.py migrate
+	docker-compose exec web python /code/manage.py migrate
 
 .PHONY: makemigrations
 createsuperuser:
-	docker-compose run web python /code/manage.py createsuperuser
+	docker-compose exec web python /code/manage.py createsuperuser
 
 .PHONY: startapp
 startapp:
-	docker-compose run web python /code/manage.py startapp $(APP)
+	docker-compose exec web python /code/manage.py startapp $(APP)
 
 .PHONY: update
 update:
-	docker-compose run web pip install -r /code/requirements.txt
+	docker-compose exec web pip install -r /code/requirements.txt
 
 .PHONY: test
 test:
-	docker-compose run web python /code/manage.py test
+	docker-compose exec web python /code/manage.py test
+
+.PHONY: shell
+shell:
+	docker-compose exec web python /code/manage.py shell
