@@ -1,18 +1,43 @@
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory
 from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from . import views
 from .models import User
 
 
 class JWTTestCase(TestCase):
+    access_token = None
+    refresh_token = None
+
     def setUp(self):
         self.factory = APIRequestFactory()
 
-    def perform_request(self, method, view, url, data={}, factory=None):
+    def login(self, email, password):
+        response = self.post(views.Login, '/user/login/', {'email': email, 'password': password})
+        self.access_token = response.data['access']
+        self.refresh_token = response.data['refresh']
+
+    def force_login(self, user):
+        refresh = RefreshToken.for_user(user)
+        self.refresh_token = str(refresh)
+        self.access_token = str(refresh.access_token)
+
+    def logout(self):
+        self.access_token = None
+        self.refresh_token = None
+
+    def refresh_token(self):
+        response = self.post(TokenRefreshView, '/user/refresh/', {'refresh': token or self.refresh_token})
+        self.access_token = response.data['access']
+
+    def perform_request(self, method, view, url, data={}, extra={}, factory=None):
+        if self.access_token:
+            extra['HTTP_AUTHORIZATION'] = f'Bearer {self.access_token}'
+
         factory = factory or self.factory
-        request = getattr(factory, method)(url, data, format='json')
+        request = getattr(factory, method)(url, data, format='json', **extra)
         response = view.as_view()(request)
         response.render()
         return response
@@ -98,6 +123,43 @@ class UserTest(JWTTestCase):
         self.assertEquals(response.data['email'], self.email, msg=response.content)
 
     def test_update_user(self):
-        response = self.post(views.UserView, '/user/', {'email': self.email, 'password': self.password})
-        self.assertEquals(response.status_code, 201, msg=response.content)
+        user = self.create_user()
+        self.force_login(user)
+
+        first_name = "Test"
+        last_name = "Testing"
+        response = self.put(views.UserView, '/user/', {'email': user.email, 'first_name': first_name, 'last_name': last_name})
+
+        self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data['email'], self.email, msg=response.content)
+        self.assertEquals(response.data['first_name'], first_name, msg=response.content)
+        self.assertEquals(response.data['last_name'], last_name, msg=response.content)
+
+        user = User.objects.get(pk=user.pk)
+        self.assertEquals(user.first_name, first_name, msg=response.content)
+        self.assertEquals(user.last_name, last_name, msg=response.content)
+
+    def test_get_user(self):
+        user = self.create_user()
+        self.force_login(user)
+
+        response = self.get(views.UserView, '/user/', {'id': user.id})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data['email'], self.email, msg=response.content)
+
+    def test_get_user_by_email(self):
+        user = self.create_user()
+        self.force_login(user)
+
+        response = self.get(views.UserByEmailView, '/user/byEmail/', {'email': user.email})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data['id'], user.id, msg=response.content)
+
+    def test_delete_user(self):
+        user = self.create_user()
+        self.force_login(user)
+
+        response = self.delete(views.UserView, '/user/')
+        self.assertEquals(response.status_code, 204, msg=response.content)
+        with self.assertRaises(User.DoesNotExist):
+            User.objects.get(pk=user.pk)
