@@ -22,6 +22,7 @@ import TabMenu from '../components/molecules/TabMenu'
 import TextArea from '../components/atoms/TextArea';
 import Toolbar from '../components/organism/Toolbar';
 import Transactions from '../components/organism/Transactions';
+import Select from '../components/atoms/Select';
 import { BrowserRouter } from 'react-router-dom';
 import { GlobalStyle } from '../styling/global';
 import { ThemeProvider } from 'styled-components';
@@ -138,4 +139,8 @@ storiesOf('Add new transaction', module)
 storiesOf('Input/Textarea', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
   .add('With placeholder', () => <TextArea placeholder="Insert a funny otter fact.">Welcome to the jungle</TextArea>)
+
+storiesOf('Input/Select', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('Default', () => <Select values={[{name: 'Otter', value: 'otter'}, {name: 'Cat', value: 'cat'}, {name: 'Beaver', value: 'beaver'}]}>Select your spirit animal</Select>)
 

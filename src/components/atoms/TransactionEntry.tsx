@@ -42,7 +42,7 @@ const TransactionEntry: React.FC<IProps> = props => {
     dispatch(ActionCreators.addToIntermediary(props.id));
 
   return (
-    <div
+    <a
       className={props.className}
       onMouseEnter={updateDisplayNotesState}
       onMouseLeave={updateDisplayNotesState}
@@ -56,7 +56,7 @@ const TransactionEntry: React.FC<IProps> = props => {
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
       <h6>{props.date}</h6>
       <p>{displayNotes && props.notes}</p>
-    </div>
+    </a>
   );
 };
 
