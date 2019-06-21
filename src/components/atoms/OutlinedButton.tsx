@@ -21,9 +21,10 @@ const OutlinedButton = styled.button<IProps>`
   outline: none;
 
   /* Variables */
-  --box-shadow-background: ${props => props.theme.main};
-  --main-color: ${props => props.variant ? props.theme[props.variant] : props.theme.contrast};
-
+  --box-shadow-background: ${props => props.theme.palette.background.default};
+  --main-color: ${props => (
+    props.variant ? props.theme.palette[props.variant].contast : props.theme.palette.primary.contrast
+  )};
   /* Border */
   border: 2px solid var(--main-color);
   border-radius: 3px;
@@ -36,7 +37,7 @@ const OutlinedButton = styled.button<IProps>`
   cursor: pointer;
 
   /* Color */
-  background: ${props => props.theme.main};
+  background: ${props => props.theme.palette.background.default};
   color: var(--main-color);
 
   /* Font */

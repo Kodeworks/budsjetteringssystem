@@ -19,7 +19,7 @@ interface ITransactionCalculatorProps {
 }
 
 const TransactionCalculator: React.FC<ITransactionCalculatorProps> = props => {
-  const { store, dispatch } = React.useContext(TransactionCtx);
+  const { store } = React.useContext(TransactionCtx);
 
   const findById = (e: number) => store.transactions.find(t => e === t.id)!;
 
@@ -34,7 +34,7 @@ const TransactionCalculator: React.FC<ITransactionCalculatorProps> = props => {
   );
 };
 export default styled(TransactionCalculator)`
-  ${props => props.theme.emphasisShadow};
+  ${props => props.theme.shadow};
   padding: 2em;
   height: calc(100vh - 78px - 8em);
   position: sticky;

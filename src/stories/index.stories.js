@@ -24,7 +24,6 @@ import Input from '../components/atoms/Input';
 import AddTransaction from '../components/molecules/AddTransaction';
 import TransactionEntry from '../components/atoms/TransactionEntry';
 import LandingPage from '../components/pages/LandingPage';
-import AddButton from '../components/atoms/AddButton';
 import Navigation from '../components/organism/Navigation';
 import { GlobalStyle } from '../styling/global';
 
@@ -63,13 +62,13 @@ storiesOf('Navigation', module)
     <Navigation />
   ))
   .add('Brand', () => (
-    <div style={{ width: navbarWidth, background: theme.main, display: 'flex', flexDirection: "column", paddingBottom: '1em' }}>
+    <div style={{ width: navbarWidth, background: theme.palette.background.default, display: 'flex', flexDirection: "column", paddingBottom: '1em' }}>
       <NavigationBrand />
     </div>
   ));
 
 storiesOf('Navigation/Pill', module)
-  .addDecorator(fn => <div style={{ width: navbarWidth, padding: '1em', background: theme.accent1 }}>{fn()}</div>)
+  .addDecorator(fn => <div style={{ width: navbarWidth, padding: '1em', background: theme.palette.primary.main }}>{fn()}</div>)
   .add('Inactive', () => <NavigationPill to="/" active={false}>Inactive</NavigationPill>)
   .add('Active', () => <NavigationPill to="/" active={true}>Active</NavigationPill>);
 
@@ -78,9 +77,6 @@ storiesOf('App', module)
 
 storiesOf('Toolbar', module)
   .add('Default', () => <Toolbar />);
-
-storiesOf('Button/Add', module)
-  .add('Normal', () => <AddButton>+</AddButton>);
 
 storiesOf('Button/Outlined', module)
   .add('Normal', () => <OutlinedButton>Lipsum</OutlinedButton>);

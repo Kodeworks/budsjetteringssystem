@@ -33,7 +33,7 @@ export default styled(withRouter(Navigation))`
   height: 100vh;
 
   /* Colors */
-  background: ${props => props.theme.accent2};
+  background: ${props => props.theme.palette.secondary.main};
 
   /* Content management */
   overflow-y: auto;

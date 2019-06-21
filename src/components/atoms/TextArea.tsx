@@ -34,18 +34,18 @@ export default styled(TextArea)`
   textarea {
     font-size: .8em;
     padding: .5em .75em;
-    background: ${props => props.theme.accent1};
-    border: 2px solid ${props => props.theme.contrast};
+    background: ${props => props.theme.palette.primary.main};
+    border: 2px solid ${props => props.theme.palette.primary.contrast};
     border-radius: 3px;
-    color: ${props => props.theme.contrast};
+    color: ${props => props.theme.palette.primary.contrast};
     outline: none;
     transition: background .1s, color .1s;
     width: 100%;
     height: 5em;
 
     &:focus {
-      background: ${props => props.theme.contrast};
-      color: ${props => props.theme.accent1};
+      background: ${props => props.theme.palette.primary.contrast};
+      color: ${props => props.theme.palette.primary.main};
     }
   }
 `;

@@ -14,7 +14,7 @@ const BrandTitle = styled.h1`
   text-transform: uppercase;
   font-size: 4em;
   font-weight: 300;
-  color: ${props => props.theme.contrast};
+  color: ${props => props.theme.palette.primary.contrast};
 `;
 
 const ButtonContainer = styled.div`
@@ -46,7 +46,7 @@ const LandingPage: React.FC<ILandingPage> = ({ className }) => (
 );
 
 export default styled(LandingPage)`
-  background: ${props => props.theme.main}
+  background: ${props => props.theme.palette.background.default};
 
   padding: 0;
 
@@ -64,7 +64,7 @@ export default styled(LandingPage)`
   }
 
   p {
-    color: ${props => props.theme.contrast};
+    color: ${props => props.theme.palette.primary.contrast};
     font-size: 1.2em;
   }
 

@@ -63,7 +63,7 @@ export default styled(App)`
   grid-template-rows: 100%;
   grid-template-columns: ${navbarWidth} auto;
   max-height: 100vh;
-  background: ${theme.accent1};
+  background: ${theme.palette.primary.main};
 
     nav {
     overflow-y: hidden;
@@ -74,5 +74,5 @@ export default styled(App)`
   }
 
   /* Colors */
-  background-color: ${props => props.theme.main};
+  background-color: ${props => props.theme.palette.background.main};
 `;

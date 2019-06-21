@@ -31,21 +31,21 @@ export default styled(Checkbox)`
     -webkit-appearance: none;
     width: 1.5em;
     height: 1.5em;
-    background: ${props => props.theme.accent1};
-    border: 2px solid ${props => props.theme.contrast};
+    background: ${props => props.theme.palette.primary.main};
+    border: 2px solid ${props => props.theme.palette.primary.contrast};
     border-radius: 3px;
     cursor: pointer;
-    color: ${props => props.theme.contrast};
+    color: ${props => props.theme.palette.primary.contrast};
     outline: none;
     transition: background .1s, color .1s;
 
     &:focus {
       background: lightgrey;
-      color: ${props => props.theme.accent1};
+      color: ${props => props.theme.palette.primary.main};
     }
 
     &[checked] {
-      background: ${props => props.theme.contrast};
+      background: ${props => props.theme.palette.primary.contrast};
     }
   }
 `;
