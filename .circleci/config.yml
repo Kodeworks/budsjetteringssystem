@@ -8,4 +8,7 @@ jobs:
           name: Run tests
           command: |
             set -x
+            make build
+            make up
             make test
+            make down
