@@ -155,3 +155,40 @@ class Login(views.APIView):
             )
         else:
             return Response({'detail': 'Invalid email/password'}, status='400')
+
+
+class UserMixin:
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'id'
+    company_access = {
+        'GET': None,
+    }
+
+    def check_company_role(self, request, *args, **kwargs):
+        """Let a user manage themselves regardless of their role."""
+        data = self.get_data(request)
+
+        if request.method not in ['POST', 'DELETE', 'PUT'] and data[self.lookup_field] != getattr(request.user, self.lookup_field):
+            super().check_company_role(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        request.data['companies'] = []
+        return super().post(request, *args, **kwargs)
+
+
+class UserView(UserMixin, RetrieveCreateUpdateDestroyView):
+    permission_classes = (permissions.IsAuthenticated,)
+    permissions = {
+        'POST': None,
+    }
+
+    def get_object(self):
+        if self.request.method in ['DELETE', 'PUT']:
+            return self.request.user
+        else:
+            return super().get_object()
+
+
+class UserByEmailView(UserMixin, RetrieveView):
+    lookup_field = 'email'
