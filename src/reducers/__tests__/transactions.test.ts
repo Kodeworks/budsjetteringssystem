@@ -52,7 +52,7 @@ test('add to intermediary and calc sum', () => {
   state = reducer(state, ActionCreators.addToIntermediary(tx.id));
   state = reducer(state, ActionCreators.addToIntermediary({ ...tx, id: 1 }.id));
   expect(state.intermediary.length).toBe(2);
-  expect(intermediarySum(state)).toBe(tx.money * 2);
+  expect(intermediarySum(state)).toBe((tx.money * 2) / 100);
 });
 
 test('remove from intermediary and calc sum', () => {
@@ -63,7 +63,7 @@ test('remove from intermediary and calc sum', () => {
   state = reducer(state, ActionCreators.addToIntermediary(tx.id));
   state = reducer(state, ActionCreators.addToIntermediary({ ...tx, id: 1 }.id));
   expect(state.intermediary.length).toBe(2);
-  expect(intermediarySum(state)).toBe(tx.money * 2);
+  expect(intermediarySum(state)).toBe((tx.money * 2) / 100);
   state = reducer(state, ActionCreators.removeFromIntermediary({ ...tx, id: 1 }.id));
-  expect(intermediarySum(state)).toBe(tx.money);
+  expect(intermediarySum(state)).toBe(tx.money / 100);
 });
