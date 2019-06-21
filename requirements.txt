@@ -2,3 +2,4 @@ django
 psycopg2-binary
 djangorestframework
 djangorestframework_simplejwt
+flake8
