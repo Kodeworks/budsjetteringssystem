@@ -34,7 +34,7 @@ const Filters: React.FC<IProps> = props => {
 
       return true;
     }));
-  });
+  }, [fromDate, toDate, description, recurring, props]);
 
   return (
     <Collapsable heading={<h3>Filters</h3>}>
