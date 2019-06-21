@@ -2,6 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import Label from './Label';
+
 interface IProps {
   className?: string;
   id: string;
@@ -16,7 +18,7 @@ const Input: React.FC<IProps> = props => {
 
   return (
     <div className={props.className}>
-      <label htmlFor={props.id}>{props.children}</label>
+      <Label htmlFor={props.id}>{props.children}</Label>
       <input
         value={props.value}
         onChange={updateState}
@@ -29,14 +31,6 @@ const Input: React.FC<IProps> = props => {
 };
 
 export default styled(Input)`
-  label {
-    display: block;
-    font-size: .8em;
-    margin-bottom: .2em;
-    font-weight: 700;
-    letter-spacing: .4px;
-  }
-
   input {
     font-size: .8em;
     padding: .5em .75em;
