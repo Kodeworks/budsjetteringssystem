@@ -38,6 +38,8 @@ export const ActionCreators = {
   removeTransaction,
 };
 
+// the return types of all the elements in ActionCreators
+// !! DO NOT TOUCH !!
 export type IAction = ReturnType<typeof ActionCreators[keyof typeof ActionCreators]>;
 
 export const initialState: IState = { transactions: [], intermediary: [] };

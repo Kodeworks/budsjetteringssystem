@@ -2,6 +2,8 @@ import { ActionCreators, initialState, reducer } from '../transactions';
 
 import { ITransaction, TransactionType } from '../../declarations/transaction';
 
+import { sum as intermediarySum } from '../../helpers/intermediary_calc';
+
 const tx: ITransaction = {
   companyId: 0,
   date: '01.01.1970',
@@ -40,4 +42,28 @@ test('doesn\'t remove if no match', () => {
   expect(state.transactions.length).toBe(2);
   state = reducer(state, ActionCreators.removeTransaction({ ...tx, id: 2 }));
   expect(state.transactions.length).toBe(2);
+});
+
+test('add to intermediary and calc sum', () => {
+  let state = initialState;
+  expect(state.intermediary.length).toBe(0);
+  state = reducer(state, ActionCreators.addTransaction(tx));
+  state = reducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
+  state = reducer(state, ActionCreators.addToIntermediary(tx.id));
+  state = reducer(state, ActionCreators.addToIntermediary({ ...tx, id: 1 }.id));
+  expect(state.intermediary.length).toBe(2);
+  expect(intermediarySum(state)).toBe(tx.money * 2);
+});
+
+test('remove from intermediary and calc sum', () => {
+  let state = initialState;
+  expect(state.intermediary.length).toBe(0);
+  state = reducer(state, ActionCreators.addTransaction(tx));
+  state = reducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
+  state = reducer(state, ActionCreators.addToIntermediary(tx.id));
+  state = reducer(state, ActionCreators.addToIntermediary({ ...tx, id: 1 }.id));
+  expect(state.intermediary.length).toBe(2);
+  expect(intermediarySum(state)).toBe(tx.money * 2);
+  state = reducer(state, ActionCreators.removeFromIntermediary({ ...tx, id: 1 }.id));
+  expect(intermediarySum(state)).toBe(tx.money);
 });

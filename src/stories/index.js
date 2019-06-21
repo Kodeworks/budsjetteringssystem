@@ -27,7 +27,7 @@ import { GlobalStyle } from '../styling/global';
 import { ThemeProvider } from 'styled-components';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
-import { reducer, initialState, addTransaction } from '../reducers/transactions';
+import { reducer, initialState, ActionCreators } from '../reducers/transactions';
 import { TransactionCtx, createTransactionCtx } from '../contexts/transaction';
 
 const Wrapper = props => {
@@ -35,8 +35,8 @@ const Wrapper = props => {
   createTransactionCtx(store, dispatch);
 
   if (store.transactions.length === 0) {
-    const txEntries = (new Array(100)).fill(1).map(createDummyTransaction);
-    txEntries.map(e => dispatch(addTransaction(e)));
+    const txEntries = (new Array(100)).fill(0).map(createDummyTransaction);
+    txEntries.forEach(e => dispatch(ActionCreators.addTransaction(e)));
   }
 
   return (
