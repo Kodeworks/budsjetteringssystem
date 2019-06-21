@@ -2,6 +2,10 @@
 
 # Liquidator backend
 
+[API spesification](https://app.swaggerhub.com/apis/kw-liquidator/Liquidator/1.0.0#/)
+
+[Frontend](https://github.com/Kodeworks/liquidator-frontend)
+
 ## Setup
 
 ### With docker
@@ -13,12 +17,17 @@ running the server is easy and predictable. To use this, install docker (and doc
 
 A Makefile is provided with aliases for useful commands:
 
+	# Create the server. Has to be run before any other commands
+	make build
+
 	# Start the server
 	make
 
 	# Start and stop the server in the background
 	make up
 	make down
+
+	## The following require that the server is running
 
 	# Handle migrations
 	make makemigrations
