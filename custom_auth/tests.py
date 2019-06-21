@@ -59,7 +59,6 @@ class AuthenticationTest(JWTTestCase):
 
     def test_incorrect_JWT_refresh(self):
         response = self.post(views.Login, '/user/login/', {'email': self.email, 'password': self.password})
-        access_token = response.data['access']
         refresh_token = response.data['refresh']
 
         response = self.post(TokenRefreshView, '/user/refresh/', {'refresh': f'{refresh_token}a'})
