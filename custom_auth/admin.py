@@ -18,14 +18,16 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserForm
 
     list_display = ('email', 'first_name', 'last_name', 'is_active')
-    list_filter = ('is_active',)
+    list_filter = ('is_active', 'companies')
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('-is_active', 'first_name', 'last_name')
+
+    filter_horizontal = ('companies',)
 
     # Fieldsets for the change-user form
     fieldsets = (
         (None, {
-            'fields': ('email', 'first_name', 'last_name', 'is_superuser')
+            'fields': ('email', 'password', 'first_name', 'last_name', 'is_superuser')
         }),
     )
 
@@ -33,6 +35,6 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name', 'last_name')
+            'fields': ('email', 'password', 'first_name', 'last_name')
         }),
     )
