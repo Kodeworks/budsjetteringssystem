@@ -13,7 +13,6 @@ const arrowUp: string = String.fromCharCode(9650);
 
 const Arrow = styled.span`
   margin-right: .5em;
-  margin-left: calc(-13.2px - 1em);
 `;
 
 const CollapsableHeading = styled.button`
@@ -22,7 +21,6 @@ const CollapsableHeading = styled.button`
   background: ${props => props.theme.accent1};
   text-align: left;
   border: 0;
-  margin-left: .5em;
   cursor: pointer;
   width: 100%;
 

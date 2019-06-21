@@ -13,11 +13,12 @@ import TextArea from '../components/atoms/TextArea';
 import CardContainer from '../components/atoms/CardContainer';
 import Toolbar from '../components/organism/Toolbar';
 import Transactions from '../components/organism/Transactions';
+import Select from '../components/atoms/Select';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
-import { reducer, initialState, addTransaction } from '../reducers/transactions';
+import { reducer, initialState, ActionCreators } from '../reducers/transactions';
 import { TransactionCtx, createTransactionCtx } from '../contexts/transaction';
 import Input from '../components/atoms/Input';
 import AddTransaction from '../components/molecules/AddTransaction';
@@ -32,8 +33,8 @@ const Wrapper = props => {
   createTransactionCtx(store, dispatch);
 
   if (store.transactions.length === 0) {
-    const txEntries = (new Array(100)).fill(1).map(createDummyTransaction);
-    txEntries.map(e => dispatch(addTransaction(e)));
+    const txEntries = (new Array(100)).fill(0).map(createDummyTransaction);
+    txEntries.forEach(e => dispatch(ActionCreators.addTransaction(e)));
   }
 
   return (
@@ -99,7 +100,7 @@ storiesOf('Page', module)
 const txEntries = (new Array(100)).fill(1).map(createDummyTransaction);
 
 storiesOf('Dashboard', module)
-  .addDecorator(fn => <div style={{ width: '30vw', margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgorundColor }}>{fn()}</div>)
   .add('Transactions', () => <Transactions transactions={txEntries} />)
   .add('CardContainer', () => (
   <CardContainer>
@@ -139,4 +140,8 @@ storiesOf('Add new transaction', module)
 
 storiesOf('Input/Textarea', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
-  .add('With placeholder', () => <TextArea placeholder="Insert a funny otter fact.">Welcome to the jungle</TextArea>)
+  .add('With placeholder', () => <TextArea placeholder="Insert a funny otter fact.">Welcome to the jungle</TextArea>);
+
+storiesOf('Input/Select', module)
+  .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
+  .add('Default', () => <Select values={[{name: 'Otter', value: 'otter'}, {name: 'Cat', value: 'cat'}, {name: 'Beaver', value: 'beaver'}]}>Select your spirit animal</Select>);

@@ -23,7 +23,7 @@ const TabLabel: React.FC<IProps> = (props) => {
 };
 
 export default styled(TabLabel)`
-  ${props => props.isActive ? `border: solid #ccc;
+  ${props => props.isActive && `border: solid #ccc;
   background-color: white;
-  border-width: 1px 1px 0 1px;` : undefined };
+  border-width: 1px 1px 0 1px;`};
 `;

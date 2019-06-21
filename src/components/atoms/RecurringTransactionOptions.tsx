@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from './Input';
+import Select from './Select';
 
 interface IProps {
   intervalValue: number;
@@ -11,27 +12,13 @@ interface IProps {
   setDoM: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const RecurringTransactionOptions: React.FC<IProps> = props => (
-  <>
-    {/* TODO: Convert this to a select */}
-    <Input
-      type="number"
-      id="intervalCount"
-      placeholder="3"
-      value={props.intervalValue}
-      setState={props.setInterval}
-    >
-      Interval
-    </Input>
-    <Input
-      type="text"
-      id="intervalType"
-      placeholder="Month"
-      value={props.intervalTypeValue}
-      setState={props.setTypeInterval}
-    >
-      Interval type
-    </Input>
+const selectOptions = [
+  {name: 'Day', value: 'day'},
+  {name: 'Month', value: 'month'},
+];
+
+const RecurringTransactionOptions: React.FC<IProps> = props => {
+  const DayOfMonth = (
     <Input
       type="number"
       id="dateofmonth"
@@ -41,8 +28,31 @@ const RecurringTransactionOptions: React.FC<IProps> = props => (
     >
       Day of month
     </Input>
-    <br />
-  </>
-);
+  );
+
+  return (
+    <>
+      <Input
+        type="number"
+        id="intervalCount"
+        placeholder="3"
+        value={props.intervalValue}
+        setState={props.setInterval}
+      >
+        Interval
+      </Input>
+      <Select
+        id="intervalType"
+        values={selectOptions}
+        value={props.intervalTypeValue}
+        setState={props.setTypeInterval}
+      >
+        Interval type
+      </Select>
+      {/* We only want to show the day of month input if monthly recurrence is selected.*/}
+      {props.intervalTypeValue === 'month' && (<>{DayOfMonth}<br /></>)}
+    </>
+  );
+};
 
 export default RecurringTransactionOptions;
