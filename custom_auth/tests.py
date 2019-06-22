@@ -3,7 +3,7 @@ from rest_framework.test import APIRequestFactory
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from . import views
+from . import views, roles
 from .models import User
 
 
@@ -162,3 +162,27 @@ class UserTest(JWTTestCase):
         self.assertEquals(response.status_code, 204, msg=response.content)
         with self.assertRaises(User.DoesNotExist):
             User.objects.get(pk=user.pk)
+
+
+class RoleTestCase(TestCase):
+    def test_is_equivalent(self):
+        self.assertTrue(roles.is_equivalent(roles.REPORTER, roles.REPORTER))
+        self.assertFalse(roles.is_equivalent(roles.REPORTER, roles.USER))
+        self.assertFalse(roles.is_equivalent(roles.REPORTER, roles.OWNER))
+
+        self.assertTrue(roles.is_equivalent(roles.USER, roles.REPORTER))
+        self.assertTrue(roles.is_equivalent(roles.USER, roles.USER))
+        self.assertFalse(roles.is_equivalent(roles.USER, roles.OWNER))
+
+        self.assertTrue(roles.is_equivalent(roles.OWNER, roles.REPORTER))
+        self.assertTrue(roles.is_equivalent(roles.OWNER, roles.USER))
+        self.assertTrue(roles.is_equivalent(roles.OWNER, roles.OWNER))
+
+    def test_get_name(self):
+        self.assertEqual(roles.get_name(roles.REPORTER), 'Reporter')
+        self.assertIsNone(roles.get_name('Dummy'))
+
+    def test_get_role(self):
+        self.assertEqual(roles.get_role('Owner'), roles.OWNER)
+        self.assertEqual(roles.get_role('OW'), roles.OWNER)
+        self.assertIsNone(roles.get_role('Dummy'))
