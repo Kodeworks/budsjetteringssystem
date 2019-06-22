@@ -21,6 +21,7 @@ def is_equivalent(role1, role2):
     """Check if `role1` has all permissions `role2` has."""
     return (role1 == OWNER) or (role1 == USER and role2 != OWNER) or (role1 == REPORTER and role2 == REPORTER)
 
+
 def get_name(role):
     """Get string name of role"""
     for (role, name) in choices:
@@ -29,13 +30,11 @@ def get_name(role):
 
     return None
 
+
 def get_role(role_name):
     """Get role from string name or short name."""
     for (role, name) in choices:
         if role_name in [role, name]:
             return role
-
-    if role_name in names.keys():
-        return role_name
 
     return None

@@ -1,9 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate
 from rest_framework import views, mixins, generics, permissions
 from rest_framework.exceptions import PermissionDenied, ParseError
 from rest_framework.response import Response
-from rest_framework.decorators import permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
@@ -169,7 +168,8 @@ class UserMixin:
         """Let a user manage themselves regardless of their role."""
         data = self.get_data(request)
 
-        if request.method not in ['POST', 'DELETE', 'PUT'] and data[self.lookup_field] != getattr(request.user, self.lookup_field):
+        if request.method not in ['POST', 'DELETE', 'PUT'] \
+           and data[self.lookup_field] != getattr(request.user, self.lookup_field):
             super().check_company_role(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):

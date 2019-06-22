@@ -44,3 +44,7 @@ test:
 .PHONY: shell
 shell:
 	docker-compose exec web python /code/manage.py shell
+
+.PHONY: flake
+flake:
+	docker-compose exec web flake8

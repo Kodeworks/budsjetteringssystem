@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'company',
     'custom_auth',
+    'transaction',
 ]
 
 MIDDLEWARE = [
