@@ -15,7 +15,7 @@ class JWTTestCase(TestCase):
         self.factory = APIRequestFactory()
 
     def login(self, email, password):
-        response = self.post(views.Login, '/user/login/', {'email': email, 'password': password})
+        response = self.post(views.Login, {'email': email, 'password': password})
         self.access_token = response.data['access']
         self.refresh_token = response.data['refresh']
 
@@ -29,10 +29,10 @@ class JWTTestCase(TestCase):
         self.refresh_token = None
 
     def refresh_token(self):
-        response = self.post(TokenRefreshView, '/user/refresh/', {'refresh': token or self.refresh_token})
+        response = self.post(TokenRefreshView, {'refresh': self.refresh_token})
         self.access_token = response.data['access']
 
-    def perform_request(self, method, view, url, data={}, extra={}, factory=None):
+    def perform_request(self, method, view, data={}, url='', extra={}, factory=None):
         if self.access_token:
             extra['HTTP_AUTHORIZATION'] = f'Bearer {self.access_token}'
 
@@ -66,27 +66,27 @@ class AuthenticationTest(JWTTestCase):
         self.user.save()
 
     def test_correct_login(self):
-        response = self.post(views.Login, '/user/login/', {'email': self.email, 'password': self.password})
+        response = self.post(views.Login, {'email': self.email, 'password': self.password})
         self.assertEquals(response.status_code, 200, msg=response.content)
 
     def test_incorrect_login(self):
-        response = self.post(views.Login, '/user/login/', {'email': self.email, 'password': 'wrong'})
+        response = self.post(views.Login, {'email': self.email, 'password': 'wrong'})
         self.assertEquals(response.status_code, 400, msg=response.content)
 
     def test_correct_JWT_refresh(self):
-        response = self.post(views.Login, '/user/login/', {'email': self.email, 'password': self.password})
+        response = self.post(views.Login, {'email': self.email, 'password': self.password})
         access_token = response.data['access']
         refresh_token = response.data['refresh']
 
-        response = self.post(TokenRefreshView, '/user/refresh/', {'refresh': refresh_token})
+        response = self.post(TokenRefreshView, {'refresh': refresh_token})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertNotEqual(response.data['access'], access_token)
 
     def test_incorrect_JWT_refresh(self):
-        response = self.post(views.Login, '/user/login/', {'email': self.email, 'password': self.password})
+        response = self.post(views.Login, {'email': self.email, 'password': self.password})
         refresh_token = response.data['refresh']
 
-        response = self.post(TokenRefreshView, '/user/refresh/', {'refresh': f'{refresh_token}a'})
+        response = self.post(TokenRefreshView, {'refresh': f'{refresh_token}a'})
         self.assertEquals(response.status_code, 401, msg=response.content)
 
 
@@ -107,17 +107,17 @@ class UserTest(JWTTestCase):
         # Should only be able to create a new user without logging in
         user = self.create_user()
 
-        response = self.get(views.UserView, '/user/', {'id': user.id})
+        response = self.get(views.UserView, {'id': user.id})
         self.assertEquals(response.status_code, 401, msg=response.content)
 
-        response = self.put(views.UserView, '/user/', {'id': user.id, 'email': user.email})
+        response = self.put(views.UserView, {'id': user.id, 'email': user.email})
         self.assertEquals(response.status_code, 401, msg=response.content)
 
-        response = self.delete(views.UserView, '/user/')
+        response = self.delete(views.UserView)
         self.assertEquals(response.status_code, 401, msg=response.content)
 
     def test_create_user(self):
-        response = self.post(views.UserView, '/user/', {'email': self.email, 'password': self.password})
+        response = self.post(views.UserView, {'email': self.email, 'password': self.password})
         self.assertEquals(response.status_code, 201, msg=response.content)
         self.assertEquals(response.data['email'], self.email, msg=response.content)
 
@@ -127,7 +127,8 @@ class UserTest(JWTTestCase):
 
         first_name = "Test"
         last_name = "Testing"
-        response = self.put(views.UserView, '/user/', {'email': user.email, 'first_name': first_name, 'last_name': last_name})
+        data = {'email': user.email, 'first_name': first_name, 'last_name': last_name}
+        response = self.put(views.UserView, data)
 
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data['email'], self.email, msg=response.content)
@@ -142,7 +143,7 @@ class UserTest(JWTTestCase):
         user = self.create_user()
         self.force_login(user)
 
-        response = self.get(views.UserView, '/user/', {'id': user.id})
+        response = self.get(views.UserView, {'id': user.id})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data['email'], self.email, msg=response.content)
 
@@ -150,7 +151,7 @@ class UserTest(JWTTestCase):
         user = self.create_user()
         self.force_login(user)
 
-        response = self.get(views.UserByEmailView, '/user/byEmail/', {'email': user.email})
+        response = self.get(views.UserByEmailView, {'email': user.email})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data['id'], user.id, msg=response.content)
 
@@ -158,7 +159,7 @@ class UserTest(JWTTestCase):
         user = self.create_user()
         self.force_login(user)
 
-        response = self.delete(views.UserView, '/user/')
+        response = self.delete(views.UserView)
         self.assertEquals(response.status_code, 204, msg=response.content)
         with self.assertRaises(User.DoesNotExist):
             User.objects.get(pk=user.pk)
