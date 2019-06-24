@@ -1,3 +1,8 @@
+![Build - CircleCI](https://img.shields.io/circleci/build/github/Kodeworks/liquidator-frontend/master.svg)
+![Deps](https://img.shields.io/david/kodeworks/liquidator-frontend.svg)
+![Closed issues](https://img.shields.io/github/issues-closed/kodeworks/liquidator-frontend.svg)
+![License](https://img.shields.io/github/license/kodeworks/liquidator-frontend.svg)
+
 [**Milestones**](https://github.com/Kodeworks/liquidator-frontend/milestones) and [**Project Board**](https://github.com/Kodeworks/liquidator-frontend/projects/2)
 
 [**Link to backend repo**](https://github.com/kodeworks/liquidator-backend)
