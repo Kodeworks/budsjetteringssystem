@@ -182,12 +182,28 @@ class UserView(UserMixin, RetrieveCreateUpdateDestroyView):
     permissions = {
         'POST': None,
     }
+    user = None
 
     def get_object(self):
         if self.request.method in ['DELETE', 'PUT']:
             return self.request.user
         else:
             return super().get_object()
+
+    def perform_create(self, serializer):
+        self.user = serializer.save()
+
+    def create(self, *args, **kwargs):
+        response = super().create(*args, **kwargs)
+        if self.user:
+            refresh = RefreshToken.for_user(self.user)
+            response.data = {
+                'user': response.data,
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            }
+
+        return response
 
 
 class UserByEmailView(UserMixin, RetrieveView):
