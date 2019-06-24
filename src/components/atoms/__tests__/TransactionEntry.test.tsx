@@ -20,7 +20,7 @@ const Wrapper: React.FC = props => {
 test('TransactionEntry', () => {
   const testId = 0;
   const testClassName = 'test';
-  const testName = 'Kodeworks ASMR Inc';
+  const testDescription = 'Kodeworks ASMR Inc';
   const testMoney = 50000;
   const testDate = '2019-08-22';
   const testCompanyId = 1;
@@ -32,7 +32,7 @@ test('TransactionEntry', () => {
       <TransactionEntry
         id={testId}
         className={testClassName}
-        name={testName}
+        description={testDescription}
         money={testMoney}
         date={testDate}
         companyId={testCompanyId}
@@ -41,20 +41,20 @@ test('TransactionEntry', () => {
       />
     </Wrapper>
   ));
-  const a = container.querySelector('a');
+  const div = container.querySelector('div');
   const header4 = container.querySelector('h4');
   const header6Array = container.querySelectorAll('h6');
   const paragraph = container.querySelector('p');
   const strong = container.querySelector('strong');
 
   /* Component should render with props given */
-  expect(a).not.toBe(null);
-  if (a) {
-    expect(a.className).toContain(testClassName);
+  expect(div).not.toBe(null);
+  if (div) {
+    expect(div.className).toContain(testClassName);
   }
   expect(header4).not.toBe(null);
   if (header4) {
-    expect(header4.textContent).toEqual(testName);
+    expect(header4.textContent).toEqual(testDescription);
   }
   expect(header6Array.length).toBe(2);
   expect(header6Array[0].textContent).toContain(testType);

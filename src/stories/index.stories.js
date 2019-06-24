@@ -132,7 +132,7 @@ storiesOf('Input/Checkbox', module)
 
 storiesOf('Filters', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
-  .add('With placeholder', () => <Filters />)
+  .add('With placeholder', () => <Filters setFilter={() => {}} />)
 
 storiesOf('Add new transaction', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
