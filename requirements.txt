@@ -3,3 +3,4 @@ psycopg2-binary
 djangorestframework
 djangorestframework_simplejwt
 flake8
+django-cors-headers
