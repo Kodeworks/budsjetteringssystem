@@ -30,7 +30,7 @@ const Filters: React.FC<IProps> = props => {
 
       if (txDate < fromDateDate || txDate > toDateDate) { return false; }
 
-      if (description && !((new RegExp(description, 'i')).test(t.name))) { return false; }
+      if (description && !((new RegExp(description, 'i')).test(t.description))) { return false; }
 
       return true;
     }));
