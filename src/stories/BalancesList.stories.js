@@ -20,7 +20,7 @@ addDecorator(storyFn => (
     {storyFn()}
   </Wrapper>
 ));
-*/const { store } = React.useContext(TransactionCtx);
+const { store } = React.useContext(TransactionCtx);
 
 const Wrapper = props => {
   const [store, dispatch] = React.useReducer(reducer, initialState);
@@ -37,11 +37,9 @@ const Wrapper = props => {
     </TransactionCtx.Provider>
   );
 }
-
+*/
 
 storiesOf('BalancesList', module)
   .add('BalancesTable', () => (
-    <Wrapper>
-      <BalancesTable />
-    </Wrapper>
+    <BalancesTable />
   ));

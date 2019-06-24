@@ -1,7 +1,9 @@
 import React from 'react';
-import styled, { StyledComponent } from 'styled-components';
+import styled from 'styled-components';
+
 import { ITransaction } from '../../declarations/transaction';
-import { TransactionCtx } from '../../contexts/transaction';
+
+import BalanceTableEntry from '../atoms/BalanceTableEntry';
 
 interface IPropsTable extends ITransaction {
   className?: string;
@@ -11,43 +13,6 @@ interface IPropsTable extends ITransaction {
 interface IPropsHeaders {
   className?: string;
 }
-
-interface IPropsTableEntry {
-  className?: string;
-  date: Date;
-  income?: number;
-  expense?: number;
-}
-
-const Content = styled.div`
-  display: grid;
-  grid-template-columns: 20% 20% 20% 20%;
-  width: calc(70% - 1em);
-  margin-top: 2em;
-  margin-left: 2em;
-`;
-
-const tableEntry: React.FC<IPropsTableEntry> = props => {
-  return (
-    <div className={props.className}>
-      <h6>{`${props.date.getDate()}.0${props.date.getMonth() + 1}`}</h6>
-      <h6>{props.income}</h6>
-      <h6>{`(${props.expense})`}</h6>
-      <h6>{props.expense}</h6>
-    </div>
-  );
-};
-
-const BalanceTableEntry = styled(tableEntry)`
-  display: grid;
-  grid-template-columns: 20% 20% 20% 20%;
-  width: calc(70% - 1em);
-  text-align: right;
-  h6 {
-    font-weight: 300;
-    font-size: 0.8em;
-  }
-`;
 
 const headers: React.FC<IPropsHeaders> = props => {
   return (
@@ -62,7 +27,7 @@ const headers: React.FC<IPropsHeaders> = props => {
 
 const BalancesTableHeaders = styled(headers)`
   display: grid;
-  grid-template-columns: 20% 20% 20% 20%;
+  grid-template-columns: 25% 25% 25% 25%;
   width: calc(70% - 1em);
   text-align: right;
   margin-top: 2em;
@@ -70,16 +35,21 @@ const BalancesTableHeaders = styled(headers)`
 `;
 
 const BalancesTable: React.FC<IPropsTable> = props => {
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
 
   return (
     <div className={props.className}>
       <BalancesTableHeaders />
-      <BalanceTableEntry date={new Date()} income={1000} expense={3000} />
+      <BalanceTableEntry data={{date: new Date(), income: 1000, expense: 3000, liquidity: 86700}} />
+      <BalanceTableEntry data={{date: tomorrow, expense: 1000, liquidity: 87700}} />
     </div>
   );
 };
 
 export default styled(BalancesTable)`
+  width: 70%;
   h4 {
     font-weight: 700;
   }
