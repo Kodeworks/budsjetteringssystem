@@ -42,9 +42,11 @@ INSTALLED_APPS = [
     'company',
     'custom_auth',
     'transaction',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -167,3 +169,10 @@ try:
     from .local_settings.py import *
 except ImportError:
     pass
+
+# CORS
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
