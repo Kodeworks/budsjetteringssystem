@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { createTransactionCtx, TransactionCtx } from '../contexts/transaction';
-import { ActionCreators, initialState, IState, reducer } from '../reducers/transactions';
+import { ActionCreators, initialState, reducer } from '../reducers/transactions';
 import { GlobalStyle } from '../styling/global';
 import { theme } from '../styling/theme';
 import { createDummyTransaction } from './transaction_creator';

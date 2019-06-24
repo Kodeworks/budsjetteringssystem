@@ -1,14 +1,9 @@
 import React from 'react';
 
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 
 import { Route } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
 import { theme } from './styling/theme';
-
-import { createTransactionCtx, TransactionCtx } from './contexts/transaction';
-import { createDummyTransaction } from './helpers/transaction_creator';
-import { ActionCreators, initialState, reducer } from './reducers/transactions';
 
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
@@ -16,7 +11,6 @@ import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
 import GlobalWrapper from './helpers/GlobalWrapper';
-import { GlobalStyle } from './styling/global';
 import { navbarWidth } from './styling/sizes';
 
 interface IProps {
