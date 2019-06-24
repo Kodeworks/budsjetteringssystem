@@ -1,24 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+import {IBalanceEntry} from '../../declarations/balanceEntries';
 
 interface IPropsTableEntry {
   className?: string;
-  data: {
-    date: Date;
-    income?: number;
-    expense?: number;
-    liquidity: number;
-  };
+  data: IBalanceEntry;
 }
 
 const tableEntry: React.FC<IPropsTableEntry> = props => {
 
   return (
     <div className={props.className}>
-      <h6>{`${props.data.date.getDate()}.0${props.data.date.getMonth() + 1}`}</h6>
-      <h6>{props.data.income}</h6>
-      <h6>{`(${props.data.expense})`}</h6>
-      <h6>{`${props.data.liquidity}`}</h6>
+      <h6>{props.data.date}</h6>
+      <h6>{`${props.data.income ? (props.data.income / 100).toFixed(2) : ''}`}</h6>
+      <h6>{`${props.data.expense ? `(${(props.data.expense / 100).toFixed()})` : ''}`}</h6>
+      <h6>{(props.data.liquidity / 100).toFixed(2)}</h6>
     </div>
   );
 };

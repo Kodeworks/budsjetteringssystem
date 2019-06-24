@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-
-import { ITransaction } from '../../declarations/transaction';
-
+import { IBalanceEntry } from '../../declarations/balanceEntries';
 import BalanceTableEntry from '../atoms/BalanceTableEntry';
 
-interface IPropsTable extends ITransaction {
+interface IPropsTable {
   className?: string;
-  tx: Array<ITransaction>;
+  entries: Array<IBalanceEntry>;
 }
 
 interface IPropsHeaders {
@@ -35,15 +33,15 @@ const BalancesTableHeaders = styled(headers)`
 `;
 
 const BalancesTable: React.FC<IPropsTable> = props => {
-  const today = new Date();
-  const tomorrow = new Date();
-  tomorrow.setDate(today.getDate() + 1);
+  /* Development data for entries */
+  const entry1 = {date: '24.06', income: 100000, expense: 300000, liquidity: 8670000};
+  const entry2 = {date: '25.06', income: 200050, liquidity: 8870000};
 
   return (
     <div className={props.className}>
       <BalancesTableHeaders />
-      <BalanceTableEntry data={{date: new Date(), income: 1000, expense: 3000, liquidity: 86700}} />
-      <BalanceTableEntry data={{date: tomorrow, expense: 1000, liquidity: 87700}} />
+      <BalanceTableEntry data={entry1} />
+      <BalanceTableEntry data={entry2} />
     </div>
   );
 };
