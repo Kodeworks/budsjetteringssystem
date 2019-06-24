@@ -19,7 +19,7 @@ interface ITransactionCalculatorProps {
 }
 
 const TransactionCalculator: React.FC<ITransactionCalculatorProps> = props => {
-  const { store, dispatch } = React.useContext(TransactionCtx);
+  const { store } = React.useContext(TransactionCtx);
 
   const findById = (e: number) => store.transactions.find(t => e === t.id)!;
 
