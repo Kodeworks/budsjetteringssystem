@@ -8,7 +8,9 @@ import { theme } from './styling/theme';
 
 import { AuthCtx } from './contexts/auth';
 import { createTransactionCtx, TransactionCtx } from './contexts/transaction';
+import { IAuth } from './declarations/auth';
 import { createDummyTransaction } from './helpers/transaction_creator';
+import { ILoginResponse } from './mitochondria/auth';
 import { ActionCreators, initialState, reducer } from './reducers/transactions';
 
 import Login from './components/organism/Login';
@@ -46,7 +48,7 @@ const Wrapper = styled.div`
 
 const App: React.FC<IProps> = ({ className }) => {
   const [store, dispatch] = React.useReducer(reducer, initialState);
-  const { access } = React.useContext(AuthCtx);
+  const [auth, setAuth] = React.useState<ILoginResponse>({ access: '', refresh: '' });
 
   /**
    * If we haven't initialized the context, we want to create it here.
@@ -61,7 +63,7 @@ const App: React.FC<IProps> = ({ className }) => {
 
   // Extracted the wrapping to make the business logic easier, and to avoid multiline jsx
   const Burrito: React.FC = stuffing => (
-    <AuthCtx.Provider value={{}}>
+    <AuthCtx.Provider value={auth}>
       <TransactionCtx.Provider value={{store, dispatch}}>
         <ThemeProvider theme={theme}>
           <Wrapper className={className}>
@@ -75,11 +77,17 @@ const App: React.FC<IProps> = ({ className }) => {
     </AuthCtx.Provider>
   );
 
-  if (!access) {
+  /**
+    * Wrap Login and Register to avoid lambdas in jsx. W(rap)Login/Register
+   */
+  const WLogin = (props: any) => <Login {...props} setAuth={setAuth} />;
+  const WRegister = (props: any) => <Register {...props} setAuth={setAuth} />;
+
+  if (!auth.access) {
     return (
       <Burrito>
-        <Route path="/" exact={true} component={Login} />
-        <Route path="/register" component={Register} />
+        <Route path="/" exact={true} component={WLogin} />
+        <Route path="/register" component={WRegister} />
       </Burrito>
     );
   }

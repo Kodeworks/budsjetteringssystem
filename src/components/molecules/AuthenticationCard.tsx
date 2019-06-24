@@ -10,10 +10,22 @@ export enum AuthType {
   Register = 'Sign up',
 }
 
+export interface IOnLogin {
+  email: string;
+  password: string;
+}
+
+export interface IOnRegister extends IOnLogin {
+  firstName: string;
+  lastName: string;
+}
+
 interface IAuthenticationCard {
   children?: never;
-  onSubmit: (email: string, password: string) => void;
+  onRegister?: (args: IOnRegister) => void;
+  onLogin?: (args: IOnLogin) => void;
   type: AuthType;
+  error?: string;
 }
 
 const AuthCardContainer = styled(CardContainer)`
@@ -42,20 +54,36 @@ const AuthCardContainer = styled(CardContainer)`
   }
 `;
 
-const AuthenticationCard: React.FC<IAuthenticationCard> = (props) => {
+const AuthenticationCard: React.FC<IAuthenticationCard> = props => {
   const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.onSubmit(email, password);
+    if (props.type === AuthType.Register) {
+      props.onRegister!({ email, password, firstName, lastName });
+    } else {
+      props.onLogin!({ email, password });
+    }
   };
+
+  const nameInputs = props.type === AuthType.Register ? (
+    <>
+      <Input placeholder="first name" id="firstName" type="text" value={firstName} setState={setFirstName} />
+      <Input placeholder="surname" id="lastName" type="text" value={lastName} setState={setLastName} />
+    </>
+  ) : null;
 
   return (
     <AuthCardContainer>
       <h1>{props.type}</h1>
 
+      {props.error && <p>{props.error}</p>}
+
       <form onSubmit={handleSubmit}>
+        {nameInputs}
         <Input placeholder="email" id="email" type="text" setState={setEmail} value={email} />
         <Input placeholder="password" id="password" type="password" setState={setPassword} value={password} />
         <OutlinedButton>{props.type}</OutlinedButton>

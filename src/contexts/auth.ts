@@ -1,8 +1,5 @@
 import React from 'react';
 
-export interface IAuth {
-  access?: string;
-  refresh?: string;
-}
+import { ILoginResponse } from '../mitochondria/auth';
 
-export let AuthCtx: React.Context<IAuth> = React.createContext({});
+export let AuthCtx = React.createContext<ILoginResponse>({ access: '', refresh: '' });
