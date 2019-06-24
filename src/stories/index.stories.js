@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import { createDummyTransaction } from '../helpers/transaction_creator';
 import RecurringTransactionOptions from '../components/atoms/RecurringTransactionOptions';
 import App from '../App';
@@ -9,6 +10,8 @@ import NavigationBrand from '../components/atoms/NavigationBrand';
 import NavigationPill from '../components/atoms/NavigationPill';
 import OutlinedButton from '../components/atoms/OutlinedButton';
 import TabMenu from '../components/molecules/TabMenu'
+import Login from '../components/organism/Login';
+import Register from '../components/organism/Register';
 import TextArea from '../components/atoms/TextArea';
 import CardContainer from '../components/atoms/CardContainer';
 import Toolbar from '../components/organism/Toolbar';
@@ -132,7 +135,7 @@ storiesOf('Input/Checkbox', module)
 
 storiesOf('Filters', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
-  .add('With placeholder', () => <Filters />)
+  .add('With placeholder', () => <Filters setFilter={action(`set filters`)} />)
 
 storiesOf('Add new transaction', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
@@ -145,3 +148,7 @@ storiesOf('Input/Textarea', module)
 storiesOf('Input/Select', module)
   .addDecorator(fn => <div style={{ margin: '2em', background: theme.backgroundColor }}>{fn()}</div>)
   .add('Default', () => <Select values={[{name: 'Otter', value: 'otter'}, {name: 'Cat', value: 'cat'}, {name: 'Beaver', value: 'beaver'}]}>Select your spirit animal</Select>);
+
+storiesOf('Auth', module)
+  .add('Login', () => <Login />)
+  .add('Register', () => <Register />);

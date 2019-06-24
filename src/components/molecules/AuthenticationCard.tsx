@@ -5,9 +5,15 @@ import CardContainer from '../atoms/CardContainer';
 import Input from '../atoms/Input';
 import OutlinedButton from '../atoms/OutlinedButton';
 
+export enum AuthType {
+  Login = 'Sign in',
+  Register = 'Sign up',
+}
+
 interface IAuthenticationCard {
   children?: never;
   onSubmit: (email: string, password: string) => void;
+  type: AuthType;
 }
 
 const AuthCardContainer = styled(CardContainer)`
@@ -47,15 +53,17 @@ const AuthenticationCard: React.FC<IAuthenticationCard> = (props) => {
 
   return (
     <AuthCardContainer>
-      <h1>Sign In</h1>
+      <h1>{props.type}</h1>
 
       <form onSubmit={handleSubmit}>
         <Input placeholder="email" id="email" type="text" setState={setEmail} value={email} />
         <Input placeholder="password" id="password" type="password" setState={setPassword} value={password} />
-        <OutlinedButton>Sign In</OutlinedButton>
-        <AccentedLink to="#">Forgot your password?</AccentedLink>
+        <OutlinedButton>{props.type}</OutlinedButton>
+        {props.type === AuthType.Login && <AccentedLink to="#">Forgot your password?</AccentedLink>}
       </form>
-      <AccentedLink to="/register">Don't have an account?</AccentedLink>
+      <AccentedLink to={props.type === AuthType.Login ? '/register' : '/'}>
+        {props.type === AuthType.Login ? 'Don\'t have an account?' : 'Already have an account?'}
+      </AccentedLink>
     </AuthCardContainer>
   );
 };

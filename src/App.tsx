@@ -13,6 +13,7 @@ import { ActionCreators, initialState, reducer } from './reducers/transactions';
 
 import Login from './components/organism/Login';
 import Navigation from './components/organism/Navigation';
+import Register from './components/organism/Register';
 import Transactions from './components/organism/Transactions';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
@@ -77,7 +78,8 @@ const App: React.FC<IProps> = ({ className }) => {
   if (!access) {
     return (
       <Burrito>
-        <Route path="/" component={Login} />
+        <Route path="/" exact={true} component={Login} />
+        <Route path="/register" component={Register} />
       </Burrito>
     );
   }
