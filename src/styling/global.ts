@@ -12,8 +12,9 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  body {
+  body, #root {
     background: ${theme.accent1};
+    min-height: 100vh;
   }
 
   /* Typography */

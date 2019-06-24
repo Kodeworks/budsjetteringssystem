@@ -104,7 +104,7 @@ storiesOf('Dashboard', module)
   .add('Transactions', () => <Transactions transactions={txEntries} />)
   .add('CardContainer', () => (
   <CardContainer>
-    <header>Card</header>
+    <h4>Card</h4>
     <p>Lorem ipsum dolor amet waistcoat VHS migas, you probably haven't heard of them gastropub hammock poke. Disrupt you probably haven't heard of them prism, truffaut brunch blue bottle heirloom. Pork belly bicycle rights viral cliche direct trade everyday carry. Try-hard thundercats affogato brunch hella messenger bag 3 wolf moon celiac ramps heirloom DIY palo santo. Church-key salvia pug 8-bit sustainable activated charcoal tattooed direct trade aesthetic narwhal asymmetrical retro food truck paleo keytar.</p>
     </CardContainer>))
 

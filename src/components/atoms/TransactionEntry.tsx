@@ -6,8 +6,6 @@ import { ActionCreators } from '../../reducers/transactions';
 
 import { ITransaction, TransactionType } from '../../declarations/transaction';
 
-import { sum } from '../../helpers/intermediary_calc';
-
 import { TransactionCtx } from '../../contexts/transaction';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`

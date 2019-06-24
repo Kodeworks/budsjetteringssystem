@@ -11,9 +11,4 @@ import AuthenticationCard from '../components/organism/AuthenticationCard';
 
 storiesOf('LoginPage/Organisms', module)
   .addParameters({ options: { theme: themes.dark } })
-  .add(
-    'AuthenticationCard',
-    () => (
-      <AuthenticationCard/>
-)
-  )
+  .add('AuthenticationCard', () => <AuthenticationCard/>);
