@@ -15,6 +15,7 @@ import Transactions from './components/organism/Transactions';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
+import GlobalWrapper from './helpers/GlobalWrapper';
 import { GlobalStyle } from './styling/global';
 import { navbarWidth } from './styling/sizes';
 
@@ -23,37 +24,16 @@ interface IProps {
 }
 
 const App: React.FC<IProps> = ({ className }) => {
-  const [store, dispatch] = React.useReducer(reducer, initialState);
-
-  /**
-   * If we haven't initialized the context, we want to create it here.
-   */
-  if (!TransactionCtx) {
-    createTransactionCtx(store, dispatch);
-
-    for (let i = 0; i < 100; i++) {
-      dispatch(ActionCreators.addTransaction(createDummyTransaction()));
-    }
-  }
-
   return (
-    <TransactionCtx.Provider value={{store, dispatch}}>
-      <ThemeProvider theme={theme}>
-        <div className={className}>
-          <BrowserRouter>
-            <ThemeProvider theme={theme}>
-              <Navigation />
-            </ThemeProvider>
-            <Page>
-              <Route path="/" exact={true} component={Homepage} />
-              <Route path="/faq" component={FAQ} />
-              <Route path="/transactions" component={Transactions} />
-            </Page>
-          </BrowserRouter>
-          <GlobalStyle />
-        </div>
-      </ThemeProvider >
-    </TransactionCtx.Provider>
+    <GlobalWrapper className={className}>
+      <Navigation />
+      <Page>
+        <Route path="/" exact={true} component={Homepage} />
+        <Route path="/faq" component={FAQ} />
+        <Route path="/transactions" component={Transactions} />
+      </Page>
+
+    </GlobalWrapper>
   );
 };
 
@@ -74,5 +54,5 @@ export default styled(App)`
   }
 
   /* Colors */
-  background-color: ${props => props.theme.palette.background.main};
+  background-color: ${theme.palette.background.default};
 `;
