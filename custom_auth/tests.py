@@ -127,11 +127,14 @@ class UserViewTestCase(JWTTestCase):
 
     def test_update_user(self):
         user = self.create_user()
+        user2 = self.create_user('user2@test.com', 'pass2')
         self.force_login(user)
 
         first_name = "Test"
         last_name = "Testing"
-        data = {'email': user.email, 'first_name': first_name, 'last_name': last_name}
+        data = {'id': user2.id, 'email': user.email, 'first_name': first_name, 'last_name': last_name}
+
+        # Delete deletes the current user, so the id parameter should be ignored
         response = self.put(views.UserView, data)
 
         self.assertEquals(response.status_code, 200, msg=response.content)
@@ -142,6 +145,10 @@ class UserViewTestCase(JWTTestCase):
         user = User.objects.get(pk=user.pk)
         self.assertEquals(user.first_name, first_name, msg=response.content)
         self.assertEquals(user.last_name, last_name, msg=response.content)
+
+        user2 = User.objects.get(pk=user2.pk)
+        self.assertNotEquals(user2.first_name, first_name, msg=response.content)
+        self.assertNotEquals(user2.last_name, last_name, msg=response.content)
 
     def test_get_user(self):
         user = self.create_user()
@@ -161,10 +168,13 @@ class UserViewTestCase(JWTTestCase):
 
     def test_delete_user(self):
         user = self.create_user()
+        user2 = self.create_user('user2@test.com', 'pass2')
         self.force_login(user)
 
-        response = self.delete(views.UserView)
+        # Delete deletes the current user, so the id parameter should be ignored
+        response = self.delete(views.UserView, data={'id': user2.id})
         self.assertEquals(response.status_code, 204, msg=response.content)
+        self.assertTrue(User.objects.filter(pk=user2.pk).exists())
         with self.assertRaises(User.DoesNotExist):
             User.objects.get(pk=user.pk)
 

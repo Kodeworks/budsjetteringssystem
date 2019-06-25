@@ -185,6 +185,7 @@ class UserView(UserMixin, RetrieveCreateUpdateDestroyView):
     user = None
 
     def get_object(self):
+        # A user can only update or delete itself
         if self.request.method in ['DELETE', 'PUT']:
             return self.request.user
         else:
