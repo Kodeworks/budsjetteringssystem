@@ -1,23 +1,20 @@
 import React from 'react';
 
-import { login } from '../../mitochondria/auth';
-import { IAuth } from './../../declarations/auth';
 import AuthenticationCard, { AuthType, IOnLogin } from './../molecules/AuthenticationCard';
 
-interface ILoginProps {
-  setAuth: React.Dispatch<React.SetStateAction<IAuth>>;
-}
+import { Perform } from './../../reducers/auth';
 
-const Login: React.FC<ILoginProps> = props => {
+import { AuthCtx } from './../../contexts/auth';
+
+const Login: React.FC = props => {
   const [error, setError] = React.useState('');
+  const { dispatch } = React.useContext(AuthCtx);
 
-  // This is mostly the same code as in register, but I haven't DRY-ed it up yet.
-  const handleSubmit = async ({ email, password }: IOnLogin) => {
+  const handleSubmit = ({ email, password }: IOnLogin) => {
     try {
-      const resp = await login(email, password);
-      props.setAuth(resp);
+      Perform.doLogin(email, password, dispatch);
     } catch (e) {
-      setError(e.detail);
+      setError(e);
     }
   };
 

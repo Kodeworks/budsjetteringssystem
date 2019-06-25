@@ -1,17 +1,28 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { createTransactionCtx, TransactionCtx } from '../contexts/transaction';
+
 import { ActionCreators, initialState, reducer } from '../reducers/transactions';
-import { GlobalStyle } from '../styling/global';
-import { theme } from '../styling/theme';
 import { AuthCtx } from './../contexts/auth';
-import {  ILoginResponse } from './../mitochondria/auth';
+
+import { BrowserRouter } from 'react-router-dom';
+
+import { GlobalStyle } from './../styling/global';
+
+import { IAuthContext } from './../contexts/auth';
+
+import { ThemeProvider } from 'styled-components';
+
+import { createTransactionCtx, TransactionCtx } from './../contexts/transaction';
+import { theme } from './../styling/theme';
 import { createDummyTransaction } from './transaction_creator';
 
 interface IWrapperProps {
   className?: string;
-  auth?: ILoginResponse;
+
+  /**
+   * This is OPTIONAL as tests often don't need access to authentication related stuff, but we're
+   * using this globally.
+   */
+  auth?: IAuthContext;
 }
 
 /**
@@ -31,8 +42,12 @@ const GlobalWrapper: React.FC<IWrapperProps> = props => {
     }
   }
 
+  const WrapWithAuth: React.FC = ({ children }) => {
+    return props.auth ? (<AuthCtx.Provider value={props.auth}>{children}</AuthCtx.Provider>) : <>{children}</>;
+  };
+
   return (
-    <AuthCtx.Provider value={props.auth || { access: '', refresh: '' }}>
+    <WrapWithAuth>
       <TransactionCtx.Provider value={{store, dispatch}}>
         <GlobalStyle />
         <BrowserRouter>
@@ -43,7 +58,7 @@ const GlobalWrapper: React.FC<IWrapperProps> = props => {
           </ThemeProvider>
         </BrowserRouter>
       </TransactionCtx.Provider>
-    </AuthCtx.Provider>
+    </WrapWithAuth>
   );
 };
 

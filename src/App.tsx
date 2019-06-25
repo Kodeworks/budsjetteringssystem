@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Redirect, Route } from 'react-router';
 
-import { fetchUserById, ILoginResponse, logout } from './mitochondria/auth';
+import { initialState, Perform, reducer } from './reducers/auth';
 
 import Login from './components/organism/Login';
 import Navigation from './components/organism/Navigation';
@@ -13,6 +13,7 @@ import Transactions from './components/organism/Transactions';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
+import { AuthCtx, createAuthCtx } from './contexts/auth';
 import Wrap from './helpers/GlobalWrapper';
 import { navbarWidth } from './styling/sizes';
 
@@ -21,7 +22,7 @@ interface IAppProps {
 }
 
 const App: React.FC<IAppProps> = props => {
-  const [auth, setAuth] = React.useState<ILoginResponse>({ access: '', refresh: '' });
+  const [auth, dispatch] = React.useReducer(reducer, initialState);
 
   React.useEffect(() => {
     (async () => {
@@ -31,14 +32,15 @@ const App: React.FC<IAppProps> = props => {
 
       if (LSAccess && LSRefresh && LSId) {
         try {
-          const user = await fetchUserById(LSId, LSAccess);
-          setAuth({ access: LSAccess, refresh: LSRefresh, user });
+          Perform.doSetAccessToken(LSAccess, dispatch);
+          Perform.doSetRefreshToken(LSRefresh, dispatch);
+          Perform.doSetUser(LSAccess, LSId, dispatch);
         } catch (e) {
-          logout();
+          Perform.doLogout(dispatch);
         }
       }
-    })();
-  }, []);
+    })(); // IIEF
+  }, []); // Only run on component mount
 
   if (auth.user === undefined && (auth.access && auth.refresh)) {
     return (
@@ -46,11 +48,9 @@ const App: React.FC<IAppProps> = props => {
     );
   }
 
-  /**
-   * Wrap Login and Register to avoid lambdas in jsx. W(rap)Login/Register
-   */
-  const WLogin = (p: any) => <Login {...p} setAuth={setAuth} />;
-  const WRegister = (p: any) => <Register {...p} setAuth={setAuth} />;
+  if (!AuthCtx) {
+    createAuthCtx(auth, dispatch);
+  }
 
   /**
    * We're using this to handle redirects to the login page when logging out or going to a wrong page
@@ -62,16 +62,16 @@ const App: React.FC<IAppProps> = props => {
 
   if (!auth.access) {
     return (
-      <Wrap className={props.className}>
-        <Route path="/" exact={true} component={WLogin} />
-        <Route path="/register" component={WRegister} />
+      <Wrap className={props.className} auth={{store: auth, dispatch}}>
+        <Route path="/" exact={true} component={Login} />
+        <Route path="/register" component={Register} />
         {pageRoutes.map(e => <Route key={e} to={e}><Redirect to="/" /></Route> )}
       </Wrap>
     );
   }
 
   return (
-    <Wrap className={props.className} auth={auth}>
+    <Wrap className={props.className} auth={{store: auth, dispatch}}>
       <Navigation />
       <Page>
         <Route path="/" exact={true} component={Homepage} />

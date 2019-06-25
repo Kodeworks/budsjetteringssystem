@@ -38,11 +38,11 @@ const LogoutButton = styled.button`
 `;
 
 const Toolbar: React.FC = () => {
-  const { user } = React.useContext(AuthCtx);
+  const { store } = React.useContext(AuthCtx);
 
   return (
     <ToolbarContainer>
-      <p>Welcome, {`${user!.first_name} ${user!.last_name}`}</p>
+      <p>Welcome, {`${store.user!.first_name} ${store.user!.last_name}`}</p>
       <LogoutButton onClick={logout}>Sign out</LogoutButton>
     </ToolbarContainer>
   );

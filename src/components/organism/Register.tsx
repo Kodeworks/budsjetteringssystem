@@ -1,22 +1,20 @@
 import React from 'react';
 
-import { register } from '../../mitochondria/auth';
-import { IAuth } from './../../declarations/auth';
 import AuthenticationCard, { AuthType, IOnRegister } from './../molecules/AuthenticationCard';
 
-interface IRegisterProps {
-  setAuth: React.Dispatch<React.SetStateAction<IAuth>>;
-}
+import { Perform } from './../../reducers/auth';
 
-const Register: React.FC<IRegisterProps> = props => {
+import { AuthCtx } from './../../contexts/auth';
+
+const Register: React.FC = props => {
+  const { dispatch } = React.useContext(AuthCtx);
   const [error, setError] = React.useState('');
 
-  const handleSubmit = async ({ email, password, firstName, lastName }: IOnRegister) => {
+  const handleSubmit = ({ email, password, firstName, lastName }: IOnRegister) => {
     try {
-      const resp = await register(email, password, firstName, lastName);
-      props.setAuth(resp);
+      Perform.doRegister(firstName, lastName, email, password, dispatch);
     } catch (e) {
-      setError(e.detail);
+      setError(e);
     }
   };
 

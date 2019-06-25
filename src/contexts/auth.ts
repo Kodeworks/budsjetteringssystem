@@ -1,5 +1,14 @@
 import React from 'react';
 
-import { ILoginResponse } from '../mitochondria/auth';
+import { IAuthState, ICreatedAction } from '../reducers/auth';
 
-export let AuthCtx = React.createContext<ILoginResponse>({ access: '', refresh: '' });
+export interface IAuthContext {
+  store: IAuthState;
+  dispatch: React.Dispatch<ICreatedAction>;
+}
+
+export let AuthCtx: React.Context<IAuthContext>;
+
+export const createAuthCtx = (store: IAuthState, dispatch: React.Dispatch<ICreatedAction>) => {
+  AuthCtx = React.createContext<IAuthContext>({ store, dispatch });
+};

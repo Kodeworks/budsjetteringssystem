@@ -3,7 +3,7 @@ import { IUser } from '../declarations/user';
 
 export interface IError { detail: string; }
 export interface ILoginResponse extends IAuth {
-  user?: IUser;
+  user: IUser;
 }
 export interface ITokenResponse { access: string; }
 
