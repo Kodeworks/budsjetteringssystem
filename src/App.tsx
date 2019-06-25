@@ -48,7 +48,7 @@ const Wrapper = styled.div`
 const App: React.FC<IProps> = ({ className }) => {
   const [store, dispatch] = React.useReducer(reducer, initialState);
   const [auth, setAuth] = React.useState<ILoginResponse>({ access: '', refresh: '' });
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     (async () => {
@@ -57,7 +57,6 @@ const App: React.FC<IProps> = ({ className }) => {
       const LSId = Number(localStorage.getItem('user_id'));
 
       if (LSAccess && LSRefresh && LSId) {
-        setLoading(true);
         try {
           const user = await fetchUserById(LSId, LSAccess);
           setAuth({ access: LSAccess, refresh: LSRefresh, user });
