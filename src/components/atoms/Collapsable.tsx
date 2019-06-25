@@ -18,7 +18,7 @@ const Arrow = styled.span`
 const CollapsableHeading = styled.button`
   -webkit-appearance: none;
   display: inline-block;
-  background: ${props => props.theme.main};
+  background: ${props => props.theme.palette.background.default};
   text-align: left;
   border: 0;
   cursor: pointer;

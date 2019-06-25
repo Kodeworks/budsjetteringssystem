@@ -14,8 +14,7 @@ const ToolbarContainer = styled.div`
   top: 0;
 
   /* Coloring */
-  background: ${props => props.theme.main};
-
+  background: ${props => props.theme.palette.background.default};
   box-shadow: 0px 3px 4px 0 #ccc;
 
   * {

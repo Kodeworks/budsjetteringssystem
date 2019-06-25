@@ -24,7 +24,7 @@ export default styled(NavigationPill)`
   text-decoration: none;
 
   /* Border */
-  border-left: ${props => props.active ? `2px solid ${props.theme.main}` : 'none'};
+  border-left: ${props => props.active ? `2px solid ${props.theme.palette.secondary.contrast}` : 'none'};
 
   /* Colors */
   color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.9)'};

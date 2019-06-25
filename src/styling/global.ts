@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+
 import { theme } from './theme';
 
 export const GlobalStyle = createGlobalStyle`
@@ -13,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body, #root {
-    background: ${theme.accent1};
+    background: ${theme.palette.background.default};
     min-height: 100vh;
   }
 

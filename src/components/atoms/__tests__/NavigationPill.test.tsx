@@ -1,6 +1,7 @@
 import { getByText, render } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import GlobalWrapper from '../../../helpers/GlobalWrapper';
 import NavigationPill from '../NavigationPill';
 
 test('loads with children and href', () => {
@@ -8,9 +9,9 @@ test('loads with children and href', () => {
   const testHref = '/tests';
 
   const { container } = render((
-    <BrowserRouter>
+    <GlobalWrapper>
       <NavigationPill children={testChild} active={true} to={testHref} />
-    </BrowserRouter>
+    </GlobalWrapper>
   ));
 
   const paragraph = container.querySelector('p');

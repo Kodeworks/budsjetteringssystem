@@ -1,16 +1,10 @@
 import React from 'react';
 
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 
 import { Redirect, Route } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
-import { theme } from './styling/theme';
 
-import { AuthCtx } from './contexts/auth';
-import { createTransactionCtx, TransactionCtx } from './contexts/transaction';
-import { createDummyTransaction } from './helpers/transaction_creator';
 import { fetchUserById, ILoginResponse, logout } from './mitochondria/auth';
-import { ActionCreators, initialState, reducer } from './reducers/transactions';
 
 import Login from './components/organism/Login';
 import Navigation from './components/organism/Navigation';
@@ -19,14 +13,76 @@ import Transactions from './components/organism/Transactions';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
-import { GlobalStyle } from './styling/global';
+import Wrap from './helpers/GlobalWrapper';
 import { navbarWidth } from './styling/sizes';
 
-interface IProps {
+interface IAppProps {
   className?: string;
 }
 
-const Wrapper = styled.div`
+const App: React.FC<IAppProps> = props => {
+  const [auth, setAuth] = React.useState<ILoginResponse>({ access: '', refresh: '' });
+
+  React.useEffect(() => {
+    (async () => {
+      const LSAccess = localStorage.getItem('access');
+      const LSRefresh = localStorage.getItem('refresh');
+      const LSId = Number(localStorage.getItem('user_id'));
+
+      if (LSAccess && LSRefresh && LSId) {
+        try {
+          const user = await fetchUserById(LSId, LSAccess);
+          setAuth({ access: LSAccess, refresh: LSRefresh, user });
+        } catch (e) {
+          logout();
+        }
+      }
+    })();
+  }, []);
+
+  if (auth.user === undefined && (auth.access && auth.refresh)) {
+    return (
+      <p>Loading...</p>
+    );
+  }
+
+  /**
+   * Wrap Login and Register to avoid lambdas in jsx. W(rap)Login/Register
+   */
+  const WLogin = (p: any) => <Login {...p} setAuth={setAuth} />;
+  const WRegister = (p: any) => <Register {...p} setAuth={setAuth} />;
+
+  /**
+   * We're using this to handle redirects to the login page when logging out or going to a wrong page
+   */
+  const pageRoutes: Array<string> = [
+    '/faq',
+    '/transactions',
+  ];
+
+  if (!auth.access) {
+    return (
+      <Wrap className={props.className}>
+        <Route path="/" exact={true} component={WLogin} />
+        <Route path="/register" component={WRegister} />
+        {pageRoutes.map(e => <Route key={e} to={e}><Redirect to="/" /></Route> )}
+      </Wrap>
+    );
+  }
+
+  return (
+    <Wrap className={props.className} auth={auth}>
+      <Navigation />
+      <Page>
+        <Route path="/" exact={true} component={Homepage} />
+        <Route path="/faq" component={FAQ} />
+        <Route path="/transactions" component={Transactions} />
+      </Page>
+    </Wrap>
+  );
+};
+
+export default styled(App)`
   /* Grid */
   display: grid;
   grid-template-rows: 100%;
@@ -44,97 +100,3 @@ const Wrapper = styled.div`
     overflow-y: auto;
   }
 `;
-
-const App: React.FC<IProps> = ({ className }) => {
-  const [store, dispatch] = React.useReducer(reducer, initialState);
-  const [auth, setAuth] = React.useState<ILoginResponse>({ access: '', refresh: '' });
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    (async () => {
-      const LSAccess = localStorage.getItem('access');
-      const LSRefresh = localStorage.getItem('refresh');
-      const LSId = Number(localStorage.getItem('user_id'));
-
-      if (LSAccess && LSRefresh && LSId) {
-        try {
-          const user = await fetchUserById(LSId, LSAccess);
-          setAuth({ access: LSAccess, refresh: LSRefresh, user });
-          setLoading(false);
-        } catch (e) {
-          logout();
-        }
-      }
-    })();
-  }, []);
-
-  if (loading) {
-    return (
-      <p>Loading...</p>
-    );
-  }
-
-  /**
-   * If we haven't initialized the context, we want to create it here.
-   */
-  if (!TransactionCtx) {
-    createTransactionCtx(store, dispatch);
-
-    for (let i = 0; i < 100; i++) {
-      dispatch(ActionCreators.addTransaction(createDummyTransaction()));
-    }
-  }
-
-  // Extracted the wrapping to make the business logic easier, and to avoid multiline jsx
-  const Wrap: React.FC = props => (
-    <AuthCtx.Provider value={auth}>
-      <TransactionCtx.Provider value={{store, dispatch}}>
-        <ThemeProvider theme={theme}>
-          <Wrapper className={className}>
-            <BrowserRouter>
-              {props.children}
-            </BrowserRouter>
-            <GlobalStyle />
-          </Wrapper>
-        </ThemeProvider >
-      </TransactionCtx.Provider>
-    </AuthCtx.Provider>
-  );
-
-  /**
-   * Wrap Login and Register to avoid lambdas in jsx. W(rap)Login/Register
-   */
-  const WLogin = (props: any) => <Login {...props} setAuth={setAuth} />;
-  const WRegister = (props: any) => <Register {...props} setAuth={setAuth} />;
-
-  /**
-   * We're using this to handle redirects to the login page when logging out or going to a wrong page
-   */
-  const pageRoutes: Array<string> = [
-    '/faq',
-    '/transactions',
-  ];
-
-  if (!auth.access) {
-    return (
-      <Wrap>
-        <Route path="/" exact={true} component={WLogin} />
-        <Route path="/register" component={WRegister} />
-        {pageRoutes.map(e => <Route key={e} to={e}><Redirect to="/" /></Route> )}
-      </Wrap>
-    );
-  }
-
-  return (
-    <Wrap>
-      <Navigation />
-      <Page>
-        <Route path="/" exact={true} component={Homepage} />
-        <Route path="/faq" component={FAQ} />
-        <Route path="/transactions" component={Transactions} />
-      </Page>
-    </Wrap>
-  );
-};
-
-export default App;

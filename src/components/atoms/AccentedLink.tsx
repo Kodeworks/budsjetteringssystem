@@ -15,7 +15,7 @@ const AccentedLink: React.FC<IProps> = props => (
 );
 
 export default styled(AccentedLink)`
-  color: ${props => props.theme.contrast};
+  color: ${props => props.theme.palette.primary.contrast};
   font-family: "Open Sans", sans-serif;
   vertical-align: middle;
   margin-left: .7em;
