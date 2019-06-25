@@ -1,18 +1,37 @@
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory
+from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from company.models import Company
+
 from . import views, roles
-from .models import User
+from .models import User, UserCompanyThrough
 
 
 class JWTTestCase(TestCase):
-    access_token = None
-    refresh_token = None
-
     def setUp(self):
         self.factory = APIRequestFactory()
+        self.email = 'test@test.com'
+        self.password = 'password'
+        self.access_token = None
+        self.refresh_token = None
+
+    def tearDown(self):
+        self.factory = None
+        self.email = None
+        self.password = None
+        self.access_token = None
+        self.refresh_token = None
+
+    def create_user(self, email=None, password=None, save=True):
+        """Helper method"""
+        user = User(email=(email or self.email))
+        user.set_password(password or self.password)
+        if save:
+            user.save()
+        return user
 
     def login(self, email, password):
         response = self.post(views.Login, {'email': email, 'password': password})
@@ -32,7 +51,7 @@ class JWTTestCase(TestCase):
         response = self.post(TokenRefreshView, {'refresh': self.refresh_token})
         self.access_token = response.data['access']
 
-    def perform_request(self, method, view, data={}, url='', extra={}, factory=None):
+    def perform_request(self, method, view, data={}, url='', factory=None, **extra):
         if self.access_token:
             extra['HTTP_AUTHORIZATION'] = f'Bearer {self.access_token}'
 
@@ -58,12 +77,7 @@ class JWTTestCase(TestCase):
 class AuthenticationTest(JWTTestCase):
     def setUp(self):
         super().setUp()
-        self.email = 'test@test.com'
-        self.password = 'password'
-
-        self.user = User(email=self.email)
-        self.user.set_password(self.password)
-        self.user.save()
+        self.user = self.create_user()
 
     def test_correct_login(self):
         response = self.post(views.Login, {'email': self.email, 'password': self.password})
@@ -91,18 +105,6 @@ class AuthenticationTest(JWTTestCase):
 
 
 class UserTest(JWTTestCase):
-    def setUp(self):
-        self.factory = APIRequestFactory()
-        self.email = 'test@test.com'
-        self.password = 'password'
-
-    def create_user(self, email=None, password=None):
-        """Helper method"""
-        user = User(email=(email or self.email))
-        user.set_password(password or self.password)
-        user.save()
-        return user
-
     def test_not_authenticated(self):
         # Should only be able to create a new user without logging in
         user = self.create_user()
@@ -165,6 +167,30 @@ class UserTest(JWTTestCase):
             User.objects.get(pk=user.pk)
 
 
+class UserTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(email='test@test.com', password='password',
+                                             first_name='Test', last_name='Testing')
+        self.company = Company.objects.create(name='Test inc', orgNr='13239193129')
+
+    def test_get_role(self):
+        UserCompanyThrough.objects.create(user=self.user, company=self.company, role=roles.REPORTER)
+        self.assertEqual(self.user.get_role(self.company.pk), roles.REPORTER)
+
+        UserCompanyThrough.objects.update(user=self.user, company=self.company, role=roles.OWNER)
+        self.assertEqual(self.user.get_role(self.company.pk), roles.OWNER)
+
+    def test_has_role(self):
+        UserCompanyThrough.objects.create(user=self.user, company=self.company, role=roles.USER)
+
+        self.assertTrue(self.user.has_role(self.company.pk, roles.REPORTER))
+        self.assertTrue(self.user.has_role(self.company.pk, roles.USER))
+        self.assertFalse(self.user.has_role(self.company.pk, roles.OWNER))
+
+        UserCompanyThrough.objects.update(user=self.user, company=self.company, role=roles.OWNER)
+        self.assertTrue(self.user.has_role(self.company.pk, roles.OWNER))
+
+
 class RoleTestCase(TestCase):
     def test_is_equivalent(self):
         self.assertTrue(roles.is_equivalent(roles.REPORTER, roles.REPORTER))
@@ -187,3 +213,102 @@ class RoleTestCase(TestCase):
         self.assertEqual(roles.get_role('Owner'), roles.OWNER)
         self.assertEqual(roles.get_role('OW'), roles.OWNER)
         self.assertIsNone(roles.get_role('Dummy'))
+
+
+class CompanyAccessViewTest(JWTTestCase):
+    class TestView(views.CompanyAccessView):
+        company_access = {
+            'GET': None,
+            'POST': roles.REPORTER,
+            'PUT': roles.USER,
+            'DELETE': roles.OWNER,
+        }
+        permissions = {
+            'GET': None,
+        }
+
+        def get(self, *args, **kwargs):
+            return Response(status='200')
+
+        def post(self, *args, **kwargs):
+            return Response(status='200')
+
+        def put(self, *args, **kwargs):
+            return Response(status='200')
+
+        def delete(self, *args, **kwargs):
+            return Response(status='200')
+
+    def setUp(self):
+        super().setUp()
+        self.company = Company.objects.create(name='Test inc.', orgNr='47484929')
+
+        self.reporter = self.create_user('Reporter', 'reporter@test.com')
+        UserCompanyThrough.objects.create(company=self.company, user=self.reporter, role=roles.REPORTER)
+
+        self.user = self.create_user('User', 'user@test.com')
+        UserCompanyThrough.objects.create(company=self.company, user=self.user, role=roles.USER)
+
+        self.owner = self.create_user('Owner', 'owner@test.com')
+        UserCompanyThrough.objects.create(company=self.company, user=self.owner, role=roles.OWNER)
+
+    def test_not_authenticated(self):
+        response = self.get(self.TestView)
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.post(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 401, msg=response.content)
+
+        response = self.put(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 401, msg=response.content)
+
+        response = self.delete(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 401, msg=response.content)
+
+    def test_reporter(self):
+        self.force_login(self.reporter)
+
+        response = self.get(self.TestView)
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.post(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.put(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 403, msg=response.content)
+
+        response = self.delete(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 403, msg=response.content)
+
+    def test_user(self):
+        self.force_login(self.user)
+
+        response = self.get(self.TestView)
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.post(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.put(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.delete(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 403, msg=response.content)
+
+    def test_owner(self):
+        self.force_login(self.owner)
+
+        response = self.get(self.TestView)
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.post(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.put(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.delete(self.TestView, {'company_id': self.company.id})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+
+        response = self.delete(self.TestView, url=f'?company_id={self.company.id}')
+        self.assertEquals(response.status_code, 200, msg=response.content)
