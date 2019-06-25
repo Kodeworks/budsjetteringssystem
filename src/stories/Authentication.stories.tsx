@@ -1,6 +1,6 @@
-import React from 'react';
-import {storiesOf} from '@storybook/react'
+import {storiesOf} from '@storybook/react';
 import {themes} from '@storybook/theming';
+import React from 'react';
 
 import AuthenticationCard from '../components/organism/AuthenticationCard';
 
@@ -15,5 +15,5 @@ storiesOf('LoginPage/Organisms', module)
     'AuthenticationCard',
     () => (
       <AuthenticationCard/>
-)
-  )
+),
+  );

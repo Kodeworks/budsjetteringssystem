@@ -4,7 +4,9 @@ import { createTransactionCtx, TransactionCtx } from '../../../contexts/transact
 import { ITransaction, TransactionType } from '../../../declarations/transaction';
 import { createDummyTransaction } from '../../../helpers/transaction_creator';
 import { ActionCreators, initialState, reducer } from '../../../reducers/transactions';
+import {theme} from '../../../styling/theme';
 
+import { ThemeProvider } from 'styled-components';
 import Transactions from '../../organism/Transactions';
 
 const dummyTxs = (new Array(50)).fill(0).map(createDummyTransaction);
@@ -22,7 +24,11 @@ const Wrapper: React.FC = props => {
 
   return (
     <TransactionCtx.Provider value={{store, dispatch}}>
-      {props.children}
+      <ThemeProvider theme={theme}>
+        <>
+          {props.children}
+        </>
+      </ThemeProvider>
     </TransactionCtx.Provider>
   );
 };

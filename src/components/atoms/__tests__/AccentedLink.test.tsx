@@ -1,19 +1,19 @@
 import React from 'react';
 
 import { getByText, render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import GlobalWrapper from '../../../helpers/GlobalWrapper';
 import AccentedLink from '../AccentedLink';
 
 test('AccentedLink loads with \'to\', \'className\', and children', () => {
   const testTo = '/tests';
   const testText = 'Test';
   const testClassName = 'testClass';
-  const { container, getByTestId } = render((
-    <BrowserRouter>
+  const { container } = render((
+    <GlobalWrapper>
       <AccentedLink to="/tests" className={'testClass'}>
         Test
       </AccentedLink>
-    </BrowserRouter>
+    </GlobalWrapper>
   ));
   const anchorElement = container.querySelector('a');
 

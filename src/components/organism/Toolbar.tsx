@@ -10,7 +10,7 @@ const ToolbarContainer = styled.div`
   top: 0;
 
   /* Coloring */
-  background: ${props => props.theme.accent1};
+  background: ${props => props.theme.palette.primary.main};
 
   box-shadow: 0px 3px 4px 0 #ccc;
 `;
