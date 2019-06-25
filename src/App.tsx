@@ -2,15 +2,14 @@ import React from 'react';
 
 import styled, { ThemeProvider } from 'styled-components';
 
-import { Route } from 'react-router';
+import { Redirect, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { theme } from './styling/theme';
 
 import { AuthCtx } from './contexts/auth';
 import { createTransactionCtx, TransactionCtx } from './contexts/transaction';
-import { IAuth } from './declarations/auth';
 import { createDummyTransaction } from './helpers/transaction_creator';
-import { ILoginResponse } from './mitochondria/auth';
+import { fetchUserById, ILoginResponse } from './mitochondria/auth';
 import { ActionCreators, initialState, reducer } from './reducers/transactions';
 
 import Login from './components/organism/Login';
@@ -49,6 +48,27 @@ const Wrapper = styled.div`
 const App: React.FC<IProps> = ({ className }) => {
   const [store, dispatch] = React.useReducer(reducer, initialState);
   const [auth, setAuth] = React.useState<ILoginResponse>({ access: '', refresh: '' });
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const LSAccess = localStorage.getItem('access');
+    const LSRefresh = localStorage.getItem('refresh');
+    const LSId = Number(localStorage.getItem('user_id'));
+
+    if (LSAccess && LSRefresh && LSId) {
+      setLoading(true);
+      fetchUserById(LSId, LSAccess).then(user => {
+        setAuth({ access: LSAccess, refresh: LSRefresh, user });
+        setLoading(false);
+      });
+    }
+  }, []);
+
+  if (loading) {
+    return (
+      <p>Loading...</p>
+    );
+  }
 
   /**
    * If we haven't initialized the context, we want to create it here.
@@ -78,16 +98,25 @@ const App: React.FC<IProps> = ({ className }) => {
   );
 
   /**
-    * Wrap Login and Register to avoid lambdas in jsx. W(rap)Login/Register
+   * Wrap Login and Register to avoid lambdas in jsx. W(rap)Login/Register
    */
   const WLogin = (props: any) => <Login {...props} setAuth={setAuth} />;
   const WRegister = (props: any) => <Register {...props} setAuth={setAuth} />;
 
+  /**
+   * We're using this to handle redirects to the login page when logging out or going to a wrong page
+   */
+  const pageRoutes: Array<string> = [
+    '/faq',
+    '/transactions',
+  ];
+
   if (!auth.access) {
     return (
       <Burrito>
-        <Route path="/" exact={true} component={WLogin} />
+        <Route path="/" component={WLogin} />
         <Route path="/register" component={WRegister} />
+        {pageRoutes.map(e => <Route key={e} to={e}><Redirect to="/" /></Route> )}
       </Burrito>
     );
   }

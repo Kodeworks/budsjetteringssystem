@@ -13,13 +13,12 @@ const Login: React.FC<ILoginProps> = props => {
 
   // This is mostly the same code as in register, but I haven't DRY-ed it up yet.
   const handleSubmit = async ({ email, password }: IOnLogin) => {
-    const resp = await login(email, password);
-
-    if ('detail' in resp) {
-      return setError(resp.detail);
+    try {
+      const resp = await login(email, password);
+      props.setAuth(resp);
+    } catch (e) {
+      setError(e.detail);
     }
-
-    props.setAuth(resp);
   };
 
   return (

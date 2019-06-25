@@ -12,13 +12,12 @@ const Register: React.FC<IRegisterProps> = props => {
   const [error, setError] = React.useState('');
 
   const handleSubmit = async ({ email, password, firstName, lastName }: IOnRegister) => {
-    const resp = await register(email, password, firstName, lastName);
-
-    if ('detail' in resp) {
-      return setError(resp.detail);
+    try {
+      const resp = await register(email, password, firstName, lastName);
+      props.setAuth(resp);
+    } catch (e) {
+      setError(e.detail);
     }
-
-    props.setAuth(resp);
   };
 
   return (
