@@ -74,7 +74,7 @@ class JWTTestCase(TestCase):
         return self.perform_request('delete', *args, **kwargs)
 
 
-class AuthenticationTest(JWTTestCase):
+class AuthenticationTestCase(JWTTestCase):
     def setUp(self):
         super().setUp()
         self.user = self.create_user()
@@ -104,7 +104,7 @@ class AuthenticationTest(JWTTestCase):
         self.assertEquals(response.status_code, 401, msg=response.content)
 
 
-class UserTest(JWTTestCase):
+class UserViewTestCase(JWTTestCase):
     def test_not_authenticated(self):
         # Should only be able to create a new user without logging in
         user = self.create_user()
