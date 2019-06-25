@@ -41,21 +41,21 @@ const TransactionEntry: React.FC<IProps> = props => {
     dispatch(ActionCreators.addToIntermediary(props.id));
 
   return (
-    <a
+    <div
       className={props.className}
       onMouseEnter={enableNotes}
       onMouseLeave={disableNotes}
       onClick={onClick}
       style={isInIntermediary ? {paddingLeft: '.6em', borderLeft: '4px solid black'} : {}}
     >
-      <h4>{props.name}</h4>
+      <h4>{props.description}</h4>
       <strong>
         {props.type === TransactionType.expense ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
       </strong>
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
       <h6>{props.date}{props.recurringId && ` ${String.fromCharCode(183)} Recurring`}</h6>
       <p>{displayNotes && props.notes}</p>
-    </a>
+    </div>
   );
 };
 
@@ -64,6 +64,8 @@ export default styled(TransactionEntry)`
   grid-template-rows: 1.6em 1em auto;
   grid-template-columns: 70% 30%;
   transition: padding .2s, margin .2s;
+  text-decoration: none;
+  color: black;
 
   &>*:nth-child(2n):not(p) {
     text-align: right;

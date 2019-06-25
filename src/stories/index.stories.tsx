@@ -131,7 +131,7 @@ storiesOf('Dashboard', module)
 
 // storiesOf('Filters', module)
 //   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('With placeholder', () => <Filters />);
+//   .add('With placeholder', () => <Filters setFilter={() => {}} />)
 
 // storiesOf('Add new transaction', module)
 //   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
