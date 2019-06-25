@@ -97,7 +97,9 @@ storiesOf('Dashboard', module)
       Church-key salvia pug 8-bit sustainable activated charcoal tattooed direct trade aesthetic narwhal asymmetrical
       retro food truck paleo keytar.
     </p>
-    </CardContainer>));
+    </CardContainer>
+    ),
+    );
 
 // storiesOf('Dashboard/Transactions', module)
 //   .add('Entry (expense)', () => (
@@ -108,7 +110,11 @@ storiesOf('Dashboard', module)
 //   .add('Entry (income)', () => <TransactionEntry />);
 
 // storiesOf('Transactions', module)
-//   .addDecorator(fn => <div style={{ width: '80vw', margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
+//   .addDecorator(fn => (
+//   <div style={{ width: '80vw', margin: '2em', background: theme.palette.primary.main }}>
+//   {fn()}
+//   </div>
+//   ))
 //   .add('Transaction page', () => <Transactions />)
 //   .add('Recurring options', () => <RecurringTransactionOptions/>);
 
@@ -122,7 +128,11 @@ storiesOf('Dashboard', module)
 
 // storiesOf('Input/Date', module)
 //   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('With placeholder', () => <Input type="date" id="lipsum" placeholder="Welcome to the jungle">Lorem ipsum</Input>);
+//   .add('With placeholder', () => (
+//   <Input type="date" id="lipsum" placeholder="Welcome to the jungle">
+//     Lorem ipsum
+//   </Input>
+//   ));
 
 // storiesOf('Input/Checkbox', module)
 //   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
@@ -139,8 +149,26 @@ storiesOf('Dashboard', module)
 
 // storiesOf('Input/Textarea', module)
 //   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('With placeholder', () => <TextArea placeholder="Insert a funny otter fact.">Welcome to the jungle</TextArea>);
+//   .add(
+//     'With placeholder',
+//      () => (
+//      <TextArea placeholder="Insert a funny otter fact.">
+//         Welcome to the jungle
+//     </TextArea>
+//     ),
+//   );
+
+const values = [
+  {name: 'Otter', value: 'otter'},
+  {name: 'Cat', value: 'cat'},
+  {name: 'Beaver', value: 'beaver'},
+];
 
 // storiesOf('Input/Select', module)
 //   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('Default', () => <Select values={[{name: 'Otter', value: 'otter'}, {name: 'Cat', value: 'cat'}, {name: 'Beaver', value: 'beaver'}]}>Select your spirit animal</Select>);
+//   .add('Default', () => (
+//     <Select values={values}>
+//       Select your spirit animal
+//     </Select>
+//     ),
+//   );
