@@ -12,16 +12,13 @@ from .serializers import CompanySerializer
 class CompanyView(RetrieveCreateUpdateDestroyView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-    lookup_arg_field = 'companyId'
+    lookup_arg_field = 'company_id'
     company_access = {
+        'GET': roles.REPORTER,
         'POST': None,
         'PUT': roles.OWNER,
         'DELETE': roles.OWNER,
     }
-
-    post_role = None
-    put_role = roles.OWNER
-    delete_role = roles.OWNER
 
     def perform_create(self, serializer):
         company = serializer.save()
