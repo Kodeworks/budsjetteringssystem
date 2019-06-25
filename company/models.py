@@ -3,7 +3,7 @@ from django.db import models
 
 class Company(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    orgNr = models.CharField(max_length=20, unique=True)
+    org_nr = models.CharField(max_length=20, unique=True)
 
     class Meta:
         verbose_name = 'company'

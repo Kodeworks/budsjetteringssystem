@@ -171,7 +171,7 @@ class UserTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(email='test@test.com', password='password',
                                              first_name='Test', last_name='Testing')
-        self.company = Company.objects.create(name='Test inc', orgNr='13239193129')
+        self.company = Company.objects.create(name='Test inc', org_nr='13239193129')
 
     def test_get_role(self):
         UserCompanyThrough.objects.create(user=self.user, company=self.company, role=roles.REPORTER)
@@ -241,7 +241,7 @@ class CompanyAccessViewTest(JWTTestCase):
 
     def setUp(self):
         super().setUp()
-        self.company = Company.objects.create(name='Test inc.', orgNr='47484929')
+        self.company = Company.objects.create(name='Test inc.', org_nr='47484929')
 
         self.reporter = self.create_user('Reporter', 'reporter@test.com')
         UserCompanyThrough.objects.create(company=self.company, user=self.reporter, role=roles.REPORTER)

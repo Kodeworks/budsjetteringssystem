@@ -4,5 +4,5 @@ from .models import Company
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    search_fields = ('name', 'orgNr')
-    list_display = ('name', 'orgNr')
+    search_fields = ('name', 'org_nr')
+    list_display = ('name', 'org_nr')
