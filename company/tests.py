@@ -92,11 +92,12 @@ class CompanyViewTestCase(JWTTestCase):
         self.set_role(company, self.user, roles.OWNER)
         user2 = self.create_user('user2@test.com', 'password2')
 
-        response = self.post(views.CompanySetRoleView, {'company_id': company.pk, 'user_id': user2.pk, 'role': roles.USER})
+        data = {'company_id': company.pk, 'user_id': user2.pk, 'role': roles.USER}
+        response = self.post(views.CompanySetRoleView, data)
         self.assertEquals(response.status_code, 404, msg=response.content)
 
         self.set_role(company, user2, roles.REPORTER)
 
-        response = self.post(views.CompanySetRoleView, {'company_id': company.pk, 'user_id': user2.pk, 'role': roles.USER})
+        response = self.post(views.CompanySetRoleView, data)
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertTrue(user2.has_role(company, roles.USER), msg=response.content)
