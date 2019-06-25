@@ -15,10 +15,10 @@ interface IPropsHeaders {
 const headers: React.FC<IPropsHeaders> = props => {
   return (
     <div className={props.className}>
-      <h4>Date</h4>
-      <h4>Income</h4>
-      <h4>Expense</h4>
-      <h4>Liquidity</h4>
+      <h2>Date</h2>
+      <h2>Income</h2>
+      <h2>Expense</h2>
+      <h2>Liquidity</h2>
     </div>
   );
 };
@@ -28,8 +28,11 @@ const BalancesTableHeaders = styled(headers)`
   grid-template-columns: 25% 25% 25% 25%;
   width: calc(70% - 1em);
   text-align: right;
-  margin-top: 2em;
   margin-bottom: 0.5em;
+
+  h2:first-of-type {
+    text-align: left;
+  }
 `;
 
 const BalancesTable: React.FC<IPropsTable> = props => {
@@ -40,15 +43,14 @@ const BalancesTable: React.FC<IPropsTable> = props => {
   return (
     <div className={props.className}>
       <BalancesTableHeaders />
-      <BalanceTableEntry data={entry1} />
-      <BalanceTableEntry data={entry2} />
+      {props.entries.map(e => <BalanceTableEntry data={e} key={e.date}/>)}
     </div>
   );
 };
 
 export default styled(BalancesTable)`
-  width: 70%;
-  h4 {
-    font-weight: 700;
+  width: 100%;
+  h2 {
+    margin-bottom: 0.3em;
   }
 `;

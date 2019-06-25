@@ -11,10 +11,10 @@ const tableEntry: React.FC<IPropsTableEntry> = props => {
 
   return (
     <div className={props.className}>
-      <h6>{props.data.date}</h6>
-      <h6>{`${props.data.income ? (props.data.income / 100).toFixed(2) : ''}`}</h6>
-      <h6>{`${props.data.expense ? `(${(props.data.expense / 100).toFixed()})` : ''}`}</h6>
-      <h6>{(props.data.liquidity / 100).toFixed(2)}</h6>
+      <span>{props.data.date}</span>
+      <span>{`${props.data.income ? (props.data.income / 100).toFixed(2) : ''}`}</span>
+      <span>{`${props.data.expense ? `(${(props.data.expense / 100).toFixed()})` : ''}`}</span>
+      <span>{(props.data.liquidity / 100).toFixed(2)}</span>
     </div>
   );
 };
@@ -24,9 +24,12 @@ const BalanceTableEntry = styled(tableEntry)`
   grid-template-columns: 25% 25% 25% 25%;
   width: calc(70% - 1em);
   text-align: right;
-  h6 {
+  span {
     font-weight: 300;
     font-size: 0.8em;
+    &:first-of-type {
+      text-align: left;
+    }
   }
 `;
 

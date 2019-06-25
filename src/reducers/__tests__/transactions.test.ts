@@ -9,7 +9,7 @@ const tx: ITransaction = {
   date: '01.01.1970',
   id: 0,
   money: 10000,
-  name: 'Test transaction #0',
+  description: 'Test transaction #0',
   type: TransactionType.income,
 };
 
