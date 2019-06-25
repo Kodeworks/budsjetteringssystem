@@ -70,9 +70,10 @@ class CompanySetRoleView(CompanyAccessView):
 
         role = roles.get_role(request.data['role'])
 
-        try:
-            UserCompanyThrough.objects.get(user_id=user_id, company_id=company_id).update(role=role)
-        except UserCompanyThrough.DoesNotExist:
+        queryset = UserCompanyThrough.objects.filter(user=user_id, company=company_id)
+        if queryset.exists():
+            queryset.update(role=role)
+        else:
             return Response({'detail': 'The user is not member of this company'}, status='404')
 
         return Response(status='200')
