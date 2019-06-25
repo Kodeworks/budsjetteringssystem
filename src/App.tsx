@@ -114,7 +114,7 @@ const App: React.FC<IProps> = ({ className }) => {
   if (!auth.access) {
     return (
       <Burrito>
-        <Route path="/" component={WLogin} />
+        <Route path="/" exact={true} component={WLogin} />
         <Route path="/register" component={WRegister} />
         {pageRoutes.map(e => <Route key={e} to={e}><Redirect to="/" /></Route> )}
       </Burrito>
