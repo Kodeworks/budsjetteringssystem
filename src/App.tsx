@@ -9,7 +9,7 @@ import { theme } from './styling/theme';
 import { AuthCtx } from './contexts/auth';
 import { createTransactionCtx, TransactionCtx } from './contexts/transaction';
 import { createDummyTransaction } from './helpers/transaction_creator';
-import { fetchUserById, ILoginResponse } from './mitochondria/auth';
+import { fetchUserById, ILoginResponse, logout } from './mitochondria/auth';
 import { ActionCreators, initialState, reducer } from './reducers/transactions';
 
 import Login from './components/organism/Login';
@@ -51,17 +51,22 @@ const App: React.FC<IProps> = ({ className }) => {
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
-    const LSAccess = localStorage.getItem('access');
-    const LSRefresh = localStorage.getItem('refresh');
-    const LSId = Number(localStorage.getItem('user_id'));
+    (async () => {
+      const LSAccess = localStorage.getItem('access');
+      const LSRefresh = localStorage.getItem('refresh');
+      const LSId = Number(localStorage.getItem('user_id'));
 
-    if (LSAccess && LSRefresh && LSId) {
-      setLoading(true);
-      fetchUserById(LSId, LSAccess).then(user => {
-        setAuth({ access: LSAccess, refresh: LSRefresh, user });
-        setLoading(false);
-      });
-    }
+      if (LSAccess && LSRefresh && LSId) {
+        setLoading(true);
+        try {
+          const user = await fetchUserById(LSId, LSAccess);
+          setAuth({ access: LSAccess, refresh: LSRefresh, user });
+          setLoading(false);
+        } catch (e) {
+          logout();
+        }
+      }
+    })();
   }, []);
 
   if (loading) {
@@ -82,13 +87,13 @@ const App: React.FC<IProps> = ({ className }) => {
   }
 
   // Extracted the wrapping to make the business logic easier, and to avoid multiline jsx
-  const Burrito: React.FC = stuffing => (
+  const Wrap: React.FC = props => (
     <AuthCtx.Provider value={auth}>
       <TransactionCtx.Provider value={{store, dispatch}}>
         <ThemeProvider theme={theme}>
           <Wrapper className={className}>
             <BrowserRouter>
-              {stuffing.children}
+              {props.children}
             </BrowserRouter>
             <GlobalStyle />
           </Wrapper>
@@ -113,23 +118,23 @@ const App: React.FC<IProps> = ({ className }) => {
 
   if (!auth.access) {
     return (
-      <Burrito>
+      <Wrap>
         <Route path="/" exact={true} component={WLogin} />
         <Route path="/register" component={WRegister} />
         {pageRoutes.map(e => <Route key={e} to={e}><Redirect to="/" /></Route> )}
-      </Burrito>
+      </Wrap>
     );
   }
 
   return (
-    <Burrito>
+    <Wrap>
       <Navigation />
       <Page>
         <Route path="/" exact={true} component={Homepage} />
         <Route path="/faq" component={FAQ} />
         <Route path="/transactions" component={Transactions} />
       </Page>
-    </Burrito>
+    </Wrap>
   );
 };
 
