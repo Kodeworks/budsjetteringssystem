@@ -121,7 +121,9 @@ class UserTest(JWTTestCase):
     def test_create_user(self):
         response = self.post(views.UserView, {'email': self.email, 'password': self.password})
         self.assertEquals(response.status_code, 201, msg=response.content)
-        self.assertEquals(response.data['email'], self.email, msg=response.content)
+        self.assertEquals(response.data['user']['email'], self.email, msg=response.content)
+        self.assertIn('refresh', response.data, msg=response.content)
+        self.assertIn('access', response.data, msg=response.content)
 
     def test_update_user(self):
         user = self.create_user()
