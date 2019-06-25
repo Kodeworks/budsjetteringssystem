@@ -5,7 +5,7 @@
 
 import { IState as IStore } from '../reducers/transactions';
 
-import { TransactionType } from '../declarations/transaction'
+import { TransactionType } from '../declarations/transaction';
 
 export const sum = (store: IStore) => (
   store.intermediary.reduce((prev, curr) => {
