@@ -35,7 +35,8 @@ class CompanyAccessView(generics.GenericAPIView):
         if self.request.method in self.permissions:
             permissions = self.permissions[self.request.method]
             if permissions:
-                return [permission() for permission in permissions]
+                permissions = [permission() for permission in permissions]
+                return permissions
             else:
                 return []
         else:
@@ -55,10 +56,10 @@ class CompanyAccessView(generics.GenericAPIView):
 
     def get_data(self, request):
         """Get the data/parameters for the request."""
-        if request.method in ['GET', 'DELETE']:
-            return request.query_params
-        else:
-            return request.data
+        # Merge POST and query data. Query data is always returned as a list,
+        # so if it's only one element we take it out of the list
+        request.data.update({k: v[0] if len(v) == 1 else v for k, v in request.query_params.lists()})
+        return request.data
 
     def get_company_id(self, request):
         """
@@ -81,7 +82,7 @@ class CompanyAccessView(generics.GenericAPIView):
         company_id = self.get_company_id(request)
         required_role = self.get_company_access()[request.method]
 
-        if not request.user.has_role(company_id, required_role):
+        if required_role and not request.user.has_role(company_id, required_role):
             raise PermissionDenied("You don't have access to do this operation on this company")
 
     def initial(self, request, *args, **kwargs):
@@ -178,13 +179,13 @@ class UserMixin:
 
 
 class UserView(UserMixin, RetrieveCreateUpdateDestroyView):
-    permission_classes = (permissions.IsAuthenticated,)
     permissions = {
         'POST': None,
     }
     user = None
 
     def get_object(self):
+        # A user can only update or delete itself
         if self.request.method in ['DELETE', 'PUT']:
             return self.request.user
         else:

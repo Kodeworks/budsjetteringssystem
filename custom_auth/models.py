@@ -48,12 +48,10 @@ class User(AbstractUser):
 
     def get_company_through(self, company):
         """Get the object in the many-to-many relation to a company."""
-        if isinstance(company, int):
-            company_id = company
-        elif isinstance(company, Company):
+        if isinstance(company, Company):
             company_id = company.pk
         else:
-            return None
+            company_id = company
 
         through_model = self.companies.through
         try:

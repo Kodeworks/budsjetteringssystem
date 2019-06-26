@@ -24,9 +24,9 @@ def is_equivalent(role1, role2):
 
 def get_name(role):
     """Get string name of role"""
-    for (role, name) in choices:
-        if role == role:
-            return name
+    for choice in choices:
+        if role == choice[0]:
+            return choice[1]
 
     return None
 
