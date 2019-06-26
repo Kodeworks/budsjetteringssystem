@@ -14,7 +14,7 @@ class CompanyViewTestCase(JWTTestCase):
         self.org_nr = '472487782428'
 
     def create_company(self, name=None, org_nr=None):
-        return Company.objects.create(name=name or self.company_name, org_nr=self.org_nr or org_nr)
+        return Company.objects.create(name=name or self.company_name, org_nr=org_nr or self.org_nr)
 
     def set_role(self, company, user, role):
         UserCompanyThrough.objects.update_or_create(company=company, user=user, role=role)
@@ -51,6 +51,7 @@ class CompanyViewTestCase(JWTTestCase):
         response = self.put(views.CompanyView, {'company_id': company.pk, 'name': new_name, 'org_nr': self.org_nr})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data['name'], new_name, msg=response.content)
+        self.assertEquals(Company.objects.get(org_nr=self.org_nr).name, new_name, msg=response.content)
 
     def test_delete_company(self):
         company = self.create_company()
