@@ -66,10 +66,22 @@ class CompanyViewTestCase(JWTTestCase):
         self.force_login(self.user)
         self.set_role(company, self.user, roles.OWNER)
         user2 = self.create_user('user2@test.com', 'password2')
+        user3 = self.create_user('user3@test.com', 'password3')
+        user4 = self.create_user('user4@test.com', 'password4')
 
         response = self.post(views.CompanyAddUserView, {'company_id': company.pk, 'user_id': user2.pk})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertTrue(user2.has_role(company, roles.USER), msg=response.content)
+
+        response = self.post(views.CompanyAddUserView,
+                             {'company_id': company.pk, 'user_id': user3.pk, 'role': roles.REPORTER})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertTrue(user3.has_role(company, roles.REPORTER), msg=response.content)
+
+        response = self.post(views.CompanyAddUserView,
+                             {'company_id': company.pk, 'user_id': user4.pk, 'role': None})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertTrue(user4.has_role(company, roles.USER), msg=response.content)
 
     def test_remove_user(self):
         company = self.create_company()

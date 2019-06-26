@@ -31,11 +31,16 @@ class CompanyAddUserView(CompanyAccessView):
     }
 
     def post(self, request, *args, **kwargs):
-        company_id = self.get_company_id(request)
-        user_id = request.data['user_id']
+        data = {
+            'company_id': self.get_company_id(request),
+            'user_id': request.data['user_id'],
+        }
+
+        if 'role' in request.data and request.data['role']:
+            data['role'] = roles.get_role(request.data['role'])
 
         try:
-            UserCompanyThrough.objects.create(user_id=user_id, company_id=company_id)
+            UserCompanyThrough.objects.create(**data)
         except IntegrityError:
             return Response({'detail': 'User not found'}, status='404')
 
