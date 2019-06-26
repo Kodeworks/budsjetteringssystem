@@ -91,3 +91,6 @@ class UserCompanyThrough(models.Model):
         max_length=2,
         default=roles.USER,
     )
+
+    def __str__(self):
+        return f'{self.user} {roles.get_name(self.role)} of {self.company}'
