@@ -31,10 +31,15 @@ class Transaction(TransactionStaticData):
         related_name='transactions',
         on_delete=models.DO_NOTHING,
         null=True,
+        blank=True,
     )
 
+    def __str__(self):
+        return f"{self.date}:{self.description}"
+
     class Meta(TransactionStaticData.Meta):
-        ordering = ['-date']
+        ordering = ['date']
+
 
 
 class RecurringTransaction(models.Model):
@@ -56,4 +61,3 @@ class RecurringTransaction(models.Model):
 
 class TransactionTemplate(TransactionStaticData):
     pass
-
