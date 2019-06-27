@@ -23,11 +23,7 @@ import { createDummyTransaction } from '../helpers/transaction_creator';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
 
-addDecorator(storyFn => (
-  <GlobalWrapper>
-    {storyFn()}
-  </GlobalWrapper>
-));
+addDecorator(storyFn => <GlobalWrapper>{storyFn()}</GlobalWrapper>);
 
 const navStyle = {
   background: theme.palette.background.default,
@@ -38,68 +34,72 @@ const navStyle = {
 } as React.CSSProperties;
 
 storiesOf('Navigation', module)
-  .add('Full', () => (
-    <Navigation />
-  ))
+  .add('Full', () => <Navigation />)
   .add('Brand', () => (
-    <div
-      style={navStyle}
-    >
+    <div style={navStyle}>
       <NavigationBrand />
     </div>
   ));
 
 storiesOf('Navigation/Pill', module)
   .addDecorator(fn => (
-  <div
-    style={{ width: navbarWidth, padding: '1em', background: theme.palette.primary.main }}
-  >
-  {fn()}
-  </div>
-  ),
-  )
-  .add('Inactive', () => <NavigationPill to="/" active={false}>Inactive</NavigationPill>)
-  .add('Active', () => <NavigationPill to="/" active={true}>Active</NavigationPill>);
+    <div
+      style={{
+        width: navbarWidth,
+        padding: '1em',
+        background: theme.palette.primary.main,
+      }}
+    >
+      {fn()}
+    </div>
+  ))
+  .add('Inactive', () => (
+    <NavigationPill to="/" active={false}>
+      Inactive
+    </NavigationPill>
+  ))
+  .add('Active', () => (
+    <NavigationPill to="/" active={true}>
+      Active
+    </NavigationPill>
+  ));
 
-storiesOf('App', module)
-  .add('Full', () => <App />);
+storiesOf('App', module).add('Full', () => <App />);
 
-storiesOf('Toolbar', module)
-  .add('Default', () => <Toolbar />);
+storiesOf('Toolbar', module).add('Default', () => <Toolbar />);
 
-storiesOf('Button/Outlined', module)
-  .add('Normal', () => <OutlinedButton>Lipsum</OutlinedButton>);
+storiesOf('Button/Outlined', module).add('Normal', () => (
+  <OutlinedButton>Lipsum</OutlinedButton>
+));
 
-storiesOf('LandingPage', module)
-  .add('Full', () => <LandingPage />);
+storiesOf('LandingPage', module).add('Full', () => <LandingPage />);
 
-const tabs = [
-  'Tab 1',
-  'Tab 2',
-  'Tab 3',
-];
+const tabs = ['Tab 1', 'Tab 2', 'Tab 3'];
 
-storiesOf('Page', module)
-  .add('Tabs', () => <TabMenu tabLabels={tabs} />);
+storiesOf('Page', module).add('Tabs', () => <TabMenu tabLabels={tabs} />);
 
 storiesOf('Dashboard', module)
-  .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
   .add('Transactions', () => <Transactions />)
   .add('CardContainer', () => (
-  <CardContainer>
-    <header>Card</header>
-    <p>
-      Lorem ipsum dolor amet waistcoat VHS migas,
-      you probably haven't heard of them gastropub hammock poke.
-      Disrupt you probably haven't heard of them prism, truffaut brunch blue bottle heirloom.
-      Pork belly bicycle rights viral cliche direct trade everyday carry.
-      Try-hard thundercats affogato brunch hella messenger bag 3 wolf moon celiac ramps heirloom DIY palo santo.
-      Church-key salvia pug 8-bit sustainable activated charcoal tattooed direct trade aesthetic narwhal asymmetrical
-      retro food truck paleo keytar.
-    </p>
+    <CardContainer>
+      <header>Card</header>
+      <p>
+        Lorem ipsum dolor amet waistcoat VHS migas, you probably haven't heard
+        of them gastropub hammock poke. Disrupt you probably haven't heard of
+        them prism, truffaut brunch blue bottle heirloom. Pork belly bicycle
+        rights viral cliche direct trade everyday carry. Try-hard thundercats
+        affogato brunch hella messenger bag 3 wolf moon celiac ramps heirloom
+        DIY palo santo. Church-key salvia pug 8-bit sustainable activated
+        charcoal tattooed direct trade aesthetic narwhal asymmetrical retro food
+        truck paleo keytar.
+      </p>
     </CardContainer>
-    ),
-    );
+  ));
 
 // storiesOf('Dashboard/Transactions', module)
 //   .add('Entry (expense)', () => (
@@ -118,21 +118,39 @@ storiesOf('Dashboard', module)
 //   .add('Transaction page', () => <Transactions />)
 //   .add('Recurring options', () => <RecurringTransactionOptions/>);
 
-// storiesOf('Input/Text', module)
-//   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('With placeholder', () => (
-//   <Input type="text" id="lipsum" placeholder="Welcome to the jungle">
-//     Lorem ipsum
-//   </Input>
-//     ));
+storiesOf('Input/Text', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('With placeholder', () => (
+    <Input
+      ariaLabel="date-input"
+      type="text"
+      id="lipsum"
+      placeholder="Welcome to the jungle"
+    >
+      Lorem ipsum
+    </Input>
+  ));
 
-// storiesOf('Input/Date', module)
-//   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('With placeholder', () => (
-//   <Input type="date" id="lipsum" placeholder="Welcome to the jungle">
-//     Lorem ipsum
-//   </Input>
-//   ));
+storiesOf('Input/Date', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('With placeholder', () => (
+    <Input
+      ariaLabel="date-input"
+      type="date"
+      id="lipsum"
+      placeholder="Welcome to the jungle"
+    >
+      Lorem ipsum
+    </Input>
+  ));
 
 // storiesOf('Input/Checkbox', module)
 //   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
@@ -159,9 +177,9 @@ storiesOf('Dashboard', module)
 //   );
 
 const values = [
-  {name: 'Otter', value: 'otter'},
-  {name: 'Cat', value: 'cat'},
-  {name: 'Beaver', value: 'beaver'},
+  { name: 'Otter', value: 'otter' },
+  { name: 'Cat', value: 'cat' },
+  { name: 'Beaver', value: 'beaver' },
 ];
 
 // storiesOf('Input/Select', module)
