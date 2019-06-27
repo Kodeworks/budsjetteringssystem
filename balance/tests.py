@@ -31,6 +31,11 @@ class BankBalanceTestCase(TestCase):
         # Test that it doesn't interfere with itself
         balance.full_clean()
 
+        # Change the date after creation
+        balance.date = date
+        with self.assertRaises(ValidationError):
+            balance.full_clean()
+
     def test_unique_date_different_companies(self):
         company1 = self.create_company()
         company2 = self.create_company(name='Test company', org_nr='442342342')
@@ -56,6 +61,12 @@ class BankBalanceTestCase(TestCase):
 
         # Test that it doesn't interfere with itself
         self.assertTrue(serializer.is_valid(), msg=serializer.errors)
+
+        # Change the date after creation
+        balance = BankBalance.objects.get(date=date)
+        date = datetime.date(2018, 1, 1)
+        serializer = BankBalanceSerializer(balance, data={'date': date})
+        self.assertFalse(serializer.is_valid())
 
     def test_serializer_unique_date_different_companies(self):
         company1 = self.create_company()

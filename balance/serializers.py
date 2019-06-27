@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.validators import UniqueForDateValidator
 
 from .models import BankBalance
 
@@ -11,8 +11,9 @@ class BankBalanceSerializer(serializers.ModelSerializer):
 
         # Does the same as BankBalance.validate_unique
         validators = [
-            UniqueTogetherValidator(
+            UniqueForDateValidator(
                 queryset=BankBalance.objects.all(),
-                fields=('date', 'company'),
+                field='company',
+                date_field='date',
             )
         ]
