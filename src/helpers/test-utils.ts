@@ -1,4 +1,4 @@
-import {render, RenderOptions, RenderResult} from '@testing-library/react';
+import {render, RenderOptions} from '@testing-library/react';
 import GlobalWrapper from './GlobalWrapper';
 
 const customRender = (
