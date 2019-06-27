@@ -18,10 +18,12 @@ from django.urls import include, path
 
 import custom_auth.urls
 import company.urls
+import transaction.urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include(custom_auth.urls)),
     path('company/', include(company.urls)),
+    path('transaction/', include(transaction.urls)),
 ]
