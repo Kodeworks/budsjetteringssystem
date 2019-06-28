@@ -1,77 +1,13 @@
 from django.test import TestCase
-from rest_framework.test import APIRequestFactory
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenRefreshView
-from rest_framework_simplejwt.tokens import RefreshToken
 
+from base.views import CompanyAccessView
+from base.tests import JWTTestCase
 from company.models import Company
 
 from . import views, roles
 from .models import User, UserCompanyThrough
-
-
-class JWTTestCase(TestCase):
-    def setUp(self):
-        self.factory = APIRequestFactory()
-        self.email = 'test@test.com'
-        self.password = 'password'
-        self.access_token = None
-        self.refresh_token = None
-
-    def tearDown(self):
-        self.factory = None
-        self.email = None
-        self.password = None
-        self.access_token = None
-        self.refresh_token = None
-
-    def create_user(self, email=None, password=None, save=True):
-        """Helper method"""
-        user = User(email=(email or self.email))
-        user.set_password(password or self.password)
-        if save:
-            user.save()
-        return user
-
-    def login(self, email, password):
-        response = self.post(views.Login, {'email': email, 'password': password})
-        self.access_token = response.data['access']
-        self.refresh_token = response.data['refresh']
-
-    def force_login(self, user):
-        refresh = RefreshToken.for_user(user)
-        self.refresh_token = str(refresh)
-        self.access_token = str(refresh.access_token)
-
-    def logout(self):
-        self.access_token = None
-        self.refresh_token = None
-
-    def refresh_token(self):
-        response = self.post(TokenRefreshView, {'refresh': self.refresh_token})
-        self.access_token = response.data['access']
-
-    def perform_request(self, method, view, data={}, url='', factory=None, **extra):
-        if self.access_token:
-            extra['HTTP_AUTHORIZATION'] = f'Bearer {self.access_token}'
-
-        factory = factory or self.factory
-        request = getattr(factory, method)(url, data, format='json', **extra)
-        response = view.as_view()(request)
-        response.render()
-        return response
-
-    def get(self, *args, **kwargs):
-        return self.perform_request('get', *args, **kwargs)
-
-    def post(self, *args, **kwargs):
-        return self.perform_request('post', *args, **kwargs)
-
-    def put(self, *args, **kwargs):
-        return self.perform_request('put', *args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        return self.perform_request('delete', *args, **kwargs)
 
 
 class AuthenticationTestCase(JWTTestCase):
@@ -228,7 +164,7 @@ class RoleTestCase(TestCase):
 
 
 class CompanyAccessViewTest(JWTTestCase):
-    class TestView(views.CompanyAccessView):
+    class TestView(CompanyAccessView):
         company_access = {
             'GET': None,
             'POST': roles.REPORTER,

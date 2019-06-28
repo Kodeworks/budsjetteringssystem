@@ -1,25 +1,17 @@
 from datetime import datetime
 
+from base.tests import JWTTestCase
 from custom_auth import roles
-from custom_auth.tests import JWTTestCase
-from custom_auth.models import UserCompanyThrough
 from company.models import Company
+from company.tests import CompanyTestMixin
 from .models import Transaction
 from . import views
 
 
-class TransactionAllTestCase(JWTTestCase):
+class TransactionTestMixin(CompanyTestMixin):
     def setUp(self):
         super().setUp()
-        self.user = self.create_user()
-        self.company = Company.objects.create(name='Kodeworks AS', org_nr='472487782428')
-        UserCompanyThrough.objects.create(company=self.company, user=self.user, role=roles.REPORTER)
-        self.date = datetime(2017, 5, 17)
-        self.type = 'IN'
-        self.money = '3000'
-        self.description = '11th income.'
-        self.notes = 'Incomes are cool.'
-        self.recurring_transaction = None
+        self.company = self.create_company()
 
     def create_transaction(self, date=None, company=None, recurring_transaction=None, money=None,
                            type=None, description=None, notes=None, save=True):
@@ -31,14 +23,26 @@ class TransactionAllTestCase(JWTTestCase):
             transaction.save()
         return transaction
 
+
+class TransactionAllTestCase(TransactionTestMixin, JWTTestCase):
+    def setUp(self):
+        super().setUp()
+        self.set_role(self.company, self.user, roles.REPORTER)
+        self.date = datetime(2017, 5, 17)
+        self.type = 'IN'
+        self.money = '3000'
+        self.description = '11th income.'
+        self.notes = 'Incomes are cool.'
+        self.recurring_transaction = None
+
     def test_no_login(self):
-        response = self.get(views.TransactionAllView, {'company_id': self.company.pk, 'limit': 3, 'offset': 0})
+        response = self.get(views.TransactionAllView, {'limit': 3, 'offset': 0})
         self.assertEquals(response.status_code, 401, msg=response.content)
 
     def test_no_transactions(self):
         self.force_login(self.user)
 
-        response = self.get(views.TransactionAllView, {'company_id': self.company.pk, 'limit': 3, 'offset': 0})
+        response = self.get(views.TransactionAllView, {'limit': 3, 'offset': 0})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertIsNone(response.data['next'], msg=response.content)
         self.assertIsNone(response.data['previous'], msg=response.content)
@@ -49,7 +53,7 @@ class TransactionAllTestCase(JWTTestCase):
         tr1 = self.create_transaction(date=datetime(2022, 2, 22), description='second')
         tr2 = self.create_transaction(description='first')
 
-        response = self.get(views.TransactionAllView, {'company_id': self.company.pk, 'limit': 3, 'offset': 0})
+        response = self.get(views.TransactionAllView, {'limit': 3, 'offset': 0})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertIsNone(response.data['next'], msg=response.content)
         self.assertIsNone(response.data['previous'], msg=response.content)
@@ -65,7 +69,7 @@ class TransactionAllTestCase(JWTTestCase):
         tr_not = self.create_transaction(company=Company.objects.create(name='Other', org_nr='648587782428'))
         response_set = []
 
-        response = self.get(views.TransactionAllView, {'company_id': self.company.pk, 'limit': 3, 'offset': 0})
+        response = self.get(views.TransactionAllView, {'limit': 3, 'offset': 0})
         self.assertEquals(response.status_code, 200, msg=response.content)
         response_set.extend(response.data['results'])
         next_url = response.data['next']
@@ -119,4 +123,3 @@ class TransactionAllTestCase(JWTTestCase):
         self.assertEquals(len(response.data['results']), 2, msg=response.content)
         self.assertEquals(response.data['results'][1]['description'], tr_last.description, msg=response.content)
         self.assertNotIn(tr_not, response_set, msg=response.content)
-
