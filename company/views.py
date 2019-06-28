@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from custom_auth import roles
 from custom_auth.models import UserCompanyThrough
-from custom_auth.views import CompanyAccessView, RetrieveCreateUpdateDestroyView
+from base.views import CompanyAccessView, RetrieveCreateUpdateDestroyView
 from .models import Company
 from .serializers import CompanySerializer
 
@@ -25,19 +25,28 @@ class CompanyView(RetrieveCreateUpdateDestroyView):
         self.request.user.companies.add(company, through_defaults={'role': roles.OWNER})
 
 
-class CompanyAddUserView(CompanyAccessView):
+class CompanyUserMixin:
     company_access = {
         'POST': roles.OWNER,
     }
 
     def post(self, request, *args, **kwargs):
-        data = {
-            'company_id': self.get_company_id(request),
-            'user_id': request.data['user_id'],
-        }
+        company_id = self.get_company_id()
+        user_id = request.data['user_id']
 
-        if 'role' in request.data and request.data['role']:
-            data['role'] = roles.get_role(request.data['role'])
+        if 'role' in self.request.data and self.request.data['role']:
+            role = roles.get_role(request.data['role'])
+        else:
+            role = None
+
+        return self.handle_user(company_id, user_id, role)
+
+
+class CompanyAddUserView(CompanyUserMixin, CompanyAccessView):
+    def handle_user(self, company_id, user_id, role):
+        data = {'company_id': company_id, 'user_id': user_id}
+        if role:
+            data['role'] = role
 
         try:
             UserCompanyThrough.objects.create(**data)
@@ -47,15 +56,8 @@ class CompanyAddUserView(CompanyAccessView):
         return Response(status='200')
 
 
-class CompanyRemoveUserView(CompanyAccessView):
-    company_access = {
-        'POST': roles.OWNER,
-    }
-
-    def post(self, request, *args, **kwargs):
-        company_id = self.get_company_id(request)
-        user_id = request.data['user_id']
-
+class CompanyRemoveUserView(CompanyUserMixin, CompanyAccessView):
+    def handle_user(self, company_id, user_id, role):
         try:
             UserCompanyThrough.objects.get(user_id=user_id, company_id=company_id).delete()
         except UserCompanyThrough.DoesNotExist:
@@ -64,18 +66,10 @@ class CompanyRemoveUserView(CompanyAccessView):
         return Response(status='200')
 
 
-class CompanySetRoleView(CompanyAccessView):
-    company_access = {
-        'POST': roles.OWNER,
-    }
-
-    def post(self, request, *args, **kwargs):
-        company_id = self.get_company_id(request)
-        user_id = request.data['user_id']
-
-        role = roles.get_role(request.data['role'])
-
+class CompanySetRoleView(CompanyUserMixin, CompanyAccessView):
+    def handle_user(self, company_id, user_id, role):
         queryset = UserCompanyThrough.objects.filter(user=user_id, company=company_id)
+
         if queryset.exists():
             queryset.update(role=role)
         else:

@@ -1,17 +1,26 @@
+from base.tests import JWTTestCase
 from custom_auth import roles
-from custom_auth.tests import JWTTestCase
 from custom_auth.models import UserCompanyThrough
 
 from . import views
 from .models import Company
 
 
-class CompanyViewTestCase(JWTTestCase):
+class CompanyTestMixin:
+    company = None
+    company_id_field = 'company_id'
+
     def setUp(self):
         super().setUp()
         self.user = self.create_user()
         self.company_name = 'Kodeworks AS'
         self.org_nr = '472487782428'
+
+    def perform_request(self, method, view, data={}, url='', **kwargs):
+        if self.company_id_field not in data and self.company is not None:
+            data[self.company_id_field] = self.company.pk
+
+        return super().perform_request(method, view, data, url, **kwargs)
 
     def create_company(self, name=None, org_nr=None):
         return Company.objects.create(name=name or self.company_name, org_nr=org_nr or self.org_nr)
@@ -19,6 +28,8 @@ class CompanyViewTestCase(JWTTestCase):
     def set_role(self, company, user, role):
         UserCompanyThrough.objects.update_or_create(company=company, user=user, role=role)
 
+
+class CompanyViewTestCase(CompanyTestMixin, JWTTestCase):
     def test_create_company(self):
         response = self.post(views.CompanyView, {'name': self.company_name, 'org_nr': self.org_nr})
         self.assertEquals(response.status_code, 401, msg=response.content)
