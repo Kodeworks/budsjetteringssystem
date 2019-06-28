@@ -50,6 +50,7 @@
     "@types/storybook__react": "^4.0.2",
     "awesome-typescript-loader": "^5.2.1",
     "react-docgen-typescript-loader": "^3.1.0",
+    "robohydra": "^0.6.8",
     "tslint": "^5.17.0",
     "tslint-react": "^4.0.0"
   }

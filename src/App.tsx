@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Route } from 'react-router';
 import { theme } from './styling/theme';
 
+import Balances from './components/organism/Balances';
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
 import FAQ from './components/pages/FAQ';
@@ -25,6 +26,7 @@ const App: React.FC<IProps> = ({ className }) => {
         <Route path="/" exact={true} component={Homepage} />
         <Route path="/faq" component={FAQ} />
         <Route path="/transactions" component={Transactions} />
+        <Route path="/balances" component={Balances} />
       </Page>
 
     </GlobalWrapper>
