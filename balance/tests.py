@@ -2,7 +2,11 @@ import datetime
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 
+from custom_auth import roles
+from custom_auth.tests import JWTTestCase
 from company.models import Company
+from company.tests import CompanyTestMixin
+from . import views
 from .models import BankBalance
 from .serializers import BankBalanceSerializer
 
@@ -77,3 +81,79 @@ class BankBalanceTestCase(TestCase):
         serializer = BankBalanceSerializer(data={'date': date, 'company': company2.pk, 'money': 10000})
         self.assertTrue(serializer.is_valid(), msg=serializer.errors)
         serializer.save()
+
+
+class BankBalanceViewTestCase(CompanyTestMixin, JWTTestCase):
+    def setUp(self):
+        super().setUp()
+        self.company = self.create_company()
+        self.set_role(self.company, self.user, role=roles.USER)
+        self.force_login(self.user)
+
+    def test_create_bank_balance(self):
+        date = datetime.date(2018, 1, 1)
+        response = self.post(views.BankBalanceView, {'date': date, 'money': 1000, 'company': self.company.pk})
+        self.assertEquals(response.status_code, 201, msg=response.content)
+        self.assertEquals(response.data['date'], str(date), msg=response.content)
+        self.assertTrue(BankBalance.objects.filter(pk=response.data['id']).exists(), msg=response.content)
+
+    def test_get_bank_balance(self):
+        date = datetime.date(2018, 1, 1)
+        balance = BankBalance.objects.create(date=date, company=self.company, money=20000)
+
+        response = self.get(views.BankBalanceView, {'id': balance.id})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data['date'], str(date), msg=response.content)
+
+    def test_get_bank_balance_by_date(self):
+        date = datetime.date(2018, 1, 1)
+        balance = BankBalance.objects.create(date=date, company=self.company, money=20000)
+
+        response = self.get(views.BankBalanceByDateView, {'date': date})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data['id'], balance.pk, msg=response.content)
+
+    def test_update_bank_balance(self):
+        date = datetime.date(2018, 1, 1)
+        balance = BankBalance.objects.create(date=date, company=self.company, money=20000)
+
+        response = self.put(views.BankBalanceView, {'company': self.company.pk, 'id': balance.pk,
+                                                    'money': 1000, 'date': date})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data['date'], str(date), msg=response.content)
+        self.assertEquals(response.data['money'], 1000, msg=response.content)
+        self.assertEquals(BankBalance.objects.get(pk=balance.pk).money, 1000)
+
+    def test_delete_bank_balance(self):
+        date = datetime.date(2018, 1, 1)
+        balance = BankBalance.objects.create(date=date, company=self.company, money=20000)
+
+        response = self.delete(views.BankBalanceView, {'id': balance.pk})
+        self.assertEquals(response.status_code, 204, msg=response.content)
+        self.assertFalse(BankBalance.objects.filter(pk=balance.pk).exists(), msg=response.content)
+
+    def test_get_bank_balance_by_date_range(self):
+        date1 = datetime.date(2018, 1, 1)
+        date2 = datetime.date(2018, 2, 1)
+        date3 = datetime.date(2018, 3, 1)
+        BankBalance.objects.create(date=date1, company=self.company, money=20000)
+        BankBalance.objects.create(date=date2, company=self.company, money=10000)
+        BankBalance.objects.create(date=date3, company=self.company, money=50000)
+
+        response = self.get(views.BankBalanceByDateRangeView, {'start_date': str(date1), 'end_date': str(date3)})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data['count'], 3, msg=response.content)
+
+        response = self.get(views.BankBalanceByDateRangeView, {'start_date': date2, 'end_date': date3})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data['count'], 2, msg=response.content)
+
+        response = self.get(views.BankBalanceByDateRangeView, {'start_date': date2, 'end_date': date2})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data['count'], 1, msg=response.content)
+
+        response = self.get(views.BankBalanceByDateRangeView, {'start_date': date2})
+        self.assertEquals(response.status_code, 400, msg=response.content)
+
+        response = self.get(views.BankBalanceByDateRangeView)
+        self.assertEquals(response.status_code, 400, msg=response.content)
