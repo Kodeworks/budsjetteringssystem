@@ -2,7 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { string } from 'prop-types';
 import Label from './Label';
 
 interface IProps {

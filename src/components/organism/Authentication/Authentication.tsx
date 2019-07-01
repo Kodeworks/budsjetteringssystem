@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import AccentedLink from '../atoms/AccentedLink';
-import CardContainer from '../atoms/CardContainer';
-import Input from '../atoms/Input';
-import OutlinedButton from '../atoms/OutlinedButton';
+import AccentedLink from '../../atoms/AccentedLink';
+import CardContainer from '../../atoms/CardContainer';
+import Input from '../../atoms/Input';
+import OutlinedButton from '../../atoms/OutlinedButton';
 
 export enum AuthType {
   Login = 'Sign in',
@@ -20,7 +20,7 @@ export interface IOnRegister extends IOnLogin {
   lastName: string;
 }
 
-interface IAuthenticationCard {
+interface IAuthentication {
   children?: never;
   onRegister?: (args: IOnRegister) => void;
   onLogin?: (args: IOnLogin) => void;
@@ -28,7 +28,7 @@ interface IAuthenticationCard {
   error?: string;
 }
 
-const AuthCardContainer = styled(CardContainer)`
+const AuthContainer = styled(CardContainer)`
   margin: auto;
   width: 30vw;
   margin-left: 10vw;
@@ -55,7 +55,7 @@ const AuthCardContainer = styled(CardContainer)`
   }
 `;
 
-const AuthenticationCard: React.FC<IAuthenticationCard> = props => {
+const Authentication: React.FC<IAuthentication> = props => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -93,7 +93,7 @@ const AuthenticationCard: React.FC<IAuthenticationCard> = props => {
     ) : null;
 
   return (
-    <AuthCardContainer>
+    <AuthContainer>
       <h1 data-testid="authform-header">{props.type}</h1>
 
       {props.error && <p>{props.error}</p>}
@@ -127,8 +127,8 @@ const AuthenticationCard: React.FC<IAuthenticationCard> = props => {
           ? 'Don\'t have an account?'
           : 'Already have an account?'}
       </AccentedLink>
-    </AuthCardContainer>
+    </AuthContainer>
   );
 };
 
-export default AuthenticationCard;
+export default Authentication;

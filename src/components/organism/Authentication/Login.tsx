@@ -1,10 +1,10 @@
 import React from 'react';
 
-import AuthenticationCard, { AuthType, IOnLogin } from './../molecules/AuthenticationCard';
+import Authentication, { AuthType, IOnLogin } from './Authentication';
 
-import { Perform } from './../../reducers/auth';
+import { Perform } from '../../../reducers/auth';
 
-import { AuthCtx } from './../../contexts/auth';
+import { AuthCtx } from '../../../contexts/auth';
 
 const Login: React.FC = props => {
   const [error, setError] = React.useState('');
@@ -19,7 +19,7 @@ const Login: React.FC = props => {
   };
 
   return (
-    <AuthenticationCard type={AuthType.Login} error={error} onLogin={handleSubmit} />
+    <Authentication type={AuthType.Login} error={error} onLogin={handleSubmit} />
   );
 };
 
