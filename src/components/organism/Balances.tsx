@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {TransactionCtx} from '../../contexts/transaction';
 import {IBalanceEntry} from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
-import { ITransaction, TransactionType } from '../../declarations/transaction';
+import { TransactionType } from '../../declarations/transaction';
 import MonthPicker from '../atoms/MonthPicker';
 import BalancesTable from '../molecules/BalancesTable';
 
@@ -12,15 +12,20 @@ interface IProps {
   className?: string;
 }
 
+interface IError {
+  detail: string;
+}
+
+const BASE_URL = 'http://localhost:8000/' as const;
+
 const Balances: React.FC<IProps> = props => {
 
   const { store } = React.useContext(TransactionCtx);
-  const [monthChosen, setMonthChosen] = React.useState(moment());
-  const [balances, setBalances] = React.useState();
-  const [entries, setEntries] = React.useState();
+  const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(moment());
+  const [entries, setEntries] = React.useState<{[s: string]: Array<IBalanceEntry>}>({});
 
   const createEntries = (month: IMonth) => {
-    const thisMonth = new Date(month.year, month.month, 1);
+
     const monthBalances: { [s: string]: {income: number, expense: number, liquidity: number}; } = {};
     const liquidities = month.balance.sort((a, b) => {
       if (a.date <= b.date ) {
@@ -51,7 +56,6 @@ const Balances: React.FC<IProps> = props => {
       }
     });
 
-    /* Create BalanceEntries */
     const balanceEntries: Array<IBalanceEntry> = new Array();
     Object.keys(monthBalances).forEach(be => {
       balanceEntries.push({
@@ -60,29 +64,55 @@ const Balances: React.FC<IProps> = props => {
         income: monthBalances[be].income,
         liquidity: monthBalances[be].liquidity});
     });
-    setEntries(balanceEntries);
+    return balanceEntries;
   };
 
-  const filterDate = (transaction: ITransaction) => {
-    const transDate = moment(transaction.date);
-    return transDate.month() === monthChosen.month() && transDate.year() === monthChosen.year() ;
-  };
-
-  async function fetchData() {
-    const result = await fetch(
-      `http://localhost:8000/month/month=${monthChosen.month() + 1}&year=2019&company_id=1`,
+  async function fetchMonthByMonthYearAndCompanyId() {
+    const url = `${BASE_URL}month?month=${monthChosen.month() + 1}&year=${monthChosen.year()}&company_id=1`;
+    const result = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
     );
-    result
-      .json()
-      .then((res: Array<IMonth>) => {console.log(res); setBalances(res[0]); createEntries(res[0]); })
-      .then(() => console.log(balances))
-      .catch(err => console.log(err));
+
+    if (result.status === 200) {
+      const parsedResult = await result.json() as Array<IMonth>;
+
+      return parsedResult;
+    } else if (result.status === 400) {
+      throw new Error((await result.json() as IError).detail);
+    }
+
+    throw new Error('Unexpected response from server.');
   }
 
   // Calculate new balance entries and update entries state when month changes.
   React.useEffect(() => {
-    fetchData();
-    }, []);
+    // If month has been fetched and already exists in store, do nothing.
+    if (`${monthChosen.month()}-${monthChosen.year()}` in entries) {
+      return;
+    }
+
+    // Else, fetch from API
+    fetchMonthByMonthYearAndCompanyId()
+      .then(balanceEntries => {
+        if (balanceEntries.length !== 1) {
+          const newEntries = {...entries};
+          newEntries[`${monthChosen.month()}-${monthChosen.year()}`] = [];
+          setEntries(newEntries);
+        } else {
+          const newEntries = {...entries};
+          newEntries[`${monthChosen.month()}-${monthChosen.year()}`] = createEntries(balanceEntries[0]);
+          setEntries(newEntries);
+        }
+      })
+      .catch(error => {
+        alert(error);
+      });
+    }, [monthChosen]);
+
+  const key = `${monthChosen.month()}-${monthChosen.year()}`;
 
   return (
     <div className={props.className}>
@@ -92,10 +122,7 @@ const Balances: React.FC<IProps> = props => {
           <h5>Showing income, expense and liquidity for a month</h5>
         </div>
         <MonthPicker month={monthChosen} setState={setMonthChosen} />
-        {entries ? 
-          <BalancesTable entries={entries} /> :
-          <div></div>
-        }
+        <BalancesTable entries={entries[key] ? entries[key] : []} />
       </div>
     </div>
   );
