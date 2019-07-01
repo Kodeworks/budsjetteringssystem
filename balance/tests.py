@@ -55,11 +55,11 @@ class BankBalanceTestCase(TestCase):
         date = datetime.date(2018, 1, 1)
         BankBalance.objects.create(date=date, company=company, money=10000)
 
-        serializer = BankBalanceSerializer(data={'date': date, 'company': company.pk, 'money': 10000})
+        serializer = BankBalanceSerializer(data={'date': date, 'money': 10000, 'company_id': company.pk})
         self.assertFalse(serializer.is_valid())
 
         date = datetime.date(2018, 1, 2)
-        serializer = BankBalanceSerializer(data={'date': date, 'company': company.pk, 'money': 10000})
+        serializer = BankBalanceSerializer(data={'date': date, 'money': 10000, 'company_id': company.pk})
         self.assertTrue(serializer.is_valid(), msg=serializer.errors)
         serializer.save()
 
@@ -78,7 +78,7 @@ class BankBalanceTestCase(TestCase):
         date = datetime.date(2018, 1, 1)
         BankBalance.objects.create(date=date, company=company1, money=10000)
 
-        serializer = BankBalanceSerializer(data={'date': date, 'company': company2.pk, 'money': 10000})
+        serializer = BankBalanceSerializer(data={'date': date, 'money': 10000, 'company_id': company2.pk})
         self.assertTrue(serializer.is_valid(), msg=serializer.errors)
         serializer.save()
 
@@ -92,7 +92,7 @@ class BankBalanceViewTestCase(CompanyTestMixin, JWTTestCase):
 
     def test_create_bank_balance(self):
         date = datetime.date(2018, 1, 1)
-        response = self.post(views.BankBalanceView, {'date': date, 'money': 1000, 'company': self.company.pk})
+        response = self.post(views.BankBalanceView, {'date': date, 'money': 1000})
         self.assertEquals(response.status_code, 201, msg=response.content)
         self.assertEquals(response.data['date'], str(date), msg=response.content)
         self.assertTrue(BankBalance.objects.filter(pk=response.data['id']).exists(), msg=response.content)
@@ -104,6 +104,9 @@ class BankBalanceViewTestCase(CompanyTestMixin, JWTTestCase):
         response = self.get(views.BankBalanceView, {'id': balance.id})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data['date'], str(date), msg=response.content)
+        self.assertEquals(response.data['id'], balance.pk, msg=response.content)
+        self.assertEquals(response.data['money'], balance.money, msg=response.content)
+        self.assertEquals(response.data['company_id'], balance.company.pk, msg=response.content)
 
     def test_get_bank_balance_by_date(self):
         date = datetime.date(2018, 1, 1)
@@ -117,8 +120,7 @@ class BankBalanceViewTestCase(CompanyTestMixin, JWTTestCase):
         date = datetime.date(2018, 1, 1)
         balance = BankBalance.objects.create(date=date, company=self.company, money=20000)
 
-        response = self.put(views.BankBalanceView, {'company': self.company.pk, 'id': balance.pk,
-                                                    'money': 1000, 'date': date})
+        response = self.put(views.BankBalanceView, {'id': balance.pk, 'money': 1000, 'date': date})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data['date'], str(date), msg=response.content)
         self.assertEquals(response.data['money'], 1000, msg=response.content)
@@ -157,3 +159,9 @@ class BankBalanceViewTestCase(CompanyTestMixin, JWTTestCase):
 
         response = self.get(views.BankBalanceByDateRangeView)
         self.assertEquals(response.status_code, 400, msg=response.content)
+
+    def test_balance_different_company(self):
+        date = datetime.date(2018, 1, 1)
+        company2 = self.create_company('Fake corp', '754782842')
+        response = self.post(views.BankBalanceView, {'date': date, 'money': 1000, 'company_id': company2.pk})
+        self.assertEquals(response.status_code, 403, msg=response.content)
