@@ -1,10 +1,10 @@
 import React from 'react';
 
-import AuthenticationCard, { AuthType, IOnRegister } from './../molecules/AuthenticationCard';
+import Authentication, { AuthType, IOnRegister } from './Authentication';
 
-import { Perform } from './../../reducers/auth';
+import { Perform } from '../../../reducers/auth';
 
-import { AuthCtx } from './../../contexts/auth';
+import { AuthCtx } from '../../../contexts/auth';
 
 const Register: React.FC = props => {
   const { dispatch } = React.useContext(AuthCtx);
@@ -19,7 +19,7 @@ const Register: React.FC = props => {
   };
 
   return (
-    <AuthenticationCard type={AuthType.Register} error={error} onRegister={handleSubmit} />
+    <Authentication type={AuthType.Register} error={error} onRegister={handleSubmit} />
   );
 };
 
