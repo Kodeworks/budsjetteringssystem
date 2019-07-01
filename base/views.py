@@ -109,12 +109,6 @@ class RetrieveCreateUpdateDestroyView(SingleObjectQueryOrDataMixin, mixins.Retri
 
 
 class ListView(mixins.ListModelMixin, CompanyAccessView):
-    company_field = 'company'
-
-    def get_queryset(self):
-        company_id = self.get_company_id()
-        return self.queryset.filter(**{self.company_field: company_id})
-
     def get(self, *args, **kwargs):
         return self.list(*args, **kwargs)
 
