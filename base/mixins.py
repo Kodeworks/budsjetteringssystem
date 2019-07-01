@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.exceptions import ParseError
+from django.core.exceptions import ValidationError
+from rest_framework.exceptions import ParseError, PermissionDenied
 
 
 class SingleObjectQueryOrDataMixin:
@@ -25,3 +26,31 @@ class SingleObjectQueryOrDataMixin:
         obj = get_object_or_404(queryset, **{self.lookup_field: value})
         self.check_object_permissions(self.request, obj)
         return obj
+
+
+class ErrorHandlingMixin:
+    """Does basic error handling for views, to avoid 500 responses"""
+    def get_queryset(self):
+        try:
+            return super().get_queryset()
+        except ValidationError as e:
+            raise ParseError(e.messages[0])
+
+
+class CompanyFilterMixin(ErrorHandlingMixin):
+    """
+    Handles retrieving objects for the current company.
+
+    When using the API the sender must include the ID of then
+    company to manage. `CompanyAccessView` checks if the user
+    is allowed to do the action for that company.
+
+    This mixin uses that same company ID to filter the objects
+    that can be retrieved.
+    """
+    company_field = 'company'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        company_id = self.get_company_id()
+        return queryset.filter(**{self.company_field: company_id})

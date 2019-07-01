@@ -53,8 +53,11 @@ class JWTTestCase(TestCase):
         # The rest framework doesn't allow both query parameters and
         # post data, so if it's a GET request we encode the data in the url
         if method == 'GET':
+            # Get the name of the argument in the url
+            existing_params = [item.split('=')[0] for item in url.split('?')[-1].split('&')]
+
             for name in data:
-                if name not in url:
+                if name not in existing_params:
                     if '?' not in url:
                         url += '?'
                     else:
