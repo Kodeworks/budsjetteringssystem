@@ -4,15 +4,14 @@ import styled from 'styled-components';
 
 import { Redirect, Route } from 'react-router';
 
-
 import { initialState, Perform, reducer } from './reducers/auth';
 
 import Login from './components/organism/Authentication/Login';
 import Register from './components/organism/Authentication/Register';
 
+import Balances from './components/organism/Balances';
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
-import Balances from './components/organism/Balances';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
