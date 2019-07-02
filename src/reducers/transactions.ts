@@ -1,6 +1,6 @@
 import { ITransaction } from '../declarations/transaction';
 
-export interface IState {
+export interface ITransactionState {
   transactions: Array<ITransaction>;
   intermediary: Array<ITransaction['id']>;
 }
@@ -42,12 +42,12 @@ export const ActionCreators = {
 // !! DO NOT TOUCH !!
 export type IAction = ReturnType<typeof ActionCreators[keyof typeof ActionCreators]>;
 
-export const initialState: IState = { transactions: [], intermediary: [] };
+export const initialState: ITransactionState = { transactions: [], intermediary: [] };
 
 /**
  * Reducer
  */
-export const reducer = (state: IState, action: IAction): IState => {
+export const reducer = (state: ITransactionState, action: IAction): ITransactionState => {
   switch (action.type) {
     case ADD_TRANSACTION:
       return { ...state, transactions: [...state.transactions, action.tx] };

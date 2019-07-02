@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-/* TODO: add theme props, add grid */
-  background-color: ghostwhite;
+  background-color: ${props => props.theme.palette.background.paper};
   border-radius: 5px;
-  box-shadow: 5px 5px 15px grey;
+
+  border: 2px solid ${props => props.theme.palette.primary.contrast};
+
   padding: 20px;
 `;
 
