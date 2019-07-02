@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
-import {TransactionCtx} from '../../contexts/transaction';
-import {IBalanceEntry} from '../../declarations/balanceEntries';
+import { TransactionCtx } from '../../contexts/transaction';
+import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
 import { TransactionType } from '../../declarations/transaction';
 import MonthPicker from '../atoms/MonthPicker';

@@ -2,14 +2,11 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 import {IBalanceEntry} from '../../declarations/balanceEntries';
+import { currencyFormat } from '../../helpers/currency';
 
 interface IPropsTableEntry {
   className?: string;
   data: IBalanceEntry;
-}
-
-function currencyFormat(num: number) {
-  return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
 
 const tableEntry: React.FC<IPropsTableEntry> = props => {
