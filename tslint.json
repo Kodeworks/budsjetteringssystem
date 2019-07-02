@@ -17,6 +17,7 @@
             "jsx-double"
         ],
         "ordered-imports": true,
+        "jsx-no-multiline-js": false,
         "prefer-template": true,
         "no-unnecessary-qualifier": true,
         "no-angle-bracket-type-assertion": true,

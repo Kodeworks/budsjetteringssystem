@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { theme } from './theme';
+
 export const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Montserrat:300|Open+Sans:300,400,700&display=swap');
 
@@ -11,10 +13,14 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  body, #root {
+    background: ${theme.palette.background.default};
+    min-height: 100vh;
+  }
 
   /* Typography */
 
-  h1, h2, h3, h4, h5, h6, p, a, span, li, strong, label, input, textarea, option, select {
+  h1, h2, h3, h4, h5, h6, p, a, span, li, strong, label, input, textarea, option, select, button {
     font-family: "Open Sans", sans-serif;
   }
 
