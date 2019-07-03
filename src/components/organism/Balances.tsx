@@ -1,12 +1,12 @@
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
-import { TransactionCtx } from '../../contexts/transaction';
 import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
 import { TransactionType } from '../../declarations/transaction';
 import BalancesAPI from '../../mitochondria/balances';
 import MonthPicker from '../atoms/MonthPicker';
+import PageTitle from '../atoms/PageTitle';
 import BalancesTable from '../molecules/BalancesTable';
 
 interface IProps {
@@ -27,19 +27,21 @@ const Balances: React.FC<IProps> = props => {
   const createEntries = (month: IMonth) => {
 
     const monthBalances: { [s: string]: {income: number, expense: number, liquidity: number}; } = {};
-    const liquidities = month.balance.sort((a, b) => {
+    const sortedBalances = month.balance.sort((a, b) => {
       if (a.date <= b.date ) {
         return -1;
       }
       return 1;
     });
-    monthBalances[`${month.year}-${month.month < 9 ? '0' : ''}${month.month}-01`] = {
+
+    const firstOfMonth = moment({year: month.year, month: month.month, day: 1});
+    monthBalances[firstOfMonth.format('YYYY-MM-DD')] = {
       expense: 0,
       income: 0,
       liquidity: month.start_balance,
     };
 
-    liquidities.forEach(b => {
+    sortedBalances.forEach(b => {
       monthBalances[b.date] = {
         expense: 0,
         income: 0,
@@ -56,7 +58,7 @@ const Balances: React.FC<IProps> = props => {
       }
     });
 
-    const balanceEntries: Array<IBalanceEntry> = new Array();
+    const balanceEntries: Array<IBalanceEntry> = [];
     Object.keys(monthBalances).forEach(be => {
       balanceEntries.push({
         date: be,
@@ -87,17 +89,16 @@ const Balances: React.FC<IProps> = props => {
           alert(error);
         });
     }
-  }, [monthChosen]);
+  }, [monthChosen, entries]);
 
   const entriesIndex = `${monthChosen.month()}-${monthChosen.year()}`;
+  const title = 'Balances';
+  const description = 'Showing income, expense and liquidity for a month';
 
   return (
     <div className={props.className}>
       <div>
-        <div className={'title'}>
-          <h1>Balances</h1>
-          <h5>Showing income, expense and liquidity for a month</h5>
-        </div>
+        <PageTitle title={title} description={description} />
         <MonthPicker month={monthChosen} setState={setMonthChosen} />
         <BalancesTable entries={entries[entriesIndex] ? entries[entriesIndex] : []} />
       </div>
@@ -108,21 +109,11 @@ const Balances: React.FC<IProps> = props => {
 export default styled(Balances)`
   margin: 2em;
 
-  h1 {
-    font-weight: 700;
-    font-size: 1.8em;
-  }
-
-  h5 {
-    font-weight: 300;
-    line-height: .7em;
-  }
-
-  .title {
-    margin-bottom: 4em;
-  }
-
   display: grid;
   grid-template-columns: calc(70% - 2em) ;
   grid-gap: 4em;
 `;
+
+/*
+
+*/
