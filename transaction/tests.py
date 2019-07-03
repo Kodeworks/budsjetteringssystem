@@ -7,6 +7,7 @@ from company.models import Company
 from company.tests import CompanyTestMixin
 from .models import Transaction
 from . import views
+from .models import TransactionStaticData
 
 
 class TransactionTestMixin(CompanyTestMixin):
@@ -32,7 +33,6 @@ class TransactionTestMixin(CompanyTestMixin):
             transaction.save()
         return transaction
 
-
 class TransactionAllTestCase(TransactionTestMixin, JWTTestCase):
     def setUp(self):
         super().setUp()
@@ -50,6 +50,21 @@ class TransactionAllTestCase(TransactionTestMixin, JWTTestCase):
         self.assertIsNone(response.data['next'], msg=response.content)
         self.assertIsNone(response.data['previous'], msg=response.content)
         self.assertEquals(response.data['results'], [], msg=response.content)
+
+    def test_transaction_from_correct_company(self):
+        self.force_login(self.user)
+
+        test_date = date(2018, 6, 18)
+        tr_my_company = self.create_transaction(date=test_date)
+        other_company = self.create_company('Other company Inc', '12345')
+        tr_other_company = self.create_transaction(company=other_company, date=test_date)
+
+        response = self.get(views.TransactionAllView, {'limit': 3, 'offset': 0})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(len(response.data['results']), 1, msg=response.content)
+        transaction_ids = [x['id'] for x in response.data['results']]
+        self.assertIn(tr_my_company.id, transaction_ids, msg=response.content)
+        self.assertNotIn(tr_other_company.id, transaction_ids, msg=response.content)
 
     def test_one_page_transactions_ordered_by_date(self):
         self.force_login(self.user)
@@ -156,7 +171,7 @@ class TransactionByDateTestCase(TransactionTestMixin, JWTTestCase):
 
         response = self.get(views.TransactionByDateView, {'date': test_date, 'company_id': self.company.pk})
         self.assertEquals(response.status_code, 200, msg=response.content)
-        
+
         transaction_ids = [x['id'] for x in response.data['results']]
         self.assertIn(tr_my_company.id, transaction_ids, msg=response.content)
         self.assertNotIn(tr_other_company.id, transaction_ids, msg=response.content)
@@ -185,10 +200,42 @@ class TransactionByDateRangeTestCase(TransactionTestMixin, JWTTestCase):
         response = self.get(views.TransactionByDateRangeView, {'start_date': dates[1], 'end_date': dates[6]})
         self.assertEquals(response.status_code, 200, msg=response.content)
         response_ids = [transaction['id'] for transaction in response.data['results']]
-        self.assertEquals(transactions[1:6+1], response_ids, msg=response.content)
+        self.assertEquals(transactions[1:7], response_ids, msg=response.content)
+
+    def test_no_login(self):
+        self.logout()
+        response = self.get(views.TransactionByDateRangeView, {
+            'start_date': date(2017, 6, 4),
+            'end_date': date(2017, 6, 5)
+        })
+        self.assertEquals(response.status_code, 401, msg=response.content)
+
 
 class TransactionIncomeAllTestCase(TransactionTestMixin, JWTTestCase):
-    pass
+    def setUp(self):
+        super().setUp()
+        self.force_login(self.user)
+
+    def test_only_income_returned(self):
+        trans_in = self.create_transaction(money=3000, type=TransactionStaticData.INCOME)
+        trans_ex = self.create_transaction(money=4000, type=TransactionStaticData.EXPENSE)
+
+        response = self.get(views.TransactionIncomeAllView, {'company_id': self.company.pk})
+        transaction_ids = [trans['id'] for trans in response.data['results']]
+        self.assertIn(trans_in.id, transaction_ids, msg=response.content)
+        self.assertNotIn(trans_ex.id, transaction_ids, msg=response.content)
+
 
 class TransactionExpenseAllTestCase(TransactionTestMixin, JWTTestCase):
-    pass
+    def setUp(self):
+        super().setUp()
+        self.force_login(self.user)
+
+    def test_only_expenses_returned(self):
+        trans_in = self.create_transaction(money=3000, type=TransactionStaticData.INCOME)
+        trans_ex = self.create_transaction(money=4000, type=TransactionStaticData.EXPENSE)
+
+        response = self.get(views.TransactionExpenseAllView, {'company_id': self.company.pk})
+        transaction_ids = [trans['id'] for trans in response.data['results']]
+        self.assertIn(trans_ex.id, transaction_ids, msg=response.content)
+        self.assertNotIn(trans_in.id, transaction_ids, msg=response.content)
