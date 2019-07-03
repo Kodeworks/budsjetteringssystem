@@ -22,7 +22,7 @@ test('TransactionEntry', () => {
   const testClassName = 'test';
   const testDescription = 'Kodeworks ASMR Inc';
   const testMoney = 50000;
-  const testDate = '2019-08-22';
+  const testDate = new Date('2019-08-22');
   const testCompanyId = 1;
   const testType = TransactionType.income;
   const testNotes = 'Edgy';
@@ -58,7 +58,7 @@ test('TransactionEntry', () => {
   }
   expect(header6Array.length).toBe(2);
   expect(header6Array[0].textContent).toContain(testType);
-  expect(header6Array[1].textContent).toContain(testDate);
+  expect(header6Array[1].textContent).toContain(testDate.toLocaleDateString());
   expect(paragraph).not.toBe(null);
   if (paragraph) {
     expect(paragraph.textContent).toEqual('');
