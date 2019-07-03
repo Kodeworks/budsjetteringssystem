@@ -29,6 +29,11 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 2em;
   }
 
+  h5 {
+    font-weight: 300;
+    line-height: .7em;
+  }
+
   p {
     font-family: Montserrat;
     font-weight: 400;

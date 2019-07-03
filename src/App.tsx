@@ -8,6 +8,8 @@ import { initialState, Perform, reducer } from './reducers/auth';
 
 import Login from './components/organism/Authentication/Login';
 import Register from './components/organism/Authentication/Register';
+
+import Balances from './components/organism/Balances';
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
 import FAQ from './components/pages/FAQ';
@@ -77,6 +79,7 @@ const App: React.FC<IAppProps> = props => {
         <Route path="/" exact={true} component={Homepage} />
         <Route path="/faq" component={FAQ} />
         <Route path="/transactions" component={Transactions} />
+        <Route path="/balances" component={Balances} />
       </Page>
     </Wrap>
   );

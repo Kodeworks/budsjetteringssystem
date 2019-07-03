@@ -9,6 +9,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.3",
     "@types/styled-components": "^4.1.16",
+    "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
@@ -50,6 +51,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "jest-dom": "^3.5.0",
     "react-docgen-typescript-loader": "^3.1.0",
+    "robohydra": "^0.6.8",
     "tslint": "^5.17.0",
     "tslint-react": "^4.0.0"
   }
