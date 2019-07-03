@@ -13,10 +13,6 @@ interface IProps {
   className?: string;
 }
 
-interface IError {
-  detail: string;
-}
-
 const companyId = 1; // Hardcoded until we get a global company context.
 
 const createBalanceEntriesFromMonth = (month: IMonth) => {
@@ -47,9 +43,9 @@ const createBalanceEntriesFromMonth = (month: IMonth) => {
   month.transactions.forEach(t => {
     // TransactionType with capital first letter does not reflect enums from API with lowercase..
     if (t.type.charAt(0).toUpperCase() + t.type.slice(1) === TransactionType.income) {
-      monthBalances[t.date].income += t.money;
+      monthBalances[t.date.toISOString().split('T')[0]].income += t.money;
     } else {
-      monthBalances[t.date].expense += t.money;
+      monthBalances[t.date.toISOString().split('T')[0]].expense += t.money;
     }
   });
 
