@@ -38,54 +38,52 @@ const AddTransaction: React.FC<IProps> = props => {
   return (
     <Collapsable heading={<h1>Add new transaction</h1>}>
       <div className={props.className}>
-        <form>
-          <Input value={date} id="date" type="date" setState={setDate}>
-            Date
-          </Input>
-          <Input
-            value={amount}
-            id="amount"
-            type="number"
-            setState={setAmount}
-            placeholder="0.00"
-          >
-            Amount
-          </Input>
-          <Input
-            value={name}
-            id="name"
-            type="text"
-            setState={setName}
-            placeholder="John Doe"
-          >
-            Name
-          </Input>
-          <Input
-            value={counterpart}
-            id="counterpart"
-            type="text"
-            setState={setCounterpart}
-            placeholder="Otter Accessories Inc."
-          >
-            Counterpart
-          </Input>
-          <TextArea
-            value={notes}
-            id="notes"
-            setState={setNotes}
-            placeholder="Notes regarding the transaction"
-          >
-            Notes
-          </TextArea>
-          <Checkbox value={recurring} setState={setRecurring} id="recurring">
-            Recurring?
-          </Checkbox>
-          <br />
-          {recurring && recurringTransactionOptions}
+        <Input value={date} id="date" type="date" setState={setDate}>
+          Date
+        </Input>
+        <Input
+          value={amount}
+          id="amount"
+          type="number"
+          setState={setAmount}
+          placeholder="0.00"
+        >
+          Amount
+        </Input>
+        <Input
+          value={name}
+          id="name"
+          type="text"
+          setState={setName}
+          placeholder="John Doe"
+        >
+          Name
+        </Input>
+        <Input
+          value={counterpart}
+          id="counterpart"
+          type="text"
+          setState={setCounterpart}
+          placeholder="Otter Accessories Inc."
+        >
+          Counterpart
+        </Input>
+        <TextArea
+          value={notes}
+          id="notes"
+          setState={setNotes}
+          placeholder="Notes regarding the transaction"
+        >
+          Notes
+        </TextArea>
+        <Checkbox value={recurring} setState={setRecurring} id="recurring">
+          Recurring?
+        </Checkbox>
+        <br />
+        {recurring && recurringTransactionOptions}
 
-          <OutlinedButton variant="success">Add income</OutlinedButton>
-          <OutlinedButton variant="error">Add expense</OutlinedButton>
-        </form>
+        <OutlinedButton variant="success">Add income</OutlinedButton>
+        <OutlinedButton variant="error">Add expense</OutlinedButton>
       </div>
     </Collapsable>
   );
