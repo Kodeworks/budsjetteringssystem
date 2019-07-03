@@ -1,5 +1,5 @@
-from datetime import date
-from rest_framework.exceptions import ParseError
+from datetime import date, datetime, timedelta
+from django.core.exceptions import ValidationError
 
 from base.tests import JWTTestCase
 from custom_auth import roles
@@ -38,6 +38,7 @@ class TransactionAllTestCase(TransactionTestMixin, JWTTestCase):
         super().setUp()
 
     def test_no_login(self):
+        self.logout()
         response = self.get(views.TransactionAllView, {'limit': 3, 'offset': 0})
         self.assertEquals(response.status_code, 401, msg=response.content)
 
@@ -134,13 +135,18 @@ class TransactionByDateTestCase(TransactionTestMixin, JWTTestCase):
 
     def test_transaction_by_date(self):
         test_date = date(2019, 4, 23)
-        tr1 = self.create_transaction(date=test_date)
+        tr1 = self.create_transaction(money=3000, date=test_date)
         tr2 = self.create_transaction(money=4000, date=test_date)
+        tr3 = self.create_transaction(money=5000, date=test_date + timedelta(days=2))
 
         response = self.get(views.TransactionByDateView, {'date': test_date})
         self.assertEquals(response.status_code, 200, msg=response.content)
-        self.assertIn(tr1, response.data['results'], msg=response.content)
-        self.assertIn(tr2, response.data['results'], msg=response.content)
+        self.assertEquals(len(response.data['results']), 2, msg=response.data)
+
+        transactions_ids = [x['id'] for x in response.data['results']]
+        self.assertIn(tr1.id, transactions_ids, msg=response.content)
+        self.assertIn(tr2.id, transactions_ids, msg=response.content)
+        self.assertNotIn(tr3.id, transactions_ids, msg=response.content)
 
     def test_transaction_from_correct_company(self):
         test_date = date(2018, 6, 18)
@@ -148,17 +154,18 @@ class TransactionByDateTestCase(TransactionTestMixin, JWTTestCase):
         other_company = self.create_company('Other company Inc', '12345')
         tr_other_company = self.create_transaction(company=other_company, date=test_date)
 
-        response = self.get(views.TransactionByDateView, {'date': test_date})
+        response = self.get(views.TransactionByDateView, {'date': test_date, 'company_id': self.company.pk})
         self.assertEquals(response.status_code, 200, msg=response.content)
-        results = response.data['results']
-        self.assertIn(tr_my_company, results, msg=response.content)
-        self.assertNotIn(tr_other_company, results, msg=response.content)
+        
+        transaction_ids = [x['id'] for x in response.data['results']]
+        self.assertIn(tr_my_company.id, transaction_ids, msg=response.content)
+        self.assertNotIn(tr_other_company.id, transaction_ids, msg=response.content)
 
     def test_invalid_date_format(self):
         test_date = '2019,88,102'
 
-        with self.assertRaises(ParseError):
-            self.get(views.TransactionByDateView, {date: test_date})
+        with self.assertRaises(ValidationError):
+            self.get(views.TransactionByDateView, {'date': test_date})
 
 
 class TransactionByDateRangeTestCase(TransactionTestMixin, JWTTestCase):
@@ -167,7 +174,7 @@ class TransactionByDateRangeTestCase(TransactionTestMixin, JWTTestCase):
         self.force_login(self.user)
 
     def test_transactions_by_date_range(self):
-        dates = [date(2017, 6, 4), date(2017, 6, 5), date(20117, 6, 5), date(2019, 6, 7),
+        dates = [date(2017, 6, 4), date(2017, 6, 5), date(2017, 6, 5), date(2019, 6, 7),
                  date(2019, 6, 7), date(2019, 7, 2), date(2021, 8, 3), date(2021, 8, 4)]
 
         other_company = self.create_company(name='Other Inc', org_nr='12345')
@@ -178,7 +185,7 @@ class TransactionByDateRangeTestCase(TransactionTestMixin, JWTTestCase):
         response = self.get(views.TransactionByDateRangeView, {'start_date': dates[1], 'end_date': dates[6]})
         self.assertEquals(response.status_code, 200, msg=response.content)
         response_ids = [transaction['id'] for transaction in response.data['results']]
-        self.assertEquals(transactions[1:6], response_ids, msg=response.content)
+        self.assertEquals(transactions[1:6+1], response_ids, msg=response.content)
 
 class TransactionIncomeAllTestCase(TransactionTestMixin, JWTTestCase):
     pass
