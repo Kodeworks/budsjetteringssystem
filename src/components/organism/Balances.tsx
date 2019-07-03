@@ -56,7 +56,7 @@ const Balances: React.FC<IProps> = props => {
       }
     });
 
-    const balanceEntries: Array<IBalanceEntry> = new Array();
+    const balanceEntries: Array<IBalanceEntry> = [];
     Object.keys(monthBalances).forEach(be => {
       balanceEntries.push({
         date: be,
