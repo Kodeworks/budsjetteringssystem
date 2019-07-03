@@ -1,20 +1,28 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { createTransactionCtx, TransactionCtx } from '../contexts/transaction';
+
 import { ActionCreators, initialState, reducer } from '../reducers/transactions';
-import { GlobalStyle } from '../styling/global';
-import { theme } from '../styling/theme';
+import { AuthCtx } from './../contexts/auth';
+
+import { BrowserRouter } from 'react-router-dom';
+
+import { GlobalStyle } from './../styling/global';
+
+import { IAuthContext } from './../contexts/auth';
+
+import { ThemeProvider } from 'styled-components';
+
+import { createTransactionCtx, TransactionCtx } from './../contexts/transaction';
+import { theme } from './../styling/theme';
 import { createDummyTransaction } from './transaction_creator';
 
 interface IWrapperProps {
-  /* This makes the Wrapper stylable with styled-components
-     Example:
-      styled(Wrapper)`
-        ...styling goes here...
-      `
-  */
   className?: string;
+
+  /**
+   * This is OPTIONAL as tests often don't need access to authentication related stuff, but we're
+   * using this globally.
+   */
+  auth?: IAuthContext;
 }
 
 /**
@@ -34,8 +42,13 @@ const GlobalWrapper: React.FC<IWrapperProps> = props => {
     }
   }
 
+  const WrapWithAuth: React.FC = ({ children }) => {
+    return props.auth ? (<AuthCtx.Provider value={props.auth}>{children}</AuthCtx.Provider>) : <>{children}</>;
+  };
+
   return (
-    <TransactionCtx.Provider value={{store, dispatch}}>
+    <WrapWithAuth>
+      <TransactionCtx.Provider value={{store, dispatch}}>
         <GlobalStyle />
         <BrowserRouter>
           <ThemeProvider theme={theme}>
@@ -44,7 +57,8 @@ const GlobalWrapper: React.FC<IWrapperProps> = props => {
             </div>
           </ThemeProvider>
         </BrowserRouter>
-    </TransactionCtx.Provider>
+      </TransactionCtx.Provider>
+    </WrapWithAuth>
   );
 };
 
