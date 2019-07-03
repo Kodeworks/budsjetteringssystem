@@ -17,13 +17,22 @@ const txEntry = (t: ITransaction) => (
   <TransactionEntry hideIncomeExpenseBadge={true} key={t.id} {...t} />
 );
 
-const IncomeTransactions: React.FC<IProps> = props => (
+const IncomeTransactions: React.FC<IProps> = props => {
+
+  const renderTransactions = () => (
+    props.tx
+      .filter(e => e.type === TT.income)
+      .sort((t1, t2) => t1.date.getTime() - t2.date.getTime())
+      .map(txEntry)
+  );
+  return (
   <div className={props.className}>
     <h2>Income</h2>
-    {props.tx.filter(e => e.type === TT.income).map(txEntry)}
+    {renderTransactions()}
     <OutlinedButton onClick={props.fetchMore}>Fetch more</OutlinedButton>
   </div>
-);
+  );
+};
 
 export default styled(IncomeTransactions)`
   h2 {

@@ -28,7 +28,7 @@ let i: number = 0;
 
 export const createDummyTransaction = (): ITransaction => ({
   companyId: 0,
-  date: new Date(Math.floor(Math.random() * 1500000000000)).toLocaleDateString(),
+  date: new Date(Math.floor(Math.random() * 1500000000000)),
   description: `${randomWord()} ${randomWord()}`,
   id: i++,
   money: Math.random() * 10000,

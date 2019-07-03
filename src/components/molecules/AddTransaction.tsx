@@ -17,10 +17,9 @@ const AddTransaction: React.FC<IProps> = props => {
   const [date, setDate] = React.useState('1970-01-01');
   const [amount, setAmount] = React.useState('');
   const [name, setName] = React.useState('');
-  const [customer, setCustomer] = React.useState('');
+  const [counterpart, setCounterpart] = React.useState('');
   const [notes, setNotes] = React.useState('');
   const [recurring, setRecurring] = React.useState(false);
-
   const [interval, setInterval] = React.useState(1);
   const [intervalType, setIntervalType] = React.useState('Month');
   const [dayOfMonth, setDayOfMonth] = React.useState(23);
@@ -30,7 +29,6 @@ const AddTransaction: React.FC<IProps> = props => {
       intervalValue={interval}
       intervalTypeValue={intervalType}
       DoMValue={dayOfMonth}
-
       setInterval={setInterval}
       setTypeInterval={setIntervalType}
       setDoM={setDayOfMonth}
@@ -40,17 +38,35 @@ const AddTransaction: React.FC<IProps> = props => {
   return (
     <Collapsable heading={<h1>Add new transaction</h1>}>
       <div className={props.className}>
-        <Input value={date} id="date" type="date" setState={setDate}>Date</Input>
-        <Input value={amount} id="amount" type="number" setState={setAmount} placeholder="0.00">Amount</Input>
-        <Input value={name} id="name" type="text" setState={setName} placeholder="John Doe">Name</Input>
+        <Input value={date} id="date" type="date" setState={setDate}>
+          Date
+        </Input>
         <Input
-          value={customer}
-          id="customer"
+          value={amount}
+          id="amount"
+          type="number"
+          setState={setAmount}
+          placeholder="0.00"
+        >
+          Amount
+        </Input>
+        <Input
+          value={name}
+          id="name"
           type="text"
-          setState={setCustomer}
+          setState={setName}
+          placeholder="John Doe"
+        >
+          Name
+        </Input>
+        <Input
+          value={counterpart}
+          id="counterpart"
+          type="text"
+          setState={setCounterpart}
           placeholder="Otter Accessories Inc."
         >
-          Customer
+          Counterpart
         </Input>
         <TextArea
           value={notes}
@@ -60,7 +76,9 @@ const AddTransaction: React.FC<IProps> = props => {
         >
           Notes
         </TextArea>
-        <Checkbox value={recurring} setState={setRecurring} id="recurring">Recurring?</Checkbox>
+        <Checkbox value={recurring} setState={setRecurring} id="recurring">
+          Recurring?
+        </Checkbox>
         <br />
         {recurring && recurringTransactionOptions}
 

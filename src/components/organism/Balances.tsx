@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
-import { TransactionType } from '../../declarations/transaction';
 import BalancesAPI from '../../mitochondria/balances';
 import MonthPicker from '../atoms/MonthPicker';
 import PageTitle from '../atoms/PageTitle';
