@@ -6,7 +6,7 @@ import { sum as intermediarySum } from '../../helpers/intermediary_calc';
 
 const tx: ITransaction = {
   companyId: 0,
-  date: '01.01.1970',
+  date: new Date('01.01.1970'),
   description: 'Test transaction #0',
   id: 0,
   money: 10000,
