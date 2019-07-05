@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
-import { TransactionType } from '../../declarations/transaction';
 import BalancesAPI from '../../mitochondria/balances';
 import MonthPicker from '../atoms/MonthPicker';
 import PageTitle from '../atoms/PageTitle';
@@ -41,12 +40,7 @@ const createBalanceEntriesFromMonth = (month: IMonth) => {
   });
 
   month.transactions.forEach(t => {
-    // TransactionType with capital first letter does not reflect enums from API with lowercase..
-    if (t.type.charAt(0).toUpperCase() + t.type.slice(1) === TransactionType.income) {
-      monthBalances[t.date.toISOString().split('T')[0]].income += t.money;
-    } else {
-      monthBalances[t.date.toISOString().split('T')[0]].expense += t.money;
-    }
+    monthBalances[t.date][t.type] += t.money;
   });
 
   const balanceEntries: Array<IBalanceEntry> = [];

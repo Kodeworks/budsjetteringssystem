@@ -1,6 +1,6 @@
 import { ActionCreators, initialState, reducer } from '../transactions';
 
-import { ITransaction, TransactionType } from '../../declarations/transaction';
+import { ITransaction } from '../../declarations/transaction';
 
 import { sum as intermediarySum } from '../../helpers/intermediary_calc';
 
@@ -10,7 +10,7 @@ const tx: ITransaction = {
   description: 'Test transaction #0',
   id: 0,
   money: 10000,
-  type: TransactionType.income,
+  type: 'income',
 };
 
 test('adds a new transaction', () => {

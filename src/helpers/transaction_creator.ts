@@ -18,8 +18,8 @@ const words: Array<string> = [
 const randomWord = (): string => words[Math.floor(Math.random() * words.length)];
 
 const types: Array<TransactionType> = [
-  TransactionType.expense,
-  TransactionType.income,
+  'expense',
+  'income',
 ];
 
 const randomType = (): TransactionType => types[Math.floor(Math.random() * types.length)];
