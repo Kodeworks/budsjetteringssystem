@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-import { ITransaction } from '../declarations/transaction';
+import { ITransaction } from './../../declarations/transaction';
 
 /**
  * Action types
  */
 const ADD_TRANSACTION = 'ADD_TRANSACTION';
 const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION';
+const RESET_TRANSACTIONS = 'RESET_TRANSACTIONS'; // mostly for testing purposes.
 const INTERMEDIARY_ADD = 'INTERMEDIARY_ADD';
 const INTERMEDIARY_REMOVE = 'INTERMEDIARY_REMOVE';
 
@@ -39,6 +40,13 @@ const removeTransaction = (
   type: REMOVE_TRANSACTION,
 });
 
+const initTransactions = (
+  init: Array<ITransaction>,
+): { payload: Array<ITransaction>; type: typeof RESET_TRANSACTIONS } => ({
+  payload: init,
+  type: RESET_TRANSACTIONS,
+});
+
 /**
  * Action creator: Add transaction to accumulator tool (calculator)
  *
@@ -64,6 +72,18 @@ const removeFromIntermediary = (
 });
 
 /**
+ * An object with all actioncreators, which can easily be exported.
+ * (See exports at the bottom of the file.)
+ */
+const ActionCreators = {
+  addToIntermediary,
+  addTransaction,
+  initTransactions,
+  removeFromIntermediary,
+  removeTransaction,
+};
+
+/**
  * The return types of all the elements in ActionCreators
  * NOTE: Should not be modified!
  */
@@ -85,6 +105,7 @@ const initialState: ITransactionState = {
 
 /**
  * Transactions reducer
+ * Takes old state and an action as arguments, and returns the new state.
  * @param {ITransactionState} state - The current or initial state of the transaction context
  * @param {ActionType} action - The type of action being dispatched.
  */
@@ -107,35 +128,50 @@ const reducer = (
         ...state,
         intermediary: state.intermediary.filter(id => id !== action.id),
       };
+    case RESET_TRANSACTIONS:
+      return {
+        ...state,
+        transactions: action.payload,
+      };
     default:
       return state;
   }
 };
 
-const TransactionStateContext = React.createContext<ITransactionState | undefined>(undefined);
-const TransactionDispatchContext = React.createContext<React.Dispatch<ActionType> | undefined>(undefined);
-// export let TransactionCtx: React.Context<ITransactionContext>;
+/**
+ * Useful type
+ */
+type TransactionDispatch = React.Dispatch<ActionType>;
 
-const TransactionProvider: React.FC = ({children}) => {
+const TransactionStateContext = React.createContext<
+  ITransactionState | undefined
+>(undefined);
+const TransactionDispatchContext = React.createContext<
+  TransactionDispatch | undefined
+>(undefined);
+
+const TransactionProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+
   return (
     <TransactionStateContext.Provider value={state}>
       <TransactionDispatchContext.Provider value={dispatch}>
         {children}
-      </ TransactionDispatchContext.Provider>
+      </TransactionDispatchContext.Provider>
     </TransactionStateContext.Provider>
   );
 };
 
 /**
  * Returns the current state of the transaction context
- * @returns {ITransactionState} The current transactions state
  * @throws {Error} Must be called within a TransactionProvider
  */
-const useTransactionState = (): ITransactionState => {
+const useTransactionState = () => {
   const context = React.useContext(TransactionStateContext);
-  if (!context) {
-    throw new Error('useTransactionState must be used within a TransactionProvider');
+  if (context === undefined) {
+    throw new Error(
+      'useTransactionState must be used within a TransactionProvider',
+    );
   }
   return context;
 };
@@ -146,43 +182,29 @@ const useTransactionState = (): ITransactionState => {
  * see https://kentcdodds.com/blog/how-to-optimize-your-context-value for more information.
  *
  * The dispatch function is used to dispatch an action of @type {ActionType}
- * @returns {React.Dispatch<ActionType>} The dispatch function of the transaction context.
+ * @returns {TransactionDispatch} The dispatch function of the transaction context.
  * @throws {Error} Must be called within a TransactionProvider
  */
-const useTransactionDispatch = (): React.Dispatch<ActionType> => {
+const useTransactionDispatch = (): TransactionDispatch => {
   const context = React.useContext(TransactionDispatchContext);
-  if (!context) {
-    throw new Error('useTransactionDispatch must be called within a TransactionProvider');
+  if (context === undefined) {
+    throw new Error(
+      'useTransactionDispatch must be called within a TransactionProvider',
+    );
   }
   return context;
 };
 
+export type TransactionsContextType = [ITransactionState, TransactionDispatch];
 /**
  * Returns the current state AND the dispatch of the Transaction context.
- * @returns {Array<(ITransactionState | React.Dispatch<ActionType>)>}
  */
-const useTransactions = (): Array<(ITransactionState | React.Dispatch<ActionType>)> => {
+const useTransactions = (): TransactionsContextType => {
   return [useTransactionState(), useTransactionDispatch()];
 };
 
-// export const createTransactionCtx = (
-//   store: ITransactionState,
-//   dispatch: React.Dispatch<ActionType>,
-// ) => {
-//   TransactionCtx = React.createContext<ITransactionContext>({
-//     store,
-//     dispatch,
-//   });
-// };
-
-const ActionCreators = {
-  addToIntermediary,
-  addTransaction,
-  removeFromIntermediary,
-  removeTransaction,
-};
-
-export {TransactionProvider,
+export {
+  TransactionProvider,
   useTransactions,
   useTransactionState,
   useTransactionDispatch,

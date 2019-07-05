@@ -2,11 +2,11 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { ActionCreators } from '../../reducers/transactions';
+import { ActionCreators } from '../../store/contexts/transaction';
 
 import { ITransaction, TransactionType } from '../../declarations/transaction';
 
-import { TransactionCtx } from '../../contexts/transaction';
+import { useTransactions } from '../../store/contexts/transaction';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => props.type === TransactionType.expense ? '#ff6961' : '#77dd77'};
@@ -28,8 +28,7 @@ const incomeExpenseBadge = (type: TransactionType) => (
 const TransactionEntry: React.FC<IProps> = props => {
   const [displayNotes, setDisplayNotes] = React.useState(false);
   const { money, hideIncomeExpenseBadge } = props;
-
-  const { store, dispatch } = React.useContext(TransactionCtx);
+  const [store, dispatch] = useTransactions();
 
   const disableNotes = () => setDisplayNotes(false);
   const enableNotes = () => setDisplayNotes(true);

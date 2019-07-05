@@ -1,4 +1,6 @@
+import React from 'react';
 import { ITransaction, TransactionType } from '../declarations/transaction';
+import {ActionCreators, useTransactionDispatch, useTransactions} from '../store/contexts/transaction';
 
 const words: Array<string> = [
   'Otter',
@@ -36,3 +38,19 @@ export const createDummyTransaction = (): ITransaction => ({
   recurringId: Math.random() > 0.5 ? Math.floor(Math.random() * 10) : undefined,
   type: randomType(),
 });
+
+/**
+ * Temporary mocking data:
+ * Must be a child of a TransactionProvider
+ */
+export const TransactionMocker: React.FC<{quantity: number}> = (props) => {
+  const dispatch = useTransactionDispatch();
+  const dummyTxs = new Array(props.quantity).fill(0).map(createDummyTransaction);
+  const mockTransactionData = () => {
+    dispatch(ActionCreators.initTransactions(dummyTxs));
+  };
+  React.useEffect(() => {
+    mockTransactionData();
+  }, []);
+  return null;
+};

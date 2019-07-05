@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Redirect, Route } from 'react-router';
 
-import { initialState, Perform, reducer } from './reducers/auth';
+import { initialState, Perform, reducer } from './store/reducers/auth';
 
 import Login from './components/organism/Authentication/Login';
 import Register from './components/organism/Authentication/Register';

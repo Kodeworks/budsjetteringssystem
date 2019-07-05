@@ -1,21 +1,8 @@
-import { fireEvent, getByText, render } from '@testing-library/react';
 import React from 'react';
-import { createTransactionCtx, TransactionCtx } from '../../../contexts/transaction';
 import { ITransaction, TransactionType } from '../../../declarations/transaction';
-import { initialState, reducer } from '../../../reducers/transactions';
+import { TransactionProvider } from '../../../store/contexts/transaction';
 import TransactionEntry from '../TransactionEntry';
-
-const Wrapper: React.FC = props => {
-  const [store, dispatch] = React.useReducer(reducer, initialState);
-
-  createTransactionCtx(store, dispatch);
-
-  return (
-    <TransactionCtx.Provider value={{store, dispatch}}>
-      {props.children}
-    </TransactionCtx.Provider>
-  );
-};
+import { fireEvent, render } from './../../../helpers/test-utils';
 
 test('TransactionEntry', () => {
   const testId = 0;
@@ -28,8 +15,7 @@ test('TransactionEntry', () => {
   const testNotes = 'Edgy';
 
   const { container } = render((
-    <Wrapper>
-      <TransactionEntry
+    <TransactionEntry
         id={testId}
         className={testClassName}
         description={testDescription}
@@ -38,9 +24,8 @@ test('TransactionEntry', () => {
         companyId={testCompanyId}
         type={TransactionType.income}
         notes={testNotes}
-      />
-    </Wrapper>
-  ));
+    />
+  ), {wrapper: TransactionProvider});
   const div = container.querySelector('div');
   const header4 = container.querySelector('h4');
   const header6Array = container.querySelectorAll('h6');

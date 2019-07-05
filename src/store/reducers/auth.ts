@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { IUser } from '../declarations/user';
+import { IUser } from './../../declarations/user';
 
-import * as Auth from '../mitochondria/auth';
+import * as Auth from './../../mitochondria/auth';
 
 export interface IAuthState {
   access?: string;

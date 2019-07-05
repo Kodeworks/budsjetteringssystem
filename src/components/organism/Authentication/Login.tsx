@@ -2,7 +2,7 @@ import React from 'react';
 
 import Authentication, { AuthType, IOnLogin } from './Authentication';
 
-import { Perform } from '../../../reducers/auth';
+import { Perform } from '../../../store/reducers/auth';
 
 import { AuthCtx } from '../../../contexts/auth';
 
