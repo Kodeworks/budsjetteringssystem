@@ -72,6 +72,18 @@ const removeFromIntermediary = (
 });
 
 /**
+ * An object with all actioncreators, which can easily be exported.
+ * (See exports at the bottom of the file.)
+ */
+const ActionCreators = {
+  addToIntermediary,
+  addTransaction,
+  initTransactions,
+  removeFromIntermediary,
+  removeTransaction,
+};
+
+/**
  * The return types of all the elements in ActionCreators
  * NOTE: Should not be modified!
  */
@@ -93,6 +105,7 @@ const initialState: ITransactionState = {
 
 /**
  * Transactions reducer
+ * Takes old state and an action as arguments, and returns the new state.
  * @param {ITransactionState} state - The current or initial state of the transaction context
  * @param {ActionType} action - The type of action being dispatched.
  */
@@ -125,7 +138,10 @@ const reducer = (
   }
 };
 
-export type TransactionDispatch = React.Dispatch<ActionType>;
+/**
+ * Useful type
+ */
+type TransactionDispatch = React.Dispatch<ActionType>;
 
 const TransactionStateContext = React.createContext<
   ITransactionState | undefined
@@ -187,14 +203,6 @@ const useTransactions = (): TransactionsContextType => {
   return(
     [useTransactionState(), useTransactionDispatch()]
   );
-};
-
-const ActionCreators = {
-  addToIntermediary,
-  addTransaction,
-  initTransactions,
-  removeFromIntermediary,
-  removeTransaction,
 };
 
 export {
