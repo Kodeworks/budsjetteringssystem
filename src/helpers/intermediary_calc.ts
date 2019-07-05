@@ -3,7 +3,7 @@
  * @summary "Funtion to summarize the elements in the transaction ``shopping cart''"
  */
 
-import { ITransactionState as IStore } from '../reducers/transactions';
+import { ITransactionState as IStore } from './../contexts/transaction';
 
 import { TransactionType } from '../declarations/transaction';
 
