@@ -5,7 +5,7 @@ import TransactionEntry from '../atoms/TransactionEntry';
 
 import styled from 'styled-components';
 
-import { ITransaction, TransactionType as TT } from '../../declarations/transaction';
+import { ITransaction } from '../../declarations/transaction';
 
 interface IProps {
   tx: Array<ITransaction>;
@@ -21,7 +21,7 @@ const IncomeTransactions: React.FC<IProps> = props => {
 
   const renderTransactions = () => (
     props.tx
-      .filter(e => e.type === TT.income)
+      .filter(e => e.type === 'income')
       .sort((t1, t2) => t1.date.getTime() - t2.date.getTime())
       .map(txEntry)
   );

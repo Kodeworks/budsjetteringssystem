@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { createTransactionCtx, TransactionCtx } from '../../../contexts/transaction';
-import { ITransaction, TransactionType } from '../../../declarations/transaction';
+import { ITransaction } from '../../../declarations/transaction';
 import { createDummyTransaction } from '../../../helpers/transaction_creator';
 import { ActionCreators, initialState, reducer } from '../../../reducers/transactions';
 import {theme} from '../../../styling/theme';

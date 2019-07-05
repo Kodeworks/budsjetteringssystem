@@ -1,7 +1,4 @@
-export enum TransactionType {
-  income = 'income',
-  expense = 'expense',
-}
+export type TransactionType = 'income' | 'expense';
 
 export interface ITransaction {
   id: number;

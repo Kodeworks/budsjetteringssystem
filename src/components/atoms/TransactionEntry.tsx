@@ -9,7 +9,7 @@ import { ITransaction, TransactionType } from '../../declarations/transaction';
 import { TransactionCtx } from '../../contexts/transaction';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
-  color: ${props => props.type === TransactionType.expense ? '#ff6961' : '#77dd77'};
+  color: ${props => props.type === 'expense' ? '#ff6961' : '#77dd77'};
   padding-right: .3em;
 `;
 
@@ -50,7 +50,7 @@ const TransactionEntry: React.FC<IProps> = props => {
     >
       <h4>{props.description}</h4>
       <strong>
-        {props.type === TransactionType.expense ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
+        {props.type === 'expense' ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
       </strong>
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
       <h6>{props.date.toLocaleDateString()}{props.recurringId && ` ${String.fromCharCode(183)} Recurring`}</h6>
