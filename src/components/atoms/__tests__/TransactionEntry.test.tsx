@@ -36,7 +36,7 @@ test('TransactionEntry', () => {
         money={testMoney}
         date={testDate}
         companyId={testCompanyId}
-        type={'income'}
+        type={testType}
         notes={testNotes}
       />
     </Wrapper>

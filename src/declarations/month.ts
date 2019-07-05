@@ -1,20 +1,9 @@
-import { ITransaction, TransactionType } from './transaction';
+import { ITransactionResponse } from './transaction';
 
 export interface IBalance {
   'company_id': number;
   'date': string;
   'money': number;
-}
-
-export interface ITransactionResponse {
-  id: number;
-  description: string;
-  money: number;
-  date: string;
-  companyId: number;
-  recurringId?: number;
-  type: TransactionType;
-  notes?: string;
 }
 
 export interface IMonth {
