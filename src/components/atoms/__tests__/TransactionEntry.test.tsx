@@ -1,5 +1,4 @@
 import React from 'react';
-import { ITransaction, TransactionType } from '../../../declarations/transaction';
 import { TransactionProvider } from '../../../store/contexts/transaction';
 import TransactionEntry from '../TransactionEntry';
 import { fireEvent, render } from './../../../helpers/test-utils';
@@ -11,7 +10,7 @@ test('TransactionEntry', () => {
   const testMoney = 50000;
   const testDate = new Date('2019-08-22');
   const testCompanyId = 1;
-  const testType = TransactionType.income;
+  const testType = 'income';
   const testNotes = 'Edgy';
 
   const { container } = render((
@@ -22,7 +21,7 @@ test('TransactionEntry', () => {
         money={testMoney}
         date={testDate}
         companyId={testCompanyId}
-        type={TransactionType.income}
+        type={testType}
         notes={testNotes}
     />
   ), {wrapper: TransactionProvider});

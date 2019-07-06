@@ -24,7 +24,7 @@ const ExpenseTransactions: React.FC<IProps> = props => {
 
   const renderTransactions = () => (
     props.tx
-      .filter(e => e.type === TT.expense)
+      .filter(e => e.type === 'expense')
       .sort((t1, t2) => t1.date.getTime() - t2.date.getTime())
       .map(txEntry)
   );
