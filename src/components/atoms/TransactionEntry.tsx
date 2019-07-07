@@ -2,11 +2,11 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { ActionCreators } from '../../store/contexts/transaction';
+import { ActionCreators } from '../../store/reducers/transactions';
 
 import { ITransaction, TransactionType } from '../../declarations/transaction';
 
-import { useTransactions } from '../../store/contexts/transaction';
+import { useTransactions } from '../../store/contexts/transactions';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => props.type === 'expense' ? '#ff6961' : '#77dd77'};

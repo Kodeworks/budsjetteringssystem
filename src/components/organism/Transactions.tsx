@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { ITransaction } from '../../declarations/transaction';
 
-import { useTransactionState } from '../../store/contexts/transaction';
+import { useTransactionState } from '../../store/contexts/transactions';
 import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
 import Filters from '../molecules/Filters';

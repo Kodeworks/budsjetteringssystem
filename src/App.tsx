@@ -15,8 +15,8 @@ import Transactions from './components/organism/Transactions';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
-import { AuthCtx, createAuthCtx } from './contexts/auth';
 import Wrap from './helpers/GlobalWrapper';
+import { AuthCtx, createAuthCtx } from './store/contexts/auth';
 import { navbarWidth } from './styling/sizes';
 
 interface IAppProps {

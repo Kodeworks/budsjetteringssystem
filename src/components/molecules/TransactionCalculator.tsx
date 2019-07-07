@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { sum } from '../../helpers/intermediary_calc';
 
-import { useTransactionState } from '../../store/contexts/transaction';
+import { useTransactionState } from '../../store/contexts/transactions';
 import TransactionEntry from '../atoms/TransactionEntry';
 
 interface ITransactionCalculatorProps {

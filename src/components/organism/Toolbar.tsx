@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { AuthCtx } from '../../contexts/auth';
+import { AuthCtx } from '../../store/contexts/auth';
 
 import { logout } from '../../mitochondria/auth';
 

@@ -1,8 +1,9 @@
-import { ActionCreators, initialState, reducer } from '../transactions';
+import { ActionCreators, transactionReducer } from '../transactions';
 
-import { ITransaction } from '../../declarations/transaction';
+import { ITransaction } from '../../../declarations/transaction';
 
-import { sum as intermediarySum } from '../../helpers/intermediary_calc';
+import { sum as intermediarySum } from '../../../helpers/intermediary_calc';
+import { initialState } from '../../contexts/transactions';
 
 const tx: ITransaction = {
   companyId: 0,
@@ -16,8 +17,8 @@ const tx: ITransaction = {
 test('adds a new transaction', () => {
   let state = initialState;
   expect(state.transactions.length).toBe(0);
-  state = reducer(state, ActionCreators.addTransaction(tx));
-  state = reducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
+  state = transactionReducer(state, ActionCreators.addTransaction(tx));
+  state = transactionReducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
 
   const expected: Array<ITransaction> = [tx, { ...tx, id: 1 }];
 
@@ -27,30 +28,30 @@ test('adds a new transaction', () => {
 test('removes a transaction', () => {
   let state = initialState;
   expect(state.transactions.length).toBe(0);
-  state = reducer(state, ActionCreators.addTransaction(tx));
-  state = reducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
+  state = transactionReducer(state, ActionCreators.addTransaction(tx));
+  state = transactionReducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
   expect(state.transactions.length).toBe(2);
-  state = reducer(state, ActionCreators.removeTransaction(tx));
+  state = transactionReducer(state, ActionCreators.removeTransaction(tx));
   expect(state.transactions.length).toBe(1);
 });
 
 test('doesn\'t remove if no match', () => {
   let state = initialState;
   expect(state.transactions.length).toBe(0);
-  state = reducer(state, ActionCreators.addTransaction(tx));
-  state = reducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
+  state = transactionReducer(state, ActionCreators.addTransaction(tx));
+  state = transactionReducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
   expect(state.transactions.length).toBe(2);
-  state = reducer(state, ActionCreators.removeTransaction({ ...tx, id: 2 }));
+  state = transactionReducer(state, ActionCreators.removeTransaction({ ...tx, id: 2 }));
   expect(state.transactions.length).toBe(2);
 });
 
 test('add to intermediary and calc sum', () => {
   let state = initialState;
   expect(state.intermediary.length).toBe(0);
-  state = reducer(state, ActionCreators.addTransaction(tx));
-  state = reducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
-  state = reducer(state, ActionCreators.addToIntermediary(tx.id));
-  state = reducer(state, ActionCreators.addToIntermediary({ ...tx, id: 1 }.id));
+  state = transactionReducer(state, ActionCreators.addTransaction(tx));
+  state = transactionReducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
+  state = transactionReducer(state, ActionCreators.addToIntermediary(tx.id));
+  state = transactionReducer(state, ActionCreators.addToIntermediary({ ...tx, id: 1 }.id));
   expect(state.intermediary.length).toBe(2);
   expect(intermediarySum(state)).toBe((tx.money * 2) / 100);
 });
@@ -58,12 +59,12 @@ test('add to intermediary and calc sum', () => {
 test('remove from intermediary and calc sum', () => {
   let state = initialState;
   expect(state.intermediary.length).toBe(0);
-  state = reducer(state, ActionCreators.addTransaction(tx));
-  state = reducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
-  state = reducer(state, ActionCreators.addToIntermediary(tx.id));
-  state = reducer(state, ActionCreators.addToIntermediary({ ...tx, id: 1 }.id));
+  state = transactionReducer(state, ActionCreators.addTransaction(tx));
+  state = transactionReducer(state, ActionCreators.addTransaction({ ...tx, id: 1 }));
+  state = transactionReducer(state, ActionCreators.addToIntermediary(tx.id));
+  state = transactionReducer(state, ActionCreators.addToIntermediary({ ...tx, id: 1 }.id));
   expect(state.intermediary.length).toBe(2);
   expect(intermediarySum(state)).toBe((tx.money * 2) / 100);
-  state = reducer(state, ActionCreators.removeFromIntermediary({ ...tx, id: 1 }.id));
+  state = transactionReducer(state, ActionCreators.removeFromIntermediary({ ...tx, id: 1 }.id));
   expect(intermediarySum(state)).toBe(tx.money / 100);
 });

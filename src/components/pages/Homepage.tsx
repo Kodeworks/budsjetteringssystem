@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import DashboardTransactions from '../molecules/DashboardTransactions';
 
-import { useTransactionState } from '../../store/contexts/transaction';
+import { useTransactionState } from '../../store/contexts/transactions';
 
 interface IProps {
   className?: string;

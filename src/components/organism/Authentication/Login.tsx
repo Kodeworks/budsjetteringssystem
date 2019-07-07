@@ -4,7 +4,7 @@ import Authentication, { AuthType, IOnLogin } from './Authentication';
 
 import { Perform } from '../../../store/reducers/auth';
 
-import { AuthCtx } from '../../../contexts/auth';
+import { AuthCtx } from '../../../store/contexts/auth';
 
 const Login: React.FC = props => {
   const [error, setError] = React.useState('');

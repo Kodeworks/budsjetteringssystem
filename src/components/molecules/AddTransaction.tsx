@@ -15,8 +15,7 @@ interface IProps {
 }
 
 const AddTransaction: React.FC<IProps> = props => {
-  const {income, expense} = TransactionType;
-  const [transactionType, setTransactionType] = React.useState(expense);
+  const [transactionType, setTransactionType] = React.useState<TransactionType>('expense');
   const [date, setDate] = React.useState('1970-01-01');
   const [amount, setAmount] = React.useState('');
   const [name, setName] = React.useState('');
@@ -31,6 +30,10 @@ const AddTransaction: React.FC<IProps> = props => {
     e.preventDefault();
     /* TODO - handle form submit */
     alert('Form was submitted');
+  };
+
+  const handleTransactionTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTransactionType(event.target.value as TransactionType);
   };
 
   const recurringTransactionOptions = (
@@ -51,16 +54,16 @@ const AddTransaction: React.FC<IProps> = props => {
           <input
             type="radio"
             name="transactionType"
-            value={expense}
-            checked={transactionType === expense}
-            onChange={() => setTransactionType(expense)}
+            value={'expense'}
+            checked={transactionType === 'expense'}
+            onChange={handleTransactionTypeChange}
           />{' '}
           Expense
           <input
             type="radio"
             name="transactionType"
-            value={income}
-            onChange={e => setTransactionType(income)}
+            value={'income'}
+            onChange={handleTransactionTypeChange}
           />{' '}
           Income
           <Input value={date} id="date" type="date" setState={setDate}>

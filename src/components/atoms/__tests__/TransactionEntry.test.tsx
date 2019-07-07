@@ -1,5 +1,5 @@
 import React from 'react';
-import { TransactionProvider } from '../../../store/contexts/transaction';
+import { TransactionProvider } from '../../../store/contexts/transactions';
 import TransactionEntry from '../TransactionEntry';
 import { fireEvent, render } from './../../../helpers/test-utils';
 

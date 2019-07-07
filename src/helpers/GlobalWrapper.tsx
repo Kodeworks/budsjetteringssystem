@@ -1,21 +1,16 @@
 import React from 'react';
 
-import {
-  ActionCreators,
-  initialState,
-  reducer,
-} from '../reducers/transactions';
-import { AuthCtx } from './../contexts/auth';
+import { AuthCtx } from '../store/contexts/auth';
 
 import { BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from './../styling/global';
 
-import { IAuthContext } from './../contexts/auth';
+import { IAuthContext } from '../store/contexts/auth';
 
 import { ThemeProvider } from 'styled-components';
 
-import { TransactionProvider } from './../store/contexts/transaction';
+import { TransactionProvider } from '../store/contexts/transactions';
 import { theme } from './../styling/theme';
 import { TransactionMocker } from './transaction_creator';
 

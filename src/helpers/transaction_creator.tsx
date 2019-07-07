@@ -1,6 +1,7 @@
 import React from 'react';
 import { ITransaction, TransactionType } from '../declarations/transaction';
-import {ActionCreators, useTransactionDispatch, useTransactions} from '../store/contexts/transaction';
+import { useTransactionDispatch} from '../store/contexts/transactions';
+import {ActionCreators} from '../store/reducers/transactions';
 
 const words: Array<string> = [
   'Otter',
@@ -47,10 +48,10 @@ export const TransactionMocker: React.FC<{quantity: number}> = (props) => {
   const dispatch = useTransactionDispatch();
   const dummyTxs = new Array(props.quantity).fill(0).map(createDummyTransaction);
   const mockTransactionData = () => {
-    dispatch(ActionCreators.initTransactions(dummyTxs));
+    dispatch(ActionCreators.resetTransactions(dummyTxs));
   };
   React.useEffect(() => {
     mockTransactionData();
-  }, []);
+  }, [mockTransactionData]);
   return null;
 };
