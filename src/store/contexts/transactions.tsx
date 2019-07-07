@@ -13,7 +13,7 @@ const initialState: ITransactionState = {
 /**
  * Useful type
  */
-type TransactionDispatch = React.Dispatch<ActionType>;
+export type TransactionDispatch = React.Dispatch<ActionType>;
 
 const TransactionStateContext = React.createContext<
   ITransactionState | undefined

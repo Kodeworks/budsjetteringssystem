@@ -9,13 +9,18 @@ import TextArea from '../atoms/TextArea';
 
 import styled from 'styled-components';
 import { TransactionType } from '../../declarations/transaction';
+import { useTransactionDispatch } from '../../store/contexts/transactions';
+import { createTransaction } from '../../store/reducers/transactions';
 
 interface IProps {
   className?: string;
 }
 
 const AddTransaction: React.FC<IProps> = props => {
-  const [transactionType, setTransactionType] = React.useState<TransactionType>('expense');
+  const dispatch = useTransactionDispatch();
+  const [transactionType, setTransactionType] = React.useState<TransactionType>(
+    'expense',
+  );
   const [date, setDate] = React.useState('1970-01-01');
   const [amount, setAmount] = React.useState('');
   const [name, setName] = React.useState('');
@@ -28,11 +33,23 @@ const AddTransaction: React.FC<IProps> = props => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    /* TODO - handle form submit */
+    /* TODO - handle form submit*/
+    if (!recurring) {
+      const formValues = {
+        date,
+        description: name,
+        money: parseFloat(amount),
+        notes,
+        type: transactionType,
+      };
+      createTransaction(dispatch, formValues);
+    }
     alert('Form was submitted');
   };
 
-  const handleTransactionTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTransactionTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setTransactionType(event.target.value as TransactionType);
   };
 
@@ -109,7 +126,7 @@ const AddTransaction: React.FC<IProps> = props => {
           </Checkbox>
           <br />
           {recurring && recurringTransactionOptions}
-          <OutlinedButton type="submit" >Add transaction</OutlinedButton>
+          <OutlinedButton type="submit">Add transaction</OutlinedButton>
         </form>
       </div>
     </Collapsable>

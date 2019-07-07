@@ -1,4 +1,6 @@
 import { ITransaction } from '../../declarations/transaction';
+import { TransactionType } from './../../declarations/transaction';
+import { TransactionDispatch } from './../contexts/transactions';
 
 /**
  * Action types
@@ -14,6 +16,13 @@ const INTERMEDIARY_REMOVE = 'INTERMEDIARY_REMOVE';
 // You need to define the return-type to have the typeof ADD_TRANSACTION as it will not be able to
 // infer that it is actually just a const string - by default it will infer a string.
 
+interface INewTransactionFormValues {
+  date: string; // "YYYY-MM-DD"
+  description: string;
+  money: number;
+  notes: string;
+  type: TransactionType;
+}
 /**
  * Action creator: Add transaction to account
  *
@@ -25,6 +34,15 @@ const addTransaction = (
   tx,
   type: ADD_TRANSACTION,
 });
+
+const createTransaction = (dispatch: TransactionDispatch, formValues: INewTransactionFormValues) => {
+// TODO - Take care of generating unique id's.
+const id = Math.floor(Math.random() * 1000);
+const companyId = 1;
+const formValuesWithDate = {...formValues, money: formValues.money * 100, date: new Date(formValues.date)};
+// TODO - Make this action async and do a post request to API
+dispatch(addTransaction({...formValuesWithDate, id, companyId}));
+};
 
 /**
  * Action creator: Remove transaction from account
@@ -129,4 +147,4 @@ const reducer = (
   }
 };
 
-export { ActionCreators, reducer as transactionReducer };
+export { ActionCreators, reducer as transactionReducer, createTransaction };
