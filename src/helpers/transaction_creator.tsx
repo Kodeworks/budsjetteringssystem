@@ -46,12 +46,10 @@ export const createDummyTransaction = (): ITransaction => ({
  */
 export const TransactionMocker: React.FC<{quantity: number}> = (props) => {
   const dispatch = useTransactionDispatch();
-  const dummyTxs = new Array(props.quantity).fill(0).map(createDummyTransaction);
-  const mockTransactionData = () => {
-    dispatch(ActionCreators.resetTransactions(dummyTxs));
-  };
   React.useEffect(() => {
-    mockTransactionData();
-  }, [mockTransactionData]);
+    // Make mock data:
+    const dummyTxs = new Array(props.quantity).fill(0).map(createDummyTransaction);
+    dispatch(ActionCreators.resetTransactions(dummyTxs));
+  }, [dispatch, props.quantity]);
   return null;
 };

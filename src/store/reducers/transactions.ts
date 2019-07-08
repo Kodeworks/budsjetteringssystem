@@ -36,7 +36,7 @@ const addTransaction = (
 });
 
 const createTransaction = (dispatch: TransactionDispatch, formValues: INewTransactionFormValues) => {
-// TODO - Take care of generating unique id's.
+// TODO - Take care of generating unique id's. Backend or frontend responsibility? ¯\_(ツ)_/¯
 const id = Math.floor(Math.random() * 1000);
 const companyId = 1;
 const formValuesWithDate = {...formValues, money: formValues.money * 100, date: new Date(formValues.date)};

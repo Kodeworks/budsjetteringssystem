@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { IUser } from './../../declarations/user';
-
 import * as Auth from './../../mitochondria/auth';
 
 export interface IAuthState {
