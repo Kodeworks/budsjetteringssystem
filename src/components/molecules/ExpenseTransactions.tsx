@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   ITransaction,
-  TransactionType as TT,
 } from '../../declarations/transaction';
 
 import OutlinedButton from '../atoms/OutlinedButton';
