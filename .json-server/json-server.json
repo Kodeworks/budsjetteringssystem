@@ -1,0 +1,6 @@
+{
+  "port": 8000,
+  "watch": true,
+  "routes": ".json-server/routes.json",
+  "middlewares": [".json-server/fakeAuthMiddleware.js"]
+}
