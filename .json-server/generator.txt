@@ -13,17 +13,19 @@
       ]
     }
   },
-  transactions: [
-    '{{repeat(150)}}',
-    {
-      id: '{{index()}}',
-      company_id: 0, 
-      recurring_id: null,
-      date: '{{date(new Date("2018,01-20"),new Date("2023-05-24"),"YYYY-MM-dd")}}',
-      money: '{{integer(300,15000000)}}',
-      type: '{{random("expense","income")}}',
-      description: '{{lorem(3,"words")}}',
-      notes: '{{lorem(4)}}'
-    }
-  ]
+    transaction: {
+      transactions: [
+        '{{repeat(150)}}',
+          {
+            id: '{{index()}}',
+            company_id: 0, 
+            recurring_id: null,
+            date: '{{date(new Date("2018,01-20"),new Date("2023-05-24"),"YYYY-MM-dd")}}',
+            money: '{{integer(300,15000000)}}',
+            type: '{{random("expense","income")}}',
+            description: '{{lorem(3,"words")}}',
+            notes: '{{lorem(4)}}'
+          }
+      ]
+   }
 }
