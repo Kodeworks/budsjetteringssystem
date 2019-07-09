@@ -49,3 +49,12 @@ class AppendIDMixin:
 
 class LiquidatorSerializer(AppendIDMixin, serializers.ModelSerializer):
     pass
+
+
+class DateSerializer(serializers.Serializer):
+    date = serializers.DateField()
+
+
+class DateRangeSerializer(serializers.Serializer):
+    start_date = serializers.DateField()
+    end_date = serializers.DateField()
