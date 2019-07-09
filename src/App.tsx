@@ -8,7 +8,6 @@ import { initialState, Perform, reducer } from './store/reducers/auth';
 
 import Login from './components/organism/Authentication/Login';
 import Register from './components/organism/Authentication/Register';
-
 import Balances from './components/organism/Balances';
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
@@ -16,6 +15,7 @@ import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
 import Wrap from './helpers/GlobalWrapper';
+import { TransactionMocker } from './helpers/transaction_creator';
 import { AuthCtx, createAuthCtx } from './store/contexts/auth';
 import { navbarWidth } from './styling/sizes';
 
@@ -74,6 +74,7 @@ const App: React.FC<IAppProps> = props => {
 
   return (
     <Wrap className={props.className} auth={{store: auth, dispatch}}>
+      <TransactionMocker quantity={100} />
       <Navigation />
       <Page>
         <Route path="/" exact={true} component={Homepage} />

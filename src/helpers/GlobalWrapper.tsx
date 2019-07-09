@@ -12,7 +12,6 @@ import { ThemeProvider } from 'styled-components';
 
 import { TransactionProvider } from '../store/contexts/transactions';
 import { theme } from './../styling/theme';
-import { TransactionMocker } from './transaction_creator';
 
 interface IWrapperProps {
   className?: string;
@@ -40,7 +39,6 @@ const GlobalWrapper: React.FC<IWrapperProps> = props => {
   return (
     <WrapWithAuth>
       <TransactionProvider>
-        <TransactionMocker quantity={100} />
         <GlobalStyle />
         <BrowserRouter>
           <ThemeProvider theme={theme}>
