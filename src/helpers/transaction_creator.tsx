@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import { ITransaction, TransactionType } from '../declarations/transaction';
 import { useTransactionDispatch} from '../store/contexts/transactions';
@@ -31,7 +32,7 @@ let i: number = 0;
 
 export const createDummyTransaction = (): ITransaction => ({
   companyId: 0,
-  date: new Date(Math.floor(Math.random() * 1500000000000)),
+  date: moment(Math.floor(Math.random() * 1500000000000)).format('YYYY-MM-DD'),
   description: `${randomWord()} ${randomWord()}`,
   id: i++,
   money: Math.random() * 10000,

@@ -1,20 +1,12 @@
 export type TransactionType = 'income' | 'expense';
 
-interface IBaseTransaction {
+export interface ITransaction {
   id: number;
   description: string;
   money: number;
-  date: Date | string;
+  date: string;  // ISO 8601 format: 'YYYY-MM-DD'
   companyId: number;
   recurringId?: number;
   type: TransactionType;
   notes?: string;
-}
-
-export interface ITransaction extends IBaseTransaction {
-  date: Date;
-}
-
-export interface ITransactionResponse extends IBaseTransaction {
-  date: string;
 }

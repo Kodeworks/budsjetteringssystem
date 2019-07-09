@@ -1,12 +1,10 @@
+import moment from 'moment';
 import React from 'react';
-
 import styled from 'styled-components';
 
-import { ActionCreators } from '../../store/reducers/transactions';
-
 import { ITransaction, TransactionType } from '../../declarations/transaction';
-
 import { useTransactions } from '../../store/contexts/transactions';
+import { ActionCreators } from '../../store/reducers/transactions';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => props.type === 'expense' ? '#ff6961' : '#77dd77'};
@@ -52,7 +50,7 @@ const TransactionEntry: React.FC<IProps> = props => {
         {props.type === 'expense' ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
       </strong>
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
-      <h6>{props.date.toLocaleDateString()}{props.recurringId && ` ${String.fromCharCode(183)} Recurring`}</h6>
+      <h6>{moment(props.date).format('L')}{props.recurringId && `${'  ' + String.fromCharCode(183)} Recurring`}</h6>
       <p>{displayNotes && props.notes}</p>
     </div>
   );

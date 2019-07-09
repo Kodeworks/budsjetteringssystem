@@ -4,9 +4,8 @@ import Checkbox from '../atoms/Checkbox';
 import Collapsable from '../atoms/Collapsable';
 import Input from '../atoms/Input';
 
-import { ITransaction } from '../../declarations/transaction';
-
 import styled from 'styled-components';
+import { ITransaction } from '../../declarations/transaction';
 
 interface IProps {
   className?: string;
@@ -21,17 +20,13 @@ const Filters: React.FC<IProps> = props => {
 
   React.useEffect(() => {
     props.setFilter(() => ((t: ITransaction) => {
+      // If recurring filter is toggled and transaction is not of reccuring type
+      // return false
       if (recurring && !t.recurringId) { return false; }
 
-      const txDate = new Date(t.date);
-
-      const toDateDate = new Date(toDate);
-      const fromDateDate = new Date(fromDate);
-
-      if (txDate < fromDateDate || txDate > toDateDate) { return false; }
+      if (t.date < fromDate || t.date > toDate) { return false; }
 
       if (description && !((new RegExp(description, 'i')).test(t.description))) { return false; }
-
       return true;
     }));
   }, [fromDate, toDate, description, recurring, props]);

@@ -1,12 +1,12 @@
 import React from 'react';
 import { createDummyTransaction } from '../../../helpers/transaction_creator';
-import { ActionCreators} from '../../../store/reducers/transactions'
-import { theme } from '../../../styling/theme';
-import { cleanup, fireEvent, render } from './../../../helpers/test-utils';
 import {
   TransactionProvider,
   useTransactionDispatch,
 } from '../../../store/contexts/transactions';
+import { ActionCreators} from '../../../store/reducers/transactions'
+import { theme } from '../../../styling/theme';
+import { cleanup, fireEvent, render } from './../../../helpers/test-utils';
 
 import { ThemeProvider } from 'styled-components';
 import Transactions from '../../organism/Transactions';
@@ -20,7 +20,7 @@ const Wrapper: React.FC = props => {
   React.useEffect(
     () => {
     dispatch(ActionCreators.resetTransactions(dummyTxs));
-    }, []);
+    }, [dispatch]);
   return (
     <ThemeProvider theme={theme}>
       <>
