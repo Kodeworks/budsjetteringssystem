@@ -1,11 +1,11 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from base.tests import JWTTestCase
 from custom_auth import roles
 from company.models import Company
 from company.tests import CompanyTestMixin
-from .models import Transaction
-from . import views
+from .models import Transaction, RecurringTransaction, TransactionTemplate
+from . import views, utils
 
 
 class TransactionTestMixin(CompanyTestMixin):
@@ -123,3 +123,92 @@ class TransactionAllTestCase(TransactionTestMixin, JWTTestCase):
         self.assertEquals(len(response.data['results']), 2, msg=response.content)
         self.assertEquals(response.data['results'][1]['description'], tr_last.description, msg=response.content)
         self.assertNotIn(tr_not, response_set, msg=response.content)
+
+
+class RecurringTransactionTestMixin(TransactionTestMixin):
+    def create_recurring(self, start_date=None, end_date=None, day_delta=0, month_delta=0,
+                         company=None, money=None, type=None, description='Test', notes='', save=True):
+        template = TransactionTemplate.objects.create(money=money or self.money, description=description,
+                                                      notes=notes, type=type or self.type)
+        recurring = RecurringTransaction(start_date=start_date, end_date=end_date, day_delta=day_delta,
+                                         month_delta=month_delta, company=(company or self.company), template=template)
+        if save:
+            recurring.save()
+        return recurring
+
+
+class RecurringTransactionTestCase(RecurringTransactionTestMixin, JWTTestCase):
+    def setUp(self):
+        super().setUp()
+        # These values don't matter for the tests, so we just set defaults
+        self.type = Transaction.INCOME
+        self.money = 1000
+        self.description = ''
+        self.notes = ''
+
+    def test_get_in_date_range(self):
+        recurring = self.create_recurring(start_date=date(2018, 1, 1), end_date=date(2018, 1, 8), day_delta=2)
+
+        self.assertEqual(
+            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2018, 1, 7)),
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
+        )
+
+        self.assertEqual(
+            utils.get_recurring_occurences_in_date_range(recurring, date(2017, 12, 1), date(2018, 3, 8)),
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
+        )
+
+        self.assertEqual(
+            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 2), date(2018, 1, 6)),
+            [date(2018, 1, 3), date(2018, 1, 5)]
+        )
+
+        self.create_transaction(date=date(2018, 1, 5), recurring_transaction=recurring)
+
+        self.assertEqual(
+            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2018, 1, 7)),
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
+        )
+
+        self.assertEqual(
+            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2018, 1, 7),
+                                                         include_created=False),
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 7)]
+        )
+
+    def test_get_in_month_range(self):
+        recurring = self.create_recurring(start_date=date(2018, 1, 1), end_date=date(2019, 1, 1), month_delta=3)
+
+        self.assertEqual(
+            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2019, 1, 1)),
+            [date(2018, 1, 1), date(2018, 4, 1), date(2018, 7, 1), date(2018, 10, 1), date(2019, 1, 1)]
+        )
+
+        self.assertEqual(
+            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2018, 1, 30)),
+            [date(2018, 1, 1)]
+        )
+
+        self.assertEqual(
+            utils.get_recurring_occurences_in_date_range(recurring, date(2017, 1, 1), date(2020, 1, 1)),
+            [date(2018, 1, 1), date(2018, 4, 1), date(2018, 7, 1), date(2018, 10, 1), date(2019, 1, 1)]
+        )
+
+    def test_get_all_occurrences(self):
+        daily_recurring = self.create_recurring(start_date=date(2018, 1, 1),
+                                                end_date=date(2019, 1, 1),
+                                                day_delta=14)
+        monthly_recurring = self.create_recurring(start_date=date(2017, 12, 1),
+                                                  end_date=date(2019, 1, 1),
+                                                  month_delta=1)
+
+        self.assertEqual(
+            utils.get_all_recurring_occurences_in_date_range(self.company, date(2018, 1, 1), date(2018, 3, 1)),
+            [
+                (daily_recurring, [date(2018, 1, 1), date(2018, 1, 15), date(2018, 1, 29),
+                                   date(2018, 2, 12), date(2018, 2, 26)]),
+                (monthly_recurring, [date(2018, 1, 1), date(2018, 2, 1), date(2018, 3, 1)]),
+
+            ]
+        )
