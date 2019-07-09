@@ -39,9 +39,9 @@ const createTransaction = (dispatch: TransactionDispatch, formValues: INewTransa
 // TODO - Take care of generating unique id's. Backend or frontend responsibility? ¯\_(ツ)_/¯
 const id = Math.floor(Math.random() * 1000);
 const companyId = 1;
-const formValuesWithDate = {...formValues, money: formValues.money * 100, date: new Date(formValues.date)};
+formValues.money = formValues.money * 100; // All values are stored with as hundreths in state and database.
 // TODO - Make this action async and do a post request to API
-dispatch(addTransaction({...formValuesWithDate, id, companyId}));
+dispatch(addTransaction({...formValues, id, companyId}));
 };
 
 /**
@@ -57,9 +57,9 @@ const removeTransaction = (
 });
 
 const resetTransactions = (
-  init: Array<ITransaction>,
+  init?: Array<ITransaction>,
 ): { payload: Array<ITransaction>; type: typeof RESET_TRANSACTIONS } => ({
-  payload: init,
+  payload: init ? init : [],
   type: RESET_TRANSACTIONS,
 });
 

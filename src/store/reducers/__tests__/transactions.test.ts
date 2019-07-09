@@ -1,4 +1,4 @@
-import { ActionCreators, transactionReducer } from '../transactions';
+import { ActionCreators, createTransaction, transactionReducer } from '../transactions';
 
 import { ITransaction } from '../../../declarations/transaction';
 
@@ -7,7 +7,7 @@ import { initialState } from '../../contexts/transactions';
 
 const tx: ITransaction = {
   companyId: 0,
-  date: new Date('01.01.1970'),
+  date: '01.01.1970',
   description: 'Test transaction #0',
   id: 0,
   money: 10000,
@@ -68,3 +68,15 @@ test('remove from intermediary and calc sum', () => {
   state = transactionReducer(state, ActionCreators.removeFromIntermediary({ ...tx, id: 1 }.id));
   expect(intermediarySum(state)).toBe(tx.money / 100);
 });
+
+test('reset transaction state', () => {
+  let state = initialState;
+  expect(state.transactions.length).toBe(0);
+  // reset transactions and initialize with array of 1 transaction
+  const initTransactions = [tx];
+  state = transactionReducer(state, ActionCreators.resetTransactions(initTransactions));
+  expect(state.transactions.length).toBe(1);
+  // resetTransactions and clear all transactions
+  state = transactionReducer(state, ActionCreators.resetTransactions());
+  expect(state.transactions.length).toBe(0);
+} );
