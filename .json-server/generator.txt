@@ -15,7 +15,7 @@
   },
     transaction: {
       transactions: [
-        '{{repeat(150)}}',
+        '{{repeat(20)}}',
           {
             id: '{{index()}}',
             company_id: 0, 

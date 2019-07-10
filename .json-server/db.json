@@ -1,7 +1,7 @@
 {
   "login": {
     "refresh": "super-refake-fresh-token",
-    "access": "a-not-so-unfake-access-JRRtolkien",
+    "access": "a-not-so-unfake-access-JRR-Tolkien",
     "user": {
       "id": 0,
       "first_name": "Nicolaj",
@@ -18,1501 +18,201 @@
         "id": 0,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2019-06-28",
-        "money": 5001893,
-        "type": "expense",
-        "description": "commodo qui officia",
-        "notes": "Nostrud laboris deserunt nulla reprehenderit excepteur. Ullamco anim excepteur esse non eiusmod ipsum cillum dolore cupidatat excepteur incididunt. Commodo reprehenderit ex est ex consequat magna consequat in Lorem laboris ad. Irure sit nostrud in elit."
+        "date": "2020-04-12",
+        "money": 8463413,
+        "type": "income",
+        "description": "velit sit laboris",
+        "notes": "Reprehenderit eu sunt ea consequat voluptate pariatur voluptate. Sit anim proident elit consectetur laboris quis in ad ad id aute tempor ex consequat. Exercitation velit ex do excepteur laborum in ea id commodo magna. Qui ullamco officia irure est ipsum exercitation mollit excepteur exercitation irure."
       },
       {
         "id": 1,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2020-07-12",
-        "money": 2973390,
+        "date": "2019-05-14",
+        "money": 12500822,
         "type": "income",
-        "description": "veniam dolor pariatur",
-        "notes": "Enim minim velit cillum cupidatat Lorem consequat dolore anim proident voluptate velit. Officia est aliqua aute minim non mollit aute quis. In commodo magna irure non magna do mollit. Proident occaecat laborum esse amet."
+        "description": "laboris excepteur qui",
+        "notes": "Sit occaecat incididunt adipisicing aliqua sunt id proident minim elit veniam Lorem duis laboris irure. Minim ea commodo voluptate ullamco do sit mollit. Velit dolore mollit cillum est anim officia ullamco culpa nostrud ad. Reprehenderit incididunt exercitation culpa nisi magna sit enim magna ut incididunt."
       },
       {
         "id": 2,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2018-07-25",
-        "money": 4886973,
-        "type": "income",
-        "description": "ad dolor veniam",
-        "notes": "Elit in ipsum ad non. Deserunt irure aliquip ipsum mollit fugiat minim. Duis aliquip Lorem fugiat commodo nisi cupidatat voluptate dolore sunt elit adipisicing ex laborum. Laborum qui consectetur deserunt cillum deserunt do nulla culpa elit."
+        "date": "2022-07-20",
+        "money": 2631661,
+        "type": "expense",
+        "description": "nulla anim incididunt",
+        "notes": "Amet labore esse cillum do velit. Consectetur ipsum cupidatat ad qui irure ad ex et aliqua tempor sint nostrud. Nisi voluptate sunt do ex qui sunt veniam magna sunt officia in. Exercitation pariatur labore laborum adipisicing dolore id."
       },
       {
         "id": 3,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2020-02-26",
-        "money": 11246811,
+        "date": "2020-09-24",
+        "money": 12498900,
         "type": "income",
-        "description": "ullamco in anim",
-        "notes": "Nulla et esse elit Lorem sint minim ad. Occaecat esse pariatur et nulla occaecat dolore aute qui aute id laborum adipisicing. Ea cupidatat consequat commodo proident Lorem. Nostrud esse sint est cillum deserunt adipisicing reprehenderit velit culpa sint excepteur quis eu."
+        "description": "ea eiusmod eiusmod",
+        "notes": "Velit ipsum eu incididunt eiusmod laborum fugiat deserunt. Ut minim amet in in pariatur sunt eu sint exercitation excepteur amet proident consectetur. Non ullamco officia enim aute. Adipisicing voluptate dolor amet velit dolor consequat ut sint."
       },
       {
         "id": 4,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2022-09-11",
-        "money": 4939347,
-        "type": "expense",
-        "description": "id incididunt in",
-        "notes": "Eu laboris dolor elit reprehenderit sint ex esse non ut. Nostrud eu sit minim quis. Excepteur nisi fugiat aliquip commodo excepteur officia duis excepteur. Lorem anim in deserunt proident voluptate pariatur ea adipisicing."
+        "date": "2019-09-26",
+        "money": 1763129,
+        "type": "income",
+        "description": "sunt culpa laboris",
+        "notes": "Pariatur Lorem ea sit cupidatat. Reprehenderit adipisicing duis occaecat enim aliquip sit non culpa exercitation dolor proident mollit proident proident. Sint nulla enim exercitation eu aliqua ipsum dolore aliquip nostrud enim id irure culpa. Aute officia eu pariatur ex sit occaecat duis aliquip fugiat velit anim."
       },
       {
         "id": 5,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2019-01-13",
-        "money": 7933200,
-        "type": "expense",
-        "description": "commodo officia officia",
-        "notes": "Duis fugiat laboris sint velit laborum duis cillum sint amet aliquip. Est Lorem cupidatat sint ullamco laboris commodo ad. Labore excepteur occaecat pariatur eu nostrud et et consectetur irure fugiat et dolore labore. Non non ea id non aute ut sit tempor ea sunt dolore dolore."
+        "date": "2021-11-29",
+        "money": 13985107,
+        "type": "income",
+        "description": "laborum aliquip nostrud",
+        "notes": "Eu laboris consectetur occaecat cillum tempor incididunt. Ex ut consectetur ipsum ad proident. In esse sit consequat sit magna consectetur dolor sunt Lorem labore ad nulla. Consequat ex magna fugiat id sint."
       },
       {
         "id": 6,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2020-04-11",
-        "money": 9063928,
-        "type": "expense",
-        "description": "irure voluptate proident",
-        "notes": "Laboris enim id duis minim est aliquip et nostrud. Fugiat labore proident irure voluptate enim ut enim ut elit voluptate dolore. Lorem aute culpa elit esse consequat exercitation aute mollit non ut irure occaecat fugiat ullamco. Minim magna fugiat voluptate ullamco ad tempor deserunt."
+        "date": "2023-02-05",
+        "money": 1618344,
+        "type": "income",
+        "description": "veniam ad enim",
+        "notes": "Voluptate esse et amet occaecat irure est enim. In officia pariatur aliquip ipsum id eu commodo Lorem do. Dolor elit est nulla anim fugiat laborum ullamco ad qui id nisi id. Consectetur dolore nulla ex labore mollit in enim eu."
       },
       {
         "id": 7,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2019-08-21",
-        "money": 5350065,
-        "type": "income",
-        "description": "non reprehenderit eu",
-        "notes": "Dolor adipisicing ad deserunt in id qui adipisicing occaecat reprehenderit qui. Culpa in mollit aliquip id eu deserunt. Tempor aliquip culpa voluptate ullamco ut est proident. Reprehenderit do amet mollit irure veniam eu ipsum quis duis ad labore."
+        "date": "2019-05-25",
+        "money": 9237653,
+        "type": "expense",
+        "description": "ipsum excepteur velit",
+        "notes": "Magna aliqua ipsum elit quis tempor laborum laborum. Culpa adipisicing voluptate consectetur cupidatat eu. Ex consectetur ut consectetur velit deserunt qui eu officia enim enim. Esse ullamco consequat laboris consequat anim anim sunt."
       },
       {
         "id": 8,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2018-04-13",
-        "money": 12414437,
-        "type": "income",
-        "description": "esse tempor eiusmod",
-        "notes": "Qui sint nulla eu ea sint mollit. Mollit excepteur cillum cillum officia voluptate velit enim sunt. Dolor duis cillum occaecat exercitation consectetur. Nisi laboris sunt eiusmod minim nostrud."
+        "date": "2018-03-22",
+        "money": 8295939,
+        "type": "expense",
+        "description": "adipisicing veniam ea",
+        "notes": "Sunt esse ea dolor anim duis anim. Veniam et laborum non Lorem ea amet. Ea officia enim occaecat in esse non laboris aliquip amet dolore velit. Nostrud voluptate elit consequat quis sint cupidatat."
       },
       {
         "id": 9,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2021-03-01",
-        "money": 9918127,
-        "type": "expense",
-        "description": "quis eu exercitation",
-        "notes": "Consectetur excepteur incididunt et duis velit irure. Ea aute occaecat aliquip et enim enim duis reprehenderit ipsum dolore aute do commodo Lorem. Id reprehenderit aliquip proident laboris aliqua pariatur. Irure ea veniam quis ea et nostrud ad mollit ex."
+        "date": "2021-12-19",
+        "money": 9745279,
+        "type": "income",
+        "description": "cupidatat do id",
+        "notes": "Nisi id est mollit adipisicing amet ullamco ullamco elit laborum dolor deserunt esse Lorem. In ad sunt quis incididunt elit laborum elit consectetur ea in irure occaecat. Ut ipsum cillum laboris ex et reprehenderit mollit nisi excepteur labore id ullamco ex. Reprehenderit consectetur cillum ullamco exercitation."
       },
       {
         "id": 10,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2018-02-25",
-        "money": 11156183,
+        "date": "2021-01-05",
+        "money": 8870074,
         "type": "income",
-        "description": "sint officia eiusmod",
-        "notes": "Ex deserunt voluptate et veniam amet voluptate do reprehenderit aute pariatur nostrud consectetur irure. Cupidatat commodo amet cupidatat et consequat elit dolore voluptate. Consequat eu commodo aute sunt mollit consequat veniam. Quis ullamco id esse incididunt cupidatat proident pariatur aliquip amet sunt ea consectetur anim."
+        "description": "in eu esse",
+        "notes": "Consectetur sit pariatur in quis. Commodo magna Lorem est elit non Lorem velit enim labore laborum dolore. Excepteur enim fugiat elit est velit ad esse irure nulla non ut. Elit do voluptate eiusmod elit ea."
       },
       {
         "id": 11,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2018-12-31",
-        "money": 2298787,
-        "type": "income",
-        "description": "labore quis eu",
-        "notes": "Proident magna cillum enim adipisicing dolor commodo magna adipisicing nostrud eiusmod reprehenderit amet nulla. Enim magna nisi nostrud commodo ut. Elit tempor aute ad ad ullamco anim eiusmod. Pariatur irure commodo non reprehenderit irure ex do elit culpa reprehenderit nisi dolor aliqua."
+        "date": "2020-06-25",
+        "money": 13206827,
+        "type": "expense",
+        "description": "nulla quis commodo",
+        "notes": "Incididunt dolor fugiat veniam consectetur in. Enim ad fugiat exercitation Lorem qui dolor ex irure velit veniam. Ea sit commodo dolore do exercitation et sint ad excepteur sit. Magna eu mollit aliqua occaecat adipisicing."
       },
       {
         "id": 12,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2019-06-26",
-        "money": 198409,
-        "type": "expense",
-        "description": "quis ullamco reprehenderit",
-        "notes": "Aliqua commodo exercitation est aute. Id anim dolore officia cillum elit ullamco adipisicing eiusmod duis ipsum exercitation. Aute sint exercitation enim velit aute laboris aliquip non consequat deserunt mollit ipsum incididunt. Sit adipisicing aute adipisicing nisi minim consequat Lorem Lorem minim."
+        "date": "2018-10-28",
+        "money": 10418653,
+        "type": "income",
+        "description": "reprehenderit ad eiusmod",
+        "notes": "Proident quis nulla reprehenderit aliqua. Officia excepteur proident ex consectetur dolor commodo proident elit ipsum ex fugiat Lorem aliquip tempor. Anim culpa tempor incididunt non aliquip cillum elit dolor Lorem ut fugiat pariatur pariatur occaecat. Nisi est cillum tempor nostrud veniam."
       },
       {
         "id": 13,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2021-09-05",
-        "money": 2793963,
+        "date": "2019-10-01",
+        "money": 12327773,
         "type": "income",
-        "description": "esse dolore cupidatat",
-        "notes": "Cupidatat non ad do laborum ad officia sint non deserunt. Tempor do exercitation excepteur proident nulla non dolore excepteur do et cupidatat do laboris. Est proident id ullamco minim laborum. Dolore anim esse cupidatat commodo fugiat cillum ex ad eiusmod eiusmod labore."
+        "description": "deserunt consequat ex",
+        "notes": "Deserunt pariatur sunt consectetur elit labore aute dolore tempor sint elit ex eu. Dolor mollit do do magna qui Lorem culpa ea incididunt aute irure. Non tempor dolore occaecat duis sunt minim elit ad. Minim ullamco aliquip nisi ut excepteur ea eiusmod dolore commodo in ex voluptate officia."
       },
       {
         "id": 14,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2021-12-10",
-        "money": 2210124,
-        "type": "expense",
-        "description": "sint commodo eu",
-        "notes": "Esse velit enim cillum sunt Lorem pariatur ipsum ipsum commodo. Eiusmod esse enim dolore Lorem. Qui elit duis aute commodo exercitation consectetur laboris veniam. Est laborum qui cillum do nulla irure exercitation ex."
+        "date": "2021-09-26",
+        "money": 5321943,
+        "type": "income",
+        "description": "dolor culpa esse",
+        "notes": "Non dolor consequat aliquip do voluptate quis ipsum ad id ex sunt in voluptate nostrud. Consectetur est do est amet sit laboris labore qui est eu anim incididunt Lorem cupidatat. Esse qui magna sint est culpa labore voluptate irure deserunt nisi. Non nisi ut esse culpa consectetur."
       },
       {
         "id": 15,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2020-09-19",
-        "money": 7493292,
+        "date": "2020-05-04",
+        "money": 745757,
         "type": "expense",
-        "description": "sunt dolor quis",
-        "notes": "Anim enim incididunt esse eiusmod cillum pariatur. Eiusmod aliquip in dolore laborum id pariatur ex ad nostrud. Sit deserunt elit consectetur laboris ad aliqua culpa sint. Officia in officia nisi ad aute quis fugiat magna."
+        "description": "laborum occaecat dolore",
+        "notes": "Officia labore in tempor culpa exercitation quis incididunt et. Dolor labore sint sint sint labore deserunt nisi. Excepteur cillum est et dolor culpa ea Lorem veniam fugiat. Aliqua amet elit est ullamco."
       },
       {
         "id": 16,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2022-11-19",
-        "money": 10730268,
-        "type": "income",
-        "description": "consequat qui labore",
-        "notes": "Laboris ullamco exercitation aliqua proident cillum. Magna quis deserunt enim sit excepteur exercitation labore officia laboris sit. Magna magna in quis velit nostrud enim deserunt incididunt consequat ad voluptate. Adipisicing anim fugiat aute est."
+        "date": "2022-11-01",
+        "money": 5040727,
+        "type": "expense",
+        "description": "nisi cupidatat do",
+        "notes": "Aliquip elit sint proident aliquip aute veniam ea et. Ut adipisicing minim non aliquip dolor ullamco ut ipsum labore est. In elit amet aliquip eu non sint cupidatat do. Commodo magna do non reprehenderit eu aute aute aliqua sit sint sunt."
       },
       {
         "id": 17,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2021-01-20",
-        "money": 12510190,
-        "type": "expense",
-        "description": "tempor consectetur laboris",
-        "notes": "Sunt cupidatat est qui pariatur aute do ex nulla duis minim quis sit ut. Veniam id consequat voluptate mollit dolor. Adipisicing aute dolore eu officia quis laboris et labore officia eiusmod. Nostrud dolor enim dolore officia nulla."
+        "date": "2019-09-11",
+        "money": 12048768,
+        "type": "income",
+        "description": "consectetur proident id",
+        "notes": "Aliquip Lorem velit ea ullamco et irure cillum ipsum amet. Ipsum duis deserunt excepteur sit exercitation Lorem do elit ut voluptate cupidatat proident eu. Officia eu dolor consectetur velit ipsum proident qui. Cillum irure amet amet adipisicing pariatur incididunt sunt."
       },
       {
         "id": 18,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2018-07-11",
-        "money": 11662604,
+        "date": "2023-01-09",
+        "money": 3373670,
         "type": "income",
-        "description": "ex exercitation commodo",
-        "notes": "Aliquip culpa aute id do aute voluptate qui sit magna mollit eu eiusmod. Dolor elit aliqua adipisicing consequat irure duis fugiat nisi incididunt. Duis proident incididunt ipsum nisi ullamco. Adipisicing eu laborum excepteur proident aliquip officia culpa velit ipsum."
+        "description": "ex sint voluptate",
+        "notes": "Ipsum excepteur incididunt laborum cillum do ut incididunt qui. Aliqua sit consequat sint id velit consectetur nulla voluptate. Id pariatur cillum non veniam do minim pariatur nisi. Cupidatat veniam officia sit aliqua adipisicing mollit reprehenderit ad ullamco Lorem amet reprehenderit in."
       },
       {
         "id": 19,
         "company_id": 0,
         "recurring_id": null,
-        "date": "2022-11-23",
-        "money": 7503771,
+        "date": "2020-07-06",
+        "money": 11552594,
         "type": "income",
-        "description": "irure amet duis",
-        "notes": "Incididunt dolor esse in est. Enim cupidatat aliqua qui eiusmod do et ut adipisicing minim ut proident laboris velit. Cillum et voluptate velit veniam fugiat commodo. Anim do esse amet consectetur et elit eu occaecat laborum amet eu deserunt."
-      },
-      {
-        "id": 20,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-07-21",
-        "money": 6823111,
-        "type": "expense",
-        "description": "non fugiat eu",
-        "notes": "Magna duis sunt ipsum laborum aute culpa pariatur deserunt laborum esse aute. Deserunt duis incididunt Lorem proident et veniam officia aliqua est sint. Et elit officia aliquip laborum culpa ullamco deserunt aliquip. Occaecat laboris officia occaecat nostrud minim dolor."
-      },
-      {
-        "id": 21,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-11-09",
-        "money": 12047295,
-        "type": "income",
-        "description": "laborum fugiat culpa",
-        "notes": "Tempor aliquip minim labore et veniam reprehenderit. Enim et do incididunt fugiat eiusmod adipisicing duis pariatur. Mollit pariatur laborum amet ullamco sint nostrud minim ex veniam labore consequat velit. Ut aliquip enim eu magna excepteur mollit aliqua ex voluptate sunt."
-      },
-      {
-        "id": 22,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-01-12",
-        "money": 9480573,
-        "type": "income",
-        "description": "exercitation excepteur enim",
-        "notes": "Cillum laborum ex nisi ea. Aliquip magna aute eiusmod incididunt id non cillum minim laboris culpa consequat. Qui et ipsum elit consequat dolor eu exercitation. Ex eiusmod aute eiusmod magna."
-      },
-      {
-        "id": 23,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-07-09",
-        "money": 4436535,
-        "type": "expense",
-        "description": "minim et sint",
-        "notes": "Excepteur laborum et voluptate esse amet amet eu enim dolor duis nulla aliqua irure Lorem. Adipisicing aute exercitation dolore elit cupidatat aliqua occaecat ut esse veniam non. Consequat nostrud et magna ex minim. Exercitation occaecat commodo excepteur aliqua amet eiusmod culpa commodo eu."
-      },
-      {
-        "id": 24,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-03-03",
-        "money": 4225235,
-        "type": "expense",
-        "description": "laborum ea magna",
-        "notes": "Laborum labore labore qui voluptate dolor magna ullamco commodo aliquip quis aliqua in. Tempor pariatur pariatur et anim labore ad. Do irure ut nulla Lorem nisi esse laborum do tempor eiusmod et eiusmod elit. Ad elit veniam proident aliquip eu do ullamco ea."
-      },
-      {
-        "id": 25,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-04-03",
-        "money": 14550839,
-        "type": "income",
-        "description": "eiusmod dolor sunt",
-        "notes": "Sunt consequat adipisicing laborum et excepteur pariatur ex consequat Lorem do cupidatat eu dolor quis. Quis amet laboris duis Lorem commodo cillum ex et sunt. Veniam id mollit quis dolor et excepteur amet dolore occaecat qui occaecat duis cillum occaecat. Fugiat proident ipsum esse labore nisi consequat exercitation aute ullamco id amet adipisicing aliqua."
-      },
-      {
-        "id": 26,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-04-15",
-        "money": 2276441,
-        "type": "expense",
-        "description": "magna consectetur est",
-        "notes": "Est in fugiat anim pariatur ipsum cillum. Occaecat excepteur enim duis enim sint esse culpa eu esse et mollit ut. Esse Lorem cillum qui eu dolor elit deserunt ut ipsum adipisicing dolore velit. Esse laborum duis consequat voluptate amet irure."
-      },
-      {
-        "id": 27,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-03-18",
-        "money": 1701265,
-        "type": "income",
-        "description": "enim duis ut",
-        "notes": "Do ex eu sit et voluptate tempor Lorem. Enim deserunt enim Lorem ipsum cillum aute. Tempor enim duis proident ex quis esse culpa aliquip sint qui id adipisicing eu magna. Magna elit incididunt cillum ut."
-      },
-      {
-        "id": 28,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-01-15",
-        "money": 13325755,
-        "type": "expense",
-        "description": "sit aliquip tempor",
-        "notes": "Anim aliqua aliqua adipisicing esse nulla sint deserunt quis culpa sit eiusmod voluptate labore non. Irure aliquip tempor eu pariatur veniam mollit elit in tempor consectetur sint. Id voluptate officia ullamco ipsum eiusmod commodo nisi et. Lorem aliquip incididunt dolore duis nulla veniam ad commodo voluptate occaecat cillum duis."
-      },
-      {
-        "id": 29,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-08-27",
-        "money": 12382071,
-        "type": "expense",
-        "description": "consequat aliquip aute",
-        "notes": "Sunt aliquip irure ex incididunt. Duis labore minim in minim. Ipsum commodo esse esse elit magna ut aliquip ex fugiat elit et sit. Ea pariatur sint labore ut labore eiusmod excepteur pariatur ullamco reprehenderit cupidatat irure."
-      },
-      {
-        "id": 30,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-11-20",
-        "money": 1079223,
-        "type": "income",
-        "description": "ex anim et",
-        "notes": "Non reprehenderit duis culpa elit. Consectetur minim nisi veniam aliqua elit deserunt proident consectetur nulla laborum velit. Adipisicing ad enim officia nostrud labore consequat reprehenderit nostrud dolore cillum nisi dolore. Mollit laboris sit et eu irure."
-      },
-      {
-        "id": 31,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2023-04-14",
-        "money": 8796970,
-        "type": "expense",
-        "description": "irure tempor elit",
-        "notes": "Ipsum adipisicing deserunt sit consequat eiusmod labore laboris laborum amet sint dolor mollit aliqua. Amet ut elit deserunt magna labore aliquip pariatur ullamco. Dolor aliquip non nostrud est consectetur sint minim amet ex. Elit ex eu quis aliqua veniam nostrud non tempor sunt ad laborum dolor."
-      },
-      {
-        "id": 32,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-02-25",
-        "money": 2064908,
-        "type": "expense",
-        "description": "in nisi excepteur",
-        "notes": "Irure enim in velit qui occaecat exercitation elit. Irure sunt laboris esse velit dolore dolor proident quis ea magna deserunt magna. Eiusmod consequat qui esse nulla eiusmod dolor. Nostrud eiusmod ullamco do occaecat ullamco laboris."
-      },
-      {
-        "id": 33,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-10-04",
-        "money": 6465466,
-        "type": "income",
-        "description": "consectetur dolore ad",
-        "notes": "Cillum quis qui culpa Lorem laborum incididunt deserunt tempor aliquip quis ex ad proident. Anim qui consectetur nostrud non id tempor quis non duis. Sunt ullamco mollit id qui magna excepteur. Cupidatat adipisicing sint esse dolor mollit."
-      },
-      {
-        "id": 34,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-09-04",
-        "money": 4605549,
-        "type": "expense",
-        "description": "ea nulla tempor",
-        "notes": "Reprehenderit labore laborum sit irure id commodo ullamco amet. Culpa deserunt officia exercitation aute. Consequat dolore et proident sit aute nostrud qui velit officia adipisicing quis. Et adipisicing qui labore enim irure elit consequat sunt velit consequat."
-      },
-      {
-        "id": 35,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-04-05",
-        "money": 13839015,
-        "type": "expense",
-        "description": "mollit elit ea",
-        "notes": "Deserunt laborum aliqua excepteur tempor adipisicing dolore adipisicing sint velit. Id esse aliquip ad dolore irure occaecat. Deserunt id nulla duis quis sint ex amet exercitation proident laboris pariatur. Quis ex voluptate id eiusmod Lorem nisi excepteur nostrud sint nulla."
-      },
-      {
-        "id": 36,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-09-30",
-        "money": 14431177,
-        "type": "income",
-        "description": "pariatur et irure",
-        "notes": "Dolor irure aliqua non sunt non duis nostrud ad laboris. Veniam sunt et ea dolor magna veniam Lorem voluptate culpa. Ea cillum ullamco amet tempor pariatur incididunt minim et fugiat. Aliqua eiusmod exercitation deserunt aute ea proident officia qui veniam dolor amet eiusmod."
-      },
-      {
-        "id": 37,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-11-15",
-        "money": 7923346,
-        "type": "income",
-        "description": "id veniam duis",
-        "notes": "Excepteur incididunt nostrud eiusmod consequat commodo deserunt incididunt sit occaecat aute occaecat. Dolor enim in dolor adipisicing cillum consequat. Sunt incididunt nulla duis in ipsum nulla amet nisi. Cillum deserunt in ut id qui ea reprehenderit."
-      },
-      {
-        "id": 38,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-10-05",
-        "money": 8923798,
-        "type": "expense",
-        "description": "et commodo minim",
-        "notes": "Minim est ea anim cupidatat nulla enim ea ea qui nisi cillum. Laboris adipisicing pariatur consectetur reprehenderit excepteur dolor nostrud mollit in ex non quis exercitation. Culpa consequat reprehenderit do reprehenderit veniam. Excepteur aliquip excepteur pariatur commodo nulla ex incididunt anim sit ullamco."
-      },
-      {
-        "id": 39,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-02-26",
-        "money": 5310486,
-        "type": "expense",
-        "description": "ea et excepteur",
-        "notes": "Sunt est qui nostrud ad eu quis sit pariatur. Exercitation velit nostrud aute proident mollit in ipsum ullamco sunt consectetur velit ullamco deserunt quis. Tempor nisi culpa aliqua aliquip enim nulla do Lorem in. Lorem non culpa qui minim velit do exercitation consequat commodo commodo tempor qui cupidatat et."
-      },
-      {
-        "id": 40,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2023-01-18",
-        "money": 8702335,
-        "type": "expense",
-        "description": "consequat eu ad",
-        "notes": "Irure adipisicing eiusmod enim deserunt nostrud cillum dolore magna consequat consequat aute. Ad sit quis exercitation commodo cupidatat consequat enim eu esse elit ut. Culpa consequat nisi dolor irure tempor consequat. Lorem ex nulla sint ut voluptate sint eu sit nisi do."
-      },
-      {
-        "id": 41,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-10-17",
-        "money": 2890096,
-        "type": "expense",
-        "description": "velit tempor dolore",
-        "notes": "Ea mollit officia reprehenderit dolore. Adipisicing nostrud officia quis ipsum dolor eu. Amet Lorem Lorem irure et sunt fugiat fugiat deserunt sunt duis ipsum. Id reprehenderit sint consectetur quis nisi nostrud."
-      },
-      {
-        "id": 42,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-04-29",
-        "money": 12170786,
-        "type": "income",
-        "description": "dolore nostrud sint",
-        "notes": "Velit occaecat est excepteur incididunt nisi ipsum ea voluptate. Do elit ea reprehenderit ut voluptate. Reprehenderit officia cupidatat ipsum adipisicing incididunt ullamco nulla voluptate labore ea est magna. Aliquip consequat elit magna qui sit ullamco pariatur."
-      },
-      {
-        "id": 43,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-03-26",
-        "money": 7150885,
-        "type": "income",
-        "description": "occaecat Lorem nostrud",
-        "notes": "Ad veniam cupidatat pariatur laboris sit proident. Est enim nostrud occaecat proident dolor sunt. Deserunt esse commodo laborum sunt sint adipisicing voluptate est do proident excepteur esse laborum. Lorem voluptate eu mollit aliqua ullamco eu incididunt sunt ullamco."
-      },
-      {
-        "id": 44,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-06-25",
-        "money": 7285474,
-        "type": "income",
-        "description": "nostrud id do",
-        "notes": "Occaecat nostrud irure proident laborum laborum velit anim deserunt deserunt enim ipsum. Pariatur non sunt nulla laboris elit id elit ipsum ex sint occaecat. Sit eu minim et aliquip nulla reprehenderit exercitation commodo id adipisicing ullamco duis sit. Ea ipsum cillum pariatur in est tempor ad quis id nisi reprehenderit consectetur."
-      },
-      {
-        "id": 45,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-10-05",
-        "money": 12444283,
-        "type": "expense",
-        "description": "laborum labore tempor",
-        "notes": "Voluptate incididunt ad non velit mollit id adipisicing proident qui mollit labore reprehenderit dolore. Minim proident Lorem in cillum. Officia irure dolore incididunt ipsum Lorem. Veniam ex nostrud nisi veniam magna cillum ullamco sit eiusmod qui eiusmod."
-      },
-      {
-        "id": 46,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-09-27",
-        "money": 11776176,
-        "type": "expense",
-        "description": "eu est nostrud",
-        "notes": "Esse sit voluptate consequat deserunt esse nostrud officia amet nulla qui anim est. Enim culpa sint est magna tempor incididunt ut laborum aliqua sint. Ipsum velit laboris duis quis cillum aute aliquip ullamco. Sit Lorem ad ad exercitation eiusmod incididunt aliqua et fugiat ex aute cillum velit consectetur."
-      },
-      {
-        "id": 47,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-06-04",
-        "money": 2667097,
-        "type": "expense",
-        "description": "tempor culpa dolor",
-        "notes": "Tempor consectetur nulla ipsum nostrud eiusmod. Est do quis et excepteur Lorem proident pariatur culpa amet exercitation ullamco veniam ea. Cillum culpa voluptate elit adipisicing. Occaecat enim ipsum elit cillum ad occaecat sint."
-      },
-      {
-        "id": 48,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-10-23",
-        "money": 14765525,
-        "type": "income",
-        "description": "laboris amet qui",
-        "notes": "Occaecat culpa magna ipsum ea minim esse ex mollit incididunt elit velit. Aliqua elit eiusmod fugiat elit officia. Excepteur ex labore est culpa laboris aliqua ea irure laborum. Eiusmod et irure culpa cupidatat aliqua ea magna enim est sint ut."
-      },
-      {
-        "id": 49,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-09-19",
-        "money": 7315806,
-        "type": "income",
-        "description": "anim sint dolor",
-        "notes": "Minim amet in excepteur est deserunt anim non irure in ad. Dolore do duis non amet est duis nostrud. Magna ullamco magna eu Lorem incididunt ullamco. Veniam duis non laboris nulla ullamco fugiat incididunt do exercitation ipsum proident."
-      },
-      {
-        "id": 50,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-12-24",
-        "money": 8663672,
-        "type": "expense",
-        "description": "culpa ut dolor",
-        "notes": "Tempor velit sint et esse nisi aute in tempor officia enim laboris. Mollit ea Lorem tempor consequat do. Deserunt commodo aliquip incididunt ullamco ipsum aute non culpa ullamco adipisicing. Laboris ea officia cupidatat ullamco aliqua incididunt excepteur sit exercitation aliqua."
-      },
-      {
-        "id": 51,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-06-09",
-        "money": 13165230,
-        "type": "income",
-        "description": "pariatur dolore nostrud",
-        "notes": "Ea voluptate do elit laborum dolor consequat deserunt tempor aliqua anim eu. Aliqua culpa exercitation do labore consequat do et elit. Et occaecat culpa magna laboris veniam do incididunt labore eu fugiat aute. Voluptate cillum quis non eiusmod commodo nostrud anim nostrud sit culpa mollit in eu ex."
-      },
-      {
-        "id": 52,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-06-13",
-        "money": 3673457,
-        "type": "expense",
-        "description": "pariatur laborum fugiat",
-        "notes": "Incididunt id do excepteur velit eiusmod deserunt et sint ullamco. Sunt eu id consectetur reprehenderit aute esse ullamco laboris. Lorem dolor nostrud commodo et irure deserunt dolore deserunt. Sint qui consequat anim pariatur non do est occaecat excepteur quis ut."
-      },
-      {
-        "id": 53,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-10-19",
-        "money": 3836957,
-        "type": "income",
-        "description": "est aute anim",
-        "notes": "Dolore do irure occaecat nisi esse commodo officia duis ad culpa eu Lorem dolor in. Nisi pariatur ullamco nostrud duis. Do sint aliqua irure eu dolor nostrud ea id nostrud in. Officia magna non ad aliqua adipisicing sit et do excepteur."
-      },
-      {
-        "id": 54,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-10-14",
-        "money": 3037815,
-        "type": "expense",
-        "description": "ea mollit dolore",
-        "notes": "Excepteur commodo tempor deserunt excepteur esse elit sint laborum culpa elit non id ullamco. Culpa non id culpa nostrud ad pariatur. Commodo qui duis aute eiusmod ad exercitation duis id nisi. Sunt ipsum magna fugiat occaecat officia sunt excepteur laborum."
-      },
-      {
-        "id": 55,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-08-14",
-        "money": 2725374,
-        "type": "income",
-        "description": "cupidatat in qui",
-        "notes": "Amet officia reprehenderit pariatur aliqua veniam ut commodo quis et quis ad ullamco in reprehenderit. Et duis culpa exercitation eu minim reprehenderit. Nulla tempor dolor duis occaecat reprehenderit nisi aute veniam ex proident mollit ad. Minim veniam est culpa quis adipisicing ad proident consequat nulla incididunt irure fugiat."
-      },
-      {
-        "id": 56,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-10-31",
-        "money": 10329283,
-        "type": "income",
-        "description": "enim officia quis",
-        "notes": "Culpa minim nisi qui aliqua velit cupidatat excepteur enim. Non labore est ut Lorem in amet eiusmod anim id qui. Cillum incididunt mollit aliquip officia id adipisicing magna consequat proident. Lorem in tempor officia quis."
-      },
-      {
-        "id": 57,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-08-11",
-        "money": 5603526,
-        "type": "income",
-        "description": "pariatur excepteur enim",
-        "notes": "Incididunt consequat sit esse magna do voluptate ea officia cillum. Esse irure Lorem excepteur ipsum proident velit in labore consectetur eiusmod. Eiusmod nostrud sint et magna aliquip laborum consequat elit cillum. Incididunt aute nostrud labore occaecat consectetur."
-      },
-      {
-        "id": 58,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-12-01",
-        "money": 12832704,
-        "type": "expense",
-        "description": "velit aliqua ad",
-        "notes": "Consequat proident nulla consectetur aliqua enim sint enim non do id voluptate minim quis ad. Et cupidatat elit consectetur cupidatat fugiat tempor deserunt laborum do. Veniam aliquip ullamco consectetur laborum ut nisi ullamco id irure laborum esse nulla. Sunt aliqua amet fugiat aute incididunt incididunt ex ut."
-      },
-      {
-        "id": 59,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-12-01",
-        "money": 11944958,
-        "type": "income",
-        "description": "veniam magna cillum",
-        "notes": "Reprehenderit commodo sint anim laboris et. Excepteur ullamco veniam magna consequat amet ullamco duis voluptate. Do commodo id irure exercitation adipisicing cupidatat. Eiusmod velit sunt est deserunt mollit voluptate."
-      },
-      {
-        "id": 60,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-01-21",
-        "money": 11173695,
-        "type": "expense",
-        "description": "sint minim duis",
-        "notes": "Ut voluptate ipsum culpa ea ea adipisicing fugiat pariatur sint aute magna exercitation adipisicing nulla. Nostrud cillum occaecat quis nisi ex commodo. Lorem cupidatat ea commodo dolore velit exercitation. Esse velit culpa do voluptate aliqua culpa magna reprehenderit nulla duis."
-      },
-      {
-        "id": 61,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-06-15",
-        "money": 7812640,
-        "type": "expense",
-        "description": "aliqua ea laboris",
-        "notes": "Duis duis ea nulla sit consectetur elit labore. Dolore eu veniam fugiat amet veniam occaecat. Ipsum minim est mollit nostrud magna esse aute occaecat labore non elit irure magna. Eu velit pariatur officia est culpa aliquip aliquip nisi ea enim."
-      },
-      {
-        "id": 62,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-11-22",
-        "money": 10548707,
-        "type": "income",
-        "description": "officia commodo Lorem",
-        "notes": "Consequat minim ad veniam ex. Aliqua irure nostrud voluptate ea do ipsum deserunt. Id sit amet amet mollit. Sunt eiusmod officia aliqua aliqua aliquip commodo aliquip."
-      },
-      {
-        "id": 63,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-03-21",
-        "money": 7866125,
-        "type": "expense",
-        "description": "cillum laborum ipsum",
-        "notes": "Dolor sunt qui veniam voluptate adipisicing elit et magna fugiat excepteur qui. Sint consequat occaecat duis exercitation. Aliquip cupidatat adipisicing laborum aliqua nulla non irure officia incididunt in deserunt minim. Ad ut aute nisi excepteur anim ut aliquip pariatur aliquip."
-      },
-      {
-        "id": 64,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-09-15",
-        "money": 4754325,
-        "type": "expense",
-        "description": "ut qui dolor",
-        "notes": "Eiusmod ad esse commodo fugiat tempor consectetur eiusmod deserunt deserunt culpa magna. Aute cupidatat eu adipisicing eu commodo commodo. In aliqua quis ipsum cillum dolore non occaecat ullamco sit tempor do laboris occaecat esse. Ullamco enim elit non officia."
-      },
-      {
-        "id": 65,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-05-23",
-        "money": 8097275,
-        "type": "expense",
-        "description": "excepteur culpa in",
-        "notes": "Aliqua enim minim commodo excepteur ullamco velit esse nostrud velit minim do. Culpa elit pariatur anim ea eiusmod et. Ullamco non consectetur voluptate velit duis incididunt nulla Lorem aliqua. Aute eu dolor ex in laboris deserunt consectetur."
-      },
-      {
-        "id": 66,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-11-16",
-        "money": 9157069,
-        "type": "expense",
-        "description": "laboris voluptate et",
-        "notes": "Aliquip magna exercitation magna nulla ex est. Eu qui ea eu ad sint culpa quis adipisicing minim ex aliqua. Pariatur magna deserunt id Lorem. Ipsum ad deserunt eu incididunt."
-      },
-      {
-        "id": 67,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-06-18",
-        "money": 14098030,
-        "type": "expense",
-        "description": "fugiat irure ea",
-        "notes": "Ullamco veniam velit aliquip voluptate nostrud veniam aliqua aliquip aliquip nulla. Velit aute id irure in id aliqua velit consequat eiusmod. Labore duis amet aute commodo. Sint ad ea consectetur quis amet qui enim anim incididunt commodo ut ex et pariatur."
-      },
-      {
-        "id": 68,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-02-25",
-        "money": 6341454,
-        "type": "income",
-        "description": "fugiat aliqua incididunt",
-        "notes": "Incididunt excepteur officia nulla reprehenderit ut dolore veniam quis exercitation. Aliquip excepteur duis ex do fugiat enim commodo elit Lorem voluptate ipsum. Esse eiusmod tempor cupidatat amet ullamco incididunt in ut ipsum elit Lorem ad. Elit Lorem velit veniam mollit anim cillum ipsum est laborum."
-      },
-      {
-        "id": 69,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-06-29",
-        "money": 1814602,
-        "type": "income",
-        "description": "fugiat et minim",
-        "notes": "Proident nulla exercitation qui sit ex ipsum eu laboris anim adipisicing aliquip et elit consequat. Eiusmod esse esse proident elit adipisicing in duis mollit. Labore et aute et dolore officia. Proident cillum occaecat excepteur do sunt."
-      },
-      {
-        "id": 70,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-11-12",
-        "money": 14962282,
-        "type": "income",
-        "description": "excepteur excepteur sunt",
-        "notes": "Lorem duis Lorem cupidatat laborum pariatur officia. Proident consectetur ea eu ea aliqua magna ullamco velit labore cillum laboris enim. Cupidatat amet officia cillum sit eu dolore proident. Minim cupidatat dolor laborum nisi mollit commodo pariatur ea commodo ipsum."
-      },
-      {
-        "id": 71,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2023-01-09",
-        "money": 911432,
-        "type": "expense",
-        "description": "culpa dolor adipisicing",
-        "notes": "Anim esse incididunt anim et labore veniam et ipsum ea labore aute id adipisicing. Do ut esse nisi et magna esse elit minim et nulla incididunt. Aliquip proident aute in labore ad ipsum excepteur id qui proident laboris occaecat. Officia nulla officia velit anim velit consectetur."
-      },
-      {
-        "id": 72,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2023-05-21",
-        "money": 3527175,
-        "type": "income",
-        "description": "id eiusmod pariatur",
-        "notes": "Consequat id duis nostrud magna exercitation occaecat non pariatur ipsum duis veniam cupidatat cupidatat adipisicing. Ea id do labore ullamco pariatur quis. Consequat sint fugiat nostrud deserunt esse culpa culpa. Occaecat consectetur qui qui velit anim minim deserunt velit do excepteur reprehenderit ea."
-      },
-      {
-        "id": 73,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-01-23",
-        "money": 10878384,
-        "type": "income",
-        "description": "amet mollit et",
-        "notes": "Labore Lorem minim irure reprehenderit nostrud laborum laborum adipisicing velit non. Magna exercitation ex deserunt in est ullamco pariatur consequat deserunt minim esse dolor. Nulla ea exercitation laboris nisi sit voluptate consectetur ipsum amet nulla adipisicing proident. Occaecat reprehenderit enim exercitation elit reprehenderit do minim ea minim veniam nostrud."
-      },
-      {
-        "id": 74,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-08-23",
-        "money": 6510567,
-        "type": "income",
-        "description": "reprehenderit nisi sunt",
-        "notes": "Cupidatat amet laboris nulla proident anim sint eiusmod do aliqua velit elit minim dolor ex. Amet nostrud proident velit laboris eu cillum culpa deserunt deserunt. Do laborum occaecat aliqua adipisicing mollit nostrud ex commodo id officia. Id fugiat labore dolor voluptate laborum incididunt sunt voluptate."
-      },
-      {
-        "id": 75,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-08-05",
-        "money": 11965818,
-        "type": "expense",
-        "description": "fugiat dolore adipisicing",
-        "notes": "Sit irure ipsum laborum cupidatat laborum laborum mollit nisi laboris. Quis proident eiusmod ut ad et ipsum occaecat do. Aute cillum adipisicing id laboris quis nulla fugiat et magna nisi reprehenderit nostrud nulla. Esse voluptate laboris duis nisi."
-      },
-      {
-        "id": 76,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-02-24",
-        "money": 10627202,
-        "type": "income",
-        "description": "tempor adipisicing elit",
-        "notes": "Est laborum Lorem deserunt quis laborum aute veniam sit excepteur occaecat amet exercitation. Nulla est amet qui consequat qui. Aliquip qui deserunt non est consequat laborum. Esse elit excepteur fugiat sit reprehenderit sint magna."
-      },
-      {
-        "id": 77,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-10-12",
-        "money": 12408762,
-        "type": "expense",
-        "description": "ea proident magna",
-        "notes": "Deserunt pariatur eu duis ad cupidatat minim commodo et. Ea mollit do esse excepteur tempor sit aliquip et elit elit culpa enim. Laboris laboris amet exercitation ullamco incididunt sit. Amet irure adipisicing ipsum voluptate dolore aliquip sit pariatur mollit laboris dolore nulla esse."
-      },
-      {
-        "id": 78,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-11-16",
-        "money": 1119580,
-        "type": "expense",
-        "description": "excepteur mollit magna",
-        "notes": "Qui minim ullamco nostrud irure magna cupidatat reprehenderit cillum. Magna do elit enim consectetur anim sit laborum nulla labore enim. Esse ea elit enim enim cillum. Magna duis consectetur consectetur mollit magna."
-      },
-      {
-        "id": 79,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-01-13",
-        "money": 6589899,
-        "type": "income",
-        "description": "nulla laboris mollit",
-        "notes": "Dolore sunt incididunt minim aliquip. Occaecat do laborum anim reprehenderit eu. Commodo voluptate consequat minim in enim laboris eiusmod nulla ex aliquip sint enim. Velit est aute ut quis."
-      },
-      {
-        "id": 80,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-02-12",
-        "money": 7903676,
-        "type": "income",
-        "description": "velit pariatur do",
-        "notes": "Cillum mollit nisi ea sunt laboris dolore do. Elit labore deserunt ad est veniam ipsum cillum quis. In occaecat proident enim officia incididunt nisi ullamco irure. Irure ea ut ea quis nostrud qui."
-      },
-      {
-        "id": 81,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2023-02-17",
-        "money": 11827928,
-        "type": "income",
-        "description": "esse ipsum ullamco",
-        "notes": "Adipisicing ex in pariatur in voluptate nostrud ullamco qui. Mollit nisi ea incididunt ex dolore elit. Consequat et ullamco officia elit proident tempor voluptate consequat officia quis nulla. Sit ad sunt esse in velit duis ut incididunt."
-      },
-      {
-        "id": 82,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-02-20",
-        "money": 3500110,
-        "type": "income",
-        "description": "quis eu aliquip",
-        "notes": "Amet occaecat eiusmod consectetur occaecat anim exercitation nostrud dolor deserunt ad. Commodo ad cupidatat nostrud sunt ad proident. Consectetur quis consequat veniam aliqua Lorem nostrud mollit laboris nisi proident. Cupidatat veniam dolor amet exercitation laboris enim aliqua eu do qui."
-      },
-      {
-        "id": 83,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-10-30",
-        "money": 1496406,
-        "type": "expense",
-        "description": "exercitation consectetur commodo",
-        "notes": "Ex dolore incididunt adipisicing proident deserunt consequat. Elit do nulla ea in anim dolor consequat dolore commodo consequat. Et eiusmod commodo excepteur aute veniam anim sunt culpa. Id esse labore exercitation ea nulla irure et esse consequat exercitation."
-      },
-      {
-        "id": 84,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-03-02",
-        "money": 8361327,
-        "type": "income",
-        "description": "est in dolor",
-        "notes": "Est labore sint in adipisicing quis mollit aute cupidatat. Elit eiusmod adipisicing duis fugiat incididunt. Officia ut amet mollit sint do. Amet voluptate tempor reprehenderit minim consequat id consectetur eiusmod."
-      },
-      {
-        "id": 85,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-12-05",
-        "money": 14870045,
-        "type": "expense",
-        "description": "eiusmod ullamco in",
-        "notes": "Incididunt pariatur ipsum deserunt enim et dolore incididunt ea excepteur officia aute. Aliquip aliqua culpa reprehenderit irure voluptate magna cupidatat qui ut adipisicing aute laboris veniam. Eu ullamco id eiusmod sunt nulla in aliquip magna. Dolore anim velit laboris ad elit est aute adipisicing."
-      },
-      {
-        "id": 86,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-09-02",
-        "money": 10009047,
-        "type": "expense",
-        "description": "labore ex adipisicing",
-        "notes": "Proident commodo exercitation elit commodo deserunt id commodo deserunt cupidatat dolor. Esse ad amet amet reprehenderit exercitation magna exercitation ut. Lorem esse laborum cillum in proident cillum. Consequat minim in amet fugiat velit laborum occaecat incididunt."
-      },
-      {
-        "id": 87,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-04-22",
-        "money": 13100146,
-        "type": "income",
-        "description": "sunt non adipisicing",
-        "notes": "Duis voluptate aliqua voluptate excepteur culpa qui sunt. Eiusmod mollit occaecat duis dolor incididunt ut ullamco aliquip anim amet. Magna minim duis occaecat occaecat laborum mollit excepteur aliquip nostrud excepteur aliqua. Elit ea aliqua ipsum nulla labore laborum nulla."
-      },
-      {
-        "id": 88,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-10-17",
-        "money": 9572167,
-        "type": "income",
-        "description": "officia pariatur duis",
-        "notes": "Ullamco non dolore adipisicing ut ipsum ut pariatur elit magna ullamco id velit dolor. Ipsum aute exercitation eu eu sunt. Ipsum ad esse enim reprehenderit tempor ut. Tempor duis veniam exercitation ex."
-      },
-      {
-        "id": 89,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-07-23",
-        "money": 6708505,
-        "type": "expense",
-        "description": "consequat aliquip commodo",
-        "notes": "Duis sit est veniam culpa ipsum. Ipsum minim nisi exercitation elit nisi culpa id dolore veniam aute adipisicing. Ad laborum ex cillum veniam deserunt. Proident cillum sit eu elit elit ut laborum."
-      },
-      {
-        "id": 90,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-03-14",
-        "money": 3913805,
-        "type": "expense",
-        "description": "Lorem ea est",
-        "notes": "Do sunt et laborum voluptate aliqua. Fugiat elit ea duis et proident minim. Id consequat ex irure velit cupidatat amet tempor incididunt. Commodo sit ut voluptate irure."
-      },
-      {
-        "id": 91,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-01-27",
-        "money": 10124468,
-        "type": "income",
-        "description": "deserunt eiusmod tempor",
-        "notes": "Veniam fugiat in enim nostrud tempor dolor eu amet tempor sit amet. Ad minim aliqua cillum pariatur Lorem veniam sunt laboris ipsum consequat Lorem et. Anim nostrud officia laborum in tempor labore dolore. Irure consectetur exercitation ad mollit."
-      },
-      {
-        "id": 92,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-08-11",
-        "money": 12654231,
-        "type": "expense",
-        "description": "id irure nulla",
-        "notes": "Laboris cupidatat sint non nisi mollit mollit. Velit reprehenderit exercitation laboris eu quis. Proident est deserunt voluptate esse laborum deserunt labore amet esse veniam excepteur nisi. Esse commodo sunt dolor do reprehenderit magna sunt."
-      },
-      {
-        "id": 93,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-03-23",
-        "money": 11155774,
-        "type": "income",
-        "description": "ullamco esse minim",
-        "notes": "Velit ullamco consequat quis nisi proident consectetur deserunt duis. Duis incididunt mollit exercitation tempor reprehenderit ea ullamco ad culpa duis magna elit commodo aliquip. Esse ad irure sit proident dolor minim culpa. Ullamco adipisicing officia officia adipisicing reprehenderit laboris mollit magna reprehenderit ut nostrud minim."
-      },
-      {
-        "id": 94,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-12-05",
-        "money": 7428692,
-        "type": "expense",
-        "description": "ea adipisicing dolor",
-        "notes": "Est culpa ex dolor laboris dolore aute mollit proident culpa qui duis laborum. Eiusmod dolor eiusmod velit cillum dolore. Qui nisi voluptate consectetur nulla. Officia quis mollit officia eiusmod pariatur officia velit ex sint nulla quis sunt."
-      },
-      {
-        "id": 95,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-04-29",
-        "money": 3013733,
-        "type": "income",
-        "description": "minim et velit",
-        "notes": "Irure aute consectetur nulla ex do ullamco aute aliquip est commodo pariatur deserunt qui sint. Consequat et ex consectetur et. Id consequat ut fugiat ullamco reprehenderit qui occaecat aliquip ut. Ipsum sint consequat est reprehenderit aute ullamco elit esse incididunt velit exercitation officia anim aute."
-      },
-      {
-        "id": 96,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-06-26",
-        "money": 6263998,
-        "type": "income",
-        "description": "ea mollit veniam",
-        "notes": "Ipsum ut qui laboris nisi culpa velit id magna minim proident duis. Ipsum proident cupidatat commodo eiusmod aute consectetur laborum dolore. Id pariatur reprehenderit elit sint ea reprehenderit enim est magna. Ullamco cupidatat amet proident adipisicing sunt aliquip dolor ea."
-      },
-      {
-        "id": 97,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-09-05",
-        "money": 1825165,
-        "type": "income",
-        "description": "sint adipisicing ullamco",
-        "notes": "Cupidatat mollit qui officia ut consectetur adipisicing. Sunt tempor ullamco magna laborum sint proident nulla. Laborum eu enim ad laboris deserunt occaecat aute incididunt et pariatur aute aliqua ut velit. Labore deserunt mollit laborum do ex ut aliquip nisi occaecat tempor deserunt reprehenderit do."
-      },
-      {
-        "id": 98,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-09-25",
-        "money": 9437532,
-        "type": "income",
-        "description": "mollit est laborum",
-        "notes": "Laboris voluptate deserunt duis tempor sint eu. Sint sit excepteur commodo labore laboris consequat excepteur esse dolore. Tempor in nulla anim ut exercitation nulla consectetur in dolor voluptate ullamco ut fugiat. Nisi ipsum mollit do veniam aliquip quis ullamco esse ex laborum quis minim officia do."
-      },
-      {
-        "id": 99,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2023-02-21",
-        "money": 9445177,
-        "type": "expense",
-        "description": "magna dolore non",
-        "notes": "Quis eiusmod sunt consectetur amet enim in culpa occaecat fugiat. Velit aliquip eiusmod sint non irure ex ex nulla laboris. Amet nulla amet aliqua qui in ex sunt deserunt dolor commodo. Veniam cupidatat esse irure tempor dolor ullamco nostrud Lorem officia consectetur cupidatat id do nulla."
-      },
-      {
-        "id": 100,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-12-02",
-        "money": 9598873,
-        "type": "income",
-        "description": "elit dolor irure",
-        "notes": "Dolore sit dolor dolor incididunt laborum commodo esse mollit. Adipisicing ea labore veniam laboris ex veniam sit nostrud irure. Qui ex nostrud amet quis. Consectetur consectetur cupidatat nisi laboris."
-      },
-      {
-        "id": 101,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-09-12",
-        "money": 6678390,
-        "type": "income",
-        "description": "commodo nulla consectetur",
-        "notes": "Lorem pariatur dolor commodo culpa excepteur dolore ipsum cupidatat amet exercitation quis consequat. Velit amet voluptate non ipsum non id proident sint commodo et laborum minim. Commodo aliqua quis reprehenderit exercitation culpa commodo aliquip enim et reprehenderit labore mollit. Ex deserunt irure irure nisi sunt in."
-      },
-      {
-        "id": 102,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-11-26",
-        "money": 386748,
-        "type": "income",
-        "description": "reprehenderit velit aute",
-        "notes": "Duis exercitation deserunt ea eu id consectetur incididunt. Aute in exercitation proident laboris non tempor non. Cillum magna anim ipsum dolor. Nisi elit fugiat amet sint labore ea proident labore voluptate laboris."
-      },
-      {
-        "id": 103,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-10-29",
-        "money": 6984255,
-        "type": "expense",
-        "description": "deserunt amet sit",
-        "notes": "Eiusmod ex in veniam id voluptate. Officia proident pariatur laborum elit ad veniam incididunt labore pariatur ex. Reprehenderit occaecat tempor velit in laborum eu mollit aliqua magna nulla deserunt. Nisi aute duis laborum est consectetur irure id ut."
-      },
-      {
-        "id": 104,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-05-19",
-        "money": 12094148,
-        "type": "expense",
-        "description": "labore dolor eu",
-        "notes": "Id exercitation proident commodo Lorem sint dolore pariatur reprehenderit Lorem reprehenderit eu cillum tempor. Exercitation nostrud tempor exercitation elit dolor est commodo aliqua in laboris laborum eiusmod velit. Reprehenderit in laboris aliqua amet exercitation sint quis est laboris ut ad. Ut pariatur nisi commodo incididunt id amet culpa sit."
-      },
-      {
-        "id": 105,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-11-19",
-        "money": 5856864,
-        "type": "expense",
-        "description": "cillum laboris eiusmod",
-        "notes": "Excepteur nisi laboris officia ad aliqua non velit. Magna proident consectetur cupidatat tempor qui sunt nisi Lorem nisi in commodo. In quis eu non mollit nisi reprehenderit sint est tempor nisi elit in officia exercitation. Non sint voluptate culpa sint cillum culpa eiusmod labore nisi anim labore laboris laborum."
-      },
-      {
-        "id": 106,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-07-03",
-        "money": 7138068,
-        "type": "income",
-        "description": "occaecat sit excepteur",
-        "notes": "Officia reprehenderit velit sit aliquip. Cupidatat voluptate irure eiusmod cupidatat laboris esse. Fugiat nostrud culpa esse qui nisi aute. Quis qui veniam et cupidatat velit voluptate."
-      },
-      {
-        "id": 107,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-12-12",
-        "money": 14499346,
-        "type": "expense",
-        "description": "cillum aute adipisicing",
-        "notes": "Occaecat elit laboris irure ex deserunt fugiat minim culpa do eu proident ut amet. Eiusmod ut est Lorem cupidatat. Proident non dolore do qui consectetur elit velit duis cupidatat ad non. Reprehenderit nostrud quis ex quis exercitation ut proident."
-      },
-      {
-        "id": 108,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-01-30",
-        "money": 129732,
-        "type": "expense",
-        "description": "commodo voluptate quis",
-        "notes": "Commodo commodo ullamco ea aliquip duis minim eiusmod ex elit sunt duis. Magna culpa id consectetur sint sunt cillum commodo eiusmod dolor do Lorem non ea. Adipisicing veniam aliqua anim consequat eu irure esse. Occaecat tempor amet laboris elit veniam voluptate tempor aliquip ullamco sunt enim proident adipisicing reprehenderit."
-      },
-      {
-        "id": 109,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-01-10",
-        "money": 1656379,
-        "type": "income",
-        "description": "sint et incididunt",
-        "notes": "Incididunt sit dolore ex id. Reprehenderit dolor consectetur laboris consectetur deserunt sunt id dolor ex. Cupidatat cillum consectetur officia irure ea velit id exercitation mollit qui occaecat dolore nostrud. Sunt culpa amet et ex duis commodo laboris Lorem non sunt duis commodo elit."
-      },
-      {
-        "id": 110,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-01-22",
-        "money": 5169564,
-        "type": "expense",
-        "description": "in enim culpa",
-        "notes": "Commodo ut culpa velit deserunt commodo eiusmod tempor laborum nisi cillum excepteur. Quis aliquip dolore culpa voluptate ex cupidatat officia laboris. Commodo ipsum amet Lorem consequat in proident eiusmod commodo eiusmod dolore dolor laborum. Ad consequat aliqua elit pariatur adipisicing ipsum."
-      },
-      {
-        "id": 111,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-09-18",
-        "money": 5152155,
-        "type": "income",
-        "description": "ea magna dolore",
-        "notes": "Cupidatat dolore ullamco enim officia laboris ex exercitation ipsum aliquip veniam enim dolore qui. Laboris irure mollit ad tempor consequat ipsum magna. Irure irure ad aliquip occaecat. Id et in dolore nostrud dolor duis dolore enim."
-      },
-      {
-        "id": 112,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-08-07",
-        "money": 8991630,
-        "type": "income",
-        "description": "est fugiat amet",
-        "notes": "Esse amet est sint officia aliqua exercitation ea in. Nostrud culpa ullamco dolor eu elit mollit mollit adipisicing aliquip commodo. Lorem ad est incididunt velit esse adipisicing aliquip irure. Ut fugiat velit id commodo non excepteur Lorem proident esse."
-      },
-      {
-        "id": 113,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-10-15",
-        "money": 1780163,
-        "type": "expense",
-        "description": "deserunt pariatur proident",
-        "notes": "Labore elit excepteur reprehenderit est esse quis exercitation mollit id ut. Tempor qui adipisicing ea aliqua esse Lorem sit ullamco minim. Amet deserunt nostrud ullamco occaecat aute excepteur irure cupidatat minim culpa duis. Quis aliquip cupidatat voluptate id veniam proident nostrud magna amet."
-      },
-      {
-        "id": 114,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-02-16",
-        "money": 13111279,
-        "type": "income",
-        "description": "id cupidatat in",
-        "notes": "Tempor officia aliquip est voluptate consequat eiusmod et et irure sit incididunt excepteur. Sit velit velit adipisicing laborum nisi aliqua veniam occaecat sunt minim laborum. Sint sint magna id mollit enim consectetur eu duis. Sunt sunt mollit qui ea cupidatat ut veniam."
-      },
-      {
-        "id": 115,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-05-20",
-        "money": 10276697,
-        "type": "income",
-        "description": "excepteur occaecat nulla",
-        "notes": "Magna pariatur ut ad amet nulla occaecat ut tempor duis quis elit non adipisicing. Laboris est laboris mollit consequat aliqua eiusmod occaecat duis qui voluptate consequat reprehenderit fugiat ut. Do officia qui nulla veniam enim. Veniam mollit mollit consectetur ex velit."
-      },
-      {
-        "id": 116,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-10-10",
-        "money": 8636338,
-        "type": "expense",
-        "description": "proident enim nulla",
-        "notes": "Elit cillum voluptate quis ipsum dolor anim pariatur irure laboris sint in nulla. Nulla dolore pariatur pariatur incididunt ipsum deserunt adipisicing pariatur adipisicing cillum anim. Aliquip incididunt duis amet voluptate. Aliqua do in irure fugiat."
-      },
-      {
-        "id": 117,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-10-18",
-        "money": 13549963,
-        "type": "expense",
-        "description": "minim veniam elit",
-        "notes": "Anim amet aliquip cillum ad sint elit exercitation irure ipsum amet. Dolor qui aliquip eu occaecat. Non ex do eiusmod quis incididunt amet cillum velit exercitation irure et commodo. Dolor excepteur fugiat esse enim."
-      },
-      {
-        "id": 118,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-06-28",
-        "money": 7289291,
-        "type": "income",
-        "description": "et cillum irure",
-        "notes": "Et officia commodo aliquip incididunt consectetur nostrud dolor officia sunt ea deserunt eiusmod commodo ut. Elit deserunt cillum sit cillum consectetur aute ea. Sit consequat duis qui sint eiusmod aute incididunt sit sit mollit cupidatat tempor aliqua irure. Ea enim ipsum laborum adipisicing amet dolore pariatur cupidatat minim dolor ex esse labore."
-      },
-      {
-        "id": 119,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-09-27",
-        "money": 12856089,
-        "type": "income",
-        "description": "incididunt ut reprehenderit",
-        "notes": "Do cupidatat Lorem consectetur commodo dolore velit ea proident nisi pariatur ipsum. Velit aute fugiat mollit aliquip incididunt minim cillum consectetur aliqua. Adipisicing sunt dolore mollit voluptate ex velit do. Aliqua enim voluptate do occaecat ut incididunt est aliquip eu fugiat."
-      },
-      {
-        "id": 120,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-02-02",
-        "money": 2354841,
-        "type": "expense",
-        "description": "anim anim exercitation",
-        "notes": "Qui ex reprehenderit laborum irure sunt. Est sint proident excepteur eiusmod eiusmod cillum elit exercitation voluptate magna id officia dolor. Ad velit sint ad cupidatat ut ea incididunt eu officia et magna et fugiat. Occaecat Lorem ea non esse sint ad excepteur minim magna do nostrud est culpa."
-      },
-      {
-        "id": 121,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2023-02-20",
-        "money": 9066510,
-        "type": "expense",
-        "description": "deserunt do amet",
-        "notes": "Fugiat magna fugiat proident do. Nulla ad esse pariatur eu excepteur cillum irure sunt officia. Occaecat reprehenderit duis officia elit et. Non cupidatat proident sint amet et ut commodo ex anim est."
-      },
-      {
-        "id": 122,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-07-10",
-        "money": 13532455,
-        "type": "expense",
-        "description": "sint commodo ad",
-        "notes": "Amet minim ullamco eu deserunt mollit ad officia sunt ipsum officia aliqua ipsum velit. Laborum ea adipisicing nostrud eiusmod esse et esse esse minim. Velit qui incididunt qui dolor enim consequat laboris. Aute quis ut ea commodo ipsum fugiat irure sunt labore eiusmod veniam nisi consequat et."
-      },
-      {
-        "id": 123,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-08-25",
-        "money": 13648779,
-        "type": "income",
-        "description": "laboris irure minim",
-        "notes": "Lorem excepteur esse nulla dolore laborum enim laborum dolor aliquip dolor. Aute sint esse ipsum proident exercitation consequat est est aliquip velit ad. Cupidatat consectetur officia aliquip in cillum qui labore deserunt proident qui qui elit proident adipisicing. Et consequat excepteur amet laborum."
-      },
-      {
-        "id": 124,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-09-20",
-        "money": 8300056,
-        "type": "expense",
-        "description": "quis elit reprehenderit",
-        "notes": "Ipsum sint et ut enim. In cupidatat et aute aliqua culpa exercitation. Officia tempor reprehenderit ex quis non anim adipisicing elit commodo do. Labore ex fugiat tempor laboris nulla nulla officia qui."
-      },
-      {
-        "id": 125,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-01-31",
-        "money": 9363273,
-        "type": "expense",
-        "description": "reprehenderit pariatur nostrud",
-        "notes": "Voluptate irure proident non aliqua est aliquip do eu ex fugiat amet velit sunt. Est proident quis veniam aliquip ea commodo. Adipisicing anim exercitation dolor labore quis eiusmod ipsum cillum veniam ut dolore excepteur. Quis deserunt aliqua non culpa amet adipisicing pariatur duis nisi culpa."
-      },
-      {
-        "id": 126,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-12-08",
-        "money": 12898831,
-        "type": "expense",
-        "description": "Lorem exercitation commodo",
-        "notes": "Do culpa aute dolore nostrud cillum ipsum et velit consequat. Cupidatat Lorem irure incididunt qui officia Lorem culpa adipisicing voluptate ut ullamco ex. Duis consequat dolor adipisicing ullamco commodo aliqua quis sit. Est dolor pariatur fugiat ipsum deserunt irure proident anim proident."
-      },
-      {
-        "id": 127,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-12-10",
-        "money": 5416049,
-        "type": "expense",
-        "description": "ad est incididunt",
-        "notes": "Labore ad velit sint qui magna nostrud laborum anim dolore pariatur do excepteur deserunt. Ex excepteur anim et consequat velit Lorem pariatur. Elit exercitation amet sunt tempor ex et culpa elit consequat. Eiusmod aliqua ad ullamco ex minim quis incididunt consequat non."
-      },
-      {
-        "id": 128,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-08-04",
-        "money": 10541375,
-        "type": "income",
-        "description": "id amet reprehenderit",
-        "notes": "Irure aliquip nulla in amet ipsum commodo Lorem incididunt Lorem consectetur. Ut consectetur ullamco dolor Lorem adipisicing sit irure sint eu labore. Sunt qui laboris nisi aliqua sit pariatur nisi. Deserunt ea ullamco officia laborum."
-      },
-      {
-        "id": 129,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-11-05",
-        "money": 9244996,
-        "type": "income",
-        "description": "sint aliqua ullamco",
-        "notes": "Dolore incididunt elit mollit cupidatat eiusmod. Fugiat Lorem officia id non commodo consequat labore aliquip velit. Tempor in incididunt cupidatat excepteur fugiat reprehenderit culpa voluptate adipisicing do pariatur. Excepteur aliqua reprehenderit tempor velit elit dolore nisi tempor."
-      },
-      {
-        "id": 130,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2023-01-15",
-        "money": 7456332,
-        "type": "expense",
-        "description": "pariatur enim non",
-        "notes": "Adipisicing consequat consectetur ipsum ipsum minim non proident cillum ipsum. Ea cupidatat laboris laboris exercitation consectetur cupidatat officia aliquip esse velit et sunt elit. Veniam velit sunt elit anim reprehenderit aliqua reprehenderit culpa in labore aliquip cillum ipsum culpa. Elit labore ipsum dolore irure laborum nostrud Lorem tempor."
-      },
-      {
-        "id": 131,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-05-31",
-        "money": 14810139,
-        "type": "expense",
-        "description": "anim qui fugiat",
-        "notes": "Veniam labore incididunt duis in ullamco ullamco est consequat eu. Culpa laboris laboris aute proident duis elit aute exercitation. Excepteur in amet quis occaecat laboris cupidatat officia esse nostrud ullamco fugiat esse. Sit exercitation veniam elit non ad enim culpa esse commodo ullamco incididunt veniam qui."
-      },
-      {
-        "id": 132,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-07-24",
-        "money": 11068683,
-        "type": "expense",
-        "description": "enim incididunt ea",
-        "notes": "Ad esse magna nostrud qui non minim ad adipisicing labore duis aliquip mollit occaecat velit. Cupidatat deserunt mollit minim dolor excepteur. Quis laboris laboris laboris ullamco eu quis proident. Enim nisi minim voluptate fugiat irure ad sunt fugiat aliquip ipsum veniam incididunt ut ex."
-      },
-      {
-        "id": 133,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-02-11",
-        "money": 7201694,
-        "type": "income",
-        "description": "consequat quis reprehenderit",
-        "notes": "Ullamco laboris do et sunt. Sint id tempor non eu ex ut. Minim deserunt in aliqua magna eiusmod aliquip cillum non eu aliquip laboris elit et dolore. Aliqua est consequat anim non quis officia esse proident id labore officia."
-      },
-      {
-        "id": 134,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-07-30",
-        "money": 3602355,
-        "type": "expense",
-        "description": "ex cillum adipisicing",
-        "notes": "Fugiat dolore laborum enim commodo in sit cupidatat Lorem. Nisi commodo et fugiat quis consectetur ipsum id anim irure non. Nisi excepteur incididunt Lorem occaecat elit. Quis nisi ipsum ad magna commodo nisi ea sit amet pariatur qui ullamco exercitation."
-      },
-      {
-        "id": 135,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-11-27",
-        "money": 2203426,
-        "type": "income",
-        "description": "cupidatat proident nisi",
-        "notes": "Culpa eiusmod minim nisi deserunt excepteur quis. Do ullamco sunt in proident dolor velit labore pariatur officia laborum commodo dolore voluptate excepteur. Incididunt adipisicing et nulla eu velit. Adipisicing pariatur nostrud est laborum ex et in aliquip non nisi qui consequat nisi."
-      },
-      {
-        "id": 136,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2021-10-10",
-        "money": 5182611,
-        "type": "expense",
-        "description": "laboris Lorem anim",
-        "notes": "Sunt anim incididunt eiusmod aliqua fugiat esse duis. Enim non sunt culpa est deserunt eiusmod. Nulla eu tempor deserunt officia labore irure qui ullamco enim occaecat amet Lorem consectetur. Sit in proident anim deserunt velit ex."
-      },
-      {
-        "id": 137,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-01-25",
-        "money": 10828328,
-        "type": "income",
-        "description": "do nostrud enim",
-        "notes": "Aliquip anim esse in cillum minim excepteur deserunt nisi cupidatat laboris adipisicing sint irure irure. Lorem pariatur adipisicing irure incididunt id. Mollit magna exercitation magna dolore ipsum cillum. Sint ad anim tempor est."
-      },
-      {
-        "id": 138,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-11-25",
-        "money": 10396275,
-        "type": "expense",
-        "description": "est magna duis",
-        "notes": "Voluptate aliquip ea dolor cillum esse excepteur consequat consequat aute voluptate culpa veniam. Consectetur non cupidatat deserunt pariatur adipisicing in enim sunt cupidatat mollit laboris dolor laborum nulla. Nisi consequat adipisicing in non anim labore nisi. Velit nulla consectetur est est do pariatur."
-      },
-      {
-        "id": 139,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2019-08-13",
-        "money": 7741598,
-        "type": "expense",
-        "description": "reprehenderit aliqua ut",
-        "notes": "Laboris aute voluptate est cupidatat commodo mollit ullamco laborum voluptate est. Deserunt labore consequat ut ad eu. Est laborum ut occaecat duis. Deserunt mollit sit ex qui ex tempor est est id aliquip."
-      },
-      {
-        "id": 140,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-03-21",
-        "money": 12122310,
-        "type": "income",
-        "description": "laboris quis et",
-        "notes": "Mollit Lorem non eu est enim duis consectetur nostrud exercitation nisi eiusmod. Cillum amet consectetur cillum dolor ullamco nostrud nulla. Amet exercitation ex velit anim velit adipisicing consequat. Nostrud laborum veniam voluptate quis dolor magna tempor."
-      },
-      {
-        "id": 141,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2018-05-13",
-        "money": 13200328,
-        "type": "expense",
-        "description": "aute sunt exercitation",
-        "notes": "Anim esse nulla esse tempor. Ex adipisicing minim voluptate sint minim ipsum minim quis culpa qui cupidatat ad duis. Officia fugiat quis incididunt culpa anim ea ex ex quis eiusmod sint labore laboris consectetur. Sunt fugiat cillum excepteur sunt quis elit est sit."
-      },
-      {
-        "id": 142,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-08-29",
-        "money": 5011957,
-        "type": "expense",
-        "description": "incididunt esse magna",
-        "notes": "Anim pariatur veniam adipisicing adipisicing id dolore quis dolor aliquip dolore. Exercitation Lorem laboris veniam amet. Excepteur anim excepteur fugiat elit officia in. Id sunt sunt anim occaecat consequat officia duis dolor."
-      },
-      {
-        "id": 143,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-06-09",
-        "money": 5096901,
-        "type": "income",
-        "description": "culpa esse fugiat",
-        "notes": "Amet amet laboris aliqua officia dolor id cillum dolor. Consectetur cillum consequat occaecat commodo in Lorem nisi nostrud excepteur magna. Culpa ea anim fugiat id. Ex nostrud voluptate enim nisi labore in do in laborum dolor."
-      },
-      {
-        "id": 144,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-09-01",
-        "money": 286608,
-        "type": "expense",
-        "description": "laboris incididunt labore",
-        "notes": "Ut aute qui ut culpa magna laboris elit mollit dolor. Lorem consectetur ex qui tempor commodo consectetur nisi est magna. In nisi Lorem et consectetur do dolor dolor ad culpa dolor voluptate. Proident ut eu minim aliqua enim eiusmod velit ut sit."
-      },
-      {
-        "id": 145,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-05-27",
-        "money": 13630193,
-        "type": "income",
-        "description": "id fugiat tempor",
-        "notes": "Elit ex laborum laboris esse deserunt. Cillum proident quis qui occaecat anim pariatur aliquip. Sunt in exercitation velit eu quis elit anim id fugiat culpa. In quis quis cillum minim sunt in non nulla in anim esse ipsum."
-      },
-      {
-        "id": 146,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2020-02-25",
-        "money": 5246565,
-        "type": "expense",
-        "description": "nisi ad sit",
-        "notes": "Veniam tempor qui in ex est anim do veniam reprehenderit ad ad cupidatat. Labore adipisicing enim commodo duis reprehenderit. Dolore aute laboris aliqua aute minim in aute est nisi commodo reprehenderit magna eu. Qui nisi occaecat eiusmod incididunt excepteur sunt quis aliquip incididunt."
-      },
-      {
-        "id": 147,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-07-10",
-        "money": 11774221,
-        "type": "expense",
-        "description": "deserunt nulla occaecat",
-        "notes": "Enim amet in ut cillum non consequat. Culpa mollit consectetur cillum et occaecat irure. Sint duis pariatur et ex cupidatat. Duis culpa tempor non nisi dolor sint reprehenderit qui amet exercitation exercitation elit esse."
-      },
-      {
-        "id": 148,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-08-04",
-        "money": 6361736,
-        "type": "expense",
-        "description": "dolor commodo exercitation",
-        "notes": "Ad labore duis amet proident. Sint cillum voluptate est minim est ipsum laboris consectetur fugiat ea. Pariatur veniam consequat labore minim sit deserunt cillum exercitation. Ut pariatur amet nulla qui."
-      },
-      {
-        "id": 149,
-        "company_id": 0,
-        "recurring_id": null,
-        "date": "2022-12-26",
-        "money": 13382161,
-        "type": "income",
-        "description": "tempor commodo ex",
-        "notes": "Excepteur esse incididunt aliqua ea laboris do elit qui dolor non. Est magna cillum voluptate magna. Aliqua ad aliqua commodo officia aliquip voluptate sint duis Lorem. Qui ullamco in esse minim non culpa voluptate magna."
+        "description": "velit enim minim",
+        "notes": "Ullamco id anim magna sint. Esse eu reprehenderit eiusmod enim officia anim amet. Mollit adipisicing commodo duis laborum ipsum elit labore deserunt sint. Id sit excepteur duis laboris ea ullamco."
       }
     ]
   }
