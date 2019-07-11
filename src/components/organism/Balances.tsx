@@ -1,11 +1,13 @@
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
+
 import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
 import BalancesAPI from '../../mitochondria/balances';
 import MonthPicker from '../atoms/MonthPicker';
 import PageTitle from '../atoms/PageTitle';
+import BalancesCalendar from '../molecules/BalancesCalendar';
 import BalancesTable from '../molecules/BalancesTable';
 
 interface IProps {
@@ -56,7 +58,7 @@ const createBalanceEntriesFromMonth = (month: IMonth) => {
 
 const Balances: React.FC<IProps> = props => {
 
-  const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(moment());
+  const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(moment().startOf('month'));
   const [entries, setEntries] = React.useState<{[s: string]: Array<IBalanceEntry>}>({});
 
   React.useEffect(() => {
@@ -89,6 +91,7 @@ const Balances: React.FC<IProps> = props => {
       <div>
         <PageTitle title={title} description={description} />
         <MonthPicker month={monthChosen} setState={setMonthChosen} />
+        <BalancesCalendar month={monthChosen.clone()} entries={entries[entriesIndex] ? entries[entriesIndex] : []} />
         <BalancesTable entries={entries[entriesIndex] ? entries[entriesIndex] : []} />
       </div>
     </div>
