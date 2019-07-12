@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Checkbox from '../atoms/Checkbox';
 import Collapsable from '../atoms/Collapsable';
@@ -9,6 +9,7 @@ import TextArea from '../atoms/TextArea';
 
 import styled from 'styled-components';
 import { TransactionType } from '../../declarations/transaction';
+import { AuthCtx } from '../../store/contexts/auth';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { createTransaction } from '../../store/reducers/transactions';
 
@@ -18,6 +19,7 @@ interface IProps {
 
 const AddTransaction: React.FC<IProps> = props => {
   const dispatch = useTransactionDispatch();
+  const {store: authState} = useContext(AuthCtx);
   const [transactionType, setTransactionType] = React.useState<TransactionType>(
     'expense',
   );
@@ -30,21 +32,36 @@ const AddTransaction: React.FC<IProps> = props => {
   const [interval, setInterval] = React.useState(1);
   const [intervalType, setIntervalType] = React.useState('Month');
   const [dayOfMonth, setDayOfMonth] = React.useState(23);
+  const [, setError] = React.useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    /* TODO - handle form submit*/
+    /*  TODO – company_id should be read from the state. For now it is hard coded.
+        Because api uses snake_case, disable tslint (lowerCamelCase) variable-name rule:
+     */
+  // tslint:disable-next-line: variable-name
+    const company_id = 1;
     if (!recurring) {
       const formValues = {
+        company_id,
         date,
         description: name,
         money: parseFloat(amount),
         notes,
         type: transactionType,
       };
-      createTransaction(dispatch, formValues);
+      try {
+        createTransaction(formValues, dispatch, authState);
+      } catch (e) {
+        setError(e.message);
+        /* TODO – handle and display error to the user */
+        // tslint:disable-next-line: no-console
+        console.error(e.message);
+      }
+    } else {
+      /* TODO – Add functionality for recurring transaction */
+      alert('Adding recurring transaction is not yet possible');
     }
-    alert('Form was submitted');
   };
 
   const handleTransactionTypeChange = (

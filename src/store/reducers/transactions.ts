@@ -1,6 +1,7 @@
-import { ITransaction } from '../../declarations/transaction';
-import { TransactionType } from './../../declarations/transaction';
+import * as api from '../../mitochondria';
+import { ITransaction } from './../../declarations/transaction';
 import { TransactionDispatch } from './../contexts/transactions';
+import { IAuthState } from './auth';
 
 /**
  * Action types
@@ -16,13 +17,6 @@ const INTERMEDIARY_REMOVE = 'INTERMEDIARY_REMOVE';
 // You need to define the return-type to have the typeof ADD_TRANSACTION as it will not be able to
 // infer that it is actually just a const string - by default it will infer a string.
 
-interface INewTransactionFormValues {
-  date: string; // "YYYY-MM-DD"
-  description: string;
-  money: number;
-  notes: string;
-  type: TransactionType;
-}
 /**
  * Action creator: Add transaction to account
  *
@@ -35,13 +29,29 @@ const addTransaction = (
   type: ADD_TRANSACTION,
 });
 
-const createTransaction = (dispatch: TransactionDispatch, formValues: INewTransactionFormValues) => {
-// TODO - Take care of generating unique id's. Backend or frontend responsibility? ¯\_(ツ)_/¯
-const id = Math.floor(Math.random() * 1000);
-const companyId = 1;
-formValues.money = formValues.money * 100; // All values are stored with as hundreths in state and database.
-// TODO - Make this action async and do a post request to API
-dispatch(addTransaction({...formValues, id, companyId}));
+/**
+ * This is a helper function for creating a new Transaction.
+ * It posts the new transaction to the API and dispatches an ADD_TRANSACTION action if successful.
+ * @param newTransaction The new transaction that is to be posted to the API
+ * @param dispatch The dispatch method from the TransactionDispatchContext
+ * @param authState The APP's authState for authenticating with the API.
+ */
+const createTransaction = async (
+  newTransaction: api.INewTransaction,
+  dispatch: TransactionDispatch,
+  authState: IAuthState,
+) => {
+  // All values are stored as hundreths in state and database.
+  newTransaction.money = newTransaction.money * 100;
+
+  try {
+    const createdTransaction = (await api
+      .createTransaction(newTransaction, authState)
+      .then(res => res.json())) as ITransaction;
+    dispatch(addTransaction(createdTransaction));
+  } catch (e) {
+    throw e;
+  }
 };
 
 /**

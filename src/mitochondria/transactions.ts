@@ -1,4 +1,4 @@
-import { ITransaction, TransactionType } from '../declarations/transaction';
+import { TransactionType } from '../declarations/transaction';
 import { IAuthState } from '../store/reducers/auth';
 import {post} from './';
 
