@@ -4,11 +4,13 @@ import {
   TransactionProvider,
   useTransactionDispatch,
 } from '../../../store/contexts/transactions';
-import { ActionCreators} from '../../../store/reducers/transactions'
+import { ActionCreators} from '../../../store/reducers/transactions';
 import { theme } from '../../../styling/theme';
 import { cleanup, fireEvent, render } from './../../../helpers/test-utils';
 
 import { ThemeProvider } from 'styled-components';
+import { AuthCtx, createAuthCtx } from '../../../store/contexts/auth';
+import { initialState, reducer as authReducer } from '../../../store/reducers/auth';
 import Transactions from '../../organism/Transactions';
 
 afterEach(cleanup);
@@ -16,17 +18,22 @@ afterEach(cleanup);
 const dummyTxs = new Array(50).fill(0).map(createDummyTransaction);
 
 const Wrapper: React.FC = props => {
-  const dispatch = useTransactionDispatch();
+  const transactionDispatch = useTransactionDispatch();
   React.useEffect(
     () => {
-    dispatch(ActionCreators.resetTransactions(dummyTxs));
-    }, [dispatch]);
+    transactionDispatch(ActionCreators.resetTransactions(dummyTxs));
+    }, [transactionDispatch]);
+
+  const [auth, authDispatch] = React.useReducer(authReducer, initialState);
+  createAuthCtx(auth, authDispatch);
   return (
-    <ThemeProvider theme={theme}>
-      <>
-        {props.children}
-      </>
-    </ThemeProvider>
+    <AuthCtx.Provider value={{store: auth, dispatch: authDispatch}}>
+      <ThemeProvider theme={theme}>
+        <>
+          {props.children}
+        </>
+      </ThemeProvider>
+    </AuthCtx.Provider>
   );
 };
 
@@ -51,7 +58,7 @@ test('Only show recurring', () => {
   fireEvent.click(getByLabelText('Only recurring?'));
   dummyTxs.forEach(e => {
     expect(container.querySelectorAll('h4~strong~h6').length).toBe(
-      dummyTxs.filter(t => t.recurringId).length,
+      dummyTxs.filter(t => t.recurring_id).length,
     );
   });
 });

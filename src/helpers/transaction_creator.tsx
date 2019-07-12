@@ -31,13 +31,13 @@ const randomType = (): TransactionType => types[Math.floor(Math.random() * types
 let i: number = 0;
 
 export const createDummyTransaction = (): ITransaction => ({
-  companyId: 0,
+  company_id: 0,
   date: moment(Math.floor(Math.random() * 1500000000000)).format('YYYY-MM-DD'),
   description: `${randomWord()} ${randomWord()}`,
   id: i++,
   money: Math.random() * 10000,
   notes: Math.random() > 0.5 ? (new Array(30)).fill(null).map(randomWord).join(' ') : undefined,
-  recurringId: Math.random() > 0.5 ? Math.floor(Math.random() * 10) : undefined,
+  recurring_id: Math.random() > 0.5 ? Math.floor(Math.random() * 10) : undefined,
   type: randomType(),
 });
 

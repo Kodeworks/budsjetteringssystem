@@ -1,13 +1,11 @@
 import { IMonth } from '../declarations/month';
-
-export interface IError {
-  detail: string;
-}
+import { IError } from './';
 
 const BASE_URL = 'http://localhost:8000/';
 
-const getMonth = async (month: number, year: number, companyId: number) => {
-  const url = `${BASE_URL}month?month=${month}&year=${year}&company_id=${companyId}`;
+// tslint:disable-next-line: variable-name
+const getMonth = async (month: number, year: number, company_id: number) => {
+  const url = `${BASE_URL}month?month=${month}&year=${year}&company_id=${company_id}`;
   const result = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',

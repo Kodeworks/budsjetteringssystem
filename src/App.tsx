@@ -41,7 +41,7 @@ const App: React.FC<IAppProps> = props => {
           Perform.doLogout(dispatch);
         }
       }
-    })(); // IIEF
+    })(); // IIFE
   }, []); // Only run on component mount
 
   if (auth.user === undefined && (auth.access && auth.refresh)) {

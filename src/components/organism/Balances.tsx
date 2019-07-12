@@ -12,7 +12,8 @@ interface IProps {
   className?: string;
 }
 
-const companyId = 1; // Hardcoded until we get a global company context.
+// tslint:disable-next-line: variable-name
+const company_id = 1; // Hardcoded until we get a global company context.
 
 const createBalanceEntriesFromMonth = (month: IMonth) => {
 
@@ -64,7 +65,7 @@ const Balances: React.FC<IProps> = props => {
 
     if (!(entryKey in entries)) {
       // API is indexing months starting from 1, therefore we need to add 1 to get correct result.
-      BalancesAPI.getMonth(monthChosen.month() + 1, monthChosen.year(), companyId)
+      BalancesAPI.getMonth(monthChosen.month() + 1, monthChosen.year(), company_id)
         .then(balanceEntries => {
           const newEntries = {...entries};
           if (balanceEntries.length !== 1) {
