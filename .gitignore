@@ -144,4 +144,4 @@ tags
 
 # End of https://www.gitignore.io/api/vim,pycharm,visualstudiocode
 #
-# **/db.json
+# .json-server/db.json
