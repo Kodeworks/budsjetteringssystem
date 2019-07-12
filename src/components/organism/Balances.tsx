@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
 import BalancesAPI from '../../mitochondria/balances';
+import BalancesViewPicker from '../atoms/BalancesViewPicker';
 import MonthPicker from '../atoms/MonthPicker';
 import PageTitle from '../atoms/PageTitle';
 import BalancesCalendar from '../molecules/BalancesCalendar';
@@ -26,7 +27,7 @@ const createBalanceEntriesFromMonth = (month: IMonth) => {
     return 1;
   });
 
-  const firstOfMonth = moment({year: month.year, month: month.month, day: 1});
+  const firstOfMonth = moment({year: month.year, month: month.month - 1, day: 1});
   monthBalances[firstOfMonth.format('YYYY-MM-DD')] = {
     expense: 0,
     income: 0,
@@ -60,6 +61,7 @@ const Balances: React.FC<IProps> = props => {
 
   const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(moment().startOf('month'));
   const [entries, setEntries] = React.useState<{[s: string]: Array<IBalanceEntry>}>({});
+  const [showCalendar, setShowCalendar] = React.useState(true);
 
   React.useEffect(() => {
     const entryKey = monthChosen.format('YYYY-MM');
@@ -86,24 +88,36 @@ const Balances: React.FC<IProps> = props => {
   const title = 'Balances';
   const description = 'Showing income, expense and liquidity for a month';
 
-  return (
+  return ((
     <div className={props.className}>
       <div>
         <PageTitle title={title} description={description} />
-        <MonthPicker month={monthChosen} setState={setMonthChosen} />
-        <BalancesCalendar month={monthChosen.clone()} entries={entries[entriesIndex] ? entries[entriesIndex] : []} />
-        <BalancesTable entries={entries[entriesIndex] ? entries[entriesIndex] : []} />
+        <div id={'pickers'}>
+          <MonthPicker month={monthChosen} setState={setMonthChosen} />
+          <BalancesViewPicker showCalendar={showCalendar} setShowCalendar={setShowCalendar} />
+        </div>
+        {showCalendar ?
+          <BalancesCalendar
+            month={monthChosen.clone()}
+            entries={entries[entriesIndex] ? entries[entriesIndex] : []}
+          /> :
+          <BalancesTable entries={entries[entriesIndex] ? entries[entriesIndex] : []} />
+        }
       </div>
     </div>
-  );
+  ));
 };
 
 export default styled(Balances)`
   margin: 2em;
 
   display: grid;
-  grid-template-columns: calc(70% - 2em) ;
+  grid-template-columns: calc(100% - 2em) ;
   grid-gap: 4em;
+
+  #pickers {
+    display: flex;
+  }
 `;
 
 /*

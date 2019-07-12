@@ -12,12 +12,12 @@ interface ICalendarProps {
 }
 
 const headers = () => {
-  const dayStrings = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const dayStrings = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   return dayStrings.map(d => <div key={d}><h3>{d}</h3></div>);
 };
 
 const calendar: React.FC<ICalendarProps> = (props) => {
-  const dayOfWeekStart = props.month.day();
+  const dayOfWeekStart = props.month.day() - 1;
   const monthLength = props.month.daysInMonth();
   const calendarEntries = [];
 
@@ -29,6 +29,7 @@ const calendar: React.FC<ICalendarProps> = (props) => {
     calendarEntries[moment(e.date).date() - 1] = <BalancesCalendarEntry date={e.date} entry={e} />;
   });
 
+  /* Generate empty entries for beginning of first week and end of last week in current month */
   const emptyEntries = () => {
     const empties = [];
     for (let i = 0; i < dayOfWeekStart; i++) {
@@ -48,7 +49,9 @@ const calendar: React.FC<ICalendarProps> = (props) => {
 
 const BalancesCalendar = styled(calendar)`
   display: grid;
-  grid-template-columns: repeat(7, 150px);
+  margin-top: 4em;
+  width: 80%;
+  grid-template-columns: repeat(7, calc(100% / 7));
   text-align: center;
 
   h3 {

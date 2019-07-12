@@ -7,7 +7,7 @@ export interface ILoginResponse extends IAuth {
 }
 export interface ITokenResponse { access: string; }
 
-const BASE_URL = 'http://localhost:8000/' as const;
+const BASE_URL = 'https://murmuring-refuge-71505.herokuapp.com/' as const; // 'http://localhost:8000/' as const;
 
 export const register = async (
   // We're ignoring as the backend wants this in snake_case, and this is a simpler approach.

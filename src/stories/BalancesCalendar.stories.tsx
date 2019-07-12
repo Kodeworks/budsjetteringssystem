@@ -87,8 +87,8 @@ storiesOf('CalendarEntry', module)
   ));
 
 storiesOf('Calendar', module)
-    .add('BalancesCalendar', () => (
-      <GlobalWrapper>
-        <BalancesCalendar month={month} entries={entries}/>
-      </GlobalWrapper>
-    ));
+  .add('BalancesCalendar', () => (
+    <GlobalWrapper>
+      <BalancesCalendar month={month} entries={entries}/>
+    </GlobalWrapper>
+  ));

@@ -29,10 +29,11 @@ const BalancesCalendarEntry = styled(calendarEntry)`
   grid-template-rows: 25% 20% 20% 10% 25%;
   grid-template-columns: 100%;
   height: 95%;
-  width: 95%;
-  border: 1px solid black;
-  border-radius: 10px;
+  width: 90%;
+  border-radius: ${props => props.theme.shape.borderRadius};
   justify-self: center;
+  background-color: ${props => props.theme.palette.background.paper};
+  box-shadow: ${props => props.theme.shadow};
 
   h5 {
     justify-self: center;

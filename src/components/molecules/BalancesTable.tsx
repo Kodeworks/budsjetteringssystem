@@ -28,7 +28,8 @@ const BalancesTableHeaders = styled(headers)`
   grid-template-columns: 25% 25% 25% 25%;
   width: calc(90% - 1em);
   text-align: right;
-  margin-bottom: 0.5em;
+  padding: 10px;
+  margin-bottom: 0.3em;
 
   h2:first-of-type {
     text-align: left;
@@ -47,6 +48,7 @@ const BalancesTable: React.FC<IPropsTable> = props => {
 
 export default styled(BalancesTable)`
   width: 100%;
+  margin-top: 3em;
   h2 {
     margin-bottom: 0.3em;
   }
