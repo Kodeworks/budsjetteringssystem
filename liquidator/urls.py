@@ -19,6 +19,7 @@ from django.urls import include, path
 import custom_auth.urls
 import company.urls
 import transaction.urls
+import balance.urls
 
 
 urlpatterns = [
@@ -26,4 +27,5 @@ urlpatterns = [
     path('user/', include(custom_auth.urls)),
     path('company/', include(company.urls)),
     path('transaction/', include(transaction.urls)),
+    path('balance/', include(balance.urls)),
 ]
