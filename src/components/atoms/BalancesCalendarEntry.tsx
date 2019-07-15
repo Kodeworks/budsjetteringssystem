@@ -28,7 +28,7 @@ const BalancesCalendarEntry = styled(calendarEntry)`
   display: grid;
   grid-template-rows: 25% 20% 20% 10% 25%;
   grid-template-columns: 100%;
-  height: 95%;
+  height: 90%;
   width: 90%;
   border-radius: ${props => props.theme.shape.borderRadius};
   justify-self: center;
