@@ -11,8 +11,9 @@ interface ICalendarProps {
   month: moment.Moment;
 }
 
+const dayStrings = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
 const headers = () => {
-  const dayStrings = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   return dayStrings.map(d => <div key={d}><h3>{d}</h3></div>);
 };
 
@@ -22,26 +23,26 @@ const calendar: React.FC<ICalendarProps> = (props) => {
   const calendarEntries = [];
 
   for (let date = 1; date <= monthLength; date++) {
-    calendarEntries[date - 1] = <BalancesCalendarEntry date={props.month.date(date).format('YYYY-M-D')} />;
+    calendarEntries[date - 1] = <BalancesCalendarEntry key={date} date={props.month.date(date).format('YYYY-MM-DD')} />;
   }
 
   props.entries.forEach(e => {
-    calendarEntries[moment(e.date).date() - 1] = <BalancesCalendarEntry date={e.date} entry={e} />;
+    calendarEntries[moment(e.date).date() - 1] = <BalancesCalendarEntry key={e.date} date={e.date} entry={e} />;
   });
 
   /* Generate empty entries for beginning of first week and end of last week in current month */
-  const emptyEntries = () => {
-    const empties = [];
+  const leadingEntries = () => {
+    const leadingEntryArray = [];
     for (let i = 0; i < dayOfWeekStart; i++) {
-      empties.push(<div />);
+      leadingEntryArray.push(<div className={'leading-entry'} key={dayStrings[i]} />);
     }
-    return empties;
+    return leadingEntryArray;
   };
 
   return ((
     <div className={props.className}>
       {headers()}
-      {emptyEntries()}
+      {leadingEntries()}
       {calendarEntries}
     </div>
   ));
