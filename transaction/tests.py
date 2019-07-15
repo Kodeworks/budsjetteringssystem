@@ -63,7 +63,7 @@ class TransactionAllTestCase(TransactionTestMixin, JWTTestCase):
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(len(response.data['results']), 1, msg=response.content)
         transaction_ids = [x['id'] for x in response.data['results']]
-        self.assertIn(tr_my_company.id, transaction_ids, msg=response.content)
+        self.assertEquals([tr_my_company.id], transaction_ids, msg=response.content)
         self.assertNotIn(tr_other_company.id, transaction_ids, msg=response.content)
 
     def test_one_page_transactions_ordered_by_date(self):
@@ -173,7 +173,7 @@ class TransactionByDateTestCase(TransactionTestMixin, JWTTestCase):
         self.assertEquals(response.status_code, 200, msg=response.content)
 
         transaction_ids = [x['id'] for x in response.data['results']]
-        self.assertIn(tr_my_company.id, transaction_ids, msg=response.content)
+        self.assertEquals([tr_my_company.id], transaction_ids, msg=response.content)
         self.assertNotIn(tr_other_company.id, transaction_ids, msg=response.content)
 
     def test_invalid_date_format(self):
@@ -221,8 +221,9 @@ class TransactionIncomeAllTestCase(TransactionTestMixin, JWTTestCase):
         trans_ex = self.create_transaction(money=4000, type=TransactionStaticData.EXPENSE)
 
         response = self.get(views.TransactionIncomeAllView, {'company_id': self.company.pk})
+        self.assertEquals(response.status_code, 200, msg=response.content)
         transaction_ids = [trans['id'] for trans in response.data['results']]
-        self.assertIn(trans_in.id, transaction_ids, msg=response.content)
+        self.assertEquals([trans_in.id], transaction_ids, msg=response.content)
         self.assertNotIn(trans_ex.id, transaction_ids, msg=response.content)
 
 
@@ -236,6 +237,7 @@ class TransactionExpenseAllTestCase(TransactionTestMixin, JWTTestCase):
         trans_ex = self.create_transaction(money=4000, type=TransactionStaticData.EXPENSE)
 
         response = self.get(views.TransactionExpenseAllView, {'company_id': self.company.pk})
+        self.assertEquals(response.status_code, 200, msg=response.content)
         transaction_ids = [trans['id'] for trans in response.data['results']]
-        self.assertIn(trans_ex.id, transaction_ids, msg=response.content)
+        self.assertEquals([trans_ex.id], transaction_ids, msg=response.content)
         self.assertNotIn(trans_in.id, transaction_ids, msg=response.content)

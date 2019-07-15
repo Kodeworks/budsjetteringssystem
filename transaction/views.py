@@ -1,4 +1,4 @@
-from base.views import ListView, CompanyAccessView, RetrieveCreateUpdateDestroyView, ByDateRangeView
+from base.views import ListView, RetrieveCreateUpdateDestroyView, ByDateRangeView
 from base.mixins import CompanyFilterMixin
 from .serializers import TransactionSerializer
 from .models import Transaction, TransactionStaticData
@@ -13,11 +13,6 @@ class TransactionMixin(CompanyFilterMixin):
 
 
 class TransactionView(TransactionMixin, RetrieveCreateUpdateDestroyView):
-    pass
-
-
-class TransactionInsertArrayView(CompanyAccessView):
-    # Wait a bit with this
     pass
 
 
