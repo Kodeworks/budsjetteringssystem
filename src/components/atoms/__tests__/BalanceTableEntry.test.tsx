@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import moment from 'moment';
 import { IBalanceEntry } from '../../../declarations/balanceEntries';
 import { currencyFormat } from '../../../helpers/currency';
+import GlobalWrapper from '../../../helpers/GlobalWrapper';
 import BalanceTableEntry from '../BalanceTableEntry';
 
 test('BalanceTableEntry renders correctly', () => {
@@ -14,7 +15,9 @@ test('BalanceTableEntry renders correctly', () => {
     liquidity: 1000000,
   };
   const { container } = render((
-    <BalanceTableEntry data={entryData} />
+    <GlobalWrapper>
+      <BalanceTableEntry data={entryData} />
+    </GlobalWrapper>
   ));
   const spans = container.querySelectorAll('span');
 

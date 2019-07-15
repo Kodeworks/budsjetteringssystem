@@ -31,7 +31,7 @@ test('ViewPicker renders with correct choice set', () => {
   expect(container.querySelector('select'));
   expect(container.querySelector('select').value).not.toEqual('list');
   expect(container.querySelector('select').value).toEqual('calendar');
-  
+
   // Select 'List view' and check that state and select-value has changed.
   fireEvent.change(container.querySelector('select'), { target: {value: 'list'}});
   expect(getByTestId('show-calendar')).toHaveTextContent('false');

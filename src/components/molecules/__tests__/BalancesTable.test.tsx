@@ -2,8 +2,9 @@ import React from 'react';
 
 import { render } from '@testing-library/react';
 import moment from 'moment';
-import BalanceTable from '../BalancesTable';
 import { currencyFormat } from '../../../helpers/currency';
+import GlobalWrapper from '../../../helpers/GlobalWrapper';
+import BalanceTable from '../BalancesTable';
 
 test('BalanceTable renders correctly with headers and two BalanceEntries', () => {
   const entryData = [
@@ -22,7 +23,9 @@ test('BalanceTable renders correctly with headers and two BalanceEntries', () =>
   ];
 
   const { container } = render((
-    <BalanceTable className={'balance-table'} entries={entryData} />
+    <GlobalWrapper>
+      <BalanceTable className={'balance-table'} entries={entryData} />
+    </GlobalWrapper>
   ));
   const table = container.querySelector('.balance-table');
   expect(table).not.toBe(null);
