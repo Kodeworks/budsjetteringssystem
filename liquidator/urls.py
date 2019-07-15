@@ -20,6 +20,7 @@ import custom_auth.urls
 import company.urls
 import transaction.urls
 import balance.urls
+import balance.month_urls
 
 
 urlpatterns = [
@@ -28,4 +29,5 @@ urlpatterns = [
     path('company/', include(company.urls)),
     path('transaction/', include(transaction.urls)),
     path('balance/', include(balance.urls)),
+    path('month/', include(balance.month_urls)),
 ]

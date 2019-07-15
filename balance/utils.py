@@ -37,7 +37,8 @@ def get_transaction_balances_for_date_range(company, start_date, end_date, start
             else:
                 transactions[date] = money
 
-    for date, money in transactions.items():
+    # We loop through the dictionary, sorted by date
+    for date, money in sorted(transactions.items(), key=lambda x: x[0]):
         balance += money
         balances[date] = balance
 
@@ -49,7 +50,7 @@ def get_balances_for_date_range(company, start_date, end_date, include_bank_bala
     balance = get_balance_for_date(company, start_date - day, True)
     bank_balances = BankBalance.objects.filter(company=company, date__gte=start_date, date__lte=end_date)
 
-    if bank_balances[0].date != start_date:
+    if bank_balances and bank_balances[0].date != start_date:
         period_end = bank_balances[0].date
         if include_bank_balances:
             period_end -= day

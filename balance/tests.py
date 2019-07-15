@@ -6,9 +6,10 @@ from custom_auth.tests import JWTTestCase
 from company.tests import CompanyTestMixin
 from transaction.models import Transaction
 from transaction.tests import RecurringTransactionTestMixin
+from transaction.serializers import TransactionSerializer, RecurringTransactionSerializer, RecurringTransactionOccurenceSerializer, RecurringTransactionOccurence
 from . import views
 from .models import BankBalance
-from .serializers import BankBalanceSerializer
+from .serializers import BankBalanceSerializer, BalanceSerializer, Balance, MonthSerializer, Month
 from .utils import get_balance_for_date, get_balances_for_date_range
 
 
@@ -359,3 +360,88 @@ class BalanceViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, J
 
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals([dict(elem) for elem in response.data], expected, msg=response.content)
+
+class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWTTestCase):
+    def setUp(self):
+        super(RecurringTransactionTestMixin, self).setUp()
+        self.set_role(self.company, self.user, role=roles.USER)
+        self.force_login(self.user)
+
+        self.type = Transaction.INCOME
+        self.recurring_transaction = None
+        self.description = 'Test'
+        self.notes = ''
+
+    def convert_dict(self, dictionary):
+        return [dict(elem) for elem in dictionary]
+
+    def convert_month_response(self, month_response):
+        # The serializer relations uses OrderedDict, which we have to convert
+        # to compare with
+        for key in ['transactions', 'recurring', 'corrections', 'balances']:
+            month_response.data[key] = self.convert_dict(month_response.data[key])
+
+        for i, recurring in enumerate(month_response.data['recurring']):
+            obj = dict(recurring['object'])
+            obj['template'] = dict(obj['template'])
+            obj['transactions'] = self.convert_dict(obj['transactions'])
+            month_response.data['recurring'][0]['object'] = obj
+
+        return month_response
+
+    def test_month(self):
+        bank1 = self.create_bank_balance(datetime.date(2019, 6, 1), 1000)
+        bank2 = self.create_bank_balance(datetime.date(2019, 7, 1), 4000)
+        transaction1 = self.create_transaction(date=datetime.date(2019, 7, 2), money=-1000)
+
+        recurring1 = self.create_recurring(start_date=datetime.date(2019, 7, 3), end_date=datetime.date(2019, 7, 7),
+                                               day_delta=2, money=1000)
+        transaction2 = self.create_transaction(date=datetime.date(2019, 7, 5), money=5000, recurring_transaction=recurring1)
+
+        response = self.get(views.MonthView, {'year': 2019, 'month': 6})
+
+        expected = {
+            'year': 2019,
+            'month': 6,
+            'start_balance': 0,
+            'lowest_balance': bank1.money,
+            'transactions': [],
+            'recurring': [],
+            'balances': [],
+            'corrections': [
+                BankBalanceSerializer(bank1).data
+            ],
+        }
+        self.assertEqual(response.data, expected, msg=response.content)
+
+        response = self.get(views.MonthView, {'year': 2019, 'month': 7})
+        expected = MonthSerializer(
+            Month(
+                year=2019,
+                month=7,
+                start_balance=bank1.money,
+                lowest_balance=3000,
+                transactions=[
+                    transaction1,
+                    transaction2,
+                ],
+                recurring=[
+                    RecurringTransactionOccurence(object=recurring1,
+                                                  dates=[
+                                                      datetime.date(2019, 7, 3),
+                                                      datetime.date(2019, 7, 5),
+                                                      datetime.date(2019, 7, 7),
+                                                  ]),
+                ],
+                balances=[
+                    Balance(self.company.pk, datetime.date(2019, 7, 2), 3000),
+                    Balance(self.company.pk, datetime.date(2019, 7, 3), 4000),
+                    Balance(self.company.pk, datetime.date(2019, 7, 5), 9000),
+                    Balance(self.company.pk, datetime.date(2019, 7, 7), 10000),
+                ],
+                corrections=[
+                    bank2,
+                ],
+            )
+        ).data
+        self.assertEqual(response.data, expected, msg=response.content)
