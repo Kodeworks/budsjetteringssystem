@@ -34,9 +34,15 @@ const App: React.FC<IAppProps> = props => {
 
       if (LSAccess && LSRefresh && LSId) {
         try {
-          Perform.doSetAccessToken(LSAccess, dispatch);
+          /**
+           * We need to await the doSetUser function, as if not, the error won't be caught
+           * by the catch (e), and the user will not be logged out. This leads to a
+           * situation where you're stuck on the loading screen with an error saying
+           * the refresh token is expired. This is due to the fact that it is async.
+           */
           Perform.doSetRefreshToken(LSRefresh, dispatch);
-          Perform.doSetUser(LSAccess, LSId, dispatch);
+          Perform.doSetAccessToken(LSAccess, dispatch);
+          await Perform.doSetUser(LSAccess, LSId, dispatch);
         } catch (e) {
           Perform.doLogout(dispatch);
         }
@@ -64,16 +70,16 @@ const App: React.FC<IAppProps> = props => {
 
   if (!auth.access) {
     return (
-      <Wrap className={props.className} auth={{store: auth, dispatch}}>
+      <Wrap className={props.className} auth={{ store: auth, dispatch }}>
         <Route path="/" exact={true} component={Login} />
         <Route path="/register" component={Register} />
-        {pageRoutes.map(e => <Route key={e} to={e}><Redirect to="/" /></Route> )}
+        {pageRoutes.map(e => <Route key={e} to={e}><Redirect to="/" /></Route>)}
       </Wrap>
     );
   }
 
   return (
-    <Wrap className={props.className} auth={{store: auth, dispatch}}>
+    <Wrap className={props.className} auth={{ store: auth, dispatch }}>
       <Navigation />
       <Page>
         <Route path="/" exact={true} component={Homepage} />

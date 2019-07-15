@@ -72,13 +72,13 @@ export const fetchNewToken = async (): Promise<string> => {
   });
 
   switch (res.status) {
-  case 200:
-    return (await res.json() as ITokenResponse).access;
-  case 401:
-    // The refresh token has expired
-    throw new Error('Refresh token has expired.');
-  default:
-    throw new Error('Unexpected response from server.');
+    case 200:
+      return (await res.json() as ITokenResponse).access;
+    case 401:
+      // The refresh token has expired
+      throw new Error('Refresh token has expired.');
+    default:
+      throw new Error('Unexpected response from server.');
   }
 };
 
@@ -86,23 +86,23 @@ export const fetchUserById = async (id: number, token: string): Promise<IUser> =
   const res = await fetch(`${BASE_URL}user/?id=${id}`, { headers: { Authorization: `Bearer ${token}` } });
 
   switch (res.status) {
-  case 200:
-    return await res.json() as IUser;
-  case 400:
-    throw new Error((await res.json() as IError).detail);
-  case 401:
-    try {
-      const newToken = await fetchNewToken();
-      localStorage.setItem('access', newToken);
-      return await fetchUserById(id, newToken);
-    } catch (e) {
-      throw new Error(e);
-    }
+    case 200:
+      return await res.json() as IUser;
+    case 400:
+      throw new Error((await res.json() as IError).detail);
+    case 401:
+      try {
+        const newToken = await fetchNewToken();
+        localStorage.setItem('access', newToken);
+        return await fetchUserById(id, newToken);
+      } catch (e) {
+        throw new Error(e);
+      }
 
-  case 404:
-    throw new Error((await res.json() as IError).detail);
-  default:
-    throw new Error('Unexpected response from server.');
+    case 404:
+      throw new Error((await res.json() as IError).detail);
+    default:
+      throw new Error('Unexpected response from server.');
   }
 };
 
