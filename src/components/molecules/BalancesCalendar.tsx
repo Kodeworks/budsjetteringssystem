@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment/locale/en-gb';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -11,10 +12,11 @@ interface ICalendarProps {
   month: moment.Moment;
 }
 
-const dayStrings = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+moment.locale('en-gb');
+const weekdays = moment.weekdaysShort(true);
 
 const headers = () => {
-  return dayStrings.map(d => <div key={d}><h3>{d}</h3></div>);
+  return weekdays.map(d => <div key={d}><h3>{d}</h3></div>);
 };
 
 const Calendar: React.FC<ICalendarProps> = (props) => {
@@ -34,7 +36,7 @@ const Calendar: React.FC<ICalendarProps> = (props) => {
   const leadingEntries = () => {
     const leadingEntryArray = [];
     for (let i = 0; i < dayOfWeekStart; i++) {
-      leadingEntryArray.push(<div className={'leading-entry'} key={dayStrings[i]} />);
+      leadingEntryArray.push(<div className={'leading-entry'} key={weekdays[i]} />);
     }
     return leadingEntryArray;
   };

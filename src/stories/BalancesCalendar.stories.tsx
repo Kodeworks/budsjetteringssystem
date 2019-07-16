@@ -14,7 +14,7 @@ const entry: IBalanceEntry = {
   liquidity: 18000000,
 };
 
-const entries: Array<IBalanceEntry> = (new Array(13).fill(0)).map((_e, i) => ({
+const entries: Array<IBalanceEntry> = (new Array(13).fill(0)).map((e, i) => ({
   date: `2019-06-${String(i + 1).padStart(2, '0')}`,
   expense: 200000,
   income: 200000,

@@ -10,7 +10,7 @@ import { IBalanceEntry } from '../declarations/balanceEntries';
 const entries: Array<IBalanceEntry> = [
   {date: '2019-06-01', income: 340000, expense: 100000, liquidity: 8430000},
   {date: '2019-06-22', income: 100000, expense: 300000, liquidity: 8670000},
-  {date: '2019-06-25', income: 200050, liquidity: 8870000},
+  {date: '2019-06-25', income: 200050, expense: 0, liquidity: 8870000},
 ];
 
 const WrappedBalancesViewPicker = (props: any) => {

@@ -1,6 +1,7 @@
 import { cleanup, getByText, render } from '@testing-library/react';
 import 'jest-dom/extend-expect';
 import moment from 'moment';
+import 'moment/locale/en-gb';
 import React from 'react';
 import GlobalWrapper from '../../../helpers/GlobalWrapper';
 import BalancesCalendar from '../BalancesCalendar';
@@ -26,6 +27,8 @@ test('BalancesCalendar renders entries correct', () => {
 
   const month = moment(entries[0].date);
 
+  moment.locale('en-gb');
+
   const { container, getByText } = render((
     <GlobalWrapper>
       <BalancesCalendar entries={entries} month={month} />
@@ -33,8 +36,8 @@ test('BalancesCalendar renders entries correct', () => {
   ));
 
   // Check that headers are rendered
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  days.forEach(e => {
+  const weekdays = moment.weekdaysShort(true);
+  weekdays.forEach(e => {
     expect(getByText(e));
   });
 
