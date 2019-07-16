@@ -1,136 +1,105 @@
-import { IAuthState } from '../store/reducers/auth';
-
 export interface IError {
   detail: string;
 }
 
-// Add endpoints here as needed:
+// Add endpoints here as needed
 const endpoints = [
-  '/transaction',
-  '/transaction/all',
-  '/transaction/income/all',
-  '/balance',
-  '/recurring',
-  '/month',
-  '/company',
-  '/user',
+  '/transaction/',
+  '/transaction/all/',
+  '/transaction/income/all/',
+  '/balance/',
+  '/recurring/',
+  '/month/',
+  '/company/',
+  '/user/',
+  '/user/login/',
+  '/user/register/',
 ] as const;
-export type ApiEndpoint = typeof endpoints[number]; // union of endpoints: '/transaction' | '/transaction/all' | ...
+
+// Union of endpoints: '/transaction' | '/transaction/all' | ...
+export type ApiEndpoint = typeof endpoints[number];
 
 const BASE_URL = 'http://localhost:8000';
 
-/**
- * This function makes a fetch call to a url with the initOptions as set.
- * It also catches HTTP errors and other errors preventing the promise returned by fetch to be resolved.
- * @param url The URL we want to send a HTTP request to
- * @param initOptions The initOptions to be used as second argument to fetch()
- */
-const request = async (url: URL, initOptions?: RequestInit) => {
-  try {
-    const response = await fetch(url.toString(), initOptions);
-    if (!response.ok) {
-      throw(handleStatusNotOk(response));
-    }
-    return response;
-  } catch (e) {
-    throw (handleError(e));
-  }
-};
+export interface ITokenResponse {
+  access: string;
+}
 
 /**
- * This function generates the url, request options,
- * and calls the more generic @function request which makes a 'GET' fetch() call.
- * @param endpoint API endpoint
- * @param data The body of the HTTP request
- * @param authState The authentication state of the application.
+ * @summary "Fetches a new access token by using the refresh token."
+ * @returns "Whether we successfully managed to fetch a new access token."
  */
-export const get = async (
-  endpoint: ApiEndpoint,
-  queryParams: { [key: string]: any },
-  authState: IAuthState,
-) => {
-  const url = new URL(`${BASE_URL}${endpoint}/`);
-  url.search = new URLSearchParams(queryParams).toString();
-  const initOptions = {
-    headers: {
-      'Authentication': `Bearer ${authState.access}`,
-      'Content-Type': 'application/json',
-    },
-    method: 'GET',
-  };
-  try {
-    const response = await request(url, initOptions);
-    return response;
-  } catch (e) {
-    throw e;
-  }
-};
+export const fetchNewToken = async (): Promise<string> => {
+  const refresh = localStorage.getItem('refresh');
 
-/**
- * This function generates the url, request options,
- * and calls the more generic @function request which makes a 'POST' fetch() call.
- * @param endpoint API endpoint
- * @param data The body of the HTTP request
- * @param authState The authentication state of the application.
- */
-export const post = async (
-  endpoint: ApiEndpoint,
-  data: { [key: string]: any },
-  authState: IAuthState,
-) => {
-  const url = new URL(`${BASE_URL}${endpoint}/`);
-  const initOptions = {
-    body: JSON.stringify(data),
-    headers: {
-      'Authentication': `Bearer ${authState.access}`,
-      'Content-Type': 'application/json',
-    },
+  const res = await fetch(`${BASE_URL}/user/refresh/`, {
+    body: JSON.stringify({ refresh }),
+    headers: { 'Content-Type': 'application/json' },
     method: 'POST',
-  };
-  try {
-    const response = await request(url, initOptions);
-    return response;
-  } catch (e) {
-    throw e;
-  }
+  });
 
-};
-
-// ERROR HANDLING:
-
-/*
- * From MDN web docs on fetch( https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch ):
- * The Promise returned from fetch() won’t reject on HTTP error status
- * even if the response is an HTTP 404 or 500.
- * Instead, it will resolve normally (with ok status set to false),
- * and it will only reject on network failure or if anything prevented the request from completing.
- */
-
- /**
-  * This function handles HTTP errors (HTTP 404, 500 etc.)
-  * @param response A resolved response promise with 'ok' status value set to false.
-  */
-const handleStatusNotOk = async (response: Response) => {
-  const { status } = response;
-  const errorResponse = (await response.json()) as IError;
-  switch (status) {
-    // TODO – Add cases for different response statuses, 404, 400, 500 etc.
+  switch (res.status) {
+    case 200:
+      return (await res.json() as ITokenResponse).access;
+    case 401:
+      // The refresh token has expired
+      throw new Error('Refresh token has expired.');
     default:
-      return new Error(
-        `Unhandled response! Status was not OK: ${status}: ${errorResponse}`,
-      );
+      throw new Error('Unexpected response from server when fetching new access token.');
   }
 };
+
+interface ICallbacks {
+  [statusCode: number]: (resp: Response) => Promise<any>;
+}
 
 /**
- * This function handles errors caused by network failures or
- * anything else that prevented the fetch() request to be completed.
- * TODO – This method should be develped more to handle errors in a more unified way throughout the application.
+ * @summary """
+ * Perform a fetch call with the access token. Will handle refetching of token
+ * if it has expired.
+ * """
+ *
+ * @param url "URL to fetch. Can pass in query parameters if GET request."
+ * @param options "Options to pass into the fetch. Body, headers, method etc."
+ * @param callbacks "Object with key being HTTP status code, and value is callback."
  */
-const handleError = (error: Error) => {
-  return new Error(error.message);
+export const fetchWithCallback = async <T>(
+  path: ApiEndpoint,
+  queryParams: string,
+  options: RequestInit,
+  callbacks: ICallbacks,
+): Promise<T> => {
+  const res = await fetch(`${BASE_URL}${path}${queryParams}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('access')}`,
+      // Default to application/json. This can be overridden by passing headers in options.
+      'Content-Type': 'application/json',
+    },
+    ...options,
+  });
+
+  // Call the callback with a status corresponding to the response.
+  try {
+    return await ({
+      400: async resp => {
+        throw new Error((await resp.json() as IError).detail);
+      },
+      401: async resp => {
+        const newToken = await fetchNewToken();
+        localStorage.setItem('access', newToken);
+        return await fetchWithCallback(path, queryParams, options, callbacks);
+      },
+      404: async resp => {
+        throw new Error((await resp.json() as IError).detail);
+      },
+      ...callbacks,
+    } as ICallbacks)[res.status](res);
+  } catch (e) {
+    throw new Error(`No callback specified for status code ${res.status}.`);
+  }
 };
 
 // Re-export everything from mitochondria for easier imports
 export * from './balances';
 export * from './transactions';
+export * from './auth';

@@ -1,6 +1,6 @@
+import { fetchWithCallback } from '.';
 import { TransactionType } from '../declarations/transaction';
 import { IAuthState } from '../store/reducers/auth';
-import {post} from './';
 
 /**
  * Interface for body of a post request (Add Transaction) of the API
@@ -19,11 +19,11 @@ export interface INewTransaction {
  * @param transaction The transaction we want to post to the API
  * @param authState The authentication state for authenticating with the API
  */
-export const createTransaction = async (transaction: INewTransaction, authState: IAuthState) => {
-  try {
-    const response = await post('/transaction', transaction, authState);
-    return response;
-  } catch (e) {
-    throw e;
-  }
+export const createTransaction = async (transaction: INewTransaction) => {
+  return await fetchWithCallback('/transaction/', '', {
+    body: JSON.stringify(transaction),
+    method: 'POST',
+  }, {
+      200: async resp => await resp.json(),
+    });
 };
