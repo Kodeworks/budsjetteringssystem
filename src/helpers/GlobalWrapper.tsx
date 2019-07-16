@@ -1,19 +1,17 @@
 import React from 'react';
 
-import { ActionCreators, initialState, reducer } from '../reducers/transactions';
-import { AuthCtx } from './../contexts/auth';
+import { AuthCtx } from '../store/contexts/auth';
 
 import { BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from './../styling/global';
 
-import { IAuthContext } from './../contexts/auth';
+import { IAuthContext } from '../store/contexts/auth';
 
 import { ThemeProvider } from 'styled-components';
 
-import { createTransactionCtx, TransactionCtx } from './../contexts/transaction';
+import { TransactionProvider } from '../store/contexts/transactions';
 import { theme } from './../styling/theme';
-import { createDummyTransaction } from './transaction_creator';
 
 interface IWrapperProps {
   className?: string;
@@ -30,34 +28,24 @@ interface IWrapperProps {
  */
 
 const GlobalWrapper: React.FC<IWrapperProps> = props => {
-  const [store, dispatch] = React.useReducer(reducer, initialState);
-  /**
-   * If we haven't initialized the context, we want to create it here.
-   */
-  if (!TransactionCtx) {
-    createTransactionCtx(store, dispatch);
-
-    for (let i = 0; i < 100; i++) {
-      dispatch(ActionCreators.addTransaction(createDummyTransaction()));
-    }
-  }
-
   const WrapWithAuth: React.FC = ({ children }) => {
-    return props.auth ? (<AuthCtx.Provider value={props.auth}>{children}</AuthCtx.Provider>) : <>{children}</>;
+    return props.auth ? (
+      <AuthCtx.Provider value={props.auth}>{children}</AuthCtx.Provider>
+    ) : (
+      <>{children}</>
+    );
   };
 
   return (
     <WrapWithAuth>
-      <TransactionCtx.Provider value={{store, dispatch}}>
+      <TransactionProvider>
         <GlobalStyle />
         <BrowserRouter>
           <ThemeProvider theme={theme}>
-            <div className={props.className}>
-              {props.children}
-            </div>
+            <div className={props.className}>{props.children}</div>
           </ThemeProvider>
         </BrowserRouter>
-      </TransactionCtx.Provider>
+      </TransactionProvider>
     </WrapWithAuth>
   );
 };

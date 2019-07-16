@@ -8,7 +8,7 @@ test('creates valid transactions', () => {
   txs.forEach(e => {
     expect(e.id).not.toBeNull();
     expect(e.description).not.toBeNull();
-    expect(e.companyId).not.toBeNull();
+    expect(e.company_id).not.toBeNull();
     expect(e.money).not.toBeNull();
     expect(e.type).not.toBeNull();
     expect(e.date).not.toBeNull();

@@ -1,0 +1,29 @@
+// Paste the following and edit on https://www.json-generator.com/
+{ 
+  login: {
+    refresh: "super-refake-fresh-token",
+    access: "a-not-so-unfake-access-JRR-Tolkien",
+    user: {
+      id: 0,
+      first_name: "Nicolaj",
+      last_name: "Nielsen",
+      email: "nicolaj@kodeworks.no",
+      companies: [
+        0
+      ]
+    }
+  }, 
+  transaction: [
+    '{{repeat(20)}}',
+      {
+        id: '{{index()}}',
+        company_id: 0, 
+        recurring_id: null,
+        date: '{{date(new Date("2018,01-20"),new Date("2023-05-24"),"YYYY-MM-dd")}}',
+        money: '{{integer(300,15000000)}}',
+        type: '{{random("expense","income")}}',
+        description: '{{lorem(3,"words")}}',
+        notes: '{{lorem(4)}}'
+      }
+  ]
+}

@@ -1,4 +1,4 @@
-import { ITransactionResponse } from './transaction';
+import { ITransaction } from './transaction';
 
 export interface IBalance {
   'company_id': number;
@@ -9,7 +9,7 @@ export interface IBalance {
 export interface IMonth {
   'year': number;
   'month': number;
-  'transactions': Array<ITransactionResponse>;
+  'transactions': Array<ITransaction>;
   'balance': Array<IBalance>;
   'start_balance': number;
   'lowest_balance': number;
