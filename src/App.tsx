@@ -4,19 +4,19 @@ import styled from 'styled-components';
 
 import { Redirect, Route } from 'react-router';
 
-import { initialState, Perform, reducer } from './reducers/auth';
+import { initialState, Perform, reducer } from './store/reducers/auth';
 
 import Login from './components/organism/Authentication/Login';
 import Register from './components/organism/Authentication/Register';
-
 import Balances from './components/organism/Balances';
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
-import { AuthCtx, createAuthCtx } from './contexts/auth';
 import Wrap from './helpers/GlobalWrapper';
+import { TransactionMocker } from './helpers/transaction_creator';
+import { AuthCtx, createAuthCtx } from './store/contexts/auth';
 import { navbarWidth } from './styling/sizes';
 
 interface IAppProps {
@@ -47,7 +47,7 @@ const App: React.FC<IAppProps> = props => {
           Perform.doLogout(dispatch);
         }
       }
-    })(); // IIEF
+    })(); // IIFE
   }, []); // Only run on component mount
 
   if (auth.user === undefined && (auth.access && auth.refresh)) {
@@ -79,7 +79,8 @@ const App: React.FC<IAppProps> = props => {
   }
 
   return (
-    <Wrap className={props.className} auth={{ store: auth, dispatch }}>
+    <Wrap className={props.className} auth={{store: auth, dispatch}}>
+      <TransactionMocker quantity={100} />
       <Navigation />
       <Page>
         <Route path="/" exact={true} component={Homepage} />

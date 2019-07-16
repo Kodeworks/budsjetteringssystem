@@ -2,9 +2,9 @@ import React from 'react';
 
 import Authentication, { AuthType, IOnRegister } from './Authentication';
 
-import { Perform } from '../../../reducers/auth';
+import { Perform } from '../../../store/reducers/auth';
 
-import { AuthCtx } from '../../../contexts/auth';
+import { AuthCtx } from '../../../store/contexts/auth';
 
 const Register: React.FC = props => {
   const { dispatch } = React.useContext(AuthCtx);

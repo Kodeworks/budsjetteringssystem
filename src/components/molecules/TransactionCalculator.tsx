@@ -8,10 +8,9 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { TransactionCtx } from '../../contexts/transaction';
-
 import { sum } from '../../helpers/intermediary_calc';
 
+import { useTransactionState } from '../../store/contexts/transactions';
 import TransactionEntry from '../atoms/TransactionEntry';
 
 interface ITransactionCalculatorProps {
@@ -19,7 +18,7 @@ interface ITransactionCalculatorProps {
 }
 
 const TransactionCalculator: React.FC<ITransactionCalculatorProps> = props => {
-  const { store } = React.useContext(TransactionCtx);
+  const store = useTransactionState();
 
   const findById = (e: number) => store.transactions.find(t => e === t.id)!;
 

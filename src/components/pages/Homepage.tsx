@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import DashboardTransactions from '../molecules/DashboardTransactions';
 
-import { TransactionCtx } from '../../contexts/transaction';
+import { useTransactionState } from '../../store/contexts/transactions';
 
 interface IProps {
   className?: string;
 }
 
 const Homepage: React.FC<IProps> = ({ className }) => {
-  const { store } = React.useContext(TransactionCtx);
+  const store = useTransactionState();
 
   return (
     <div className={className}>
