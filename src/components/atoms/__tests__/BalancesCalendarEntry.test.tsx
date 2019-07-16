@@ -1,6 +1,6 @@
 import 'jest-dom/extend-expect';
 import React from 'react';
-import { cleanup, getByText, render } from '../../../helpers/test-utils';
+import { cleanup, render } from '../../../helpers/test-utils';
 import BalancesCalendarEntry from '../BalancesCalendarEntry';
 
 afterEach(cleanup);

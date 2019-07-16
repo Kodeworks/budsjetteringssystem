@@ -2,7 +2,7 @@ import 'jest-dom/extend-expect';
 import moment from 'moment';
 import 'moment/locale/en-gb';
 import React from 'react';
-import { cleanup, getByText, render } from '../../../helpers/test-utils';
+import { cleanup, render } from '../../../helpers/test-utils';
 import BalancesCalendar from '../BalancesCalendar';
 
 afterEach(cleanup);

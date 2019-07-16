@@ -1,6 +1,6 @@
 import 'jest-dom/extend-expect';
 import React from 'react';
-import { cleanup, fireEvent, getByTestId, render } from '../../../helpers/test-utils';
+import { cleanup, fireEvent, render } from '../../../helpers/test-utils';
 import BalancesViewPicker from '../BalancesViewPicker';
 
 afterEach(cleanup);
@@ -21,24 +21,18 @@ test('ViewPicker renders with correct choice set', () => {
     );
   } ;
 
-  const { container, getByText, getByTestId } = render((
+  const { container, getByLabelText, getByText, getByTestId } = render((
     <WrapperFC startShowCalendar={true} />
   ));
 
-  expect(getByTestId('show-calendar')).toHaveTextContent('true');
+  expect(getByLabelText('View')).toHaveValue('calendar');
   expect(getByText('Calendar'));
   expect(getByText('List'));
+  expect(getByLabelText('View')).not.toHaveValue('list');
+  expect(getByLabelText('View')).toHaveValue('calendar');
 
-  const selectElement = container.querySelector('select');
-  expect(selectElement);
-  if (selectElement && selectElement.value) {
-    expect(selectElement.value).not.toEqual('list');
-    expect(selectElement.value).toEqual('calendar');
-
-    // Select 'List view' and check that state and select-value has changed.
-    fireEvent.change(selectElement, { target: {value: 'list'}});
-    expect(getByTestId('show-calendar')).toHaveTextContent('false');
-    expect(selectElement.value).toEqual('list');
-    expect(selectElement.value).not.toEqual('calendar');
-  }
+  // Select 'List view' and check that state and select-value has changed.
+  fireEvent.change(getByText('Calendar'), { target: {value: 'list'}});
+  expect(getByLabelText('View')).toHaveValue('list');
+  expect(getByLabelText('View')).not.toHaveValue('calendar');
 });
