@@ -367,29 +367,6 @@ class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWT
     def setUp(self):
         super(RecurringTransactionTestMixin, self).setUp()
         self.set_role(self.company, self.user, role=roles.USER)
-        self.force_login(self.user)
-
-        self.type = Transaction.INCOME
-        self.recurring_transaction = None
-        self.description = 'Test'
-        self.notes = ''
-
-    def convert_dict(self, dictionary):
-        return [dict(elem) for elem in dictionary]
-
-    def convert_month_response(self, month_response):
-        # The serializer relations uses OrderedDict, which we have to convert
-        # to compare with
-        for key in ['transactions', 'recurring', 'corrections', 'balances']:
-            month_response.data[key] = self.convert_dict(month_response.data[key])
-
-        for i, recurring in enumerate(month_response.data['recurring']):
-            obj = dict(recurring['object'])
-            obj['template'] = dict(obj['template'])
-            obj['transactions'] = self.convert_dict(obj['transactions'])
-            month_response.data['recurring'][0]['object'] = obj
-
-        return month_response
 
     def test_month(self):
         bank1 = self.create_bank_balance(datetime.date(2019, 6, 1), 1000)
