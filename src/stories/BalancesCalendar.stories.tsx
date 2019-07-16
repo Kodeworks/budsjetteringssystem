@@ -21,65 +21,6 @@ const entries: Array<IBalanceEntry> = (new Array(13).fill(0)).map((_e, i) => ({
   liquidity: 18000000,
 }));
 
-/*
-const entries: Array<IBalanceEntry> = [
-  {
-    date: '2019-06-01',
-    expense: 200000,
-    income: 200000,
-    liquidity: 18000000,
-  },
-  {
-    date: '2019-06-05',
-    expense: 200000,
-    income: 200000,
-    liquidity: 18000000,
-  },
-  {
-    date: '2019-06-06',
-    expense: 200000,
-    income: 200000,
-    liquidity: 18000000,
-  },
-  {
-    date: '2019-06-08',
-    expense: 200000,
-    income: 200000,
-    liquidity: 18000000,
-  },
-  {
-    date: '2019-06-09',
-    expense: 200000,
-    income: 200000,
-    liquidity: 18000000,
-  },
-  {
-    date: '2019-06-10',
-    expense: 200000,
-    income: 200000,
-    liquidity: 18000000,
-  },
-  {
-    date: '2019-06-11',
-    expense: 200000,
-    income: 200000,
-    liquidity: 18000000,
-  },
-  {
-    date: '2019-06-12',
-    expense: 200000,
-    income: 200000,
-    liquidity: 18000000,
-  },
-  {
-    date: '2019-06-13',
-    expense: 200000,
-    income: 200000,
-    liquidity: 18000000,
-  },
-];
-*/
-
 const month = moment('2019-06-01');
 
 const divStyle = {
