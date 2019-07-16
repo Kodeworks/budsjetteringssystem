@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import styled from 'styled-components';
 
 import Checkbox from '../atoms/Checkbox';
 import Collapsable from '../atoms/Collapsable';
@@ -7,9 +8,7 @@ import OutlinedButton from '../atoms/OutlinedButton';
 import RecurringTransactionOptions from '../atoms/RecurringTransactionOptions';
 import TextArea from '../atoms/TextArea';
 
-import styled from 'styled-components';
 import { TransactionType } from '../../declarations/transaction';
-import { AuthCtx } from '../../store/contexts/auth';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { createTransaction } from '../../store/reducers/transactions';
 
@@ -19,7 +18,6 @@ interface IProps {
 
 const AddTransaction: React.FC<IProps> = props => {
   const dispatch = useTransactionDispatch();
-  const {store: authState} = useContext(AuthCtx);
   const [transactionType, setTransactionType] = React.useState<TransactionType>(
     'expense',
   );
@@ -51,7 +49,7 @@ const AddTransaction: React.FC<IProps> = props => {
         type: transactionType,
       };
       try {
-        createTransaction(formValues, dispatch, authState);
+        createTransaction(formValues, dispatch);
       } catch (e) {
         setError(e.message);
         /* TODO – handle and display error to the user */
@@ -88,7 +86,7 @@ const AddTransaction: React.FC<IProps> = props => {
           <input
             type="radio"
             name="transactionType"
-            value={'expense'}
+            value="expense"
             checked={transactionType === 'expense'}
             onChange={handleTransactionTypeChange}
           />{' '}
@@ -96,7 +94,7 @@ const AddTransaction: React.FC<IProps> = props => {
           <input
             type="radio"
             name="transactionType"
-            value={'income'}
+            value="income"
             onChange={handleTransactionTypeChange}
           />{' '}
           Income

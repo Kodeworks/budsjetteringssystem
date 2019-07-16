@@ -1,5 +1,3 @@
-import { IAuthState } from '../store/reducers/auth';
-
 export interface IError {
   detail: string;
 }
@@ -42,18 +40,16 @@ const request = async (url: URL, initOptions?: RequestInit) => {
  * and calls the more generic @function request which makes a 'GET' fetch() call.
  * @param endpoint API endpoint
  * @param data The body of the HTTP request
- * @param authState The authentication state of the application.
  */
 export const get = async (
   endpoint: ApiEndpoint,
   queryParams: { [key: string]: any },
-  authState: IAuthState,
 ) => {
   const url = new URL(`${BASE_URL}${endpoint}/`);
   url.search = new URLSearchParams(queryParams).toString();
   const initOptions = {
     headers: {
-      'Authentication': `Bearer ${authState.access}`,
+      'Authentication': `Bearer ${localStorage.getItem('access')}`,
       'Content-Type': 'application/json',
     },
     method: 'GET',
@@ -71,18 +67,16 @@ export const get = async (
  * and calls the more generic @function request which makes a 'POST' fetch() call.
  * @param endpoint API endpoint
  * @param data The body of the HTTP request
- * @param authState The authentication state of the application.
  */
 export const post = async (
   endpoint: ApiEndpoint,
   data: { [key: string]: any },
-  authState: IAuthState,
 ) => {
   const url = new URL(`${BASE_URL}${endpoint}/`);
   const initOptions = {
     body: JSON.stringify(data),
     headers: {
-      'Authentication': `Bearer ${authState.access}`,
+      'Authentication': `Bearer ${localStorage.getItem('access')}`,
       'Content-Type': 'application/json',
     },
     method: 'POST',
