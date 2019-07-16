@@ -6,11 +6,11 @@ from custom_auth.tests import JWTTestCase
 from company.tests import CompanyTestMixin
 from transaction.models import Transaction
 from transaction.tests import RecurringTransactionTestMixin
-from transaction.serializers import TransactionSerializer, RecurringTransactionSerializer, RecurringTransactionOccurenceSerializer, RecurringTransactionOccurence
+from transaction.utils import RecurringTransactionOccurence
 from . import views
 from .models import BankBalance
-from .serializers import BankBalanceSerializer, BalanceSerializer, Balance, MonthSerializer, Month
-from .utils import get_balance_for_date, get_balances_for_date_range
+from .serializers import BankBalanceSerializer, MonthSerializer
+from .utils import Balance, Month
 
 
 class BankBalanceTestMixin(CompanyTestMixin):
@@ -188,115 +188,116 @@ class BalanceCalculationTestCase(BankBalanceTestMixin, RecurringTransactionTestM
         self.create_recurring(start_date=datetime.date(2019, 7, 10), end_date=datetime.date(2019, 8, 12),
                               month_delta=1, money=2000)
 
-        self.day1 = -2000
-        self.day1_bb = 1000
-        self.day2 = 0
-        self.day3 = 4000
-        self.day8 = 5000
-        self.day8_bb = 8000
-        self.day10 = 11000
-        self.day12 = 12000
-        self.day12_bb = 5000
-        self.day14 = 6000
-        self.day16 = 7000
-        self.day18 = 8000
-        self.day20 = 9000
-        self.day41 = 11000
+        self.day1 = Balance(self.company.pk, datetime.date(2019, 7, 1), money=-2000)
+        self.day1_bb = Balance(self.company.pk, datetime.date(2019, 7, 1), money=1000)
+        self.day2 = Balance(self.company.pk, datetime.date(2019, 7, 2), money=0)
+        self.day3 = Balance(self.company.pk, datetime.date(2019, 7, 3), money=4000)
+        self.day8 = Balance(self.company.pk, datetime.date(2019, 7, 8), money=5000)
+        self.day8_bb = Balance(self.company.pk, datetime.date(2019, 7, 8), money=8000)
+        self.day10 = Balance(self.company.pk, datetime.date(2019, 7, 10), money=11000)
+        self.day12 = Balance(self.company.pk, datetime.date(2019, 7, 12), money=12000)
+        self.day12_bb = Balance(self.company.pk, datetime.date(2019, 7, 12), money=5000)
+        self.day14 = Balance(self.company.pk, datetime.date(2019, 7, 14), money=6000)
+        self.day16 = Balance(self.company.pk, datetime.date(2019, 7, 16), money=7000)
+        self.day18 = Balance(self.company.pk, datetime.date(2019, 7, 18), money=8000)
+        self.day20 = Balance(self.company.pk, datetime.date(2019, 7, 20), money=9000)
+        self.day41 = Balance(self.company.pk, datetime.date(2019, 8, 10), money=11000)
 
     def test_get_balance_for_date(self):
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 1)), self.day1)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 2)), self.day2)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 3)), self.day3)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 1)), self.day1)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 2)), self.day2)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 3)), self.day3)
 
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 1), True), self.day1_bb)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 2), True), self.day2)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 3), True), self.day3)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 1), True), self.day1_bb)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 2), True), self.day2)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 3), True), self.day3)
 
     def test_get_balance_for_date_with_recurring(self):
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 8)), self.day8)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 10)), self.day10)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 12)), self.day12)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 8, 10)), self.day41)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 8)), self.day8)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 10)), self.day10)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 12)), self.day12)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 8, 10)), self.day41)
 
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 8), True), self.day8_bb)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 10), True), self.day10)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 12), True), self.day12_bb)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 8, 10), True), self.day41)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 8), True), self.day8_bb)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 10), True), self.day10)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 12), True), self.day12_bb)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 8, 10), True), self.day41)
 
     def test_get_balance_for_date_with_leading_recurring(self):
         self.create_recurring(start_date=datetime.date(2019, 6, 20), end_date=datetime.date(2019, 6, 30),
                               day_delta=2, money=1000)
 
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 1)), self.day1 + 6000)
-        self.assertEqual(get_balance_for_date(self.company, datetime.date(2019, 7, 1), True), self.day1_bb)
+        self.day1.money += 6000
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 1)), self.day1)
+        self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 1), True), self.day1_bb)
 
     def test_get_balance_for_date_range(self):
         self.assertEqual(
-            get_balances_for_date_range(
-                self.company,
+            Balance.for_date_range(
+                self.company.pk,
                 datetime.date(2019, 7, 1),
                 datetime.date(2019, 7, 3),
             ),
-            {
-                datetime.date(2019, 7, 1): self.day1,
-                datetime.date(2019, 7, 2): self.day2,
-                datetime.date(2019, 7, 3): self.day3,
-            }
+            [
+                self.day1,
+                self.day2,
+                self.day3,
+            ]
         )
 
         self.assertEqual(
-            get_balances_for_date_range(
-                self.company,
+            Balance.for_date_range(
+                self.company.pk,
                 datetime.date(2019, 7, 1),
                 datetime.date(2019, 7, 3),
                 True,
             ),
-            {
-                datetime.date(2019, 7, 1): self.day1_bb,
-                datetime.date(2019, 7, 2): self.day2,
-                datetime.date(2019, 7, 3): self.day3,
-            }
+            [
+                self.day1_bb,
+                self.day2,
+                self.day3,
+            ]
         )
 
     def test_get_balance_for_date_range_with_recurring(self):
         self.assertEqual(
-            get_balances_for_date_range(
-                self.company,
+            Balance.for_date_range(
+                self.company.pk,
                 datetime.date(2019, 7, 2),
                 datetime.date(2019, 8, 15),
             ),
-            {
-                datetime.date(2019, 7, 2): self.day2,
-                datetime.date(2019, 7, 3): self.day3,
-                datetime.date(2019, 7, 8): self.day8,
-                datetime.date(2019, 7, 10): self.day10,
-                datetime.date(2019, 7, 14): self.day14,
-                datetime.date(2019, 7, 16): self.day16,
-                datetime.date(2019, 7, 18): self.day18,
-                datetime.date(2019, 7, 20): self.day20,
-                datetime.date(2019, 8, 10): self.day41,
-            }
+            [
+                self.day2,
+                self.day3,
+                self.day8,
+                self.day10,
+                self.day14,
+                self.day16,
+                self.day18,
+                self.day20,
+                self.day41,
+            ]
         )
 
         self.assertEqual(
-            get_balances_for_date_range(
-                self.company,
+            Balance.for_date_range(
+                self.company.pk,
                 datetime.date(2019, 7, 2),
                 datetime.date(2019, 8, 15),
                 True,
             ),
-            {
-                datetime.date(2019, 7, 2): self.day2,
-                datetime.date(2019, 7, 3): self.day3,
-                datetime.date(2019, 7, 8): self.day8_bb,
-                datetime.date(2019, 7, 10): self.day10,
-                datetime.date(2019, 7, 12): self.day12_bb,
-                datetime.date(2019, 7, 14): self.day14,
-                datetime.date(2019, 7, 16): self.day16,
-                datetime.date(2019, 7, 18): self.day18,
-                datetime.date(2019, 7, 20): self.day20,
-                datetime.date(2019, 8, 10): self.day41,
-            }
+            [
+                self.day2,
+                self.day3,
+                self.day8_bb,
+                self.day10,
+                self.day12_bb,
+                self.day14,
+                self.day16,
+                self.day18,
+                self.day20,
+                self.day41,
+            ]
         )
 
 
@@ -361,6 +362,7 @@ class BalanceViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, J
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals([dict(elem) for elem in response.data], expected, msg=response.content)
 
+
 class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWTTestCase):
     def setUp(self):
         super(RecurringTransactionTestMixin, self).setUp()
@@ -394,9 +396,14 @@ class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWT
         bank2 = self.create_bank_balance(datetime.date(2019, 7, 1), 4000)
         transaction1 = self.create_transaction(date=datetime.date(2019, 7, 2), money=-1000)
 
-        recurring1 = self.create_recurring(start_date=datetime.date(2019, 7, 3), end_date=datetime.date(2019, 7, 7),
-                                               day_delta=2, money=1000)
-        transaction2 = self.create_transaction(date=datetime.date(2019, 7, 5), money=5000, recurring_transaction=recurring1)
+        recurring1 = self.create_recurring(start_date=datetime.date(2019, 7, 3),
+                                           end_date=datetime.date(2019, 7, 7),
+                                           day_delta=2,
+                                           money=1000)
+
+        transaction2 = self.create_transaction(date=datetime.date(2019, 7, 5),
+                                               money=5000,
+                                               recurring_transaction=recurring1)
 
         response = self.get(views.MonthView, {'year': 2019, 'month': 6})
 

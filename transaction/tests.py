@@ -5,7 +5,7 @@ from custom_auth import roles
 from company.models import Company
 from company.tests import CompanyTestMixin
 from .models import Transaction, RecurringTransaction, TransactionTemplate
-from . import views, utils
+from . import views
 
 
 class TransactionTestMixin(CompanyTestMixin):
@@ -150,30 +150,29 @@ class RecurringTransactionTestCase(RecurringTransactionTestMixin, JWTTestCase):
         recurring = self.create_recurring(start_date=date(2018, 1, 1), end_date=date(2018, 1, 8), day_delta=2)
 
         self.assertEqual(
-            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2018, 1, 7)),
+            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7)),
             [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
         )
 
         self.assertEqual(
-            utils.get_recurring_occurences_in_date_range(recurring, date(2017, 12, 1), date(2018, 3, 8)),
+            recurring.get_occurences(date(2017, 12, 1), date(2018, 3, 8)),
             [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
         )
 
         self.assertEqual(
-            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 2), date(2018, 1, 6)),
+            recurring.get_occurences(date(2018, 1, 2), date(2018, 1, 6)),
             [date(2018, 1, 3), date(2018, 1, 5)]
         )
 
         self.create_transaction(date=date(2018, 1, 5), recurring_transaction=recurring)
 
         self.assertEqual(
-            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2018, 1, 7)),
+            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7)),
             [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
         )
 
         self.assertEqual(
-            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2018, 1, 7),
-                                                         include_created=False),
+            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7), include_created=False),
             [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 7)]
         )
 
@@ -181,17 +180,17 @@ class RecurringTransactionTestCase(RecurringTransactionTestMixin, JWTTestCase):
         recurring = self.create_recurring(start_date=date(2018, 1, 1), end_date=date(2019, 1, 1), month_delta=3)
 
         self.assertEqual(
-            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2019, 1, 1)),
+            recurring.get_occurences(date(2018, 1, 1), date(2019, 1, 1)),
             [date(2018, 1, 1), date(2018, 4, 1), date(2018, 7, 1), date(2018, 10, 1), date(2019, 1, 1)]
         )
 
         self.assertEqual(
-            utils.get_recurring_occurences_in_date_range(recurring, date(2018, 1, 1), date(2018, 1, 30)),
+            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 30)),
             [date(2018, 1, 1)]
         )
 
         self.assertEqual(
-            utils.get_recurring_occurences_in_date_range(recurring, date(2017, 1, 1), date(2020, 1, 1)),
+            recurring.get_occurences(date(2017, 1, 1), date(2020, 1, 1)),
             [date(2018, 1, 1), date(2018, 4, 1), date(2018, 7, 1), date(2018, 10, 1), date(2019, 1, 1)]
         )
 
@@ -204,7 +203,7 @@ class RecurringTransactionTestCase(RecurringTransactionTestMixin, JWTTestCase):
                                                   month_delta=1)
 
         self.assertEqual(
-            utils.get_all_recurring_occurences_in_date_range(self.company, date(2018, 1, 1), date(2018, 3, 1)),
+            RecurringTransaction.get_all_occurences(self.company, date(2018, 1, 1), date(2018, 3, 1)),
             [
                 (daily_recurring, [date(2018, 1, 1), date(2018, 1, 15), date(2018, 1, 29),
                                    date(2018, 2, 12), date(2018, 2, 26)]),

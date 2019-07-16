@@ -1,31 +1,9 @@
-import datetime
-from typing import Any
-from dataclasses import dataclass
 from rest_framework import serializers
 
 from base.serializers import LiquidatorSerializer
 from base.validators import IDForeignKeyUniqueForDateValidator
 from transaction.serializers import TransactionSerializer, RecurringTransactionOccurenceSerializer
 from .models import BankBalance
-
-
-@dataclass
-class Balance:
-    company_id: int
-    date: datetime.date
-    money: int
-
-
-@dataclass
-class Month:
-    year: int
-    month: int
-    start_balance: int
-    lowest_balance: int
-    transactions: Any
-    recurring: Any
-    balances: Any
-    corrections: Any
 
 
 class BankBalanceSerializer(LiquidatorSerializer):
