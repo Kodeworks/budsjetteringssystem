@@ -1,7 +1,6 @@
 import * as api from '../../mitochondria';
 import { ITransaction } from './../../declarations/transaction';
 import { TransactionDispatch } from './../contexts/transactions';
-import { IAuthState } from './auth';
 
 /**
  * Action types
@@ -34,24 +33,16 @@ const addTransaction = (
  * It posts the new transaction to the API and dispatches an ADD_TRANSACTION action if successful.
  * @param newTransaction The new transaction that is to be posted to the API
  * @param dispatch The dispatch method from the TransactionDispatchContext
- * @param authState The APP's authState for authenticating with the API.
  */
 const createTransaction = async (
   newTransaction: api.INewTransaction,
   dispatch: TransactionDispatch,
-  authState: IAuthState,
 ) => {
   // All values are stored as hundreths in state and database.
-  newTransaction.money = newTransaction.money * 100;
+  newTransaction.money *= 100;
 
-  try {
-    const createdTransaction = (await api
-      .createTransaction(newTransaction, authState)
-      .then(res => res.json())) as ITransaction;
-    dispatch(addTransaction(createdTransaction));
-  } catch (e) {
-    throw e;
-  }
+  const createdTransaction = await api.createTransaction(newTransaction);
+  dispatch(addTransaction(createdTransaction));
 };
 
 /**

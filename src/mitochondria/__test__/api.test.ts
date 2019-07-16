@@ -1,10 +1,6 @@
 import { cleanup } from '@testing-library/react';
-import { create } from 'domain';
 import nock from 'nock';
-import React from 'react';
-import { post } from '..';
 import * as api from '../';
-import { ITransaction } from '../../declarations/transaction';
 import { INewTransaction } from '../transactions';
 
 afterEach(cleanup);
@@ -23,7 +19,7 @@ describe('Post to API', () => {
     nock('http://localhost:8000')
       // because of CORS in development, the three next lines are necessary.
       .defaultReplyHeaders({
-        'access-control-allow-headers': 'authentication',
+        'access-control-allow-headers': 'authorization',
         'access-control-allow-origin': '*',
       })
       .options('/transaction/')
@@ -31,21 +27,13 @@ describe('Post to API', () => {
       .post('/transaction/')
       .reply(201, (uri, requestBody) => ({ ...requestBody.valueOf(), id: 0 }));
 
-    try {
-      const response = await api.createTransaction(testTransaction, {
-        access: 'test auth',
-      });
-      expect(response.status).toBe(201);
-      const createdTransaction = (await response.json()) as ITransaction;
-      expect(createdTransaction.company_id).toBe(testTransaction.company_id);
-      expect(createdTransaction.date).toBe(testTransaction.date);
-      expect(createdTransaction.description).toBe(testTransaction.description);
-      expect(createdTransaction.money).toBe(testTransaction.money);
-      expect(createdTransaction.notes).toBe(testTransaction.notes);
-      expect(createdTransaction.type).toBe(testTransaction.type);
-      expect(createdTransaction.id);
-    } catch (e) {
-      throw e;
-    }
+    const createdTransaction = await api.createTransaction(testTransaction);
+    expect(createdTransaction.company_id).toBe(testTransaction.company_id);
+    expect(createdTransaction.date).toBe(testTransaction.date);
+    expect(createdTransaction.description).toBe(testTransaction.description);
+    expect(createdTransaction.money).toBe(testTransaction.money);
+    expect(createdTransaction.notes).toBe(testTransaction.notes);
+    expect(createdTransaction.type).toBe(testTransaction.type);
+    expect(createdTransaction.id);
   });
 });

@@ -71,7 +71,7 @@ export const fetchWithCallback = async <T>(
 ): Promise<T> => {
   const res = await fetch(`${BASE_URL}${path}${queryParams}`, {
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem('access')}`,
+      'Authorization': localStorage.getItem('access') ? `Bearer ${localStorage.getItem('access')}` : '',
       // Default to application/json. This can be overridden by passing headers in options.
       'Content-Type': 'application/json',
     },
@@ -79,24 +79,23 @@ export const fetchWithCallback = async <T>(
   });
 
   // Call the callback with a status corresponding to the response.
-  try {
-    return await ({
-      400: async resp => {
-        throw new Error((await resp.json() as IError).detail);
-      },
-      401: async resp => {
-        const newToken = await fetchNewToken();
-        localStorage.setItem('access', newToken);
-        return await fetchWithCallback(path, queryParams, options, callbacks);
-      },
-      404: async resp => {
-        throw new Error((await resp.json() as IError).detail);
-      },
-      ...callbacks,
-    } as ICallbacks)[res.status](res);
-  } catch (e) {
-    throw new Error(`No callback specified for status code ${res.status}.`);
-  }
+  return await ({
+    400: async resp => {
+      throw new Error((await resp.json() as IError).detail);
+    },
+    401: async resp => {
+      const newToken = await fetchNewToken();
+      localStorage.setItem('access', newToken);
+      return await fetchWithCallback(path, queryParams, options, callbacks);
+    },
+    403: async resp => {
+      throw new Error((await resp.json() as IError).detail);
+    },
+    404: async resp => {
+      throw new Error((await resp.json() as IError).detail);
+    },
+    ...callbacks,
+  } as ICallbacks)[res.status](res);
 };
 
 // Re-export everything from mitochondria for easier imports

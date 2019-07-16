@@ -11,9 +11,6 @@ export const register = async (
 ): Promise<ILoginResponse> => {
   return await fetchWithCallback('/user/', '', {
     body: JSON.stringify({ email, password, first_name: firstName, last_name: lastName }),
-    headers: {
-      'Content-Type': 'application/json', // We need to set the headers manually to remove auth
-    },
     method: 'POST',
   }, {
       201: async resp => {
@@ -33,9 +30,6 @@ export const register = async (
 export const login = async (email: string, password: string): Promise<ILoginResponse> => {
   return await fetchWithCallback('/user/login/', '', {
     body: JSON.stringify({ email, password }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
     method: 'POST',
   }, {
       200: async resp => {
