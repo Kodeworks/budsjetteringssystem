@@ -3,9 +3,7 @@
  * @summary "Funtion to summarize the elements in the transaction ``shopping cart''"
  */
 
-import { ITransactionState as IStore } from '../reducers/transactions';
-
-import { TransactionType } from '../declarations/transaction';
+import { ITransactionState as IStore } from './../store/reducers/transactions';
 
 export const sum = (store: IStore) => (
   store.intermediary.reduce((prev, curr) => {

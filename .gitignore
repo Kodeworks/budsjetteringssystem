@@ -143,3 +143,5 @@ tags
 .history
 
 # End of https://www.gitignore.io/api/vim,pycharm,visualstudiocode
+#
+# .json-server/db.json

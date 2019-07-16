@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { TransactionCtx } from '../../contexts/transaction';
 import { ITransaction } from '../../declarations/transaction';
 
+import { useTransactionState } from '../../store/contexts/transactions';
 import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
 import Filters from '../molecules/Filters';
@@ -23,7 +23,7 @@ const Content = styled.div`
 `;
 
 const Transactions: React.FC<IProps> = ({ className }) => {
-  const { store } = React.useContext(TransactionCtx);
+  const store = useTransactionState();
 
   const [filter, setFilter] = React.useState<(t: ITransaction) => boolean>(() => ((t: ITransaction) => true));
 

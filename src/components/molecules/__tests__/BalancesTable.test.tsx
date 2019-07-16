@@ -1,5 +1,4 @@
 import moment from 'moment';
-import React from 'react';
 import { currencyFormat } from '../../../helpers/currency';
 import { render } from '../../../helpers/test-utils';
 import BalanceTable from '../BalancesTable';
