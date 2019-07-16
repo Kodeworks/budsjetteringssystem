@@ -145,7 +145,7 @@ class Month:
     transactions: Any
     recurring: Any
     balances: Any
-    corrections: Any
+    bank_balances: Any
 
     @classmethod
     def get(cls, company_id, year, month):
@@ -157,12 +157,12 @@ class Month:
         start_balance = Balance.for_date(company_id, month_start - relativedelta(days=1)).money
         balances = Balance.for_date_range(company_id, month_start, month_end)
         transactions = Transaction.objects.filter(filter)
-        corrections = BankBalance.objects.filter(filter)
+        bank_balances = BankBalance.objects.filter(filter)
         recurring = [RecurringTransactionOccurence(recurring, dates)
                      for recurring, dates in RecurringTransaction.get_all_occurences(company_id,
                                                                                      month_start,
                                                                                      month_end)]
 
-        lowest_balance = min([balance.money for balance in balances + list(corrections)], default=start_balance)
+        lowest_balance = min([balance.money for balance in balances + list(bank_balances)], default=start_balance)
 
-        return cls(year, month, start_balance, lowest_balance, transactions, recurring, balances, corrections)
+        return cls(year, month, start_balance, lowest_balance, transactions, recurring, balances, bank_balances)

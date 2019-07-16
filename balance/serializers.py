@@ -34,4 +34,4 @@ class MonthSerializer(serializers.Serializer):
     transactions = TransactionSerializer(many=True)
     recurring = RecurringTransactionOccurenceSerializer(many=True)
     balances = BalanceSerializer(many=True)
-    corrections = BankBalanceSerializer(many=True)
+    bank_balances = BankBalanceSerializer(many=True)

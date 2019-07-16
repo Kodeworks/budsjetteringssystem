@@ -392,7 +392,7 @@ class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWT
             'transactions': [],
             'recurring': [],
             'balances': [],
-            'corrections': [
+            'bank_balances': [
                 BankBalanceSerializer(bank1).data
             ],
         }
@@ -423,7 +423,7 @@ class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWT
                     Balance(self.company.pk, datetime.date(2019, 7, 5), 9000),
                     Balance(self.company.pk, datetime.date(2019, 7, 7), 10000),
                 ],
-                corrections=[
+                bank_balances=[
                     bank2,
                 ],
             )
