@@ -1,4 +1,4 @@
-import { ActionCreators, createTransaction, transactionReducer } from '../transactions';
+import { ActionCreators, transactionReducer } from '../transactions';
 
 import { ITransaction } from '../../../declarations/transaction';
 
