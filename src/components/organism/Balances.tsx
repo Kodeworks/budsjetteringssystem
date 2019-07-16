@@ -20,12 +20,7 @@ const companyId = 1; // Hardcoded until we get a global company context.
 const createBalanceEntriesFromMonth = (month: IMonth) => {
 
   const monthBalances: { [s: string]: {income: number, expense: number, liquidity: number}; } = {};
-  const sortedBalances = month.balance.sort((a, b) => {
-    if (a.date <= b.date ) {
-      return -1;
-    }
-    return 1;
-  });
+  const sortedBalances = month.balance.sort((a, b) => (a.date <= b.date ? -1 : 1));
 
   const firstOfMonth = moment({year: month.year, month: month.month - 1, day: 1});
   monthBalances[firstOfMonth.format('YYYY-MM-DD')] = {
@@ -88,7 +83,7 @@ const Balances: React.FC<IProps> = props => {
   const title = 'Balances';
   const description = 'Showing income, expense and liquidity for a month';
 
-  return ((
+  return (
     <div className={props.className}>
       <div>
         <PageTitle title={title} description={description} />
@@ -99,13 +94,13 @@ const Balances: React.FC<IProps> = props => {
         {showCalendar ?
           <BalancesCalendar
             month={monthChosen.clone()}
-            entries={entries[entriesIndex] ? entries[entriesIndex] : []}
+            entries={entries[entriesIndex] || []}
           /> :
-          <BalancesTable entries={entries[entriesIndex] ? entries[entriesIndex] : []} />
+          <BalancesTable entries={entries[entriesIndex] || []} />
         }
       </div>
     </div>
-  ));
+  );
 };
 
 export default styled(Balances)`

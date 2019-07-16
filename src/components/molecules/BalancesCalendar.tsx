@@ -17,7 +17,7 @@ const headers = () => {
   return dayStrings.map(d => <div key={d}><h3>{d}</h3></div>);
 };
 
-const calendar: React.FC<ICalendarProps> = (props) => {
+const Calendar: React.FC<ICalendarProps> = (props) => {
   const dayOfWeekStart = props.month.day() - 1;
   const monthLength = props.month.daysInMonth();
   const calendarEntries = [];
@@ -48,7 +48,7 @@ const calendar: React.FC<ICalendarProps> = (props) => {
   ));
 };
 
-const BalancesCalendar = styled(calendar)`
+const BalancesCalendar = styled(Calendar)`
   display: grid;
   margin-top: 4em;
   width: 80%;

@@ -10,20 +10,20 @@ interface IPropsCalendarEntry {
   date: string;
 }
 
-const calendarEntry: React.FC<IPropsCalendarEntry> = (props) => {
+const CalendarEntry: React.FC<IPropsCalendarEntry> = (props) => {
 
-  return ((
+  return (
     <div className={props.className}>
       <h5>{`${moment(props.date).format('D')}.`}</h5>
       <h5>{`${props.entry && props.entry.income ? currencyFormat((props.entry.income / 100)) : ''}`}</h5>
       <h5>{`${props.entry && props.entry.expense ? `(${currencyFormat((props.entry.expense / 100))})` : ''}`}</h5>
-  <span>{props.entry ? <hr /> : ''}</span>
+      <span>{props.entry ? <hr /> : ''}</span>
       <h5>{`${props.entry ? currencyFormat((props.entry.liquidity / 100)) : ''}`}</h5>
     </div>
-  ));
+  );
 };
 
-const BalancesCalendarEntry = styled(calendarEntry)`
+const BalancesCalendarEntry = styled(CalendarEntry)`
 
   display: grid;
   grid-template-rows: 25% 20% 20% 10% 25%;
