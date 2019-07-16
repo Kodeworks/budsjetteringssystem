@@ -1,7 +1,6 @@
-import { fireEvent, render } from '@testing-library/react';
 import moment from 'moment';
 import React from 'react';
-import GlobalWrapper from '../../../helpers/GlobalWrapper';
+import { fireEvent, render } from '../../../helpers/test-utils';
 import MonthPicker from '../MonthPicker';
 
 interface IProps {
@@ -23,9 +22,7 @@ test('MonthPicker renders and updates month when clicked', () => {
 
   const startMonth = moment();
   const { container } = render((
-    <GlobalWrapper>
-      <WrapperFC startMonth={startMonth}/>
-    </GlobalWrapper>
+    <WrapperFC startMonth={startMonth}/>
   ));
   const title = container.querySelector('h2');
   const monthState = container.querySelector('p');

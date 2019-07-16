@@ -1,7 +1,6 @@
-import { cleanup, getByText, render } from '@testing-library/react';
 import 'jest-dom/extend-expect';
 import React from 'react';
-import GlobalWrapper from '../../../helpers/GlobalWrapper';
+import { cleanup, getByText, render } from '../../../helpers/test-utils';
 import BalancesCalendarEntry from '../BalancesCalendarEntry';
 
 afterEach(cleanup);
@@ -15,9 +14,7 @@ test('BalancesCalendarEntry renders correct data for given entry-object', () => 
   };
 
   const { container, getByText } = render((
-    <GlobalWrapper>
-      <BalancesCalendarEntry date={entryData.date} entry={entryData} />
-    </GlobalWrapper>
+    <BalancesCalendarEntry date={entryData.date} entry={entryData} />
   ),
   );
 
@@ -32,9 +29,7 @@ test('BalancesCalendarEntry only renders date when not given entry-object', () =
   const date = '2019-06-15';
 
   const { container, getByText } = render((
-    <GlobalWrapper>
-      <BalancesCalendarEntry date={date}/>
-    </GlobalWrapper>
+    <BalancesCalendarEntry date={date}/>
   ));
 
   expect(getByText('15.'));

@@ -1,10 +1,11 @@
-import { cleanup, getByText, render } from '@testing-library/react';
 import 'jest-dom/extend-expect';
 import moment from 'moment';
 import 'moment/locale/en-gb';
 import React from 'react';
-import GlobalWrapper from '../../../helpers/GlobalWrapper';
+import { cleanup, getByText, render } from '../../../helpers/test-utils';
 import BalancesCalendar from '../BalancesCalendar';
+
+afterEach(cleanup);
 
 test('BalancesCalendar renders entries correct', () => {
   const entries = [
@@ -30,9 +31,7 @@ test('BalancesCalendar renders entries correct', () => {
   moment.locale('en-gb');
 
   const { container, getByText } = render((
-    <GlobalWrapper>
-      <BalancesCalendar entries={entries} month={month} />
-    </GlobalWrapper>
+    <BalancesCalendar entries={entries} month={month} />
   ));
 
   // Check that headers are rendered
