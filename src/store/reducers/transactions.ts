@@ -39,16 +39,10 @@ const createTransaction = async (
   dispatch: TransactionDispatch,
 ) => {
   // All values are stored as hundreths in state and database.
-  newTransaction.money = newTransaction.money * 100;
+  newTransaction.money *= 100;
 
-  try {
-    const createdTransaction = (await api
-      .createTransaction(newTransaction)
-      .then(res => res.json())) as ITransaction;
-    dispatch(addTransaction(createdTransaction));
-  } catch (e) {
-    throw e;
-  }
+  const createdTransaction = await api.createTransaction(newTransaction);
+  dispatch(addTransaction(createdTransaction));
 };
 
 /**
