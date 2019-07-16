@@ -24,12 +24,8 @@ const login = (args: Auth.ILoginResponse) => ({
 });
 
 export async function doLogin(email: string, password: string, dispatch: React.Dispatch<ICreatedAction>) {
-  try {
-    const resp = await Auth.login(email, password);
-    dispatch(login(resp));
-  } catch (e) {
-    throw new Error(e);
-  }
+  const resp = await Auth.login(email, password);
+  dispatch(login(resp));
 }
 
 const REGISTER = 'REGISTER' as const;
