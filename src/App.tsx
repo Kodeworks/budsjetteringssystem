@@ -6,8 +6,8 @@ import { Redirect, Route } from 'react-router';
 
 import { initialState, Perform, reducer } from './store/reducers/auth';
 
-import Login from './components/organism/Authentication/Login';
-import Register from './components/organism/Authentication/Register';
+import Login from './components/organism/authentication/Login';
+import Register from './components/organism/authentication/Register';
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
 import Balances from './components/pages/Balances';
