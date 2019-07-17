@@ -27,6 +27,7 @@ interface IAppProps {
 
 const App: React.FC<IAppProps> = props => {
   const [auth, dispatch] = useAuth();
+  const [readyToRedirect, setReadyToRedirect] = React.useState(false);
 
   React.useEffect(() => {
     (async () => {
@@ -48,6 +49,8 @@ const App: React.FC<IAppProps> = props => {
         } catch (e) {
           Perform.doLogout(dispatch);
         }
+      } else {
+        setReadyToRedirect(true);
       }
     })(); // IIFE
   }, [dispatch]); // Only run on component mount
@@ -73,11 +76,12 @@ const App: React.FC<IAppProps> = props => {
       <Wrap className={props.className}>
         <Route path="/" exact={true} component={Login} />
         <Route path="/register" component={Register} />
-        {pageRoutes.map(e => (
-          <Route key={e} to={e}>
-            <Redirect to="/" />
-          </Route>
-        ))}
+        {readyToRedirect &&
+          pageRoutes.map(e => (
+            <Route key={e} to={e}>
+              <Redirect to="/" />
+            </Route>
+          ))}
       </Wrap>
     );
   }

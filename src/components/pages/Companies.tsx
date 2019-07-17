@@ -8,7 +8,14 @@ export const Companies: React.FC = props => {
     <>
       <h1>All my cool companies :)</h1>
       {companies.map(company => (
-        <h1 key={company.id}>{company.name}</h1>
+        <div key={company.id}>
+          <h1>{company.name}</h1>
+          <ul>
+            {company.users.map(user => (
+              <li key={user.userId}>{user.userId}</li>
+            ))}
+          </ul>
+        </div>
       ))}
     </>
   );
