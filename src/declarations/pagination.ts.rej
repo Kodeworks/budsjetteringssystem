@@ -1,0 +1,4 @@
+diff a/src/declarations/pagination.ts b/src/declarations/pagination.ts	(rejected hunks)
+@@ -7 +7 @@ export interface IPaginated {
+-};
++}
