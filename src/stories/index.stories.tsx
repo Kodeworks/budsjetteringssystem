@@ -45,9 +45,9 @@ storiesOf('Navigation/Pill', module)
   .addDecorator(fn => (
     <div
       style={{
-        width: navbarWidth,
-        padding: '1em',
         background: theme.palette.primary.main,
+        padding: '1em',
+        width: navbarWidth,
       }}
     >
       {fn()}

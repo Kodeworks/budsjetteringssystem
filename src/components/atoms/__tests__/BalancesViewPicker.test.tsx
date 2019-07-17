@@ -21,7 +21,7 @@ test('ViewPicker renders with correct choice set', () => {
     );
   } ;
 
-  const { container, getByLabelText, getByText, getByTestId } = render((
+  const { getByLabelText, getByText  } = render((
     <WrapperFC startShowCalendar={true} />
   ));
 
