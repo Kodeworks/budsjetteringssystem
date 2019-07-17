@@ -10,10 +10,16 @@ const endpoints = [
   '/balance/',
   '/recurring/',
   '/month/',
+  '/month/all/',
+  '/month/byDateRange/',
   '/company/',
   '/user/',
   '/user/login/',
   '/user/register/',
+  '/company/',
+  '/company/addUser/',
+  '/company/removeUser/',
+  '/company/setRole/',
 ] as const;
 
 // Union of endpoints: '/transaction' | '/transaction/all' | ...
@@ -83,23 +89,33 @@ export const fetchWithCallback = async <T>(
   });
 
   // Call the callback with a status corresponding to the response.
-  return await ({
-    400: async resp => {
-      throw new Error(((await resp.json()) as IError).detail);
-    },
-    401: async resp => {
-      const newToken = await fetchNewToken();
-      localStorage.setItem('access', newToken);
-      return await fetchWithCallback(path, queryParams, options, callbacks);
-    },
-    403: async resp => {
-      throw new Error(((await resp.json()) as IError).detail);
-    },
-    404: async resp => {
-      throw new Error(((await resp.json()) as IError).detail);
-    },
-    ...callbacks,
-  } as ICallbacks)[res.status](res);
+  try {
+    return await ({
+      400: async resp => {
+        throw new Error(((await resp.json()) as IError).detail);
+      },
+      401: async resp => {
+        const newToken = await fetchNewToken();
+        localStorage.setItem('access', newToken);
+        return await fetchWithCallback(path, queryParams, options, callbacks);
+      },
+      403: async resp => {
+        throw new Error(((await resp.json()) as IError).detail);
+      },
+      404: async resp => {
+        throw new Error(((await resp.json()) as IError).detail);
+      },
+      ...callbacks,
+    } as ICallbacks)[res.status](res);
+  } catch (e) {
+    if (e instanceof TypeError) {
+      throw new Error(
+        `No handler implemented for HTTP status code ${res.status}: ${e.message}.`
+      );
+    }
+
+    throw e;
+  }
 };
 
 // Re-export everything from mitochondria for easier imports
