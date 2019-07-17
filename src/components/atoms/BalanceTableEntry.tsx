@@ -13,14 +13,14 @@ const tableEntry: React.FC<IPropsTableEntry> = props => {
   return (
     <div className={props.className}>
       <span>{moment(props.data.date).format('ddd[,] Do MMMM')}</span>
-      <span>{`${
-        props.data.income ? currencyFormat(props.data.income / 100) : ''
-      }`}</span>
-      <span>{`${
-        props.data.expense
+      <span>
+        {props.data.income ? currencyFormat(props.data.income / 100) : ''}
+      </span>
+      <span>
+        {props.data.expense
           ? `(${currencyFormat(props.data.expense / 100)})`
-          : ''
-      }`}</span>
+          : ''}
+      </span>
       <span>{currencyFormat(props.data.liquidity / 100)}</span>
     </div>
   );
