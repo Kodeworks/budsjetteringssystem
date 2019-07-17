@@ -114,7 +114,3 @@ export default styled(Balances)`
     display: flex;
   }
 `;
-
-/*
-
-*/

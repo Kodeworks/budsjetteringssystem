@@ -7,7 +7,7 @@ import BalancesCalendarEntry from '../components/atoms/BalancesCalendarEntry';
 import BalancesViewPicker from '../components/atoms/BalancesViewPicker';
 import BalancesCalendar from '../components/molecules/BalancesCalendar';
 import BalancesTable from '../components/molecules/BalancesTable';
-import Balances from '../components/organism/Balances';
+import Balances from '../components/pages/Balances';
 import { IBalanceEntry } from '../declarations/balanceEntries';
 
 addDecorator((fn) => <GlobalWrapper>{fn()}</GlobalWrapper>);
