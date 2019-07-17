@@ -14,7 +14,7 @@ const loginPassword = 'password';
 
 describe('Authentication/Registration', () => {
   beforeEach(() => {
-    nock('http://localhost:1337')
+    nock('http://localhost:8000')
       .defaultReplyHeaders({
         'access-control-allow-headers': 'authorization',
         'access-control-allow-origin': '*',
@@ -54,7 +54,7 @@ describe('Authentication/Registration', () => {
 
 describe('Authentication/Login', () => {
   beforeEach(() => {
-    nock('http://localhost:1337')
+    nock('http://localhost:8000')
       .defaultReplyHeaders({
         'access-control-allow-headers': 'authorization',
         'access-control-allow-origin': '*',
