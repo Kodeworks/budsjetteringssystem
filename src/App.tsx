@@ -4,19 +4,21 @@ import styled from 'styled-components';
 
 import { Redirect, Route } from 'react-router';
 
-import { initialState, Perform, reducer } from './store/reducers/auth';
+import { Perform } from './store/reducers/auth';
 
+import { CompanyLoader } from './components/atoms/CompanyLoader';
 import Login from './components/organism/Authentication/Login';
 import Register from './components/organism/Authentication/Register';
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
 import Balances from './components/pages/Balances';
+import { Companies } from './components/pages/Companies';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
 import Wrap from './helpers/GlobalWrapper';
 import { TransactionMocker } from './helpers/transaction_creator';
-import { AuthCtx, createAuthCtx } from './store/contexts/auth';
+import { useAuth } from './store/contexts/auth';
 import { navbarWidth } from './styling/sizes';
 
 interface IAppProps {
@@ -24,7 +26,7 @@ interface IAppProps {
 }
 
 const App: React.FC<IAppProps> = props => {
-  const [auth, dispatch] = React.useReducer(reducer, initialState);
+  const [auth, dispatch] = useAuth();
 
   React.useEffect(() => {
     (async () => {
@@ -48,24 +50,27 @@ const App: React.FC<IAppProps> = props => {
         }
       }
     })(); // IIFE
-  }, []); // Only run on component mount
+  }, [dispatch]); // Only run on component mount
 
-  if (auth.user === undefined && (auth.access && auth.refresh)) {
+  // If logging in user
+  if (!auth.user && (auth.access && auth.refresh)) {
     return <p>Loading...</p>;
-  }
-
-  if (!AuthCtx) {
-    createAuthCtx(auth, dispatch);
   }
 
   /**
    * We're using this to handle redirects to the login page when logging out or going to a wrong page
    */
-  const pageRoutes: Array<string> = ['/faq', '/transactions'];
+  const pageRoutes: Array<string> = [
+    '/faq',
+    '/transactions',
+    '/companies',
+    '/balances',
+  ];
 
+  // If not logged in
   if (!auth.access) {
     return (
-      <Wrap className={props.className} auth={{ store: auth, dispatch }}>
+      <Wrap className={props.className}>
         <Route path="/" exact={true} component={Login} />
         <Route path="/register" component={Register} />
         {pageRoutes.map(e => (
@@ -78,14 +83,16 @@ const App: React.FC<IAppProps> = props => {
   }
 
   return (
-    <Wrap className={props.className} auth={{ store: auth, dispatch }}>
+    <Wrap className={props.className}>
       <TransactionMocker quantity={100} />
+      <CompanyLoader />
       <Navigation />
       <Page>
         <Route path="/" exact={true} component={Homepage} />
         <Route path="/faq" component={FAQ} />
         <Route path="/transactions" component={Transactions} />
         <Route path="/balances" component={Balances} />
+        <Route path="/companies" component={Companies} />
       </Page>
     </Wrap>
   );

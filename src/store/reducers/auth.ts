@@ -4,8 +4,8 @@ import { IUser } from './../../declarations/user';
 import * as API from './../../mitochondria';
 
 export interface IAuthState {
-  access?: string;
-  refresh?: string;
+  access: string;
+  refresh: string;
   user?: IUser;
 }
 
@@ -126,7 +126,7 @@ export type ICreatedAction = ReturnType<
   typeof ActionCreatedCreators[keyof typeof ActionCreatedCreators]
 >;
 
-export const reducer = (
+export const authReducer = (
   state: IAuthState,
   action: ICreatedAction
 ): IAuthState => {
@@ -136,7 +136,7 @@ export const reducer = (
     case REGISTER:
       return action.payload;
     case LOGOUT:
-      return {};
+      return { access: '', refresh: '' };
     case SET_USER:
       return { ...state, user: action.payload.user };
     case SET_ACCESS_TOKEN:

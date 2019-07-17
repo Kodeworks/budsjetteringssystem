@@ -15,6 +15,7 @@ const links: Array<{ to: string; name: string }> = [
   { to: 'transactions', name: 'Transactions' },
   { to: 'balances', name: 'Balances' },
   { to: 'faq', name: 'FAQ' },
+  { to: 'companies', name: 'Companies' },
 ];
 
 const Navigation: React.FC<IProps & RouteComponentProps> = ({

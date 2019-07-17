@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { AuthCtx } from '../../store/contexts/auth';
-
 import { logout } from '../../mitochondria/auth';
+import { useAuthState } from '../../store/contexts/auth';
 
 const ToolbarContainer = styled.div`
   /* Pos */
@@ -38,7 +37,7 @@ const LogoutButton = styled.button`
 `;
 
 const Toolbar: React.FC = () => {
-  const { store } = React.useContext(AuthCtx);
+  const store = useAuthState();
 
   return (
     <ToolbarContainer>

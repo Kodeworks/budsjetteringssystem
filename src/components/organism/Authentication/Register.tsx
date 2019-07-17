@@ -2,12 +2,11 @@ import React from 'react';
 
 import Authentication, { AuthType, IOnRegister } from './Authentication';
 
+import { useAuthDispatch } from '../../../store/contexts/auth';
 import { Perform } from '../../../store/reducers/auth';
 
-import { AuthCtx } from '../../../store/contexts/auth';
-
 const Register: React.FC = props => {
-  const { dispatch } = React.useContext(AuthCtx);
+  const dispatch = useAuthDispatch();
   const [error, setError] = React.useState('');
 
   const handleSubmit = ({

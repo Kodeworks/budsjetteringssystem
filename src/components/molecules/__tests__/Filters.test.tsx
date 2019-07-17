@@ -9,11 +9,6 @@ import { theme } from '../../../styling/theme';
 import { cleanup, fireEvent, render } from './../../../helpers/test-utils';
 
 import { ThemeProvider } from 'styled-components';
-import { AuthCtx, createAuthCtx } from '../../../store/contexts/auth';
-import {
-  initialState,
-  reducer as authReducer,
-} from '../../../store/reducers/auth';
 import Transactions from '../../organism/Transactions';
 
 afterEach(cleanup);
@@ -26,14 +21,10 @@ const Wrapper: React.FC = props => {
     transactionDispatch(ActionCreators.resetTransactions(dummyTxs));
   }, [transactionDispatch]);
 
-  const [auth, authDispatch] = React.useReducer(authReducer, initialState);
-  createAuthCtx(auth, authDispatch);
   return (
-    <AuthCtx.Provider value={{ store: auth, dispatch: authDispatch }}>
-      <ThemeProvider theme={theme}>
-        <>{props.children}</>
-      </ThemeProvider>
-    </AuthCtx.Provider>
+    <ThemeProvider theme={theme}>
+      <>{props.children}</>
+    </ThemeProvider>
   );
 };
 
@@ -66,7 +57,7 @@ test('Only show recurring', () => {
 });
 
 test('Filter on description', () => {
-  const { getByLabelText, getByText, rerender, queryAllByText } = render(
+  const { getByLabelText, getByText, queryAllByText } = render(
     <Wrapper>
       <Transactions />
     </Wrapper>,
@@ -92,13 +83,7 @@ test('Filter on description', () => {
 });
 
 test('Filter on date', () => {
-  const {
-    container,
-    getByLabelText,
-    getByText,
-    rerender,
-    queryAllByText,
-  } = render(
+  const { container, getByLabelText, getByText } = render(
     <Wrapper>
       <Transactions />
     </Wrapper>

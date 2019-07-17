@@ -32,6 +32,7 @@ export const doAddCompany = async (
       ...(await API.getCompanyById(companyId)),
       users: [
         { userId: Number(localStorage.getItem('user_id')), role: 'Owner' },
+        // In the future, add the other users here as well.
       ],
     })
   );

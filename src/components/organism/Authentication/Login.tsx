@@ -2,13 +2,12 @@ import React from 'react';
 
 import Authentication, { AuthType, IOnLogin } from './Authentication';
 
+import { useAuthDispatch } from '../../../store/contexts/auth';
 import { Perform } from '../../../store/reducers/auth';
-
-import { AuthCtx } from '../../../store/contexts/auth';
 
 const Login: React.FC = props => {
   const [error, setError] = React.useState('');
-  const { dispatch } = React.useContext(AuthCtx);
+  const dispatch = useAuthDispatch();
 
   const handleSubmit = ({ email, password }: IOnLogin) => {
     try {
