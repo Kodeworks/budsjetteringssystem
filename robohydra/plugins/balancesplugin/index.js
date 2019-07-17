@@ -1,14 +1,12 @@
-const RoboHydraHeadStatic = require("robohydra").heads.RoboHydraHeadStatic;
-const RoboHydraHead = require("robohydra").heads.RoboHydraHead;
-const june = require("./months").june;
-const july = require("./months").july;
+const { june, july } = require('./months');
+const { heads: { RoboHydraHead, RoboHydraHeadProxy } } = require('robohydra');
 
-exports.getBodyParts = function(conf) {
+module.exports.getBodyParts = conf => {
 	return {
 		heads: [
 			new RoboHydraHead({
 				path: '/month.*',
-				handler: function(req, res, next) {
+				handler: function (req, res) {
 					res.headers['content-type'] = 'application/json';
 					res.statusCode = 200;
 					console.log(req.queryParams);
@@ -22,6 +20,10 @@ exports.getBodyParts = function(conf) {
 					}
 				}
 			}),
+			new RoboHydraHeadProxy({
+				mountPath: '/',
+				proxyTo: 'http://localhost:8000',
+			}),
 		]
 	};
-};
+}
