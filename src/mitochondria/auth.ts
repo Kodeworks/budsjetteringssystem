@@ -77,8 +77,8 @@ export const login = async (
 export const fetchUserById = async (
   id: number,
   token: string
-): Promise<IUser> => {
-  return await fetchWithCallback<IUser>(
+): Promise<IUser> =>
+  await fetchWithCallback<IUser>(
     '/user/',
     `?id=${id}`,
     {},
@@ -86,7 +86,6 @@ export const fetchUserById = async (
       200: resp => resp.json() as Promise<IUser>,
     }
   );
-};
 
 export const logout = () => {
   localStorage.removeItem('access');
