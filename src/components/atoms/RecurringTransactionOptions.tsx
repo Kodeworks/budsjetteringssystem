@@ -13,8 +13,8 @@ interface IProps {
 }
 
 const selectOptions = [
-  {name: 'Day', value: 'day'},
-  {name: 'Month', value: 'month'},
+  { name: 'Day', value: 'day' },
+  { name: 'Month', value: 'month' },
 ];
 
 const RecurringTransactionOptions: React.FC<IProps> = props => {
@@ -50,7 +50,12 @@ const RecurringTransactionOptions: React.FC<IProps> = props => {
         Interval type
       </Select>
       {/* We only want to show the day of month input if monthly recurrence is selected.*/}
-      {props.intervalTypeValue === 'month' && (<>{DayOfMonth}<br /></>)}
+      {props.intervalTypeValue === 'month' && (
+        <>
+          {DayOfMonth}
+          <br />
+        </>
+      )}
     </>
   );
 };

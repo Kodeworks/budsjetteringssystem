@@ -18,19 +18,17 @@ const txEntry = (t: ITransaction) => (
 );
 
 const IncomeTransactions: React.FC<IProps> = props => {
-
-  const renderTransactions = () => (
+  const renderTransactions = () =>
     props.tx
       .filter(e => e.type === 'income')
       .sort((t1, t2) => (t2.date > t1.date ? 1 : -1))
-      .map(txEntry)
-  );
+      .map(txEntry);
   return (
-  <div className={props.className}>
-    <h2>Income</h2>
-    {renderTransactions()}
-    <OutlinedButton onClick={props.fetchMore}>Fetch more</OutlinedButton>
-  </div>
+    <div className={props.className}>
+      <h2>Income</h2>
+      {renderTransactions()}
+      <OutlinedButton onClick={props.fetchMore}>Fetch more</OutlinedButton>
+    </div>
   );
 };
 

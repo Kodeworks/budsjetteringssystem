@@ -7,7 +7,7 @@ afterEach(cleanup);
 
 test('Login form renders with correct headertext, aria-labels and placeholders', () => {
   const { getByTestId, getByLabelText } = render(
-    <Authentication type={AuthType.Login} />,
+    <Authentication type={AuthType.Login} />
   );
 
   expect(getByTestId('authform-header')).toHaveTextContent(/^Sign in$/);
@@ -17,7 +17,7 @@ test('Login form renders with correct headertext, aria-labels and placeholders',
 
 test('Register form renders with correct headertext, aria-labels and placeholders', () => {
   const { getByTestId, getByLabelText } = render(
-    <Authentication type={AuthType.Register} />,
+    <Authentication type={AuthType.Register} />
   );
 
   expect(getByTestId('authform-header')).toHaveTextContent(/^Sign up$/);

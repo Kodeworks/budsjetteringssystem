@@ -13,7 +13,8 @@ interface IProps {
 }
 
 const TextArea: React.FC<IProps> = props => {
-  const updateState = (e: React.FormEvent<HTMLTextAreaElement>) => props.setState(e.currentTarget.value);
+  const updateState = (e: React.FormEvent<HTMLTextAreaElement>) =>
+    props.setState(e.currentTarget.value);
 
   return (
     <div className={props.className}>
@@ -32,14 +33,14 @@ export default styled(TextArea)`
   grid-column: 1 / span 2;
 
   textarea {
-    font-size: .8em;
-    padding: .5em .75em;
+    font-size: 0.8em;
+    padding: 0.5em 0.75em;
     background: ${props => props.theme.palette.primary.main};
     border: 2px solid ${props => props.theme.palette.primary.contrast};
     border-radius: 3px;
     color: ${props => props.theme.palette.primary.contrast};
     outline: none;
-    transition: background .1s, color .1s;
+    transition: background 0.1s, color 0.1s;
     width: 100%;
     height: 5em;
 

@@ -14,18 +14,19 @@ test('TransactionEntry', () => {
   const testType = 'income';
   const testNotes = 'Edgy';
 
-  const { container } = render((
+  const { container } = render(
     <TransactionEntry
-        id={testId}
-        className={testClassName}
-        description={testDescription}
-        money={testMoney}
-        date={testDate}
-        company_id={testCompanyId}
-        type={testType}
-        notes={testNotes}
-    />
-  ), {wrapper: TransactionProvider});
+      id={testId}
+      className={testClassName}
+      description={testDescription}
+      money={testMoney}
+      date={testDate}
+      company_id={testCompanyId}
+      type={testType}
+      notes={testNotes}
+    />,
+    { wrapper: TransactionProvider }
+  );
   const div = container.querySelector('div');
   const header4 = container.querySelector('h4');
   const header6Array = container.querySelectorAll('h6');
@@ -58,5 +59,4 @@ test('TransactionEntry', () => {
     fireEvent.mouseEnter(header4);
     expect(paragraph.textContent).toEqual(testNotes);
   }
-
 });

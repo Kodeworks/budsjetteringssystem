@@ -10,7 +10,7 @@ interface ILandingPage {
 }
 
 const BrandTitle = styled.h1`
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
   font-size: 4em;
   font-weight: 300;
@@ -38,7 +38,9 @@ const LandingPage: React.FC<ILandingPage> = ({ className }) => (
           <Link to="/register">
             <OutlinedButton>Join now</OutlinedButton>
           </Link>
-          <AccentedLink to="/login">Already have an account? Sign in</AccentedLink>
+          <AccentedLink to="/login">
+            Already have an account? Sign in
+          </AccentedLink>
         </ButtonContainer>
       </TextContainer>
     </header>
@@ -58,7 +60,7 @@ export default styled(LandingPage)`
     /* Vertically align the content to the center */
     display: flex;
 
-    &>* {
+    & > * {
       align-self: center;
     }
   }

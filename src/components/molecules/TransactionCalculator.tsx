@@ -26,7 +26,9 @@ const TransactionCalculator: React.FC<ITransactionCalculatorProps> = props => {
     <div className={props.className}>
       <h1>Calculator</h1>
       <div>
-        {store.intermediary.map(e => <TransactionEntry key={e} {...findById(e)} />)}
+        {store.intermediary.map(e => (
+          <TransactionEntry key={e} {...findById(e)} />
+        ))}
       </div>
       <h2>Sum: {sum(store).toFixed(2)}</h2>
     </div>

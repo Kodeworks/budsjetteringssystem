@@ -10,11 +10,11 @@ interface ILabelProps {
 }
 
 const Label = styled.label<ILabelProps>`
-  ${props => props.checkboxLabel ? 'margin-right: .7em' : 'display: block'};
-  font-size: .8em;
-  margin-bottom: .2em;
+  ${props => (props.checkboxLabel ? 'margin-right: .7em' : 'display: block')};
+  font-size: 0.8em;
+  margin-bottom: 0.2em;
   font-weight: 700;
-  letter-spacing: .4px;
+  letter-spacing: 0.4px;
 `;
 
 export default Label;
