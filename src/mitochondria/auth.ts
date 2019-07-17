@@ -6,6 +6,7 @@ import { fetchWithCallback } from '.';
 export interface ILoginResponse extends IAuth {
   user: IUser;
 }
+
 export const register = async (
   email: string, firstName: string, lastName: string, password: string,
 ): Promise<ILoginResponse> => {

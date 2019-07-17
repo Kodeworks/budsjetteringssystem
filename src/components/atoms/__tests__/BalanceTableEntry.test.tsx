@@ -1,9 +1,7 @@
-import React from 'react';
-
-import { render } from '@testing-library/react';
 import moment from 'moment';
-import { IBalanceEntry } from '../../../declarations/balanceEntries';
+import React from 'react';
 import { currencyFormat } from '../../../helpers/currency';
+import { render } from '../../../helpers/test-utils';
 import BalanceTableEntry from '../BalanceTableEntry';
 
 test('BalanceTableEntry renders correctly', () => {
