@@ -11,8 +11,10 @@ export const Companies: React.FC = props => {
         <div key={company.id}>
           <h1>{company.name}</h1>
           <ul>
-            {company.users.map(user => (
-              <li key={user.userId}>{user.userId}</li>
+            {company.users.map(u => (
+              <li key={u.userId}>
+                {u.userId} - {u.role}
+              </li>
             ))}
           </ul>
         </div>

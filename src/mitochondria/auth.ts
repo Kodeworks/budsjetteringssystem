@@ -74,10 +74,7 @@ export const login = async (
   );
 };
 
-export const fetchUserById = async (
-  id: number,
-  token: string
-): Promise<IUser> =>
+export const getUserById = async (id: number): Promise<IUser> =>
   await fetchWithCallback<IUser>(
     '/user/',
     `?id=${id}`,

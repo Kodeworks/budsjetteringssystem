@@ -45,7 +45,7 @@ const App: React.FC<IAppProps> = props => {
            */
           Perform.doSetRefreshToken(LSRefresh, dispatch);
           Perform.doSetAccessToken(LSAccess, dispatch);
-          await Perform.doSetUser(LSAccess, LSId, dispatch);
+          await Perform.doSetUser(LSId, dispatch);
         } catch (e) {
           Perform.doLogout(dispatch);
         }

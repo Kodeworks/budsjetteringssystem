@@ -70,11 +70,10 @@ const setUser = (user: IUser) => ({
 });
 
 export async function doSetUser(
-  access: string,
   id: number,
   dispatch: React.Dispatch<ICreatedAction>
 ) {
-  const user = await API.fetchUserById(id, access);
+  const user = await API.getUserById(id);
   dispatch(setUser(user));
 }
 
