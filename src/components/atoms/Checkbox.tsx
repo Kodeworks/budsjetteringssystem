@@ -12,18 +12,27 @@ interface IProps {
 }
 
 const Checkbox: React.FC<IProps> = props => {
-  const updateState = (e: React.FormEvent<HTMLInputElement>) => props.setState(e.currentTarget.checked);
+  const updateState = (e: React.FormEvent<HTMLInputElement>) =>
+    props.setState(e.currentTarget.checked);
 
   return (
     <div className={props.className}>
-      <Label htmlFor={props.id} checkboxLabel={true}>{props.children}</Label>
-      <input defaultChecked={props.value} onChange={updateState} type="checkbox" id={props.id}/>
+      <Label htmlFor={props.id} checkboxLabel={true}>
+        {props.children}
+      </Label>
+      <input
+        defaultChecked={props.value}
+        onChange={updateState}
+        type="checkbox"
+        id={props.id}
+      />
     </div>
   );
 };
 
 export default styled(Checkbox)`
-  label, input {
+  label,
+  input {
     vertical-align: middle;
   }
 
@@ -37,7 +46,7 @@ export default styled(Checkbox)`
     cursor: pointer;
     color: ${props => props.theme.palette.primary.contrast};
     outline: none;
-    transition: background .1s, color .1s;
+    transition: background 0.1s, color 0.1s;
 
     &:focus {
       background: lightgrey;

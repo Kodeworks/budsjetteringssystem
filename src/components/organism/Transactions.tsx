@@ -25,7 +25,9 @@ const Content = styled.div`
 const Transactions: React.FC<IProps> = ({ className }) => {
   const store = useTransactionState();
 
-  const [filter, setFilter] = React.useState<(t: ITransaction) => boolean>(() => ((t: ITransaction) => true));
+  const [filter, setFilter] = React.useState<(t: ITransaction) => boolean>(
+    () => (t: ITransaction) => true
+  );
 
   return (
     <div className={className}>
@@ -37,15 +39,21 @@ const Transactions: React.FC<IProps> = ({ className }) => {
           <Filters setFilter={setFilter} />
 
           <div>
-            <IncomeTransactions tx={store.transactions.filter(filter)} fetchMore={alert}/>
+            <IncomeTransactions
+              tx={store.transactions.filter(filter)}
+              fetchMore={alert}
+            />
           </div>
 
           <div>
-            <ExpenseTransactions tx={store.transactions.filter(filter)} fetchMore={alert}/>
+            <ExpenseTransactions
+              tx={store.transactions.filter(filter)}
+              fetchMore={alert}
+            />
           </div>
         </Content>
       </div>
-      <TransactionCalculator/>
+      <TransactionCalculator />
     </div>
   );
 };
@@ -58,7 +66,7 @@ export default styled(Transactions)`
 
   h5 {
     font-weight: 300;
-    line-height: .7em;
+    line-height: 0.7em;
   }
 
   display: grid;

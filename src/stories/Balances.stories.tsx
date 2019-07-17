@@ -1,4 +1,4 @@
-import {addDecorator, storiesOf} from '@storybook/react';
+import { addDecorator, storiesOf } from '@storybook/react';
 import React from 'react';
 import GlobalWrapper from '../helpers/GlobalWrapper';
 
@@ -10,9 +10,9 @@ import BalancesTable from '../components/molecules/BalancesTable';
 import Balances from '../components/pages/Balances';
 import { IBalanceEntry } from '../declarations/balanceEntries';
 
-addDecorator((fn) => <GlobalWrapper>{fn()}</GlobalWrapper>);
+addDecorator(fn => <GlobalWrapper>{fn()}</GlobalWrapper>);
 
-const entries: Array<IBalanceEntry> = (new Array(13).fill(0)).map((e, i) => ({
+const entries: Array<IBalanceEntry> = new Array(13).fill(0).map((e, i) => ({
   date: `2019-06-${String(i + 1).padStart(2, '0')}`,
   expense: 200000,
   income: 200000,
@@ -35,25 +35,26 @@ const divStyle = {
 const WrappedBalancesViewPicker = (props: any) => {
   const [showCalendar, setShowCalendar] = React.useState(true);
   return (
-    <BalancesViewPicker showCalendar={showCalendar} setShowCalendar={setShowCalendar} />
+    <BalancesViewPicker
+      showCalendar={showCalendar}
+      setShowCalendar={setShowCalendar}
+    />
   );
 };
 
 storiesOf('Balances', module)
-  .add('Balances', () => (
-    <Balances />
-  ))
-  .add('BalancesTable', () => (
-    <BalancesTable entries={entries} />
-  ))
-  .add('BalancesViewPicker', () => (
-    <WrappedBalancesViewPicker />
-  ))
+  .add('Balances', () => <Balances />)
+  .add('BalancesTable', () => <BalancesTable entries={entries} />)
+  .add('BalancesViewPicker', () => <WrappedBalancesViewPicker />)
   .add('BalancesCalendar', () => (
-    <BalancesCalendar month={month} entries={entries}/>
+    <BalancesCalendar month={month} entries={entries} />
   ))
   .add('BalencesCalendarEntry', () => (
     <div style={divStyle}>
-      <BalancesCalendarEntry className={'test'} entry={entry} date={'2019-06-05'} />
+      <BalancesCalendarEntry
+        className={'test'}
+        entry={entry}
+        date={'2019-06-05'}
+      />
     </div>
   ));

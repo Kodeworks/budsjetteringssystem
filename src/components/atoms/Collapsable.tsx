@@ -12,7 +12,7 @@ const arrowDown: string = String.fromCharCode(9660);
 const arrowUp: string = String.fromCharCode(9650);
 
 const Arrow = styled.span`
-  margin-right: .5em;
+  margin-right: 0.5em;
 `;
 
 const CollapsableHeading = styled.button`
@@ -24,7 +24,8 @@ const CollapsableHeading = styled.button`
   cursor: pointer;
   width: 100%;
 
-  &, * {
+  &,
+  * {
     display: inline-block;
     vertical-align: middle;
   }
@@ -37,9 +38,7 @@ const Collapsable: React.FC<IProps> = props => {
   return (
     <div>
       <CollapsableHeading onClick={toggle}>
-        <Arrow>
-          {collapsed ? arrowUp : arrowDown}
-        </Arrow>
+        <Arrow>{collapsed ? arrowUp : arrowDown}</Arrow>
         {props.heading}
       </CollapsableHeading>
       {!collapsed && props.children}

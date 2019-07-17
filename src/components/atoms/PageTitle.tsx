@@ -7,8 +7,7 @@ interface IProps {
   description?: string;
 }
 
-const Title: React.FC<IProps> = (props) => {
-
+const Title: React.FC<IProps> = props => {
   return (
     <div className={props.className}>
       <h1>{props.title}</h1>

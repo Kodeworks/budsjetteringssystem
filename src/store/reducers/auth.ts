@@ -23,7 +23,11 @@ const login = (args: Auth.ILoginResponse) => ({
   type: LOGIN,
 });
 
-export async function doLogin(email: string, password: string, dispatch: React.Dispatch<ICreatedAction>) {
+export async function doLogin(
+  email: string,
+  password: string,
+  dispatch: React.Dispatch<ICreatedAction>
+) {
   const resp = await Auth.login(email, password);
   dispatch(login(resp));
 }
@@ -39,7 +43,7 @@ export async function doRegister(
   lastName: string,
   email: string,
   password: string,
-  dispatch: React.Dispatch<ICreatedAction>,
+  dispatch: React.Dispatch<ICreatedAction>
 ) {
   try {
     const resp = await Auth.register(email, password, firstName, lastName);
@@ -65,20 +69,34 @@ const setUser = (user: IUser) => ({
   type: SET_USER,
 });
 
-export async function doSetUser(access: string, id: number, dispatch: React.Dispatch<ICreatedAction>) {
+export async function doSetUser(
+  access: string,
+  id: number,
+  dispatch: React.Dispatch<ICreatedAction>
+) {
   const user = await Auth.fetchUserById(id, access);
   dispatch(setUser(user));
 }
 
 const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN' as const;
-const setAccessToken = (token: string) => ({ type: SET_ACCESS_TOKEN, payload: token });
-export const doSetAccessToken = (token: string, dispatch: React.Dispatch<ICreatedAction>) =>
-  dispatch(setAccessToken(token));
+const setAccessToken = (token: string) => ({
+  payload: token,
+  type: SET_ACCESS_TOKEN,
+});
+export const doSetAccessToken = (
+  token: string,
+  dispatch: React.Dispatch<ICreatedAction>
+) => dispatch(setAccessToken(token));
 
 const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN' as const;
-const setRefreshToken = (token: string) => ({ type: SET_REFRESH_TOKEN, payload: token });
-export const doSetRefreshToken = (token: string, dispatch: React.Dispatch<ICreatedAction>) =>
-  dispatch(setRefreshToken(token));
+const setRefreshToken = (token: string) => ({
+  payload: token,
+  type: SET_REFRESH_TOKEN,
+});
+export const doSetRefreshToken = (
+  token: string,
+  dispatch: React.Dispatch<ICreatedAction>
+) => dispatch(setRefreshToken(token));
 
 const ActionCreatedCreators = {
   login,
@@ -100,9 +118,14 @@ export const Perform = {
 
 // the return types of all the elements in ActionCreators
 // !! DO NOT TOUCH !!
-export type ICreatedAction = ReturnType<typeof ActionCreatedCreators[keyof typeof ActionCreatedCreators]>;
+export type ICreatedAction = ReturnType<
+  typeof ActionCreatedCreators[keyof typeof ActionCreatedCreators]
+>;
 
-export const reducer = (state: IAuthState, action: ICreatedAction): IAuthState => {
+export const reducer = (
+  state: IAuthState,
+  action: ICreatedAction
+): IAuthState => {
   switch (action.type) {
     case LOGIN:
       return action.payload;

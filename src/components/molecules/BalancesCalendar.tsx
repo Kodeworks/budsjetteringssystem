@@ -16,38 +16,51 @@ moment.locale('en-gb');
 const weekdays = moment.weekdaysShort(true);
 
 const headers = () => {
-  return weekdays.map(d => <div key={d}><h3>{d}</h3></div>);
+  return weekdays.map(d => (
+    <div key={d}>
+      <h3>{d}</h3>
+    </div>
+  ));
 };
 
-const Calendar: React.FC<ICalendarProps> = (props) => {
+const Calendar: React.FC<ICalendarProps> = props => {
   const dayOfWeekStart = props.month.day() - 1;
   const monthLength = props.month.daysInMonth();
   const calendarEntries = [];
 
   for (let date = 1; date <= monthLength; date++) {
-    calendarEntries[date - 1] = <BalancesCalendarEntry key={date} date={props.month.date(date).format('YYYY-MM-DD')} />;
+    calendarEntries[date - 1] = (
+      <BalancesCalendarEntry
+        key={date}
+        date={props.month.date(date).format('YYYY-MM-DD')}
+      />
+    );
   }
 
   props.entries.forEach(e => {
-    calendarEntries[moment(e.date).date() - 1] = <BalancesCalendarEntry key={e.date} date={e.date} entry={e} />;
+    calendarEntries[moment(e.date).date() - 1] = (
+      <BalancesCalendarEntry key={e.date} date={e.date} entry={e} />
+    );
   });
 
   /* Generate empty entries for beginning of first week and end of last week in current month */
   const leadingEntries = () => {
     const leadingEntryArray = [];
     for (let i = 0; i < dayOfWeekStart; i++) {
-      leadingEntryArray.push(<div className={'leading-entry'} key={weekdays[i]} />);
+      leadingEntryArray.push(
+        <div className={'leading-entry'} key={weekdays[i]} />
+      );
     }
     return leadingEntryArray;
   };
 
-  return ((
+  return (
     <div className={props.className}>
       {headers()}
       {leadingEntries()}
       {calendarEntries}
     </div>
-  ));
+  );
 };
 
 const BalancesCalendar = styled(Calendar)`
