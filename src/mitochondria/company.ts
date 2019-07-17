@@ -1,5 +1,5 @@
 import { fetchWithCallback } from '.';
-import { ICompany } from '../declarations/company';
+import { ICompany, Role } from '../declarations/company';
 
 export const createCompany = (id: number, name: string, orgNr: string) =>
   fetchWithCallback<ICompany>(
@@ -51,8 +51,6 @@ export const deleteCompany = (companyId: number) =>
       200: async () => true,
     }
   );
-
-type Role = 'Reporter' | 'User' | 'Owner';
 
 export const addUserToCompany = (
   companyId: number,

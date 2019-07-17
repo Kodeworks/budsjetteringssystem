@@ -122,3 +122,4 @@ export const fetchWithCallback = async <T>(
 export * from './balances';
 export * from './transactions';
 export * from './auth';
+export * from './company';

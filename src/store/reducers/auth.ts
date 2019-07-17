@@ -1,12 +1,14 @@
 import React from 'react';
 
+import { IUserCompany } from '../../declarations/company';
 import { IUser } from './../../declarations/user';
-import * as Auth from './../../mitochondria/auth';
+import * as API from './../../mitochondria';
 
 export interface IAuthState {
   access?: string;
   refresh?: string;
   user?: IUser;
+  companies?: Array<IUserCompany>;
 }
 
 export const initialState: IAuthState = {
@@ -18,7 +20,7 @@ export const initialState: IAuthState = {
  * Actions
  */
 const LOGIN = 'LOGIN' as const;
-const login = (args: Auth.ILoginResponse) => ({
+const login = (args: API.ILoginResponse) => ({
   payload: args,
   type: LOGIN,
 });
@@ -28,12 +30,12 @@ export async function doLogin(
   password: string,
   dispatch: React.Dispatch<ICreatedAction>
 ) {
-  const resp = await Auth.login(email, password);
+  const resp = await API.login(email, password);
   dispatch(login(resp));
 }
 
 const REGISTER = 'REGISTER' as const;
-const register = (args: Auth.ILoginResponse) => ({
+const register = (args: API.ILoginResponse) => ({
   payload: args,
   type: REGISTER,
 });
@@ -46,7 +48,7 @@ export async function doRegister(
   dispatch: React.Dispatch<ICreatedAction>
 ) {
   try {
-    const resp = await Auth.register(email, password, firstName, lastName);
+    const resp = await API.register(email, password, firstName, lastName);
     dispatch(register(resp));
   } catch (e) {
     throw new Error(e);
@@ -59,7 +61,7 @@ const logout = () => ({
 });
 
 export const doLogout = (dispatch: React.Dispatch<ICreatedAction>) => {
-  Auth.logout();
+  API.logout();
   dispatch(logout());
 };
 
@@ -74,7 +76,12 @@ export async function doSetUser(
   id: number,
   dispatch: React.Dispatch<ICreatedAction>
 ) {
-  const user = await Auth.fetchUserById(id, access);
+  const user = await API.fetchUserById(id, access);
+
+  // We want to iterate over the company IDs returned by the backend and start
+  // an asynchronous job to add the actual companies to the store.
+  user.companies.forEach(company => doAddUserCompany(company, dispatch));
+
   dispatch(setUser(user));
 }
 
@@ -98,7 +105,36 @@ export const doSetRefreshToken = (
   dispatch: React.Dispatch<ICreatedAction>
 ) => dispatch(setRefreshToken(token));
 
+const ADD_USER_COMPANY = 'ADD_USER_COMPANY' as const;
+const addUserCompany = (company: IUserCompany) => ({
+  payload: company,
+  type: ADD_USER_COMPANY,
+});
+/**
+ * @summary """
+ * This Perform action takes a company ID and fetches the actual company object from the backend and adds it to the state.
+ * As of now, the backend doesn't actually return the role of the user, so we're just setting it to owner for now, as that
+ * is the highest permissions a user can have, and we will rather be rejected by the backend until we can actually find out
+ * what role the user has. This should be fixed shortly; an issue has been created.
+ * """
+ * @param companyId "The ID of the company to fetch."
+ * @param dispatch "Dispatch function."
+ */
+export const doAddUserCompany = async (
+  companyId: number,
+  dispatch: React.Dispatch<ICreatedAction>
+) => {
+  dispatch(
+    addUserCompany({ role: 'Owner', ...(await API.getCompanyById(companyId)) })
+  );
+};
+
+/**
+ * Under here you will find action creators, the reducer, and created action creators.
+ */
+
 const ActionCreatedCreators = {
+  addUserCompany,
   login,
   logout,
   register,
@@ -108,6 +144,7 @@ const ActionCreatedCreators = {
 };
 
 export const Perform = {
+  doAddUserCompany,
   doLogin,
   doLogout,
   doRegister,
@@ -139,6 +176,11 @@ export const reducer = (
       return { ...state, access: action.payload };
     case SET_REFRESH_TOKEN:
       return { ...state, refresh: action.payload };
+    case ADD_USER_COMPANY:
+      return {
+        ...state,
+        companies: [...(state.companies || []), action.payload],
+      };
   }
 
   return state;
