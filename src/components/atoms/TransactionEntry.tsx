@@ -7,8 +7,8 @@ import { useTransactions } from '../../store/contexts/transactions';
 import { ActionCreators } from '../../store/reducers/transactions';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
-  color: ${props => props.type === 'expense' ? '#ff6961' : '#77dd77'};
-  padding-right: .3em;
+  color: ${props => (props.type === 'expense' ? '#ff6961' : '#77dd77')};
+  padding-right: 0.3em;
 `;
 
 interface IProps extends ITransaction {
@@ -31,11 +31,14 @@ const TransactionEntry: React.FC<IProps> = props => {
   const disableNotes = () => setDisplayNotes(false);
   const enableNotes = () => setDisplayNotes(true);
 
-  const isInIntermediary = !(store.intermediary.find(e => e === props.id) === undefined);
+  const isInIntermediary = !(
+    store.intermediary.find(e => e === props.id) === undefined
+  );
 
-  const onClick = () => isInIntermediary ?
-    dispatch(ActionCreators.removeFromIntermediary(props.id)) :
-    dispatch(ActionCreators.addToIntermediary(props.id));
+  const onClick = () =>
+    isInIntermediary
+      ? dispatch(ActionCreators.removeFromIntermediary(props.id))
+      : dispatch(ActionCreators.addToIntermediary(props.id));
 
   return (
     <div
@@ -43,14 +46,23 @@ const TransactionEntry: React.FC<IProps> = props => {
       onMouseEnter={enableNotes}
       onMouseLeave={disableNotes}
       onClick={onClick}
-      style={isInIntermediary ? {paddingLeft: '.6em', borderLeft: '4px solid black'} : {}}
+      style={
+        isInIntermediary
+          ? { paddingLeft: '.6em', borderLeft: '4px solid black' }
+          : {}
+      }
     >
       <h4>{props.description}</h4>
       <strong>
-        {props.type === 'expense' ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
+        {props.type === 'expense'
+          ? `(${(money / 100).toFixed(2)})`
+          : (money / 100).toFixed(2)}
       </strong>
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
-      <h6>{moment(props.date).format('L')}{props.recurring_id && `  ${String.fromCharCode(183)} Recurring`}</h6>
+      <h6>
+        {moment(props.date).format('L')}
+        {props.recurring_id && `  ${String.fromCharCode(183)} Recurring`}
+      </h6>
       <p>{displayNotes && props.notes}</p>
     </div>
   );
@@ -60,15 +72,16 @@ export default styled(TransactionEntry)`
   display: grid;
   grid-template-rows: 1.6em 1em auto;
   grid-template-columns: 70% 30%;
-  transition: padding .2s, margin .2s;
+  transition: padding 0.2s, margin 0.2s;
   text-decoration: none;
   color: black;
 
-  &>*:nth-child(2n):not(p) {
+  & > *:nth-child(2n):not(p) {
     text-align: right;
   }
 
-  h6, strong {
+  h6,
+  strong {
     font-weight: 300;
   }
 
@@ -77,13 +90,13 @@ export default styled(TransactionEntry)`
   }
 
   p {
-    font-size: .7em;
+    font-size: 0.7em;
     font-weight: 400;
     grid-column: 1 / span 2;
   }
 
   &:hover {
-    padding-left: .3em;
+    padding-left: 0.3em;
     cursor: pointer;
     border-left: 2px solid black;
   }

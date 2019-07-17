@@ -5,14 +5,14 @@ import GlobalWrapper from '../../../helpers/GlobalWrapper';
 import NavigationPill from '../NavigationPill';
 
 test('loads with children and href', () => {
-  const testChild = (<p>Test link</p>);
+  const testChild = <p>Test link</p>;
   const testHref = '/tests';
 
-  const { container } = render((
+  const { container } = render(
     <GlobalWrapper>
       <NavigationPill children={testChild} active={true} to={testHref} />
     </GlobalWrapper>
-  ));
+  );
 
   const paragraph = container.querySelector('p');
   const anchor = container.querySelector('a');

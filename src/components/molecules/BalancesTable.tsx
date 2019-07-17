@@ -37,11 +37,12 @@ const BalancesTableHeaders = styled(headers)`
 `;
 
 const BalancesTable: React.FC<IPropsTable> = props => {
-
   return (
     <div className={props.className}>
       <BalancesTableHeaders />
-      {props.entries.map(e => <BalanceTableEntry data={e} key={e.date}/>)}
+      {props.entries.map(e => (
+        <BalanceTableEntry data={e} key={e.date} />
+      ))}
     </div>
   );
 };

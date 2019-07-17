@@ -11,18 +11,23 @@ test('BalanceTableEntry renders correctly', () => {
     income: 100000,
     liquidity: 1000000,
   };
-  const { container } = render((
-    <BalanceTableEntry data={entryData} />
-  ));
+  const { container } = render(<BalanceTableEntry data={entryData} />);
   const spans = container.querySelectorAll('span');
 
   expect(spans).not.toBe(null);
   if (spans) {
     expect(spans.length).toEqual(4);
-    expect(spans[0].textContent).toEqual(moment(entryData.date).format('ddd[,] Do MMMM'));
-    expect(spans[1].textContent).toEqual(currencyFormat(entryData.income / 100));
-    expect(spans[2].textContent).toEqual(`(${currencyFormat(entryData.expense / 100)})`);
-    expect(spans[3].textContent).toEqual(currencyFormat(entryData.liquidity / 100));
+    expect(spans[0].textContent).toEqual(
+      moment(entryData.date).format('ddd[,] Do MMMM')
+    );
+    expect(spans[1].textContent).toEqual(
+      currencyFormat(entryData.income / 100)
+    );
+    expect(spans[2].textContent).toEqual(
+      `(${currencyFormat(entryData.expense / 100)})`
+    );
+    expect(spans[3].textContent).toEqual(
+      currencyFormat(entryData.liquidity / 100)
+    );
   }
-
 });

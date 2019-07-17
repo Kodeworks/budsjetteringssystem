@@ -124,7 +124,7 @@ const Authentication: React.FC<IAuthentication> = props => {
       </form>
       <AccentedLink to={props.type === AuthType.Login ? '/register' : '/'}>
         {props.type === AuthType.Login
-          ? 'Don\'t have an account?'
+          ? "Don't have an account?"
           : 'Already have an account?'}
       </AccentedLink>
     </AuthContainer>

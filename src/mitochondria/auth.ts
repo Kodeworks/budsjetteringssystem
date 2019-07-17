@@ -8,18 +8,30 @@ export interface ILoginResponse extends IAuth {
 }
 
 export const register = async (
-  email: string, firstName: string, lastName: string, password: string,
+  email: string,
+  firstName: string,
+  lastName: string,
+  password: string
 ): Promise<ILoginResponse> => {
   // We want to clear the tokens, as if not, it will fail if tokens are outdated when logging in!
   localStorage.removeItem('access');
   localStorage.removeItem('refresh');
 
-  return await fetchWithCallback('/user/', '', {
-    body: JSON.stringify({ email, password, first_name: firstName, last_name: lastName }),
-    method: 'POST',
-  }, {
+  return await fetchWithCallback(
+    '/user/',
+    '',
+    {
+      body: JSON.stringify({
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        password,
+      }),
+      method: 'POST',
+    },
+    {
       201: async resp => {
-        const parsedRes = await resp.json() as ILoginResponse;
+        const parsedRes = (await resp.json()) as ILoginResponse;
 
         localStorage.setItem('access', parsedRes.access);
         localStorage.setItem('refresh', parsedRes.refresh);
@@ -28,21 +40,28 @@ export const register = async (
 
         return parsedRes;
       },
-    },
+    }
   );
 };
 
-export const login = async (email: string, password: string): Promise<ILoginResponse> => {
+export const login = async (
+  email: string,
+  password: string
+): Promise<ILoginResponse> => {
   // We want to clear the tokens, as if not, it will fail if tokens are outdated when logging in!
   localStorage.removeItem('access');
   localStorage.removeItem('refresh');
 
-  return await fetchWithCallback('/user/login/', '', {
-    body: JSON.stringify({ email, password }),
-    method: 'POST',
-  }, {
+  return await fetchWithCallback(
+    '/user/login/',
+    '',
+    {
+      body: JSON.stringify({ email, password }),
+      method: 'POST',
+    },
+    {
       200: async resp => {
-        const parsedRes = await resp.json() as ILoginResponse;
+        const parsedRes = (await resp.json()) as ILoginResponse;
 
         localStorage.setItem('access', parsedRes.access);
         localStorage.setItem('refresh', parsedRes.refresh);
@@ -51,14 +70,22 @@ export const login = async (email: string, password: string): Promise<ILoginResp
 
         return parsedRes;
       },
-    },
+    }
   );
 };
 
-export const fetchUserById = async (id: number, token: string): Promise<IUser> => {
-  return await fetchWithCallback<IUser>('/user/', `?id=${id}`, {}, {
-    200: resp => resp.json() as Promise<IUser>,
-  });
+export const fetchUserById = async (
+  id: number,
+  token: string
+): Promise<IUser> => {
+  return await fetchWithCallback<IUser>(
+    '/user/',
+    `?id=${id}`,
+    {},
+    {
+      200: resp => resp.json() as Promise<IUser>,
+    }
+  );
 };
 
 export const logout = () => {

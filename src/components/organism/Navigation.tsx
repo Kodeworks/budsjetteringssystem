@@ -10,19 +10,26 @@ interface IProps {
   className?: string;
 }
 
-const links: Array<{ to: string; name: string; }> = [
+const links: Array<{ to: string; name: string }> = [
   { to: '', name: 'Dashboard' },
   { to: 'transactions', name: 'Transactions' },
-  { to: 'balances', name: 'Balances'},
+  { to: 'balances', name: 'Balances' },
   { to: 'faq', name: 'FAQ' },
 ];
 
-const Navigation: React.FC<IProps & RouteComponentProps> = ({ className, location: { pathname } }) => (
+const Navigation: React.FC<IProps & RouteComponentProps> = ({
+  className,
+  location: { pathname },
+}) => (
   <nav className={className}>
     <NavigationBrand />
     <NavigationSeparator />
     <div>
-      {links.map(l => <NavigationPill key={l.to} to={l.to} active={pathname === `/${l.to}`}>{l.name}</NavigationPill>)}
+      {links.map(l => (
+        <NavigationPill key={l.to} to={l.to} active={pathname === `/${l.to}`}>
+          {l.name}
+        </NavigationPill>
+      ))}
     </div>
     <NavigationSeparator style={{ marginTop: 'auto' }} />
   </nav>

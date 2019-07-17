@@ -9,6 +9,9 @@ export interface IAuthContext {
 
 export let AuthCtx: React.Context<IAuthContext>;
 
-export const createAuthCtx = (store: IAuthState, dispatch: React.Dispatch<ICreatedAction>) => {
+export const createAuthCtx = (
+  store: IAuthState,
+  dispatch: React.Dispatch<ICreatedAction>
+) => {
   AuthCtx = React.createContext<IAuthContext>({ store, dispatch });
 };

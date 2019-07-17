@@ -9,13 +9,18 @@ interface IProps {
   transactions: Array<ITransaction>;
 }
 
-const DashboardTransactions: React.FC<IProps> = ({ className, transactions }) => (
+const DashboardTransactions: React.FC<IProps> = ({
+  className,
+  transactions,
+}) => (
   <div className={className}>
     <h1>Transactions</h1>
     <h5>Last 5 transactions</h5>
 
     <div>
-      {transactions.slice(0, 5).map(e => <TransactionEntry key={e.id} {...e} />)}
+      {transactions.slice(0, 5).map(e => (
+        <TransactionEntry key={e.id} {...e} />
+      ))}
     </div>
   </div>
 );
@@ -29,10 +34,10 @@ export default styled(DashboardTransactions)`
 
   h5 {
     font-weight: 300;
-    line-height: .7em;
+    line-height: 0.7em;
   }
 
-  &>div {
+  & > div {
     margin-top: 2em;
 
     div:not(:first-child) {

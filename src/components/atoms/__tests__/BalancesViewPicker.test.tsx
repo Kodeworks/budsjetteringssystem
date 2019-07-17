@@ -10,20 +10,25 @@ interface IProps {
 }
 
 test('ViewPicker renders with correct choice set', () => {
-  const WrapperFC: React.FC<IProps> = (props) => {
-    const [showCalendar, setShowCalendar] = React.useState<boolean>(props.startShowCalendar);
+  const WrapperFC: React.FC<IProps> = props => {
+    const [showCalendar, setShowCalendar] = React.useState<boolean>(
+      props.startShowCalendar
+    );
 
     return (
       <div className={'wrapper-fc'}>
         <p data-testid={'show-calendar'}>{`${showCalendar}`}</p>
-        <BalancesViewPicker showCalendar={showCalendar} setShowCalendar={setShowCalendar} />
+        <BalancesViewPicker
+          showCalendar={showCalendar}
+          setShowCalendar={setShowCalendar}
+        />
       </div>
     );
-  } ;
+  };
 
-  const { getByLabelText, getByText  } = render((
+  const { getByLabelText, getByText } = render(
     <WrapperFC startShowCalendar={true} />
-  ));
+  );
 
   expect(getByLabelText('View')).toHaveValue('calendar');
   expect(getByText('Calendar'));
@@ -32,7 +37,7 @@ test('ViewPicker renders with correct choice set', () => {
   expect(getByLabelText('View')).toHaveValue('calendar');
 
   // Select 'List view' and check that state and select-value has changed.
-  fireEvent.change(getByText('Calendar'), { target: {value: 'list'}});
+  fireEvent.change(getByText('Calendar'), { target: { value: 'list' } });
   expect(getByLabelText('View')).toHaveValue('list');
   expect(getByLabelText('View')).not.toHaveValue('calendar');
 });

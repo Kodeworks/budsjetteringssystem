@@ -40,12 +40,14 @@ export const fetchNewToken = async (): Promise<string> => {
 
   switch (res.status) {
     case 200:
-      return (await res.json() as ITokenResponse).access;
+      return ((await res.json()) as ITokenResponse).access;
     case 401:
       // The refresh token has expired
       throw new Error('Refresh token has expired.');
     default:
-      throw new Error('Unexpected response from server when fetching new access token.');
+      throw new Error(
+        'Unexpected response from server when fetching new access token.'
+      );
   }
 };
 
@@ -67,11 +69,13 @@ export const fetchWithCallback = async <T>(
   path: ApiEndpoint,
   queryParams: string,
   options: RequestInit,
-  callbacks: ICallbacks,
+  callbacks: ICallbacks
 ): Promise<T> => {
   const res = await fetch(`${BASE_URL}${path}${queryParams}`, {
     headers: {
-      'Authorization': localStorage.getItem('access') ? `Bearer ${localStorage.getItem('access')}` : '',
+      Authorization: localStorage.getItem('access')
+        ? `Bearer ${localStorage.getItem('access')}`
+        : '',
       // Default to application/json. This can be overridden by passing headers in options.
       'Content-Type': 'application/json',
     },
@@ -81,7 +85,7 @@ export const fetchWithCallback = async <T>(
   // Call the callback with a status corresponding to the response.
   return await ({
     400: async resp => {
-      throw new Error((await resp.json() as IError).detail);
+      throw new Error(((await resp.json()) as IError).detail);
     },
     401: async resp => {
       const newToken = await fetchNewToken();
@@ -89,10 +93,10 @@ export const fetchWithCallback = async <T>(
       return await fetchWithCallback(path, queryParams, options, callbacks);
     },
     403: async resp => {
-      throw new Error((await resp.json() as IError).detail);
+      throw new Error(((await resp.json()) as IError).detail);
     },
     404: async resp => {
-      throw new Error((await resp.json() as IError).detail);
+      throw new Error(((await resp.json()) as IError).detail);
     },
     ...callbacks,
   } as ICallbacks)[res.status](res);

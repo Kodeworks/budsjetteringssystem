@@ -19,7 +19,7 @@ interface IProps {
 const AddTransaction: React.FC<IProps> = props => {
   const dispatch = useTransactionDispatch();
   const [transactionType, setTransactionType] = React.useState<TransactionType>(
-    'expense',
+    'expense'
   );
   const [date, setDate] = React.useState('1970-01-01');
   const [amount, setAmount] = React.useState('');
@@ -37,7 +37,7 @@ const AddTransaction: React.FC<IProps> = props => {
     /*  TODO – company_id should be read from the state. For now it is hard coded.
         Because api uses snake_case, disable tslint (lowerCamelCase) variable-name rule:
      */
-  // tslint:disable-next-line: variable-name
+    // tslint:disable-next-line: variable-name
     const company_id = 1;
     if (!recurring) {
       const formValues = {
@@ -63,7 +63,7 @@ const AddTransaction: React.FC<IProps> = props => {
   };
 
   const handleTransactionTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setTransactionType(event.target.value as TransactionType);
   };

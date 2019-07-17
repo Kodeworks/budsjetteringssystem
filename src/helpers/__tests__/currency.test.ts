@@ -14,8 +14,8 @@ test('Formats a number with more than 3 digits with "," as thousands separator a
 });
 
 test('Formats a number with less than 3 digits without "," and with two decimal places.', () => {
-  const number1 = 125.60;
-  const number2 = -125.60;
+  const number1 = 125.6;
+  const number2 = -125.6;
   const formattedNumber1 = '125.60';
   const formattedNumber2 = '-125.60';
 

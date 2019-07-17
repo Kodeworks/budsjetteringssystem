@@ -35,3 +35,8 @@ jobs:
 
       # run tests!
       - run: yarn test
+
+      # Check for lint and style errors
+      - run: 
+          name: Running lint and style check
+          command: yarn tslint -p .

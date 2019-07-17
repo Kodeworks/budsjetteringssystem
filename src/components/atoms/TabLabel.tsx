@@ -15,15 +15,15 @@ const LI = styled.li`
   padding: 0.5rem 0.75rem;
 `;
 
-const TabLabel: React.FC<IProps> = (props) => {
+const TabLabel: React.FC<IProps> = props => {
   const handleClick = () => props.onClick(props.tabIndex);
-  return (
-    <LI onClick={handleClick}>{props.children}</LI>
-  );
+  return <LI onClick={handleClick}>{props.children}</LI>;
 };
 
 export default styled(TabLabel)`
-  ${props => props.isActive && `border: solid #ccc;
+  ${props =>
+    props.isActive &&
+    `border: solid #ccc;
   background-color: white;
   border-width: 1px 1px 0 1px;`};
 `;

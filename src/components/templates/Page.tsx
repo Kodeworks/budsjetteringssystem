@@ -5,7 +5,7 @@ import Toolbar from '../organism/Toolbar';
 const Container = styled.div`
   padding: 4em;
 
-  &>h1 {
+  & > h1 {
     margin-bottom: 1em;
   }
 `;
@@ -13,9 +13,7 @@ const Container = styled.div`
 const Page: React.FC = props => (
   <section>
     <Toolbar />
-    <Container>
-      {props.children}
-    </Container>
+    <Container>{props.children}</Container>
   </section>
 );
 

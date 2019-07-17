@@ -22,7 +22,7 @@ const ToolbarContainer = styled.div`
     vertical-align: middle;
 
     &:not(:last-child) {
-      margin-right: .5em;
+      margin-right: 0.5em;
     }
   }
 `;
@@ -46,6 +46,6 @@ const Toolbar: React.FC = () => {
       <LogoutButton onClick={logout}>Sign out</LogoutButton>
     </ToolbarContainer>
   );
-  };
+};
 
 export default Toolbar;

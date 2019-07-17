@@ -19,23 +19,38 @@ const Filters: React.FC<IProps> = props => {
   const [recurring, setRecurring] = React.useState(false);
 
   React.useEffect(() => {
-    props.setFilter(() => ((t: ITransaction) => {
+    props.setFilter(() => (t: ITransaction) => {
       // If recurring filter is toggled and transaction is not of reccuring type
       // return false
-      if (recurring && !t.recurring_id) { return false; }
+      if (recurring && !t.recurring_id) {
+        return false;
+      }
 
-      if (t.date < fromDate || t.date > toDate) { return false; }
+      if (t.date < fromDate || t.date > toDate) {
+        return false;
+      }
 
-      if (description && !((new RegExp(description, 'i')).test(t.description))) { return false; }
+      if (description && !new RegExp(description, 'i').test(t.description)) {
+        return false;
+      }
       return true;
-    }));
+    });
   }, [fromDate, toDate, description, recurring, props]);
 
   return (
     <Collapsable heading={<h1>Filters</h1>}>
       <div className={props.className}>
-        <Input value={fromDate} id="fromDate" type="date" setState={setFromDate}>From date</Input>
-        <Input value={toDate} id="toDate" type="date" setState={setToDate}>To date</Input>
+        <Input
+          value={fromDate}
+          id="fromDate"
+          type="date"
+          setState={setFromDate}
+        >
+          From date
+        </Input>
+        <Input value={toDate} id="toDate" type="date" setState={setToDate}>
+          To date
+        </Input>
         <Input
           value={description}
           id="description"
@@ -46,7 +61,9 @@ const Filters: React.FC<IProps> = props => {
           Description
         </Input>
         <br /> {/* Simple hack to force checkbox to render on the next row */}
-        <Checkbox value={recurring} setState={setRecurring} id="recurring">Only recurring?</Checkbox>
+        <Checkbox value={recurring} setState={setRecurring} id="recurring">
+          Only recurring?
+        </Checkbox>
       </div>
     </Collapsable>
   );
