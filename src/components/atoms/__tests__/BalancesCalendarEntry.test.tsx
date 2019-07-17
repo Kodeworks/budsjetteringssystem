@@ -13,9 +13,8 @@ test('BalancesCalendarEntry renders correct data for given entry-object', () => 
     liquidity: 10000000,
   };
 
-  const { container, getByText } = render((
+  const { container, getByText } = render(
     <BalancesCalendarEntry date={entryData.date} entry={entryData} />
-  ),
   );
 
   expect(getByText('28.'));
@@ -28,9 +27,9 @@ test('BalancesCalendarEntry renders correct data for given entry-object', () => 
 test('BalancesCalendarEntry only renders date when not given entry-object', () => {
   const date = '2019-06-15';
 
-  const { container, getByText } = render((
-    <BalancesCalendarEntry date={date}/>
-  ));
+  const { container, getByText } = render(
+    <BalancesCalendarEntry date={date} />
+  );
 
   expect(getByText('15.'));
   expect(container.querySelector('hr')).toBe(null);

@@ -1,6 +1,10 @@
 import * as React from 'react';
 
-import { ActionType, ITransactionState, transactionReducer } from '../reducers/transactions';
+import {
+  ActionType,
+  ITransactionState,
+  transactionReducer,
+} from '../reducers/transactions';
 
 /**
  * The initial state of transaction context when initializing the TransactinoProvider.
@@ -42,7 +46,7 @@ const useTransactionState = () => {
   const context = React.useContext(TransactionStateContext);
   if (context === undefined) {
     throw new Error(
-      'useTransactionState must be used within a TransactionProvider',
+      'useTransactionState must be used within a TransactionProvider'
     );
   }
   return context;
@@ -61,7 +65,7 @@ const useTransactionDispatch = (): TransactionDispatch => {
   const context = React.useContext(TransactionDispatchContext);
   if (context === undefined) {
     throw new Error(
-      'useTransactionDispatch must be called within a TransactionProvider',
+      'useTransactionDispatch must be called within a TransactionProvider'
     );
   }
   return context;

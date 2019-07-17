@@ -20,9 +20,9 @@ test('BalanceTable renders correctly with headers and two BalanceEntries', () =>
     },
   ];
 
-  const { container } = render((
+  const { container } = render(
     <BalanceTable className={'balance-table'} entries={entryData} />
-  ));
+  );
 
   const table = container.querySelector('.balance-table');
   expect(table).not.toBe(null);
@@ -41,7 +41,11 @@ test('BalanceTable renders correctly with headers and two BalanceEntries', () =>
     const balanceEntry2 = children[2].children;
     expect(balanceEntry1.length).toEqual(4);
     expect(balanceEntry2.length).toEqual(4);
-    expect(balanceEntry1[0].textContent).toEqual(moment(entryData[0].date).format('ddd[,] Do MMMM'));
-    expect(balanceEntry2[2].textContent).toEqual(`(${currencyFormat(entryData[1].expense / 100)})`);
+    expect(balanceEntry1[0].textContent).toEqual(
+      moment(entryData[0].date).format('ddd[,] Do MMMM')
+    );
+    expect(balanceEntry2[2].textContent).toEqual(
+      `(${currencyFormat(entryData[1].expense / 100)})`
+    );
   }
 });

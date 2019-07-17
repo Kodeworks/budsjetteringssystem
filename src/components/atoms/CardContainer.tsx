@@ -10,10 +10,8 @@ const Wrapper = styled.div`
   padding: 20px;
 `;
 
-const CardContainer: React.FC = ({children, ...props}) => {
-    return (
-      <Wrapper {...props}>{children}</Wrapper>
-    );
+const CardContainer: React.FC = ({ children, ...props }) => {
+  return <Wrapper {...props}>{children}</Wrapper>;
 };
 
 export default CardContainer;

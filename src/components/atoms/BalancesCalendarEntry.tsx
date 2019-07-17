@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
-import {IBalanceEntry} from '../../declarations/balanceEntries';
+import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { currencyFormat } from '../../helpers/currency';
 
 interface IPropsCalendarEntry {
@@ -10,15 +10,22 @@ interface IPropsCalendarEntry {
   date: string;
 }
 
-const calendarEntry: React.FC<IPropsCalendarEntry> = (props) => {
-
+const calendarEntry: React.FC<IPropsCalendarEntry> = props => {
   return (
     <div className={props.className}>
       <h5>{`${moment(props.date).format('D')}.`}</h5>
-      <h5>{props.entry && props.entry.income ? currencyFormat((props.entry.income / 100)) : ''}</h5>
-      <h5>{props.entry && props.entry.expense ? `(${currencyFormat((props.entry.expense / 100))})` : ''}</h5>
+      <h5>
+        {props.entry && props.entry.income
+          ? currencyFormat(props.entry.income / 100)
+          : ''}
+      </h5>
+      <h5>
+        {props.entry && props.entry.expense
+          ? `(${currencyFormat(props.entry.expense / 100)})`
+          : ''}
+      </h5>
       <span>{props.entry && <hr />}</span>
-      <h5>{props.entry && currencyFormat((props.entry.liquidity / 100))}</h5>
+      <h5>{props.entry && currencyFormat(props.entry.liquidity / 100)}</h5>
     </div>
   );
 };

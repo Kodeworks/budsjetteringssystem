@@ -9,9 +9,7 @@ interface IProps {
 }
 
 const NavigationPill: React.FC<IProps> = ({ children, active, ...props }) => (
-  <Link {...props}>
-    {children}
-  </Link>
+  <Link {...props}>{children}</Link>
 );
 
 export default styled(NavigationPill)`
@@ -24,9 +22,12 @@ export default styled(NavigationPill)`
   text-decoration: none;
 
   /* Border */
-  border-left: ${props => props.active ? `2px solid ${props.theme.palette.secondary.contrast}` : 'none'};
+  border-left: ${props =>
+    props.active
+      ? `2px solid ${props.theme.palette.secondary.contrast}`
+      : 'none'};
 
   /* Colors */
-  color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.9)'};
-  background: ${props => props.active ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0)'};
+  color: ${props => (props.active ? 'white' : 'rgba(255, 255, 255, 0.9)')};
+  background: ${props => (props.active ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0)')};
 `;
