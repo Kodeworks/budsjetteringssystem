@@ -31,10 +31,18 @@ const MonthPicker: React.FC<IProps> = props => {
 
 export default styled(MonthPicker)`
   margin-bottom: 2em;
+  display: grid;
+  grid-template-columns: 95%;
+  text-align: center;
+  width: 10%
 
   h5 {
     font-size: 1em;
-    margin-top: 0.2em
+    font-weight: 400;
+    padding: 7px 2px;
+    background-color: ${props => props.theme.palette.background.paper};
+    box-shadow: ${props => props.theme.shadow};
+    border-radius: ${props => props.theme.shape.borderRadius};
   }
   .increase, .decrease {
     cursor: pointer;

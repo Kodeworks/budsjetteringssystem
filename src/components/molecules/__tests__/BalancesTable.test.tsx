@@ -1,8 +1,7 @@
-import React from 'react';
-
-import { render } from '@testing-library/react';
 import moment from 'moment';
+import React from 'react';
 import { currencyFormat } from '../../../helpers/currency';
+import { render } from '../../../helpers/test-utils';
 import BalanceTable from '../BalancesTable';
 
 test('BalanceTable renders correctly with headers and two BalanceEntries', () => {
@@ -24,6 +23,7 @@ test('BalanceTable renders correctly with headers and two BalanceEntries', () =>
   const { container } = render((
     <BalanceTable className={'balance-table'} entries={entryData} />
   ));
+
   const table = container.querySelector('.balance-table');
   expect(table).not.toBe(null);
   if (table !== null) {

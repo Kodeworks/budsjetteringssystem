@@ -15,7 +15,7 @@ export const createTransaction = async (transaction: INewTransaction) => {
     body: JSON.stringify(transaction),
     method: 'POST',
   }, {
-      201: async resp => await resp.json() as ITransaction,
+      201: resp => resp.json() as Promise<ITransaction>,
     },
   );
 };

@@ -1,7 +1,6 @@
-import React from 'react';
-
-import { fireEvent, render } from '@testing-library/react';
 import moment from 'moment';
+import React from 'react';
+import { fireEvent, render } from '../../../helpers/test-utils';
 import MonthPicker from '../MonthPicker';
 
 interface IProps {

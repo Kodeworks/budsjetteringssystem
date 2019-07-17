@@ -6,6 +6,7 @@ import { fetchWithCallback } from '.';
 export interface ILoginResponse extends IAuth {
   user: IUser;
 }
+
 export const register = async (
   email: string, firstName: string, lastName: string, password: string,
 ): Promise<ILoginResponse> => {
@@ -47,8 +48,8 @@ export const login = async (email: string, password: string): Promise<ILoginResp
 };
 
 export const fetchUserById = async (id: number, token: string): Promise<IUser> => {
-  return await fetchWithCallback('/user/', `?id=${id}`, {}, {
-    200: async resp => await resp.json() as IUser,
+  return await fetchWithCallback<IUser>('/user/', `?id=${id}`, {}, {
+    200: resp => resp.json() as Promise<IUser>,
   });
 };
 

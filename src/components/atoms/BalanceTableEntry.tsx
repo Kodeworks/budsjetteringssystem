@@ -23,10 +23,15 @@ const tableEntry: React.FC<IPropsTableEntry> = props => {
 
 const BalanceTableEntry = styled(tableEntry)`
   display: grid;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   grid-template-columns: 25% 25% 25% 25%;
   width: calc(90% - 1em);
   text-align: right;
+  background-color: ${props => props.theme.palette.background.paper};
+  box-shadow: ${props => props.theme.shadow};
+  border-radius: ${props => props.theme.shape.borderRadius};
+  padding: 10px;
+
   span {
     font-weight: 400;
     font-size: 0.85em;

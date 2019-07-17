@@ -50,7 +50,7 @@ const TransactionEntry: React.FC<IProps> = props => {
         {props.type === 'expense' ? `(${(money / 100).toFixed(2)})` : (money / 100).toFixed(2)}
       </strong>
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
-      <h6>{moment(props.date).format('L')}{props.recurring_id && `${'  ' + String.fromCharCode(183)} Recurring`}</h6>
+      <h6>{moment(props.date).format('L')}{props.recurring_id && `  ${String.fromCharCode(183)} Recurring`}</h6>
       <p>{displayNotes && props.notes}</p>
     </div>
   );
