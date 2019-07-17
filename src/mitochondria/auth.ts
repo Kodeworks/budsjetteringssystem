@@ -13,6 +13,10 @@ export const register = async (
   lastName: string,
   password: string
 ): Promise<ILoginResponse> => {
+  // We want to clear the tokens, as if not, it will fail if tokens are outdated when logging in!
+  localStorage.removeItem('access');
+  localStorage.removeItem('refresh');
+
   return await fetchWithCallback(
     '/user/',
     '',
@@ -44,6 +48,10 @@ export const login = async (
   email: string,
   password: string
 ): Promise<ILoginResponse> => {
+  // We want to clear the tokens, as if not, it will fail if tokens are outdated when logging in!
+  localStorage.removeItem('access');
+  localStorage.removeItem('refresh');
+
   return await fetchWithCallback(
     '/user/login/',
     '',
