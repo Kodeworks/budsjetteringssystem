@@ -18,11 +18,10 @@ interface IProps {
 const companyId = 1; // Hardcoded until we get a global company context.
 
 const createBalanceEntriesFromMonth = (month: IMonth) => {
-
-  const monthBalances: { [s: string]: {income: number, expense: number, liquidity: number}; } = {};
+  const monthBalances: { [s: string]: { income: number, expense: number, liquidity: number }; } = {};
   const sortedBalances = month.balance.sort((a, b) => (a.date <= b.date ? -1 : 1));
 
-  const firstOfMonth = moment({year: month.year, month: month.month - 1, day: 1});
+  const firstOfMonth = moment({ year: month.year, month: month.month - 1, day: 1 });
   monthBalances[firstOfMonth.format('YYYY-MM-DD')] = {
     expense: 0,
     income: 0,
@@ -47,15 +46,15 @@ const createBalanceEntriesFromMonth = (month: IMonth) => {
       date: be,
       expense: monthBalances[be].expense,
       income: monthBalances[be].income,
-      liquidity: monthBalances[be].liquidity});
+      liquidity: monthBalances[be].liquidity,
+    });
   });
   return balanceEntries;
 };
 
 const Balances: React.FC<IProps> = props => {
-
   const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(moment().startOf('month'));
-  const [entries, setEntries] = React.useState<{[s: string]: Array<IBalanceEntry>}>({});
+  const [entries, setEntries] = React.useState<{ [s: string]: Array<IBalanceEntry> }>({});
   const [showCalendar, setShowCalendar] = React.useState(true);
 
   React.useEffect(() => {
@@ -65,7 +64,7 @@ const Balances: React.FC<IProps> = props => {
       // API is indexing months starting from 1, therefore we need to add 1 to get correct result.
       BalancesAPI.getMonth(monthChosen.month() + 1, monthChosen.year(), companyId)
         .then(balanceEntries => {
-          const newEntries = {...entries};
+          const newEntries = { ...entries };
           if (balanceEntries.length !== 1) {
             newEntries[entryKey] = [];
           } else {
@@ -114,7 +113,3 @@ export default styled(Balances)`
     display: flex;
   }
 `;
-
-/*
-
-*/
