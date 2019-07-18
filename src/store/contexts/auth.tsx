@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {
+  AuthActions,
   authReducer,
   IAuthState,
   ICreatedAction,
@@ -16,6 +17,30 @@ const AuthDispatchContext = React.createContext<AuthDispatch | undefined>(
 
 const AuthProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(authReducer, initialState);
+
+  React.useEffect(() => {
+    (async () => {
+      const LSAccess = localStorage.getItem('access');
+      const LSRefresh = localStorage.getItem('refresh');
+      const LSId = Number(localStorage.getItem('user_id'));
+
+      if (LSAccess && LSRefresh && LSId) {
+        try {
+          /**
+           * We need to await the doSetUser function, as if not, the error won't be caught
+           * by the catch (e), and the user will not be logged out. This leads to a
+           * situation where you're stuck on the loading screen with an error saying
+           * the refresh token is expired. This is due to the fact that it is async.
+           */
+          AuthActions.doSetRefreshToken(LSRefresh, dispatch);
+          AuthActions.doSetAccessToken(LSAccess, dispatch);
+          await AuthActions.doSetUser(LSId, dispatch);
+        } catch (e) {
+          AuthActions.doLogout(dispatch);
+        }
+      }
+    })(); // IIFE
+  }, [dispatch]); // Only run on component mount
 
   return (
     <AuthStateContext.Provider value={state}>

@@ -1,10 +1,12 @@
 import * as React from 'react';
 
 import {
+  CompanyActions,
   companyReducer,
   CompanyState,
   ICreatedAction,
 } from '../reducers/company';
+import { useAuthState } from './auth';
 
 const initialState: CompanyState = [];
 
@@ -19,6 +21,18 @@ const CompanyDispatchContext = React.createContext<CompanyDispatch | undefined>(
 
 const CompanyProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(companyReducer, initialState);
+
+  const auth = useAuthState();
+
+  React.useEffect(() => {
+    if (!auth.user) {
+      return;
+    }
+
+    auth.user!.companies.forEach(company => {
+      CompanyActions.doAddCompany(company, dispatch);
+    });
+  }, [auth.user, dispatch]);
 
   return (
     <CompanyStateContext.Provider value={state}>

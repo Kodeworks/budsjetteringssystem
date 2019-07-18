@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { BrowserRouter } from 'react-router-dom';
-
 import { GlobalStyle } from './../styling/global';
 
 import { ThemeProvider } from 'styled-components';
 
+import { AuthProvider } from '../store/contexts/auth';
 import { CompanyProvider } from '../store/contexts/company';
 import { TransactionProvider } from '../store/contexts/transactions';
 import { theme } from './../styling/theme';
@@ -20,16 +19,16 @@ interface IWrapperProps {
 
 const GlobalWrapper: React.FC<IWrapperProps> = props => {
   return (
-    <CompanyProvider>
-      <TransactionProvider>
-        <GlobalStyle />
-        <BrowserRouter>
+    <AuthProvider>
+      <CompanyProvider>
+        <TransactionProvider>
+          <GlobalStyle />
           <ThemeProvider theme={theme}>
             <div className={props.className}>{props.children}</div>
           </ThemeProvider>
-        </BrowserRouter>
-      </TransactionProvider>
-    </CompanyProvider>
+        </TransactionProvider>
+      </CompanyProvider>
+    </AuthProvider>
   );
 };
 
