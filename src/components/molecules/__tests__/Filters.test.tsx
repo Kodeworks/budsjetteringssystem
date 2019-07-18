@@ -4,7 +4,7 @@ import {
   TransactionProvider,
   useTransactionDispatch,
 } from '../../../store/contexts/transactions';
-import { ActionCreators } from '../../../store/reducers/transactions';
+import { TransactionActions } from '../../../store/reducers/transactions';
 import { theme } from '../../../styling/theme';
 import { cleanup, fireEvent, render } from './../../../helpers/test-utils';
 
@@ -18,7 +18,7 @@ const dummyTxs = new Array(50).fill(0).map(createDummyTransaction);
 const Wrapper: React.FC = props => {
   const transactionDispatch = useTransactionDispatch();
   React.useEffect(() => {
-    transactionDispatch(ActionCreators.resetTransactions(dummyTxs));
+    TransactionActions.doResetTransactions(dummyTxs, transactionDispatch);
   }, [transactionDispatch]);
 
   return (

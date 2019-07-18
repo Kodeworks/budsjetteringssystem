@@ -42,7 +42,7 @@ export const doAddCompany = async (
  * Under here you will find action creators, the reducer, and created action creators.
  */
 
-const ActionCreatedCreators = {
+const CompanyActionCreators = {
   addCompany,
 };
 
@@ -53,7 +53,7 @@ export const CompanyActions = {
 // the return types of all the elements in ActionCreators
 // !! DO NOT TOUCH !!
 export type ICreatedAction = ReturnType<
-  typeof ActionCreatedCreators[keyof typeof ActionCreatedCreators]
+  typeof CompanyActionCreators[keyof typeof CompanyActionCreators]
 >;
 
 export const companyReducer = (

@@ -3,6 +3,14 @@ import React from 'react';
 import { IUser } from './../../declarations/user';
 import * as API from './../../mitochondria';
 
+// Action types
+const LOGIN = 'LOGIN' as const;
+const REGISTER = 'REGISTER' as const;
+const LOGOUT = 'LOGOUT' as const;
+const SET_USER = 'SET_USER' as const;
+const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN' as const;
+const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN' as const;
+
 export interface IAuthState {
   access: string;
   refresh: string;
@@ -17,7 +25,6 @@ export const initialState: IAuthState = {
 /**
  * Actions
  */
-const LOGIN = 'LOGIN' as const;
 const login = (args: API.ILoginResponse) => ({
   payload: args,
   type: LOGIN,
@@ -32,7 +39,6 @@ export async function doLogin(
   dispatch(login(resp));
 }
 
-const REGISTER = 'REGISTER' as const;
 const register = (args: API.ILoginResponse) => ({
   payload: args,
   type: REGISTER,
@@ -53,22 +59,18 @@ export async function doRegister(
   }
 }
 
-const LOGOUT = 'LOGOUT' as const;
 const logout = () => ({
   type: LOGOUT,
 });
-
 export const doLogout = (dispatch: React.Dispatch<ICreatedAction>) => {
   API.logout();
   dispatch(logout());
 };
 
-const SET_USER = 'SET_USER' as const;
 const setUser = (user: IUser) => ({
   payload: { user },
   type: SET_USER,
 });
-
 export async function doSetUser(
   id: number,
   dispatch: React.Dispatch<ICreatedAction>
@@ -77,7 +79,6 @@ export async function doSetUser(
   dispatch(setUser(user));
 }
 
-const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN' as const;
 const setAccessToken = (token: string) => ({
   payload: token,
   type: SET_ACCESS_TOKEN,
@@ -87,7 +88,6 @@ export const doSetAccessToken = (
   dispatch: React.Dispatch<ICreatedAction>
 ) => dispatch(setAccessToken(token));
 
-const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN' as const;
 const setRefreshToken = (token: string) => ({
   payload: token,
   type: SET_REFRESH_TOKEN,
@@ -101,7 +101,7 @@ export const doSetRefreshToken = (
  * Under here you will find action creators, the reducer, and created action creators.
  */
 
-const ActionCreatedCreators = {
+const AuthActionCreators = {
   login,
   logout,
   register,
@@ -122,7 +122,7 @@ export const AuthActions = {
 // the return types of all the elements in ActionCreators
 // !! DO NOT TOUCH !!
 export type ICreatedAction = ReturnType<
-  typeof ActionCreatedCreators[keyof typeof ActionCreatedCreators]
+  typeof AuthActionCreators[keyof typeof AuthActionCreators]
 >;
 
 export const authReducer = (
