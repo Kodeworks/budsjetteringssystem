@@ -30,7 +30,7 @@ const login = (args: API.ILoginResponse) => ({
   type: LOGIN,
 });
 
-export async function doLogin(
+async function doLogin(
   email: string,
   password: string,
   dispatch: React.Dispatch<ICreatedAction>
@@ -44,7 +44,7 @@ const register = (args: API.ILoginResponse) => ({
   type: REGISTER,
 });
 
-export async function doRegister(
+async function doRegister(
   firstName: string,
   lastName: string,
   email: string,
@@ -58,7 +58,7 @@ export async function doRegister(
 const logout = () => ({
   type: LOGOUT,
 });
-export const doLogout = (dispatch: React.Dispatch<ICreatedAction>) => {
+const doLogout = (dispatch: React.Dispatch<ICreatedAction>) => {
   API.logout();
   dispatch(logout());
 };
@@ -67,10 +67,7 @@ const setUser = (user: IUser) => ({
   payload: { user },
   type: SET_USER,
 });
-export async function doSetUser(
-  id: number,
-  dispatch: React.Dispatch<ICreatedAction>
-) {
+async function doSetUser(id: number, dispatch: React.Dispatch<ICreatedAction>) {
   const user = await API.getUserById(id);
   dispatch(setUser(user));
 }
@@ -79,7 +76,7 @@ const setAccessToken = (token: string) => ({
   payload: token,
   type: SET_ACCESS_TOKEN,
 });
-export const doSetAccessToken = (
+const doSetAccessToken = (
   token: string,
   dispatch: React.Dispatch<ICreatedAction>
 ) => dispatch(setAccessToken(token));
@@ -88,7 +85,7 @@ const setRefreshToken = (token: string) => ({
   payload: token,
   type: SET_REFRESH_TOKEN,
 });
-export const doSetRefreshToken = (
+const doSetRefreshToken = (
   token: string,
   dispatch: React.Dispatch<ICreatedAction>
 ) => dispatch(setRefreshToken(token));

@@ -23,7 +23,7 @@ const addCompany = (company: ICompanyWithUsers) => ({
  * @param companyId "The ID of the company to fetch."
  * @param dispatch "Dispatch function."
  */
-export const doAddCompany = async (
+const doAddCompany = async (
   companyId: number,
   dispatch: React.Dispatch<ICreatedAction>
 ) => {

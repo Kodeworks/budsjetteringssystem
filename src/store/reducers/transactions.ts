@@ -25,7 +25,7 @@ const addTransaction = (
  * @param dispatch The dispatch method from the TransactionDispatchContext
  * @throws "Error if return code is not 201"
  */
-export const doAddTransaction = async (
+const doAddTransaction = async (
   newTransaction: api.INewTransaction,
   dispatch: TransactionDispatch
 ) => {
@@ -42,10 +42,8 @@ const removeTransaction = (
   payload: tx,
   type: REMOVE_TRANSACTION,
 });
-export const doRemoveTransaction = (
-  tx: ITransaction,
-  dispatch: TransactionDispatch
-) => dispatch(removeTransaction(tx));
+const doRemoveTransaction = (tx: ITransaction, dispatch: TransactionDispatch) =>
+  dispatch(removeTransaction(tx));
 
 const resetTransactions = (
   init: Array<ITransaction> = []
@@ -53,7 +51,7 @@ const resetTransactions = (
   payload: init,
   type: RESET_TRANSACTIONS,
 });
-export const doResetTransactions = (
+const doResetTransactions = (
   init: Array<ITransaction> = [],
   dispatch: TransactionDispatch
 ) => dispatch(resetTransactions(init));
@@ -64,7 +62,7 @@ const addToIntermediary = (
   payload: id,
   type: INTERMEDIARY_ADD,
 });
-export const doAddToIntermediary = (
+const doAddToIntermediary = (
   id: ITransaction['id'],
   dispatch: TransactionDispatch
 ) => dispatch(addToIntermediary(id));
@@ -75,7 +73,7 @@ const removeFromIntermediary = (
   payload: id,
   type: INTERMEDIARY_REMOVE,
 });
-export const doRemoveFromIntermediary = (
+const doRemoveFromIntermediary = (
   id: ITransaction['id'],
   dispatch: TransactionDispatch
 ) => dispatch(removeFromIntermediary(id));
