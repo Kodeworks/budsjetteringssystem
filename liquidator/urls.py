@@ -18,7 +18,8 @@ from django.urls import include, path
 
 import custom_auth.urls
 import company.urls
-import transaction.urls
+import transaction.urls.transaction
+import transaction.urls.recurring
 import balance.urls
 
 
@@ -26,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include(custom_auth.urls)),
     path('company/', include(company.urls)),
-    path('transaction/', include(transaction.urls)),
+    path('transaction/', include(transaction.urls.transaction)),
+    path('recurring/', include(transaction.urls.recurring)),
     path('balance/', include(balance.urls)),
 ]
