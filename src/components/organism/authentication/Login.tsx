@@ -15,7 +15,7 @@ const Login: React.FC<RouteComponentProps<{}>> = props => {
       await AuthActions.doLogin(email, password, dispatch);
       props.history.push('/');
     } catch (e) {
-      setError(e);
+      setError(e.message);
     }
   };
 
