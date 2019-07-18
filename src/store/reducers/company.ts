@@ -46,7 +46,7 @@ const ActionCreatedCreators = {
   addCompany,
 };
 
-export const Perform = {
+export const CompanyActions = {
   doAddCompany,
 };
 

@@ -110,7 +110,7 @@ const ActionCreatedCreators = {
   setUser,
 };
 
-export const Perform = {
+export const AuthActions = {
   doLogin,
   doLogout,
   doRegister,

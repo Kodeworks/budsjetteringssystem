@@ -19,6 +19,12 @@ export const Companies: React.FC = props => {
           </ul>
         </div>
       ))}
+
+      <form>
+        <input type="text" />
+        <input type="number" />
+        <input type="submit" value="Create new company" />
+      </form>
     </>
   );
 };

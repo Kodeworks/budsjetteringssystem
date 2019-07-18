@@ -3,7 +3,7 @@ import React from 'react';
 import Authentication, { AuthType, IOnRegister } from './Authentication';
 
 import { useAuthDispatch } from '../../../store/contexts/auth';
-import { Perform } from '../../../store/reducers/auth';
+import { AuthActions } from '../../../store/reducers/auth';
 
 const Register: React.FC = props => {
   const dispatch = useAuthDispatch();
@@ -16,7 +16,7 @@ const Register: React.FC = props => {
     lastName,
   }: IOnRegister) => {
     try {
-      Perform.doRegister(firstName, lastName, email, password, dispatch);
+      AuthActions.doRegister(firstName, lastName, email, password, dispatch);
     } catch (e) {
       setError(e);
     }

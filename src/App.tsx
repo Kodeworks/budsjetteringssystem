@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Redirect, Route } from 'react-router';
 
-import { Perform } from './store/reducers/auth';
+import { AuthActions } from './store/reducers/auth';
 
 import { CompanyLoader } from './components/atoms/CompanyLoader';
 import Login from './components/organism/Authentication/Login';
@@ -43,11 +43,11 @@ const App: React.FC<IAppProps> = props => {
            * situation where you're stuck on the loading screen with an error saying
            * the refresh token is expired. This is due to the fact that it is async.
            */
-          Perform.doSetRefreshToken(LSRefresh, dispatch);
-          Perform.doSetAccessToken(LSAccess, dispatch);
-          await Perform.doSetUser(LSId, dispatch);
+          AuthActions.doSetRefreshToken(LSRefresh, dispatch);
+          AuthActions.doSetAccessToken(LSAccess, dispatch);
+          await AuthActions.doSetUser(LSId, dispatch);
         } catch (e) {
-          Perform.doLogout(dispatch);
+          AuthActions.doLogout(dispatch);
         }
       } else {
         setReadyToRedirect(true);
