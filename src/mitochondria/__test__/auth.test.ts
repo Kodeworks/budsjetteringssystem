@@ -40,15 +40,11 @@ describe('Authentication/Registration', () => {
       loginPassword
     );
     expect(registerResp).toEqual({
-      access,
-      refresh,
-      user: {
-        companies: [],
-        email: loginEmail,
-        first_name: loginFirstName,
-        id: 0,
-        last_name: loginLastName,
-      },
+      companies: [],
+      email: loginEmail,
+      first_name: loginFirstName,
+      id: 0,
+      last_name: loginLastName,
     });
   });
 
