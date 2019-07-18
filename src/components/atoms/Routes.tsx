@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuthState } from '../../store/contexts/auth';
 
-import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import Login from '../organism/Authentication/Login';
 import Register from '../organism/Authentication/Register';
 import Navigation from '../organism/Navigation';
@@ -24,34 +24,30 @@ const Routes: React.FC = props => {
 
   if (!authState.access) {
     return (
-      <BrowserRouter>
-        <>
-          <Route path="/" exact={true} component={Login} />
-          <Route path="/register" component={Register} />
-          {pageRoutes.map(e => (
-            <Route key={e} to={e}>
-              <Redirect to="/" />
-            </Route>
-          ))}
-        </>
-      </BrowserRouter>
+      <>
+        <Route path="/" exact={true} component={Login} />
+        <Route path="/register" component={Register} />
+        {pageRoutes.map(e => (
+          <Route key={e} to={e}>
+            <Redirect to="/" />
+          </Route>
+        ))}
+      </>
     );
   } else if (authState.access && !authState.user) {
     return <h1>Loading...</h1>;
   } else {
     return (
-      <BrowserRouter>
-        <>
-          <Navigation />
-          <Page>
-            <Route path="/" exact={true} component={Homepage} />
-            <Route path="/faq" component={FAQ} />
-            <Route path="/transactions" component={Transactions} />
-            <Route path="/balances" component={Balances} />
-            <Route path="/companies" component={Companies} />
-          </Page>
-        </>
-      </BrowserRouter>
+      <>
+        <Navigation />
+        <Page>
+          <Route path="/" exact={true} component={Homepage} />
+          <Route path="/faq" component={FAQ} />
+          <Route path="/transactions" component={Transactions} />
+          <Route path="/balances" component={Balances} />
+          <Route path="/companies" component={Companies} />
+        </Page>
+      </>
     );
   }
 };
