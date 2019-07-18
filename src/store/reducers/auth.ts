@@ -51,12 +51,8 @@ export async function doRegister(
   password: string,
   dispatch: React.Dispatch<ICreatedAction>
 ) {
-  try {
-    const resp = await API.register(email, password, firstName, lastName);
-    dispatch(register(resp));
-  } catch (e) {
-    throw new Error(e);
-  }
+  const resp = await Auth.register(email, firstName, lastName, password);
+  dispatch(register(resp));
 }
 
 const logout = () => ({

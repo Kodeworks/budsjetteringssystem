@@ -1,7 +1,7 @@
 import 'jest-dom/extend-expect';
 import React from 'react';
 import { cleanup, render } from '../../../helpers/test-utils';
-import Authentication, { AuthType } from '../Authentication/Authentication';
+import Authentication, { AuthType } from '../authentication/Authentication';
 
 afterEach(cleanup);
 
