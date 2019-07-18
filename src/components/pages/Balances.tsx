@@ -70,30 +70,28 @@ const Balances: React.FC<IProps> = props => {
   const [showCalendar, setShowCalendar] = React.useState(true);
 
   React.useEffect(() => {
-    const entryKey = monthChosen.format('YYYY-MM');
+    (async () => {
+      const entryKey = monthChosen.format('YYYY-MM');
 
-    if (!(entryKey in entries)) {
-      // API is indexing months starting from 1, therefore we need to add 1 to get correct result.
-      BalancesAPI.getMonth(
-        monthChosen.month() + 1,
-        monthChosen.year(),
-        companyId
-      )
-        .then(balanceEntries => {
-          const newEntries = { ...entries };
-          if (balanceEntries.length !== 1) {
-            newEntries[entryKey] = [];
-          } else {
-            newEntries[entryKey] = createBalanceEntriesFromMonth(
-              balanceEntries[0]
-            );
-          }
-          setEntries(newEntries);
-        })
-        .catch(error => {
-          alert(error);
-        });
-    }
+      if (!(entryKey in entries)) {
+        // API is indexing months starting from 1, therefore we need to add 1 to get correct result.
+        const balanceEntries = await BalancesAPI.getMonth(
+          monthChosen.month() + 1,
+          monthChosen.year(),
+          companyId
+        );
+
+        const newEntries = { ...entries };
+        if (balanceEntries.length !== 1) {
+          newEntries[entryKey] = [];
+        } else {
+          newEntries[entryKey] = createBalanceEntriesFromMonth(
+            balanceEntries[0]
+          );
+        }
+        setEntries(newEntries);
+      }
+    })();
   }, [monthChosen, entries]);
 
   const entriesIndex = monthChosen.format('YYYY-MM');
