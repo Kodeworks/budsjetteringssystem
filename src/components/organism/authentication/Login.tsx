@@ -19,7 +19,11 @@ const Login: React.FC = props => {
   };
 
   return (
-    <Authentication type={AuthType.Login} error={error} onLogin={handleSubmit} />
+    <Authentication
+      type={AuthType.Login}
+      error={error}
+      onLogin={handleSubmit}
+    />
   );
 };
 

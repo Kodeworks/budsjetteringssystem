@@ -6,11 +6,11 @@ import { Redirect, Route } from 'react-router';
 
 import { initialState, Perform, reducer } from './store/reducers/auth';
 
-import Login from './components/organism/Authentication/Login';
-import Register from './components/organism/Authentication/Register';
-import Balances from './components/organism/Balances';
+import Login from './components/organism/authentication/Login';
+import Register from './components/organism/authentication/Register';
 import Navigation from './components/organism/Navigation';
 import Transactions from './components/organism/Transactions';
+import Balances from './components/pages/Balances';
 import FAQ from './components/pages/FAQ';
 import Homepage from './components/pages/Homepage';
 import Page from './components/templates/Page';
@@ -51,9 +51,7 @@ const App: React.FC<IAppProps> = props => {
   }, []); // Only run on component mount
 
   if (auth.user === undefined && (auth.access && auth.refresh)) {
-    return (
-      <p>Loading...</p>
-    );
+    return <p>Loading...</p>;
   }
 
   if (!AuthCtx) {
@@ -63,23 +61,24 @@ const App: React.FC<IAppProps> = props => {
   /**
    * We're using this to handle redirects to the login page when logging out or going to a wrong page
    */
-  const pageRoutes: Array<string> = [
-    '/faq',
-    '/transactions',
-  ];
+  const pageRoutes: Array<string> = ['/faq', '/transactions'];
 
   if (!auth.access) {
     return (
       <Wrap className={props.className} auth={{ store: auth, dispatch }}>
         <Route path="/" exact={true} component={Login} />
         <Route path="/register" component={Register} />
-        {pageRoutes.map(e => <Route key={e} to={e}><Redirect to="/" /></Route>)}
+        {pageRoutes.map(e => (
+          <Route key={e} to={e}>
+            <Redirect to="/" />
+          </Route>
+        ))}
       </Wrap>
     );
   }
 
   return (
-    <Wrap className={props.className} auth={{store: auth, dispatch}}>
+    <Wrap className={props.className} auth={{ store: auth, dispatch }}>
       <TransactionMocker quantity={100} />
       <Navigation />
       <Page>
@@ -106,7 +105,7 @@ export default styled(App)`
     overflow-y: hidden;
   }
 
-  &>section {
+  & > section {
     overflow-y: auto;
   }
 `;

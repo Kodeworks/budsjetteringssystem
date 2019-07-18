@@ -1,8 +1,10 @@
-import {storiesOf} from '@storybook/react';
-import {themes} from '@storybook/theming';
+import { storiesOf } from '@storybook/react';
+import { themes } from '@storybook/theming';
 import React from 'react';
 
-import Authentication, { AuthType } from '../components/organism/Authentication/Authentication';
+import Authentication, {
+  AuthType,
+} from '../components/organism/authentication/Authentication';
 
 //  const Wrapper = styled.div`
 //   min-width: 200px;

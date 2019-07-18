@@ -28,7 +28,7 @@ export default styled(NavigationBrand)`
 
   /* Font */
   h2 {
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 300;
     color: white;
   }

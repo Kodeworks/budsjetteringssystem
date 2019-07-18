@@ -21,9 +21,13 @@ const MonthPicker: React.FC<IProps> = props => {
     <div className={props.className}>
       <h2>Month</h2>
       <h5>
-        <span className={'decrease'} onClick={decreaseMonth}>{'<  '}</span>
+        <span className={'decrease'} onClick={decreaseMonth}>
+          {'<  '}
+        </span>
         <span>{props.month.format('MMM YY')}</span>
-        <span className={'increase'} onClick={increaseMonth}>{'  >'}</span>
+        <span className={'increase'} onClick={increaseMonth}>
+          {'  >'}
+        </span>
       </h5>
     </div>
   );
@@ -34,9 +38,7 @@ export default styled(MonthPicker)`
   display: grid;
   grid-template-columns: 95%;
   text-align: center;
-  width: 10%
-
-  h5 {
+  width: 10% h5 {
     font-size: 1em;
     font-weight: 400;
     padding: 7px 2px;
@@ -44,7 +46,8 @@ export default styled(MonthPicker)`
     box-shadow: ${props => props.theme.shadow};
     border-radius: ${props => props.theme.shape.borderRadius};
   }
-  .increase, .decrease {
+  .increase,
+  .decrease {
     cursor: pointer;
     font-weight: bold;
   }

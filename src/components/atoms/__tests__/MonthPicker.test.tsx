@@ -8,9 +8,10 @@ interface IProps {
 }
 
 test('MonthPicker renders and updates month when clicked', () => {
-
-  const WrapperFC: React.FC<IProps> = (props) => {
-    const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(props.startMonth);
+  const WrapperFC: React.FC<IProps> = props => {
+    const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(
+      props.startMonth
+    );
 
     return (
       <div className={'wrapper-fc'}>
@@ -18,12 +19,10 @@ test('MonthPicker renders and updates month when clicked', () => {
         <MonthPicker month={monthChosen} setState={setMonthChosen} />
       </div>
     );
-  } ;
+  };
 
   const startMonth = moment();
-  const { container } = render((
-    <WrapperFC startMonth={startMonth}/>
-  ));
+  const { container } = render(<WrapperFC startMonth={startMonth} />);
   const title = container.querySelector('h2');
   const monthState = container.querySelector('p');
   const monthDecrease = container.querySelector('.decrease');
@@ -42,14 +41,21 @@ test('MonthPicker renders and updates month when clicked', () => {
 
   if (monthDecrease && monthState) {
     fireEvent.click(monthDecrease);
-    expect(monthText.textContent).toEqual(startMonth.clone().subtract(1, 'month').format('MMM YY'));
+    expect(monthText.textContent).toEqual(
+      startMonth
+        .clone()
+        .subtract(1, 'month')
+        .format('MMM YY')
+    );
     expect(monthText.textContent).toEqual(monthState.textContent);
   }
 
   if (monthIncrease && monthState) {
     fireEvent.click(monthIncrease);
     fireEvent.click(monthIncrease);
-    expect(monthText.textContent).toEqual(startMonth.add(1, 'month').format('MMM YY'));
+    expect(monthText.textContent).toEqual(
+      startMonth.add(1, 'month').format('MMM YY')
+    );
     expect(monthText.textContent).toEqual(monthState.textContent);
   }
 });

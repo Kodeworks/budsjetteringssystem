@@ -7,9 +7,9 @@ interface IBalancesViewPickerProps {
   setShowCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ViewPicker: React.FC<IBalancesViewPickerProps> = (props) => {
+const ViewPicker: React.FC<IBalancesViewPickerProps> = props => {
   const onViewChange = (event: React.FormEvent<HTMLSelectElement>) => {
-   props.setShowCalendar(event.currentTarget.value === 'calendar');
+    props.setShowCalendar(event.currentTarget.value === 'calendar');
   };
 
   return (

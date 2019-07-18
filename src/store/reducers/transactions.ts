@@ -22,7 +22,7 @@ const INTERMEDIARY_REMOVE = 'INTERMEDIARY_REMOVE';
  * @param {ITransaction} tx - A transaction entry
  */
 const addTransaction = (
-  tx: ITransaction,
+  tx: ITransaction
 ): { type: typeof ADD_TRANSACTION; tx: ITransaction } => ({
   tx,
   type: ADD_TRANSACTION,
@@ -36,7 +36,7 @@ const addTransaction = (
  */
 const createTransaction = async (
   newTransaction: api.INewTransaction,
-  dispatch: TransactionDispatch,
+  dispatch: TransactionDispatch
 ) => {
   // All values are stored as hundreths in state and database.
   newTransaction.money *= 100;
@@ -51,14 +51,14 @@ const createTransaction = async (
  * @param {ITransaction} tx - A transaction entry
  */
 const removeTransaction = (
-  tx: ITransaction,
+  tx: ITransaction
 ): { type: typeof REMOVE_TRANSACTION; tx: ITransaction } => ({
   tx,
   type: REMOVE_TRANSACTION,
 });
 
 const resetTransactions = (
-  init?: Array<ITransaction>,
+  init?: Array<ITransaction>
 ): { payload: Array<ITransaction>; type: typeof RESET_TRANSACTIONS } => ({
   payload: init ? init : [],
   type: RESET_TRANSACTIONS,
@@ -70,7 +70,7 @@ const resetTransactions = (
  * @param {ITransaction['id']} id - A transaction entry id
  */
 const addToIntermediary = (
-  id: ITransaction['id'],
+  id: ITransaction['id']
 ): { type: typeof INTERMEDIARY_ADD; id: ITransaction['id'] } => ({
   id,
   type: INTERMEDIARY_ADD,
@@ -82,7 +82,7 @@ const addToIntermediary = (
  * @param {ITransaction['id']} id - A transaction entry id
  */
 const removeFromIntermediary = (
-  id: ITransaction['id'],
+  id: ITransaction['id']
 ): { type: typeof INTERMEDIARY_REMOVE; id: ITransaction['id'] } => ({
   id,
   type: INTERMEDIARY_REMOVE,
@@ -121,7 +121,7 @@ export interface ITransactionState {
  */
 const reducer = (
   state: ITransactionState,
-  action: ActionType,
+  action: ActionType
 ): ITransactionState => {
   switch (action.type) {
     case ADD_TRANSACTION:
