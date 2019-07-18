@@ -16,7 +16,8 @@ test('createTransaction should return with a valid new transaction with id', asy
   } as INewTransaction;
   // See https://github.com/nock/nock on using nock to mock API responses.
   nock('http://localhost:8000')
-    .defaultReplyHeaders({ // because of CORS in development, the three next lines are necessary.
+    .defaultReplyHeaders({
+      // because of CORS in development, the three next lines are necessary.
       'access-control-allow-headers': 'authorization',
       'access-control-allow-origin': '*',
     })

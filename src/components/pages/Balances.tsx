@@ -115,8 +115,8 @@ const Balances: React.FC<IProps> = props => {
             entries={entries[entriesIndex] || []}
           />
         ) : (
-            <BalancesTable entries={entries[entriesIndex] || []} />
-          )}
+          <BalancesTable entries={entries[entriesIndex] || []} />
+        )}
       </div>
     </div>
   );
