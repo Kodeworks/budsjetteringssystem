@@ -11,14 +11,14 @@ const Register: React.FC<RouteComponentProps<{}>> = props => {
   const authDispatch = useAuthDispatch();
   const [error, setError] = React.useState('');
 
-  const handleSubmit = ({
+  const handleSubmit = async ({
     email,
     password,
     firstName,
     lastName,
   }: IOnRegister) => {
     try {
-      AuthActions.doRegister(
+      await AuthActions.doRegister(
         firstName,
         lastName,
         email,
