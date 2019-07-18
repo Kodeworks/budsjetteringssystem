@@ -3,14 +3,14 @@ import * as React from 'react';
 import {
   AuthActions,
   authReducer,
-  IAuthState,
+  AuthState,
   ICreatedAction,
   initialState,
 } from '../reducers/auth';
 
 export type AuthDispatch = React.Dispatch<ICreatedAction>;
 
-const AuthStateContext = React.createContext<IAuthState | undefined>(undefined);
+const AuthStateContext = React.createContext<AuthState | undefined>(undefined);
 const AuthDispatchContext = React.createContext<AuthDispatch | undefined>(
   undefined
 );
@@ -32,8 +32,6 @@ const AuthProvider: React.FC = ({ children }) => {
            * situation where you're stuck on the loading screen with an error saying
            * the refresh token is expired. This is due to the fact that it is async.
            */
-          AuthActions.doSetRefreshToken(LSRefresh, dispatch);
-          AuthActions.doSetAccessToken(LSAccess, dispatch);
           await AuthActions.doSetUser(LSId, dispatch);
         } catch (e) {
           AuthActions.doLogout(dispatch);
@@ -80,7 +78,7 @@ const useAuthDispatch = (): AuthDispatch => {
   return context;
 };
 
-export type AuthContextType = [IAuthState, AuthDispatch];
+export type AuthContextType = [AuthState, AuthDispatch];
 /**
  * Returns the current state AND the dispatch of the Auth context.
  */

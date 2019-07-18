@@ -1,10 +1,11 @@
-import { IAuth } from '../declarations/auth';
 import { IUser } from '../declarations/user';
 
 import { fetchWithCallback } from '.';
 
-export interface ILoginResponse extends IAuth {
+export interface ILoginResponse {
   user: IUser;
+  access: string;
+  refresh: string;
 }
 
 export const register = async (
@@ -12,12 +13,12 @@ export const register = async (
   firstName: string,
   lastName: string,
   password: string
-): Promise<ILoginResponse> => {
+): Promise<IUser> => {
   // We want to clear the tokens, as if not, it will fail if tokens are outdated when logging in!
   localStorage.removeItem('access');
   localStorage.removeItem('refresh');
 
-  return await fetchWithCallback(
+  return await fetchWithCallback<IUser>(
     '/user/',
     '',
     {
@@ -36,9 +37,9 @@ export const register = async (
         localStorage.setItem('access', parsedRes.access);
         localStorage.setItem('refresh', parsedRes.refresh);
 
-        localStorage.setItem('user_id', parsedRes.user!.id.toString());
+        localStorage.setItem('user_id', parsedRes.user.id.toString());
 
-        return parsedRes;
+        return parsedRes.user;
       },
     }
   );
@@ -47,12 +48,12 @@ export const register = async (
 export const login = async (
   email: string,
   password: string
-): Promise<ILoginResponse> => {
+): Promise<IUser> => {
   // We want to clear the tokens, as if not, it will fail if tokens are outdated when logging in!
   localStorage.removeItem('access');
   localStorage.removeItem('refresh');
 
-  return await fetchWithCallback(
+  return await fetchWithCallback<IUser>(
     '/user/login/',
     '',
     {
@@ -66,9 +67,9 @@ export const login = async (
         localStorage.setItem('access', parsedRes.access);
         localStorage.setItem('refresh', parsedRes.refresh);
 
-        localStorage.setItem('user_id', parsedRes.user!.id.toString());
+        localStorage.setItem('user_id', parsedRes.user.id.toString());
 
-        return parsedRes;
+        return parsedRes.user;
       },
     }
   );

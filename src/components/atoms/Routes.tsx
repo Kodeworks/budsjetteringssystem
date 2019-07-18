@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuthState } from '../../store/contexts/auth';
 
-import { Redirect, Route } from 'react-router-dom';
+import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import Login from '../organism/authentication/Login';
 import Register from '../organism/authentication/Register';
 import Navigation from '../organism/Navigation';
@@ -12,29 +12,22 @@ import FAQ from '../pages/FAQ';
 import Homepage from '../pages/Homepage';
 import Page from '../templates/Page';
 
-const pageRoutes: Array<string> = [
-  '/faq',
-  '/transactions',
-  '/companies',
-  '/balances',
-];
+const Routes: React.FC<RouteComponentProps<{}>> = props => {
+  const user = useAuthState();
 
-const Routes: React.FC = props => {
-  const authState = useAuthState();
+  if (!localStorage.getItem('access')) {
+    // If path is not /login or /register. Done like this to make the list easy to extend
+    if (['/login', '/register'].indexOf(props.location.pathname) === -1) {
+      props.history.push('/login');
+    }
 
-  if (!authState.access) {
     return (
       <>
-        <Route path="/" exact={true} component={Login} />
+        <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        {pageRoutes.map(e => (
-          <Route key={e} to={e}>
-            <Redirect to="/" />
-          </Route>
-        ))}
       </>
     );
-  } else if (authState.access && !authState.user) {
+  } else if (localStorage.getItem('access') && !user) {
     return <h1>Loading...</h1>;
   } else {
     return (
@@ -52,4 +45,4 @@ const Routes: React.FC = props => {
   }
 };
 
-export default Routes;
+export default withRouter(Routes);

@@ -8,24 +8,15 @@ const LOGIN = 'LOGIN' as const;
 const REGISTER = 'REGISTER' as const;
 const LOGOUT = 'LOGOUT' as const;
 const SET_USER = 'SET_USER' as const;
-const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN' as const;
-const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN' as const;
 
-export interface IAuthState {
-  access: string;
-  refresh: string;
-  user?: IUser;
-}
+export type AuthState = IUser | null;
 
-export const initialState: IAuthState = {
-  access: '',
-  refresh: '',
-};
+export const initialState: AuthState = null;
 
 /**
  * Actions
  */
-const login = (args: API.ILoginResponse) => ({
+const login = (args: IUser) => ({
   payload: args,
   type: LOGIN,
 });
@@ -39,7 +30,7 @@ async function doLogin(
   dispatch(login(resp));
 }
 
-const register = (args: API.ILoginResponse) => ({
+const register = (args: IUser) => ({
   payload: args,
   type: REGISTER,
 });
@@ -72,24 +63,6 @@ async function doSetUser(id: number, dispatch: React.Dispatch<ICreatedAction>) {
   dispatch(setUser(user));
 }
 
-const setAccessToken = (token: string) => ({
-  payload: token,
-  type: SET_ACCESS_TOKEN,
-});
-const doSetAccessToken = (
-  token: string,
-  dispatch: React.Dispatch<ICreatedAction>
-) => dispatch(setAccessToken(token));
-
-const setRefreshToken = (token: string) => ({
-  payload: token,
-  type: SET_REFRESH_TOKEN,
-});
-const doSetRefreshToken = (
-  token: string,
-  dispatch: React.Dispatch<ICreatedAction>
-) => dispatch(setRefreshToken(token));
-
 /**
  * Under here you will find action creators, the reducer, and created action creators.
  */
@@ -98,8 +71,6 @@ const AuthActionCreators = {
   login,
   logout,
   register,
-  setAccessToken,
-  setRefreshToken,
   setUser,
 };
 
@@ -107,8 +78,6 @@ export const AuthActions = {
   doLogin,
   doLogout,
   doRegister,
-  doSetAccessToken,
-  doSetRefreshToken,
   doSetUser,
 };
 
@@ -119,22 +88,18 @@ export type ICreatedAction = ReturnType<
 >;
 
 export const authReducer = (
-  state: IAuthState,
+  state: AuthState,
   action: ICreatedAction
-): IAuthState => {
+): AuthState => {
   switch (action.type) {
     case LOGIN:
       return action.payload;
     case REGISTER:
       return action.payload;
     case LOGOUT:
-      return { access: '', refresh: '' };
+      return null;
     case SET_USER:
-      return { ...state, user: action.payload.user };
-    case SET_ACCESS_TOKEN:
-      return { ...state, access: action.payload };
-    case SET_REFRESH_TOKEN:
-      return { ...state, refresh: action.payload };
+      return action.payload.user;
   }
 
   return state;

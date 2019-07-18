@@ -22,17 +22,17 @@ const CompanyDispatchContext = React.createContext<CompanyDispatch | undefined>(
 const CompanyProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(companyReducer, initialState);
 
-  const auth = useAuthState();
+  const user = useAuthState();
 
   React.useEffect(() => {
-    if (!auth.user) {
+    if (!user) {
       return;
     }
 
-    auth.user!.companies.forEach(company => {
+    user!.companies.forEach(company => {
       CompanyActions.doAddCompany(company, dispatch);
     });
-  }, [auth.user, dispatch]);
+  }, [user, dispatch]);
 
   return (
     <CompanyStateContext.Provider value={state}>
