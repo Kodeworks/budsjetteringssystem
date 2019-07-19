@@ -1,3 +1,4 @@
+import { IPaginated } from './pagination';
 import { ITransaction } from './transaction';
 
 export interface IBalance {
@@ -15,4 +16,8 @@ export interface IMonth {
   lowest_balance: number;
   next: string;
   previous: string;
+}
+
+export interface IPaginatedMonths extends IPaginated {
+  months: Array<IMonth>;
 }

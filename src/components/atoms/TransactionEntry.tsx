@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { ITransaction, TransactionType } from '../../declarations/transaction';
 import { useTransactions } from '../../store/contexts/transactions';
-import { ActionCreators } from '../../store/reducers/transactions';
+import { TransactionActions } from '../../store/reducers/transactions';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => (props.type === 'expense' ? '#ff6961' : '#77dd77')};
@@ -37,8 +37,8 @@ const TransactionEntry: React.FC<IProps> = props => {
 
   const onClick = () =>
     isInIntermediary
-      ? dispatch(ActionCreators.removeFromIntermediary(props.id))
-      : dispatch(ActionCreators.addToIntermediary(props.id));
+      ? TransactionActions.doRemoveFromIntermediary(props.id, dispatch)
+      : TransactionActions.doAddToIntermediary(props.id, dispatch);
 
   return (
     <div

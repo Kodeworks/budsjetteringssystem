@@ -2,39 +2,30 @@ import * as api from '../../mitochondria';
 import { ITransaction } from './../../declarations/transaction';
 import { TransactionDispatch } from './../contexts/transactions';
 
-/**
- * Action types
- */
+// Action types
 const ADD_TRANSACTION = 'ADD_TRANSACTION';
 const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION';
 const RESET_TRANSACTIONS = 'RESET_TRANSACTIONS'; // mostly for testing purposes.
 const INTERMEDIARY_ADD = 'INTERMEDIARY_ADD';
 const INTERMEDIARY_REMOVE = 'INTERMEDIARY_REMOVE';
 
-// Action Creators
-//
 // You need to define the return-type to have the typeof ADD_TRANSACTION as it will not be able to
 // infer that it is actually just a const string - by default it will infer a string.
 
-/**
- * Action creator: Add transaction to account
- *
- * @param {ITransaction} tx - A transaction entry
- */
 const addTransaction = (
   tx: ITransaction
-): { type: typeof ADD_TRANSACTION; tx: ITransaction } => ({
-  tx,
+): { type: typeof ADD_TRANSACTION; payload: ITransaction } => ({
+  payload: tx,
   type: ADD_TRANSACTION,
 });
 
 /**
- * This is a helper function for creating a new Transaction.
  * It posts the new transaction to the API and dispatches an ADD_TRANSACTION action if successful.
  * @param newTransaction The new transaction that is to be posted to the API
  * @param dispatch The dispatch method from the TransactionDispatchContext
+ * @throws "Error if return code is not 201"
  */
-const createTransaction = async (
+const doAddTransaction = async (
   newTransaction: api.INewTransaction,
   dispatch: TransactionDispatch
 ) => {
@@ -45,54 +36,49 @@ const createTransaction = async (
   dispatch(addTransaction(createdTransaction));
 };
 
-/**
- * Action creator: Remove transaction from account
- *
- * @param {ITransaction} tx - A transaction entry
- */
 const removeTransaction = (
   tx: ITransaction
-): { type: typeof REMOVE_TRANSACTION; tx: ITransaction } => ({
-  tx,
+): { type: typeof REMOVE_TRANSACTION; payload: ITransaction } => ({
+  payload: tx,
   type: REMOVE_TRANSACTION,
 });
+const doRemoveTransaction = (tx: ITransaction, dispatch: TransactionDispatch) =>
+  dispatch(removeTransaction(tx));
 
 const resetTransactions = (
-  init?: Array<ITransaction>
+  init: Array<ITransaction> = []
 ): { payload: Array<ITransaction>; type: typeof RESET_TRANSACTIONS } => ({
-  payload: init ? init : [],
+  payload: init,
   type: RESET_TRANSACTIONS,
 });
+const doResetTransactions = (
+  init: Array<ITransaction> = [],
+  dispatch: TransactionDispatch
+) => dispatch(resetTransactions(init));
 
-/**
- * Action creator: Add transaction to accumulator tool (calculator)
- *
- * @param {ITransaction['id']} id - A transaction entry id
- */
 const addToIntermediary = (
   id: ITransaction['id']
-): { type: typeof INTERMEDIARY_ADD; id: ITransaction['id'] } => ({
-  id,
+): { type: typeof INTERMEDIARY_ADD; payload: ITransaction['id'] } => ({
+  payload: id,
   type: INTERMEDIARY_ADD,
 });
+const doAddToIntermediary = (
+  id: ITransaction['id'],
+  dispatch: TransactionDispatch
+) => dispatch(addToIntermediary(id));
 
-/**
- * Action creator: Remove transaction from accumulator tool (calculator)
- *
- * @param {ITransaction['id']} id - A transaction entry id
- */
 const removeFromIntermediary = (
   id: ITransaction['id']
-): { type: typeof INTERMEDIARY_REMOVE; id: ITransaction['id'] } => ({
-  id,
+): { type: typeof INTERMEDIARY_REMOVE; payload: ITransaction['id'] } => ({
+  payload: id,
   type: INTERMEDIARY_REMOVE,
 });
+const doRemoveFromIntermediary = (
+  id: ITransaction['id'],
+  dispatch: TransactionDispatch
+) => dispatch(removeFromIntermediary(id));
 
-/**
- * An object with all actioncreators, which can easily be exported.
- * (See exports at the bottom of the file.)
- */
-const ActionCreators = {
+export const TransactionActionCreators = {
   addToIntermediary,
   addTransaction,
   removeFromIntermediary,
@@ -100,12 +86,20 @@ const ActionCreators = {
   resetTransactions,
 };
 
+export const TransactionActions = {
+  doAddToIntermediary,
+  doAddTransaction,
+  doRemoveFromIntermediary,
+  doRemoveTransaction,
+  doResetTransactions,
+};
+
 /**
  * The return types of all the elements in ActionCreators
  * NOTE: Should not be modified!
  */
 export type ActionType = ReturnType<
-  typeof ActionCreators[keyof typeof ActionCreators]
+  typeof TransactionActionCreators[keyof typeof TransactionActionCreators]
 >;
 
 export interface ITransactionState {
@@ -113,30 +107,32 @@ export interface ITransactionState {
   intermediary: Array<ITransaction['id']>;
 }
 
-/**
- * Transactions reducer
- * Takes old state and an action as arguments, and returns the new state.
- * @param {ITransactionState} state - The current or initial state of the transaction context
- * @param {ActionType} action - The type of action being dispatched.
- */
-const reducer = (
+export const transactionReducer = (
   state: ITransactionState,
   action: ActionType
 ): ITransactionState => {
   switch (action.type) {
     case ADD_TRANSACTION:
-      return { ...state, transactions: [...state.transactions, action.tx] };
+      return {
+        ...state,
+        transactions: [...state.transactions, action.payload],
+      };
     case REMOVE_TRANSACTION:
       return {
         ...state,
-        transactions: state.transactions.filter(e => e.id !== action.tx.id),
+        transactions: state.transactions.filter(
+          e => e.id !== action.payload.id
+        ),
       };
     case INTERMEDIARY_ADD:
-      return { ...state, intermediary: [...state.intermediary, action.id] };
+      return {
+        ...state,
+        intermediary: [...state.intermediary, action.payload],
+      };
     case INTERMEDIARY_REMOVE:
       return {
         ...state,
-        intermediary: state.intermediary.filter(id => id !== action.id),
+        intermediary: state.intermediary.filter(id => id !== action.payload),
       };
     case RESET_TRANSACTIONS:
       return {
@@ -147,5 +143,3 @@ const reducer = (
       return state;
   }
 };
-
-export { ActionCreators, reducer as transactionReducer, createTransaction };

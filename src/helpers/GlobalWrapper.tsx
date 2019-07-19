@@ -1,26 +1,17 @@
 import React from 'react';
 
-import { AuthCtx } from '../store/contexts/auth';
-
-import { BrowserRouter } from 'react-router-dom';
-
 import { GlobalStyle } from './../styling/global';
-
-import { IAuthContext } from '../store/contexts/auth';
 
 import { ThemeProvider } from 'styled-components';
 
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from '../store/contexts/auth';
+import { CompanyProvider } from '../store/contexts/company';
 import { TransactionProvider } from '../store/contexts/transactions';
 import { theme } from './../styling/theme';
 
 interface IWrapperProps {
   className?: string;
-
-  /**
-   * This is OPTIONAL as tests often don't need access to authentication related stuff, but we're
-   * using this globally.
-   */
-  auth?: IAuthContext;
 }
 
 /**
@@ -28,25 +19,19 @@ interface IWrapperProps {
  */
 
 const GlobalWrapper: React.FC<IWrapperProps> = props => {
-  const WrapWithAuth: React.FC = ({ children }) => {
-    return props.auth ? (
-      <AuthCtx.Provider value={props.auth}>{children}</AuthCtx.Provider>
-    ) : (
-      <>{children}</>
-    );
-  };
-
   return (
-    <WrapWithAuth>
-      <TransactionProvider>
-        <GlobalStyle />
-        <BrowserRouter>
-          <ThemeProvider theme={theme}>
-            <div className={props.className}>{props.children}</div>
-          </ThemeProvider>
-        </BrowserRouter>
-      </TransactionProvider>
-    </WrapWithAuth>
+    <BrowserRouter>
+      <AuthProvider>
+        <CompanyProvider>
+          <TransactionProvider>
+            <GlobalStyle />
+            <ThemeProvider theme={theme}>
+              <div className={props.className}>{props.children}</div>
+            </ThemeProvider>
+          </TransactionProvider>
+        </CompanyProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 };
 
