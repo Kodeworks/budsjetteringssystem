@@ -59,7 +59,7 @@ class RecurringAllView(RecurringTransactionMixin, ListView):
 
 class RecurringActive(RecurringTransactionMixin, ListView):
     def get_queryset(self):
-        return super().get_queryset().filter(end_date__gte=date.today())
+        return super().get_queryset().filter(start_date__lte=date.today(), end_date__gte=date.today())
 
 
 # The two following can make use of code from month (do later).

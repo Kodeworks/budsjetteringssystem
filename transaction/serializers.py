@@ -3,19 +3,19 @@ from base.serializers import LiquidatorSerializer
 from .models import Transaction, RecurringTransaction, TransactionTemplate
 
 
-class TransactionSerializer(LiquidatorSerializer, serializers.ModelSerializer):
+class TransactionSerializer(LiquidatorSerializer):
     class Meta:
         model = Transaction
         fields = ('id', 'money', 'type', 'description', 'notes', 'date', 'company', 'recurring_transaction')
 
 
-class TransactionTemplateSerializer(LiquidatorSerializer, serializers.ModelSerializer):
+class TransactionTemplateSerializer(LiquidatorSerializer):
     class Meta:
         model = TransactionTemplate
         fields = ['id', 'money', 'type', 'description', 'notes']
 
 
-class RecurringTransactionSerializer(LiquidatorSerializer, serializers.ModelSerializer):
+class RecurringTransactionSerializer(LiquidatorSerializer):
     template = TransactionTemplateSerializer(many=False)
 
     class Meta:
@@ -29,13 +29,7 @@ class RecurringTransactionSerializer(LiquidatorSerializer, serializers.ModelSeri
         return RecurringTransaction.objects.create(template=template, **validated_data)
 
     def update(self, instance, validated_data):
-        #  TODO: Rewrite this?
-
-        template_data = validated_data.pop('template')
-        old_template = instance.template
-        for attribute, value in template_data.items():
-            setattr(old_template, attribute, value)
-        old_template.save()
+        TransactionTemplate.objects.filter(id=instance.template.id).update(**validated_data.pop('template'))
         return super(RecurringTransactionSerializer, self).update(instance, validated_data)
 
     def validate(self, data):
@@ -44,4 +38,4 @@ class RecurringTransactionSerializer(LiquidatorSerializer, serializers.ModelSeri
         """
         if data['start_date'] > data['end_date']:
             raise serializers.ValidationError('Start date must occur before end date.')
-        return data
+        return super().validate(data)

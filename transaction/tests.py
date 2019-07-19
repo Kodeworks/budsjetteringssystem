@@ -347,8 +347,10 @@ class RecurringActiveTestCase(TransactionTestMixin, JWTTestCase):
 
     def test_recurring_active(self):
         self.create_recurring_transaction(end_date=(date.today()-timedelta(days=1)))
-        recurring_2 = self.create_recurring_transaction(end_date=date.today())
-        recurring_3 = self.create_recurring_transaction(end_date=(date.today()+timedelta(days=1)))
+        recurring_2 = self.create_recurring_transaction(end_date=(date.today() + timedelta(days=10)))
+        recurring_3 = self.create_recurring_transaction(start_date=date.today(), end_date=date.today())
+        self.create_recurring_transaction(start_date=(date.today()+timedelta(days=10)),
+                                          end_date=(date.today()+timedelta(days=300)))
 
         response = self.get(views.RecurringActive, {'company_id': self.company.pk})
         self.assertEquals(response.status_code, 200, msg=response.content)
