@@ -50,8 +50,16 @@ class CompanyViewTestCase(CompanyTestMixin, JWTTestCase):
         self.set_role(company, self.user, roles.REPORTER)
 
         response = self.get(views.CompanyView, {'company_id': company.pk})
+        expected = {
+            'id': company.id,
+            'name': company.name,
+            'org_nr': company.org_nr,
+            'users': [
+                {'user_id': self.user.id, 'company_id': company.id, 'role': roles.REPORTER},
+            ],
+        }
         self.assertEquals(response.status_code, 200, msg=response.content)
-        self.assertEquals(response.data['name'], company.name, msg=response.content)
+        self.assertEquals(response.data, expected, msg=response.content)
 
     def test_update_company(self):
         company = self.create_company()

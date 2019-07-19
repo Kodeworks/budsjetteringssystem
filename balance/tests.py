@@ -5,7 +5,7 @@ from custom_auth import roles
 from custom_auth.tests import JWTTestCase
 from company.tests import CompanyTestMixin
 from transaction.models import Transaction
-from transaction.tests import RecurringTransactionTestMixin
+from transaction.tests import TransactionTestMixin
 from transaction.utils import RecurringTransactionOccurence
 from . import views
 from .models import BankBalance
@@ -16,7 +16,8 @@ from .utils import Balance, Month
 class BankBalanceTestMixin(CompanyTestMixin):
     def setUp(self):
         super().setUp()
-        self.company = self.create_company()
+        if not self.company:
+            self.company = self.create_company()
 
     def create_bank_balance(self, date, money, company=None):
         return BankBalance.objects.create(company=company or self.company, money=money, date=date)
@@ -167,13 +168,9 @@ class BankBalanceViewTestCase(BankBalanceTestMixin, JWTTestCase):
         self.assertEquals(response.status_code, 403, msg=response.content)
 
 
-class BalanceCalculationTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWTTestCase):
+class BalanceCalculationTestCase(BankBalanceTestMixin, TransactionTestMixin, JWTTestCase):
     def setUp(self):
-        super(RecurringTransactionTestMixin, self).setUp()
-        self.type = Transaction.INCOME
-        self.recurring_transaction = None
-        self.description = 'Test'
-        self.notes = ''
+        super().setUp()
 
         self.create_bank_balance(datetime.date(2019, 7, 1), 1000)
         self.create_transaction(date=datetime.date(2019, 7, 1), money=2000, type=Transaction.EXPENSE)
@@ -183,10 +180,10 @@ class BalanceCalculationTestCase(BankBalanceTestMixin, RecurringTransactionTestM
         self.create_bank_balance(datetime.date(2019, 7, 8), 8000)
         self.create_bank_balance(datetime.date(2019, 7, 12), 5000)
 
-        self.create_recurring(start_date=datetime.date(2019, 7, 8), end_date=datetime.date(2019, 7, 20),
-                              day_delta=2, money=1000)
-        self.create_recurring(start_date=datetime.date(2019, 7, 10), end_date=datetime.date(2019, 8, 12),
-                              month_delta=1, money=2000)
+        self.create_recurring_transaction(start_date=datetime.date(2019, 7, 8), end_date=datetime.date(2019, 7, 20),
+                                          day_delta=2, money=1000)
+        self.create_recurring_transaction(start_date=datetime.date(2019, 7, 10), end_date=datetime.date(2019, 8, 12),
+                                          month_delta=1, money=2000)
 
         self.day1 = Balance(self.company.pk, datetime.date(2019, 7, 1), money=-2000)
         self.day1_bb = Balance(self.company.pk, datetime.date(2019, 7, 1), money=1000)
@@ -224,8 +221,8 @@ class BalanceCalculationTestCase(BankBalanceTestMixin, RecurringTransactionTestM
         self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 8, 10), True), self.day41)
 
     def test_get_balance_for_date_with_leading_recurring(self):
-        self.create_recurring(start_date=datetime.date(2019, 6, 20), end_date=datetime.date(2019, 6, 30),
-                              day_delta=2, money=1000)
+        self.create_recurring_transaction(start_date=datetime.date(2019, 6, 20), end_date=datetime.date(2019, 6, 30),
+                                          day_delta=2, money=1000)
 
         self.day1.money += 6000
         self.assertEqual(Balance.for_date(self.company.pk, datetime.date(2019, 7, 1)), self.day1)
@@ -301,17 +298,9 @@ class BalanceCalculationTestCase(BankBalanceTestMixin, RecurringTransactionTestM
         )
 
 
-class BalanceViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWTTestCase):
+class BalanceViewTestCase(BankBalanceTestMixin, TransactionTestMixin, JWTTestCase):
     def setUp(self):
-        super(RecurringTransactionTestMixin, self).setUp()
-        self.set_role(self.company, self.user, role=roles.USER)
-        self.force_login(self.user)
-
-        self.type = Transaction.INCOME
-        self.recurring_transaction = None
-        self.description = 'Test'
-        self.notes = ''
-
+        super().setUp()
         self.create_bank_balance(datetime.date(2019, 7, 1), 1000)
         self.create_transaction(date=datetime.date(2019, 7, 1), money=2000, type=Transaction.EXPENSE)
         self.create_transaction(date=datetime.date(2019, 7, 2), money=-1000)
@@ -319,8 +308,8 @@ class BalanceViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, J
         self.create_transaction(date=datetime.date(2019, 7, 3), money=2000, type=Transaction.EXPENSE)
         self.create_bank_balance(datetime.date(2019, 7, 8), 8000)
 
-        self.create_recurring(start_date=datetime.date(2019, 7, 1), end_date=datetime.date(2019, 7, 8),
-                              day_delta=2, money=1000)
+        self.create_recurring_transaction(start_date=datetime.date(2019, 7, 1), end_date=datetime.date(2019, 7, 8),
+                                          day_delta=2, money=1000)
 
         self.day1 = -1000
         self.day2 = 0
@@ -363,20 +352,16 @@ class BalanceViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, J
         self.assertEquals([dict(elem) for elem in response.data], expected, msg=response.content)
 
 
-class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWTTestCase):
-    def setUp(self):
-        super(RecurringTransactionTestMixin, self).setUp()
-        self.set_role(self.company, self.user, role=roles.USER)
-
+class MonthViewTestCase(BankBalanceTestMixin, TransactionTestMixin, JWTTestCase):
     def test_month(self):
         bank1 = self.create_bank_balance(datetime.date(2019, 6, 1), 1000)
         bank2 = self.create_bank_balance(datetime.date(2019, 7, 1), 4000)
         transaction1 = self.create_transaction(date=datetime.date(2019, 7, 2), money=-1000)
 
-        recurring1 = self.create_recurring(start_date=datetime.date(2019, 7, 3),
-                                           end_date=datetime.date(2019, 7, 7),
-                                           day_delta=2,
-                                           money=1000)
+        recurring1 = self.create_recurring_transaction(start_date=datetime.date(2019, 7, 3),
+                                                       end_date=datetime.date(2019, 7, 7),
+                                                       day_delta=2,
+                                                       money=1000)
 
         transaction2 = self.create_transaction(date=datetime.date(2019, 7, 5),
                                                money=5000,
