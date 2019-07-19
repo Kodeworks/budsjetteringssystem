@@ -1,6 +1,5 @@
-import { ICompany, Role } from '../../declarations/company';
+import { ICompany } from '../../declarations/company';
 
-import { IUser } from '../../declarations/user';
 import * as API from '../../mitochondria';
 
 export type CompanyState = Array<ICompany>;
