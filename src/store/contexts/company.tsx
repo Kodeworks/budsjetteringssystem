@@ -30,7 +30,7 @@ const CompanyProvider: React.FC = ({ children }) => {
     }
 
     user!.companies.forEach(company => {
-      CompanyActions.doAddCompany(company.company_id, company.role, dispatch);
+      CompanyActions.doAddCompany(company.company_id, dispatch);
     });
   }, [user, dispatch]);
 
