@@ -7,6 +7,9 @@ const endpoints = [
   '/transaction/',
   '/transaction/all/',
   '/transaction/income/all/',
+  '/transaction/expense/all/',
+  '/transaction/byDate/',
+  '/transaction/byDateRange/',
   '/balance/',
   '/recurring/',
   '/month/',
@@ -103,6 +106,9 @@ export const fetchWithCallback = async <T>(
         throw new Error(((await resp.json()) as IError).detail);
       },
       404: async resp => {
+        throw new Error(((await resp.json()) as IError).detail);
+      },
+      500: async resp => {
         throw new Error(((await resp.json()) as IError).detail);
       },
       ...callbacks,
