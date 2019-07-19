@@ -44,8 +44,15 @@ class Transaction(TransactionStaticData):
 
 
 class RecurringTransaction(models.Model):
-    day_delta = models.PositiveIntegerField()
-    month_delta = models.PositiveIntegerField()
+    DAY = 'DA'
+    MONTH = 'MO'
+    INTERVAL_CHOICES = (
+        (DAY, 'day'),
+        (MONTH, 'month'),
+    )
+
+    interval = models.PositiveIntegerField()
+    interval_type = models.CharField(max_length=2, choices=INTERVAL_CHOICES)
     start_date = models.DateField()
     end_date = models.DateField()
 
@@ -61,7 +68,7 @@ class RecurringTransaction(models.Model):
 
     def get_occurences(self, start_date, end_date, include_created=True):
         # Avoid an infinite loop if the deltas are both invalid
-        if self.day_delta < 1 and self.month_delta < 1:
+        if self.interval == 0:
             return []
 
         if end_date > self.end_date:
@@ -71,14 +78,12 @@ class RecurringTransaction(models.Model):
         created = [] if include_created else [transaction.date for transaction in self.transactions.all()]
 
         # Find the first occurence in the range, and work from there
-        if self.month_delta:
+        if self.interval_type == self.MONTH:
             freq = MONTHLY
-            interval = self.month_delta
-        else:
+        elif self.interval_type == self.DAY:
             freq = DAILY
-            interval = self.day_delta
 
-        occurences = rrule(freq, interval=interval, dtstart=self.start_date, until=end_date)
+        occurences = rrule(freq, interval=self.interval, dtstart=self.start_date, until=end_date)
 
         for occurence in occurences:
             occurence = occurence.date()
