@@ -32,7 +32,7 @@ describe('Authentication/Registration', () => {
       });
   });
 
-  test('register creates a new user and returns it along with tokens', async () => {
+  test('register creates a new user and returns', async () => {
     const registerResp = await api.register(
       loginEmail,
       loginFirstName,

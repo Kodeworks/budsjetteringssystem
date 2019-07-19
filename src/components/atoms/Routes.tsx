@@ -27,7 +27,7 @@ const Routes: React.FC<RouteComponentProps<{}>> = props => {
         <Route path="/register" component={Register} />
       </>
     );
-  } else if (localStorage.getItem('access') && !user) {
+  } else if (!user) {
     return <h1>Loading...</h1>;
   } else {
     return (

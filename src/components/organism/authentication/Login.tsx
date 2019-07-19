@@ -2,7 +2,7 @@ import React from 'react';
 
 import Authentication, { AuthType, IOnLogin } from './Authentication';
 
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { useAuthDispatch } from '../../../store/contexts/auth';
 import { AuthActions } from '../../../store/reducers/auth';
 
@@ -15,7 +15,7 @@ const Login: React.FC<RouteComponentProps<{}>> = props => {
       await AuthActions.doLogin(email, password, dispatch);
       props.history.push('/');
     } catch (e) {
-      setError(e.message);
+      setError(e);
     }
   };
 
@@ -28,4 +28,4 @@ const Login: React.FC<RouteComponentProps<{}>> = props => {
   );
 };
 
-export default withRouter(Login);
+export default Login;

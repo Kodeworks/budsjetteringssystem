@@ -70,6 +70,8 @@ const Authentication: React.FC<IAuthentication> = props => {
     }
   };
 
+  const handleResetPasswordClick = () => alert('Not implemented yet.');
+
   const nameInputs =
     props.type === AuthType.Register ? (
       <>
@@ -119,7 +121,9 @@ const Authentication: React.FC<IAuthentication> = props => {
         />
         <OutlinedButton>{props.type}</OutlinedButton>
         {props.type === AuthType.Login && (
-          <AccentedLink to="/register">Forgot your password?</AccentedLink>
+          <AccentedLink to="#" onClick={handleResetPasswordClick}>
+            Forgot your password?
+          </AccentedLink>
         )}
       </form>
       <AccentedLink to={props.type === AuthType.Login ? '/register' : '/login'}>

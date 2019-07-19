@@ -1,14 +1,9 @@
 import React from 'react';
 import { createDummyTransaction } from '../../../helpers/transaction_creator';
-import {
-  TransactionProvider,
-  useTransactionDispatch,
-} from '../../../store/contexts/transactions';
+import { useTransactionDispatch } from '../../../store/contexts/transactions';
 import { TransactionActions } from '../../../store/reducers/transactions';
-import { theme } from '../../../styling/theme';
 import { cleanup, fireEvent, render } from './../../../helpers/test-utils';
 
-import { ThemeProvider } from 'styled-components';
 import Transactions from '../../organism/Transactions';
 
 afterEach(cleanup);
@@ -21,19 +16,14 @@ const Wrapper: React.FC = props => {
     TransactionActions.doResetTransactions(dummyTxs, transactionDispatch);
   }, [transactionDispatch]);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <>{props.children}</>
-    </ThemeProvider>
-  );
+  return <>{props.children}</>;
 };
 
 test('Shows all by default', () => {
   const { container } = render(
     <Wrapper>
       <Transactions />
-    </Wrapper>,
-    { wrapper: TransactionProvider }
+    </Wrapper>
   );
 
   expect(container.querySelectorAll('h4~strong~h6').length).toBe(50);
@@ -43,8 +33,7 @@ test('Only show recurring', () => {
   const { container, getByLabelText, getByText } = render(
     <Wrapper>
       <Transactions />
-    </Wrapper>,
-    { wrapper: TransactionProvider }
+    </Wrapper>
   );
 
   fireEvent.click(getByText('Filters')); // show filters
@@ -60,8 +49,7 @@ test('Filter on description', () => {
   const { getByLabelText, getByText, queryAllByText } = render(
     <Wrapper>
       <Transactions />
-    </Wrapper>,
-    { wrapper: TransactionProvider }
+    </Wrapper>
   );
 
   const filter = 'Otter';

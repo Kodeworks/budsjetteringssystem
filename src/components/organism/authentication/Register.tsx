@@ -4,7 +4,7 @@ import Authentication, { AuthType, IOnRegister } from './Authentication';
 
 import { AuthActions } from '../../../store/reducers/auth';
 
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { useAuthDispatch } from '../../../store/contexts/auth';
 
 const Register: React.FC<RouteComponentProps<{}>> = props => {
@@ -40,4 +40,4 @@ const Register: React.FC<RouteComponentProps<{}>> = props => {
   );
 };
 
-export default withRouter(Register);
+export default Register;
