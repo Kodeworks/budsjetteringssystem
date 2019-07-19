@@ -2,17 +2,18 @@ import React from 'react';
 
 import Authentication, { AuthType, IOnLogin } from './Authentication';
 
-import { Perform } from '../../../store/reducers/auth';
+import { RouteComponentProps } from 'react-router';
+import { useAuthDispatch } from '../../../store/contexts/auth';
+import { AuthActions } from '../../../store/reducers/auth';
 
-import { AuthCtx } from '../../../store/contexts/auth';
-
-const Login: React.FC = props => {
+const Login: React.FC<RouteComponentProps<{}>> = props => {
   const [error, setError] = React.useState('');
-  const { dispatch } = React.useContext(AuthCtx);
+  const dispatch = useAuthDispatch();
 
-  const handleSubmit = ({ email, password }: IOnLogin) => {
+  const handleSubmit = async ({ email, password }: IOnLogin) => {
     try {
-      Perform.doLogin(email, password, dispatch);
+      await AuthActions.doLogin(email, password, dispatch);
+      props.history.push('/');
     } catch (e) {
       setError(e);
     }

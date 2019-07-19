@@ -2,23 +2,29 @@ import React from 'react';
 
 import Authentication, { AuthType, IOnRegister } from './Authentication';
 
-import { Perform } from '../../../store/reducers/auth';
+import { AuthActions } from '../../../store/reducers/auth';
 
-import { RouteComponentProps, withRouter } from 'react-router';
-import { AuthCtx } from '../../../store/contexts/auth';
+import { RouteComponentProps } from 'react-router';
+import { useAuthDispatch } from '../../../store/contexts/auth';
 
 const Register: React.FC<RouteComponentProps<{}>> = props => {
-  const { dispatch } = React.useContext(AuthCtx);
+  const authDispatch = useAuthDispatch();
   const [error, setError] = React.useState('');
 
-  const handleSubmit = ({
+  const handleSubmit = async ({
     email,
     password,
     firstName,
     lastName,
   }: IOnRegister) => {
     try {
-      Perform.doRegister(firstName, lastName, email, password, dispatch);
+      await AuthActions.doRegister(
+        firstName,
+        lastName,
+        email,
+        password,
+        authDispatch
+      );
       props.history.push('/');
     } catch (e) {
       setError(e.message);
@@ -34,4 +40,4 @@ const Register: React.FC<RouteComponentProps<{}>> = props => {
   );
 };
 
-export default withRouter(Register);
+export default Register;

@@ -32,7 +32,7 @@ describe('Authentication/Registration', () => {
       });
   });
 
-  test('register creates a new user and returns it along with tokens', async () => {
+  test('register creates a new user and returns', async () => {
     const registerResp = await api.register(
       loginEmail,
       loginFirstName,
@@ -40,15 +40,11 @@ describe('Authentication/Registration', () => {
       loginPassword
     );
     expect(registerResp).toEqual({
-      access,
-      refresh,
-      user: {
-        companies: [],
-        email: loginEmail,
-        first_name: loginFirstName,
-        id: 0,
-        last_name: loginLastName,
-      },
+      companies: [],
+      email: loginEmail,
+      first_name: loginFirstName,
+      id: 0,
+      last_name: loginLastName,
     });
   });
 

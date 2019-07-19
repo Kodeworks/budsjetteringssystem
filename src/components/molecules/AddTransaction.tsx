@@ -12,7 +12,7 @@ import TextArea from '../atoms/TextArea';
 
 import { TransactionType } from '../../declarations/transaction';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
-import { createTransaction } from '../../store/reducers/transactions';
+import { TransactionActions } from '../../store/reducers/transactions';
 
 interface IProps {
   className?: string;
@@ -53,7 +53,7 @@ const AddTransaction: React.FC<IProps> = props => {
         type: transactionType,
       };
       try {
-        createTransaction(formValues, dispatch);
+        TransactionActions.doAddTransaction(formValues, dispatch);
       } catch (e) {
         setError(e.message);
         /* TODO – handle and display error to the user */

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { AuthCtx } from '../../store/contexts/auth';
-
+import { IUser } from '../../declarations/user';
 import { logout } from '../../mitochondria/auth';
+import { useAuthState } from '../../store/contexts/auth';
 
 const ToolbarContainer = styled.div`
   /* Pos */
@@ -38,11 +38,11 @@ const LogoutButton = styled.button`
 `;
 
 const Toolbar: React.FC = () => {
-  const { store } = React.useContext(AuthCtx);
+  const user = useAuthState() as NonNullable<IUser>;
 
   return (
     <ToolbarContainer>
-      <p>Welcome, {`${store.user!.first_name} ${store.user!.last_name}`}</p>
+      <p>Welcome, {`${user.first_name} ${user.last_name}`}</p>
       <LogoutButton onClick={logout}>Sign out</LogoutButton>
     </ToolbarContainer>
   );

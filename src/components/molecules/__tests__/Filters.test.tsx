@@ -1,19 +1,9 @@
 import React from 'react';
 import { createDummyTransaction } from '../../../helpers/transaction_creator';
-import {
-  TransactionProvider,
-  useTransactionDispatch,
-} from '../../../store/contexts/transactions';
-import { ActionCreators } from '../../../store/reducers/transactions';
-import { theme } from '../../../styling/theme';
+import { useTransactionDispatch } from '../../../store/contexts/transactions';
+import { TransactionActions } from '../../../store/reducers/transactions';
 import { cleanup, fireEvent, render } from './../../../helpers/test-utils';
 
-import { ThemeProvider } from 'styled-components';
-import { AuthCtx, createAuthCtx } from '../../../store/contexts/auth';
-import {
-  initialState,
-  reducer as authReducer,
-} from '../../../store/reducers/auth';
 import Transactions from '../../organism/Transactions';
 
 afterEach(cleanup);
@@ -23,26 +13,17 @@ const dummyTxs = new Array(50).fill(0).map(createDummyTransaction);
 const Wrapper: React.FC = props => {
   const transactionDispatch = useTransactionDispatch();
   React.useEffect(() => {
-    transactionDispatch(ActionCreators.resetTransactions(dummyTxs));
+    TransactionActions.doResetTransactions(dummyTxs, transactionDispatch);
   }, [transactionDispatch]);
 
-  const [auth, authDispatch] = React.useReducer(authReducer, initialState);
-  createAuthCtx(auth, authDispatch);
-  return (
-    <AuthCtx.Provider value={{ store: auth, dispatch: authDispatch }}>
-      <ThemeProvider theme={theme}>
-        <>{props.children}</>
-      </ThemeProvider>
-    </AuthCtx.Provider>
-  );
+  return <>{props.children}</>;
 };
 
 test('Shows all by default', () => {
   const { container } = render(
     <Wrapper>
       <Transactions />
-    </Wrapper>,
-    { wrapper: TransactionProvider }
+    </Wrapper>
   );
 
   expect(container.querySelectorAll('h4~strong~h6').length).toBe(50);
@@ -52,8 +33,7 @@ test('Only show recurring', () => {
   const { container, getByLabelText, getByText } = render(
     <Wrapper>
       <Transactions />
-    </Wrapper>,
-    { wrapper: TransactionProvider }
+    </Wrapper>
   );
 
   fireEvent.click(getByText('Filters')); // show filters
@@ -66,11 +46,10 @@ test('Only show recurring', () => {
 });
 
 test('Filter on description', () => {
-  const { getByLabelText, getByText, rerender, queryAllByText } = render(
+  const { getByLabelText, getByText, queryAllByText } = render(
     <Wrapper>
       <Transactions />
-    </Wrapper>,
-    { wrapper: TransactionProvider }
+    </Wrapper>
   );
 
   const filter = 'Otter';
@@ -92,13 +71,7 @@ test('Filter on description', () => {
 });
 
 test('Filter on date', () => {
-  const {
-    container,
-    getByLabelText,
-    getByText,
-    rerender,
-    queryAllByText,
-  } = render(
+  const { container, getByLabelText, getByText } = render(
     <Wrapper>
       <Transactions />
     </Wrapper>

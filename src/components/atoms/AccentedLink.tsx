@@ -1,16 +1,21 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 
-interface IProps {
+interface IProps extends LinkProps {
   className?: string;
   to: string;
 }
 
-const AccentedLink: React.FC<IProps> = props => (
-  <Link style={{ textDecoration: 'none' }} to={props.to}>
-    <span className={props.className}>{props.children}</span>
+const AccentedLink: React.FC<IProps> = ({
+  to,
+  className,
+  children,
+  ...props
+}) => (
+  <Link style={{ textDecoration: 'none' }} to={to} {...props}>
+    <span className={className}>{children}</span>
   </Link>
 );
 

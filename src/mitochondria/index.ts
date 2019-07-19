@@ -10,10 +10,16 @@ const endpoints = [
   '/balance/',
   '/recurring/',
   '/month/',
+  '/month/all/',
+  '/month/byDateRange/',
   '/company/',
   '/user/',
   '/user/login/',
   '/user/register/',
+  '/company/',
+  '/company/addUser/',
+  '/company/removeUser/',
+  '/company/setRole/',
 ] as const;
 
 // Union of endpoints: '/transaction' | '/transaction/all' | ...
@@ -116,3 +122,4 @@ export const fetchWithCallback = async <T>(
 export * from './balances';
 export * from './transactions';
 export * from './auth';
+export * from './company';

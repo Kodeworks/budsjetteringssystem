@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import { ITransaction, TransactionType } from '../declarations/transaction';
 import { useTransactionDispatch } from '../store/contexts/transactions';
-import { ActionCreators } from '../store/reducers/transactions';
+import { TransactionActions } from '../store/reducers/transactions';
 
 const words: Array<string> = [
   'Otter',
@@ -58,7 +58,7 @@ export const TransactionMocker: React.FC<{ quantity: number }> = props => {
     const dummyTxs = new Array(props.quantity)
       .fill(0)
       .map(createDummyTransaction);
-    dispatch(ActionCreators.resetTransactions(dummyTxs));
+    TransactionActions.doResetTransactions(dummyTxs, dispatch);
   }, [dispatch, props.quantity]);
   return null;
 };
