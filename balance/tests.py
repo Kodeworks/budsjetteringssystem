@@ -14,10 +14,7 @@ from .utils import Balance, Month
 
 
 class BankBalanceTestMixin(CompanyTestMixin):
-    def setUp(self):
-        super().setUp()
-        if not self.company:
-            self.company = self.create_company()
+    setup_create_company = True
 
     def create_bank_balance(self, date, money, company=None):
         return BankBalance.objects.create(company=company or self.company, money=money, date=date)
@@ -86,10 +83,9 @@ class BankBalanceTestCase(BankBalanceTestMixin, JWTTestCase):
 
 
 class BankBalanceViewTestCase(BankBalanceTestMixin, JWTTestCase):
-    def setUp(self):
-        super().setUp()
-        self.set_role(self.company, self.user, role=roles.USER)
-        self.force_login(self.user)
+    setup_set_role = True
+    setup_login = True
+    role = roles.USER
 
     def test_create_bank_balance(self):
         date = datetime.date(2018, 1, 1)
