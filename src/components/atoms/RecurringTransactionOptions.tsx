@@ -7,11 +7,11 @@ export type intervalType = 'month' | 'week';
 
 interface IProps {
   intervalValue: number;
-  setInterval: React.Dispatch<React.SetStateAction<number>>;
+  setInterval: Dispatch<SetStateAction<number>>;
   intervalTypeValue: intervalType;
   DoMValue: number;
-  setTypeInterval: React.Dispatch<React.SetStateAction<intervalType>>;
-  setDoM: React.Dispatch<React.SetStateAction<number>>;
+  setTypeInterval: Dispatch<SetStateAction<intervalType>>;
+  setDoM: Dispatch<SetStateAction<number>>;
 }
 
 const selectOptions = [

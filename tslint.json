@@ -16,8 +16,7 @@
     "array-type": [true, "generic"],
     "interface-name": [true, "always-prefix"],
     "arrow-return-shorthand": true,
-    "arrow-parens": false,
-    "no-unused-variable": true
+    "arrow-parens": false
   },
   "rulesDirectory": []
 }
