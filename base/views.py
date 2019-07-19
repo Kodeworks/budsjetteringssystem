@@ -2,7 +2,7 @@ from rest_framework import mixins, generics, permissions
 from rest_framework.exceptions import PermissionDenied, ParseError
 
 from custom_auth import roles
-from .mixins import SingleObjectQueryOrDataMixin
+from .mixins import SingleObjectQueryOrDataMixin, ByDateRangeMixin
 
 
 class CompanyAccessView(generics.GenericAPIView):
@@ -113,20 +113,10 @@ class ListView(mixins.ListModelMixin, CompanyAccessView):
         return self.list(*args, **kwargs)
 
 
-class ByDateRangeView(ListView):
-    start_date_arg = 'start_date'
-    end_date_arg = 'end_date'
-    date_field = 'date'
-
+class ByDateRangeView(ByDateRangeMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
-        data = self.get_data()
-
-        try:
-            start_date = data[self.start_date_arg]
-            end_date = data[self.end_date_arg]
-        except KeyError:
-            raise ParseError('You must pass start_date and end_date')
+        start_date, end_date = self.get_date_range()
 
         # Filter objects between these dates, inclusive
         return queryset.filter(**{

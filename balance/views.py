@@ -1,7 +1,7 @@
 from rest_framework.exceptions import ParseError
 
 from base.views import RetrieveCreateUpdateDestroyView, ByDateRangeView, RetrieveView
-from base.mixins import CompanyFilterMixin
+from base.mixins import CompanyFilterMixin, ManyMixin, ByDateRangeMixin
 from base.serializers import DateSerializer, DateRangeSerializer
 from .models import BankBalance
 from .serializers import BankBalanceSerializer, BalanceSerializer, MonthSerializer
@@ -38,7 +38,7 @@ class BalanceView(RetrieveView):
         return Balance.for_date(company_id, date)
 
 
-class BalanceByDateRangeView(RetrieveView):
+class BalanceByDateRangeView(ManyMixin, RetrieveView):
     serializer_class = BalanceSerializer
 
     def get_object(self):
@@ -49,9 +49,6 @@ class BalanceByDateRangeView(RetrieveView):
         end_date = arg_serializer.validated_data['end_date']
         company_id = self.get_company_id()
         return Balance.for_date_range(company_id, start_date, end_date)
-
-    def get_serializer(self, *args, **kwargs):
-        return super().get_serializer(*args, many=True, **kwargs)
 
 
 class MonthView(RetrieveView):
@@ -67,3 +64,13 @@ class MonthView(RetrieveView):
             return Month.get(company_id, year, month)
         except ValueError:
             raise ParseError('Invalid arguments')
+
+
+class MonthByDateRangeView(ManyMixin, ByDateRangeMixin, RetrieveView):
+    serializer_class = MonthSerializer
+
+    def get_object(self):
+        company_id = self.get_company_id()
+        start_date, end_date = self.get_date_range()
+
+        return Month.for_date_range(company_id, start_date, end_date)

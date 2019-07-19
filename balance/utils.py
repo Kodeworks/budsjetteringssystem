@@ -166,3 +166,24 @@ class Month:
         lowest_balance = min([balance.money for balance in balances + list(bank_balances)], default=start_balance)
 
         return cls(year, month, start_balance, lowest_balance, transactions, recurring, balances, bank_balances)
+
+    @classmethod
+    def for_date_range(cls, company_id, start_date, end_date):
+        if end_date < start_date:
+            return []
+
+        month = start_date.month
+        year = start_date.year
+        end_month = end_date.month
+        end_year = end_date.year
+
+        result = []
+
+        while (month <= end_month and year <= end_year) or year < end_year:
+            result.append(cls.get(company_id, year, month))
+            month += 1
+            if month == 13:
+                month = 1
+                year += 1
+
+        return result

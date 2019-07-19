@@ -429,3 +429,24 @@ class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWT
             )
         ).data
         self.assertEqual(response.data, expected, msg=response.content)
+
+    def test_by_date_range(self):
+        response = self.get(views.MonthByDateRangeView, {'start_date': datetime.date(2019, 7, 1),
+                                                         'end_date': datetime.date(2019, 7, 1)})
+        self.assertEqual(len(response.data), 1, msg=response.content)
+
+        response = self.get(views.MonthByDateRangeView, {'start_date': datetime.date(2019, 7, 1),
+                                                         'end_date': datetime.date(2019, 6, 1)})
+        self.assertEqual(len(response.data), 0, msg=response.content)
+
+        response = self.get(views.MonthByDateRangeView, {'start_date': datetime.date(2020, 7, 15),
+                                                         'end_date': datetime.date(2019, 7, 1)})
+        self.assertEqual(len(response.data), 0, msg=response.content)
+
+        response = self.get(views.MonthByDateRangeView, {'start_date': datetime.date(2019, 7, 15),
+                                                         'end_date': datetime.date(2020, 7, 1)})
+        self.assertEqual(len(response.data), 13, msg=response.content)
+
+        response = self.get(views.MonthByDateRangeView, {'start_date': datetime.date(2019, 7, 5),
+                                                         'end_date': datetime.date(2019, 12, 3)})
+        self.assertEqual(len(response.data), 6, msg=response.content)
