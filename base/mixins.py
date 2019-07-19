@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
-from rest_framework.exceptions import ParseError, PermissionDenied
+from rest_framework.exceptions import ParseError
 
 from .serializers import DateRangeSerializer
 

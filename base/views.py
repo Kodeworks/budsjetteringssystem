@@ -1,5 +1,5 @@
 from rest_framework import mixins, generics, permissions
-from rest_framework.exceptions import PermissionDenied, ParseError
+from rest_framework.exceptions import PermissionDenied
 
 from custom_auth import roles
 from .mixins import SingleObjectQueryOrDataMixin, ByDateRangeMixin
