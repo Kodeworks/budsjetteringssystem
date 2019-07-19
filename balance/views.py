@@ -2,7 +2,7 @@ from rest_framework.exceptions import ParseError
 
 from base.views import RetrieveCreateUpdateDestroyView, ByDateRangeView, RetrieveView
 from base.mixins import CompanyFilterMixin, ManyMixin, ByDateRangeMixin
-from base.serializers import DateSerializer, DateRangeSerializer
+from base.serializers import DateSerializer
 from .models import BankBalance
 from .serializers import BankBalanceSerializer, BalanceSerializer, MonthSerializer
 from .utils import Balance, Month

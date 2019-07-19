@@ -280,8 +280,9 @@ class RecurringTransactionUtilTestCase(TransactionTestMixin, JWTTestCase):
         recurring = self.create_recurring_transaction(start_date=date(2018, 1, 1),
                                                       end_date=date(2018, 1, 8),
                                                       interval=2)
-        transaction1 = self.create_transaction(date=date(2018, 1, 3), recurring_transaction=recurring)
-        transaction2 = self.create_transaction(date=date(2018, 1, 6), recurring_transaction=recurring, recurring_date=date(2018, 1, 5))
+        self.create_transaction(date=date(2018, 1, 3), recurring_transaction=recurring)
+        self.create_transaction(date=date(2018, 1, 6), recurring_transaction=recurring,
+                                recurring_date=date(2018, 1, 5))
 
         self.assertEqual(
             recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7)),
@@ -353,8 +354,8 @@ class RecurringTransactionTestCase(TransactionTestMixin, JWTTestCase):
             'notes': 'Harry will move out of it after a year.',
         }
         self.recurring = {
-            'company_id': self.company.pk, 'interval': 1, 'interval_type': RecurringTransaction.MONTH, 'start_date': '2018-08-25',
-            'end_date': '2020-10-30', 'template': self.template
+            'company_id': self.company.pk, 'interval': 1, 'interval_type': RecurringTransaction.MONTH,
+            'start_date': '2018-08-25', 'end_date': '2020-10-30', 'template': self.template
         }
 
     def test_create_recurring_transaction(self):
