@@ -3,14 +3,14 @@ import React, { Dispatch, SetStateAction } from 'react';
 import Input from './Input';
 import Select from './Select';
 
-export type intervalType = 'month' | 'week';
+export type IntervalType = 'month' | 'week';
 
 interface IProps {
   intervalValue: number;
   setInterval: Dispatch<SetStateAction<number>>;
-  intervalTypeValue: intervalType;
+  intervalTypeValue: IntervalType;
   DoMValue: number;
-  setTypeInterval: Dispatch<SetStateAction<intervalType>>;
+  setTypeInterval: Dispatch<SetStateAction<IntervalType>>;
   setDoM: Dispatch<SetStateAction<number>>;
 }
 

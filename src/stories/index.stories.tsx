@@ -8,7 +8,7 @@ import NavigationBrand from '../components/atoms/NavigationBrand';
 import NavigationPill from '../components/atoms/NavigationPill';
 import OutlinedButton from '../components/atoms/OutlinedButton';
 import RecurringTransactionOptions, {
-  intervalType,
+  IntervalType,
 } from '../components/atoms/RecurringTransactionOptions';
 import Select from '../components/atoms/Select';
 import TextArea from '../components/atoms/TextArea';
@@ -144,7 +144,7 @@ storiesOf('Transactions', module)
   .add('Transaction page', () => <Transactions />)
   .add('Recurring options', () => {
     const [intervalValue, setIntervalValue] = React.useState(2);
-    const [intervalTypeValue, setIntervalType] = React.useState<intervalType>(
+    const [intervalTypeValue, setIntervalType] = React.useState<IntervalType>(
       'month'
     );
     const [DoMValue, setDoM] = React.useState(7);
