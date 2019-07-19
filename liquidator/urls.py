@@ -21,6 +21,7 @@ import company.urls
 import transaction.urls.transaction
 import transaction.urls.recurring
 import balance.urls
+import balance.month_urls
 
 
 urlpatterns = [
@@ -30,4 +31,5 @@ urlpatterns = [
     path('transaction/', include(transaction.urls.transaction)),
     path('recurring/', include(transaction.urls.recurring)),
     path('balance/', include(balance.urls)),
+    path('month/', include(balance.month_urls)),
 ]

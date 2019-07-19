@@ -23,7 +23,7 @@ class TransactionTestMixin(CompanyTestMixin):
         self.recurring_transaction = None
         self.day_delta = 7
         self.month_delta = 0
-        self.start_date  = date(2018, 4, 23)
+        self.start_date = date(2018, 4, 23)
         self.end_date = date(2018, 10, 15)
 
     def create_transaction(self, date=None, company=None, recurring_transaction=None, money=None,
@@ -269,6 +269,82 @@ class TransactionExpenseAllTestCase(TransactionTestMixin, JWTTestCase):
         self.assertNotIn(trans_in.id, transaction_ids, msg=response.content)
 
 
+class RecurringTransactionUtilTestCase(TransactionTestMixin, JWTTestCase):
+    def setUp(self):
+        super().setUp()
+        self.force_login(self.user)
+
+    def test_get_in_date_range(self):
+        recurring = self.create_recurring_transaction(start_date=date(2018, 1, 1),
+                                                      end_date=date(2018, 1, 8),
+                                                      day_delta=2)
+
+        self.assertEqual(
+            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7)),
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
+        )
+
+        self.assertEqual(
+            recurring.get_occurences(date(2017, 12, 1), date(2018, 3, 8)),
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
+        )
+
+        self.assertEqual(
+            recurring.get_occurences(date(2018, 1, 2), date(2018, 1, 6)),
+            [date(2018, 1, 3), date(2018, 1, 5)]
+        )
+
+        self.create_transaction(date=date(2018, 1, 5), recurring_transaction=recurring)
+
+        self.assertEqual(
+            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7)),
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
+        )
+
+        self.assertEqual(
+            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7), include_created=False),
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 7)]
+        )
+
+    def test_get_in_month_range(self):
+        recurring = self.create_recurring_transaction(start_date=date(2018, 1, 1),
+                                                      end_date=date(2019, 1, 1),
+                                                      month_delta=3)
+
+        self.assertEqual(
+            recurring.get_occurences(date(2018, 1, 1), date(2019, 1, 1)),
+            [date(2018, 1, 1), date(2018, 4, 1), date(2018, 7, 1), date(2018, 10, 1), date(2019, 1, 1)]
+        )
+
+        self.assertEqual(
+            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 30)),
+            [date(2018, 1, 1)]
+        )
+
+        self.assertEqual(
+            recurring.get_occurences(date(2017, 1, 1), date(2020, 1, 1)),
+            [date(2018, 1, 1), date(2018, 4, 1), date(2018, 7, 1), date(2018, 10, 1), date(2019, 1, 1)]
+        )
+
+    def test_get_all_occurrences(self):
+        daily_recurring = self.create_recurring_transaction(start_date=date(2018, 1, 1),
+                                                            end_date=date(2019, 1, 1),
+                                                            day_delta=14)
+        monthly_recurring = self.create_recurring_transaction(start_date=date(2017, 12, 1),
+                                                              end_date=date(2019, 1, 1),
+                                                              month_delta=1)
+
+        self.assertEqual(
+            RecurringTransaction.get_all_occurences(self.company, date(2018, 1, 1), date(2018, 3, 1)),
+            [
+                (daily_recurring, [date(2018, 1, 1), date(2018, 1, 15), date(2018, 1, 29),
+                                   date(2018, 2, 12), date(2018, 2, 26)]),
+                (monthly_recurring, [date(2018, 1, 1), date(2018, 2, 1), date(2018, 3, 1)]),
+
+            ]
+        )
+
+
 class RecurringTransactionTestCase(TransactionTestMixin, JWTTestCase):
     def setUp(self):
         super().setUp()
@@ -330,7 +406,6 @@ class RecurringTransactionTestCase(TransactionTestMixin, JWTTestCase):
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data['transactions'], [], msg=response.data['transactions'])
 
-
     def test_enforce_start_date_before_end_date(self):
         self.recurring['start_date'] = '2020-10-30'
         self.recurring['end_date'] = '2018-09-29'
@@ -340,17 +415,16 @@ class RecurringTransactionTestCase(TransactionTestMixin, JWTTestCase):
 
 
 class RecurringActiveTestCase(TransactionTestMixin, JWTTestCase):
-
     def setUp(self):
         super().setUp()
         self.force_login(self.user)
 
     def test_recurring_active(self):
-        self.create_recurring_transaction(end_date=(date.today()-timedelta(days=1)))
+        self.create_recurring_transaction(end_date=(date.today() - timedelta(days=1)))
         recurring_2 = self.create_recurring_transaction(end_date=(date.today() + timedelta(days=10)))
         recurring_3 = self.create_recurring_transaction(start_date=date.today(), end_date=date.today())
-        self.create_recurring_transaction(start_date=(date.today()+timedelta(days=10)),
-                                          end_date=(date.today()+timedelta(days=300)))
+        self.create_recurring_transaction(start_date=(date.today() + timedelta(days=10)),
+                                          end_date=(date.today() + timedelta(days=300)))
 
         response = self.get(views.RecurringActive, {'company_id': self.company.pk})
         self.assertEquals(response.status_code, 200, msg=response.content)

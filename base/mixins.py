@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
-from rest_framework.exceptions import ParseError, PermissionDenied
+from rest_framework.exceptions import ParseError
+
+from .serializers import DateRangeSerializer
 
 
 class SingleObjectQueryOrDataMixin:
@@ -54,3 +56,21 @@ class CompanyFilterMixin(ErrorHandlingMixin):
         queryset = super().get_queryset()
         company_id = self.get_company_id()
         return queryset.filter(**{self.company_field: company_id})
+
+
+class ManyMixin:
+    """Passes the argument 'many=True' to the serializer."""
+    def get_serializer(self, *args, **kwargs):
+        return super().get_serializer(*args, many=True, **kwargs)
+
+
+class ByDateRangeMixin:
+    start_date_arg = 'start_date'
+    end_date_arg = 'end_date'
+    date_field = 'date'
+
+    def get_date_range(self):
+        arg_serializer = DateRangeSerializer(data=self.get_data())
+        arg_serializer.is_valid(raise_exception=True)
+
+        return (arg_serializer.validated_data['start_date'], arg_serializer.validated_data['end_date'])

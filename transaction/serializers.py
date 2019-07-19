@@ -39,3 +39,8 @@ class RecurringTransactionSerializer(LiquidatorSerializer):
         if data['start_date'] > data['end_date']:
             raise serializers.ValidationError('Start date must occur before end date.')
         return super().validate(data)
+
+
+class RecurringTransactionOccurenceSerializer(serializers.Serializer):
+    object = RecurringTransactionSerializer()
+    dates = serializers.ListField(child=serializers.DateField())

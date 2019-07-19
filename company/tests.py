@@ -26,7 +26,7 @@ class CompanyTestMixin:
         return Company.objects.create(name=name or self.company_name, org_nr=org_nr or self.org_nr)
 
     def set_role(self, company, user, role):
-        UserCompanyThrough.objects.update_or_create(company=company, user=user, role=role)
+        UserCompanyThrough.objects.update_or_create(company=company, user=user, defaults={'role': role})
 
 
 class CompanyViewTestCase(CompanyTestMixin, JWTTestCase):
