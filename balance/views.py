@@ -38,15 +38,11 @@ class BalanceView(RetrieveView):
         return Balance.for_date(company_id, date)
 
 
-class BalanceByDateRangeView(ManyMixin, RetrieveView):
+class BalanceByDateRangeView(ManyMixin, ByDateRangeMixin, RetrieveView):
     serializer_class = BalanceSerializer
 
     def get_object(self):
-        arg_serializer = DateRangeSerializer(data=self.get_data())
-        arg_serializer.is_valid(raise_exception=True)
-
-        start_date = arg_serializer.validated_data['start_date']
-        end_date = arg_serializer.validated_data['end_date']
+        start_date, end_date = self.get_date_range()
         company_id = self.get_company_id()
         return Balance.for_date_range(company_id, start_date, end_date)
 
