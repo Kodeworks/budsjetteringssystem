@@ -1,5 +1,5 @@
 module.exports.june = [
-	{ 
+	{
 		"year": 2019,
 		"month": 6,
 		"transactions": [
@@ -9,17 +9,17 @@ module.exports.june = [
 				"recurring_id": 0,
 				"date": "2019-06-28",
 				"money": 1000000,
-				"type": "income",
+				"type": "IN",
 				"description": "Rent for storage",
 				"notes": "Example notes"
-			}, 
+			},
 			{
 				"id": 2,
 				"company_id": 1,
 				"recurring_id": 0,
 				"date": "2019-06-03",
 				"money": 1200000,
-				"type": "income",
+				"type": "IN",
 				"description": "Rent for storage",
 				"notes": "Example notes"
 			},
@@ -29,7 +29,7 @@ module.exports.june = [
 				"recurring_id": 0,
 				"date": "2019-06-03",
 				"money": 2000000,
-				"type": "income",
+				"type": "IN",
 				"description": "Payment for consultation",
 				"notes": "Example notes"
 			},
@@ -39,16 +39,16 @@ module.exports.june = [
 				"recurring_id": 0,
 				"date": "2019-06-22",
 				"money": 5000000,
-				"type": "income",
+				"type": "IN",
 				"description": "Salary",
 				"notes": "Example notes"
-			},{
+			}, {
 				"id": 5,
 				"company_id": 1,
 				"recurring_id": 0,
 				"date": "2019-06-22",
 				"money": 5000000,
-				"type": "expense",
+				"type": "EX",
 				"description": "Salary",
 				"notes": "Example notes"
 			}
@@ -74,11 +74,11 @@ module.exports.june = [
 		"lowest_balance": 10000000,
 		"next": "string",
 		"previous": "string"
-	}, 
+	},
 ];
 
 module.exports.july = [
-	{ 
+	{
 		"year": 2019,
 		"month": 7,
 		"transactions": [
@@ -88,17 +88,17 @@ module.exports.july = [
 				"recurring_id": 0,
 				"date": "2019-07-28",
 				"money": 1000000,
-				"type": "income",
+				"type": "IN",
 				"description": "Rent for storage",
 				"notes": "Example notes"
-			}, 
+			},
 			{
 				"id": 2,
 				"company_id": 1,
 				"recurring_id": 0,
 				"date": "2019-07-03",
 				"money": 1200000,
-				"type": "income",
+				"type": "IN",
 				"description": "Rent for storage",
 				"notes": "Example notes"
 			},
@@ -108,7 +108,7 @@ module.exports.july = [
 				"recurring_id": 0,
 				"date": "2019-07-03",
 				"money": 2000000,
-				"type": "income",
+				"type": "IN",
 				"description": "Payment for consultation",
 				"notes": "Example notes"
 			},
@@ -118,7 +118,7 @@ module.exports.july = [
 				"recurring_id": 0,
 				"date": "2019-07-22",
 				"money": 5000000,
-				"type": "expense",
+				"type": "EX",
 				"description": "Salary",
 				"notes": "Example notes"
 			}
@@ -144,5 +144,5 @@ module.exports.july = [
 		"lowest_balance": 8200000,
 		"next": "string",
 		"previous": "string"
-	}, 
+	},
 ]

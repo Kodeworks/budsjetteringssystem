@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
+import { ITransaction } from '../../declarations/transaction';
 import * as BalancesAPI from '../../mitochondria/balances';
 import BalancesViewPicker from '../atoms/BalancesViewPicker';
 import MonthPicker from '../atoms/MonthPicker';
@@ -19,7 +20,11 @@ const companyId = 1; // Hardcoded until we get a global company context.
 
 const createBalanceEntriesFromMonth = (month: IMonth) => {
   const monthBalances: {
-    [s: string]: { income: number; expense: number; liquidity: number };
+    [s: string]: {
+      income: number;
+      expense: number;
+      liquidity: number;
+    };
   } = {};
   const sortedBalances = month.balance.sort((a, b) =>
     a.date <= b.date ? -1 : 1
@@ -45,7 +50,8 @@ const createBalanceEntriesFromMonth = (month: IMonth) => {
   });
 
   month.transactions.forEach(t => {
-    monthBalances[t.date][t.type] += t.money;
+    const type = { IN: 'income' as const, EX: 'expense' as const }[t.type];
+    monthBalances[t.date][type] += t.money;
   });
 
   const balanceEntries: Array<IBalanceEntry> = [];

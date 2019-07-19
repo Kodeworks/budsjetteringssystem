@@ -19,7 +19,7 @@ interface IProps {
 const AddTransaction: React.FC<IProps> = props => {
   const dispatch = useTransactionDispatch();
   const [transactionType, setTransactionType] = React.useState<TransactionType>(
-    'expense'
+    'EX'
   );
   const [date, setDate] = React.useState('1970-01-01');
   const [amount, setAmount] = React.useState('');
@@ -65,7 +65,9 @@ const AddTransaction: React.FC<IProps> = props => {
   const handleTransactionTypeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setTransactionType(event.target.value as TransactionType);
+    setTransactionType({ income: 'IN', expense: 'EX' }[
+      event.target.value as 'income' | 'expense'
+    ] as TransactionType);
   };
 
   const recurringTransactionOptions = (
@@ -87,7 +89,7 @@ const AddTransaction: React.FC<IProps> = props => {
             type="radio"
             name="transactionType"
             value="expense"
-            checked={transactionType === 'expense'}
+            checked={transactionType === 'EX'}
             onChange={handleTransactionTypeChange}
           />{' '}
           Expense
