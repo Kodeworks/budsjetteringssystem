@@ -3,14 +3,10 @@ import { ICompany, Role } from '../../declarations/company';
 import { IUser } from '../../declarations/user';
 import * as API from '../../mitochondria';
 
-interface ICompanyWithUsers extends ICompany {
-  users: Array<{ role: Role; userId: IUser['id'] }>;
-}
-
-export type CompanyState = Array<ICompanyWithUsers>;
+export type CompanyState = Array<ICompany>;
 
 const ADD_COMPANY = 'ADD_COMPANY' as const;
-const addCompany = (company: ICompanyWithUsers) => ({
+const addCompany = (company: ICompany) => ({
   payload: company,
   type: ADD_COMPANY,
 });
@@ -25,17 +21,10 @@ const addCompany = (company: ICompanyWithUsers) => ({
  */
 const doAddCompany = async (
   companyId: number,
+  role: Role,
   dispatch: React.Dispatch<ICreatedAction>
 ) => {
-  dispatch(
-    addCompany({
-      ...(await API.getCompanyById(companyId)),
-      users: [
-        { userId: Number(localStorage.getItem('user_id')), role: 'Owner' },
-        // In the future, add the other users here as well.
-      ],
-    })
-  );
+  dispatch(addCompany(await API.getCompanyById(companyId)));
 };
 
 /**
