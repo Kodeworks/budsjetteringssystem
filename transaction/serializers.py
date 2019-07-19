@@ -6,7 +6,8 @@ from .models import Transaction, RecurringTransaction, TransactionTemplate
 class TransactionSerializer(LiquidatorSerializer):
     class Meta:
         model = Transaction
-        fields = ('id', 'money', 'type', 'description', 'notes', 'date', 'company', 'recurring_transaction')
+        fields = ('id', 'money', 'type', 'description', 'notes', 'date', 'company',
+                  'recurring_transaction', 'recurring_date')
 
 
 class TransactionTemplateSerializer(LiquidatorSerializer):

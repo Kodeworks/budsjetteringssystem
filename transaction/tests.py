@@ -21,16 +21,18 @@ class TransactionTestMixin(CompanyTestMixin):
         self.notes = 'Incomes are cool.'
         self.date = date(2017, 5, 17)
         self.recurring_transaction = None
+        self.recurring_date = None
         self.interval = 7
         self.interval_type = RecurringTransaction.DAY
         self.start_date = date(2018, 4, 23)
         self.end_date = date(2018, 10, 15)
 
-    def create_transaction(self, date=None, company=None, recurring_transaction=None, money=None,
-                           type=None, description=None, notes=None, save=True):
+    def create_transaction(self, date=None, company=None, recurring_transaction=None, recurring_date=None,
+                           money=None, type=None, description=None, notes=None, save=True):
         transaction = Transaction(date=(date or self.date),
                                   company=(company or self.company),
                                   recurring_transaction=(recurring_transaction or self.recurring_transaction),
+                                  recurring_date=recurring_date or self.recurring_date,
                                   money=(money or self.money),
                                   type=(type or self.type),
                                   description=(description or self.description),
@@ -278,32 +280,27 @@ class RecurringTransactionUtilTestCase(TransactionTestMixin, JWTTestCase):
         recurring = self.create_recurring_transaction(start_date=date(2018, 1, 1),
                                                       end_date=date(2018, 1, 8),
                                                       interval=2)
+        transaction1 = self.create_transaction(date=date(2018, 1, 3), recurring_transaction=recurring)
+        transaction2 = self.create_transaction(date=date(2018, 1, 6), recurring_transaction=recurring, recurring_date=date(2018, 1, 5))
 
         self.assertEqual(
             recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7)),
-            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 6), date(2018, 1, 7)]
+        )
+
+        self.assertEqual(
+            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7), False),
+            [date(2018, 1, 1), date(2018, 1, 7)]
         )
 
         self.assertEqual(
             recurring.get_occurences(date(2017, 12, 1), date(2018, 3, 8)),
-            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
+            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 6), date(2018, 1, 7)]
         )
 
         self.assertEqual(
             recurring.get_occurences(date(2018, 1, 2), date(2018, 1, 6)),
-            [date(2018, 1, 3), date(2018, 1, 5)]
-        )
-
-        self.create_transaction(date=date(2018, 1, 5), recurring_transaction=recurring)
-
-        self.assertEqual(
-            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7)),
-            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 5), date(2018, 1, 7)]
-        )
-
-        self.assertEqual(
-            recurring.get_occurences(date(2018, 1, 1), date(2018, 1, 7), include_created=False),
-            [date(2018, 1, 1), date(2018, 1, 3), date(2018, 1, 7)]
+            [date(2018, 1, 3), date(2018, 1, 6)]
         )
 
     def test_get_in_month_range(self):

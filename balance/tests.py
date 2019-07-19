@@ -367,6 +367,10 @@ class MonthViewTestCase(BankBalanceTestMixin, TransactionTestMixin, JWTTestCase)
         transaction2 = self.create_transaction(date=datetime.date(2019, 7, 5),
                                                money=5000,
                                                recurring_transaction=recurring1)
+        transaction3 = self.create_transaction(date=datetime.date(2019, 7, 6),
+                                               money=3000,
+                                               recurring_transaction=recurring1,
+                                               recurring_date=datetime.date(2019, 7, 7))
 
         response = self.get(views.MonthView, {'year': 2019, 'month': 6})
 
@@ -394,20 +398,21 @@ class MonthViewTestCase(BankBalanceTestMixin, TransactionTestMixin, JWTTestCase)
                 transactions=[
                     transaction1,
                     transaction2,
+                    transaction3,
                 ],
                 recurring=[
                     RecurringTransactionOccurence(object=recurring1,
                                                   dates=[
                                                       datetime.date(2019, 7, 3),
                                                       datetime.date(2019, 7, 5),
-                                                      datetime.date(2019, 7, 7),
+                                                      datetime.date(2019, 7, 6),
                                                   ]),
                 ],
                 balances=[
                     Balance(self.company.pk, datetime.date(2019, 7, 2), 3000),
                     Balance(self.company.pk, datetime.date(2019, 7, 3), 4000),
                     Balance(self.company.pk, datetime.date(2019, 7, 5), 9000),
-                    Balance(self.company.pk, datetime.date(2019, 7, 7), 10000),
+                    Balance(self.company.pk, datetime.date(2019, 7, 6), 12000),
                 ],
                 bank_balances=[
                     bank2,

@@ -28,6 +28,7 @@ class Transaction(TransactionStaticData):
         related_name='transactions',
         on_delete=models.CASCADE,
     )
+    recurring_date = models.DateField(null=True, blank=True)
     recurring_transaction = models.ForeignKey(
         'RecurringTransaction',
         related_name='transactions',
@@ -75,7 +76,9 @@ class RecurringTransaction(models.Model):
             end_date = self.end_date
 
         result = []
-        created = [] if include_created else [transaction.date for transaction in self.transactions.all()]
+        changed = {t.recurring_date: t.date for t in self.transactions.exclude(recurring_date=None)}
+        created = [] if include_created else [transaction.recurring_date or transaction.date
+                                              for transaction in self.transactions.all()]
 
         # Find the first occurence in the range, and work from there
         if self.interval_type == self.MONTH:
@@ -87,6 +90,9 @@ class RecurringTransaction(models.Model):
 
         for occurence in occurences:
             occurence = occurence.date()
+            if occurence in changed and include_created:
+                occurence = changed[occurence]
+
             if occurence >= start_date and (include_created or occurence not in created):
                 result.append(occurence)
 
