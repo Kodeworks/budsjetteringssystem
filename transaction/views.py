@@ -1,7 +1,8 @@
+from datetime import date
 from base.views import ListView, RetrieveCreateUpdateDestroyView, ByDateRangeView
 from base.mixins import CompanyFilterMixin
-from .serializers import TransactionSerializer
-from .models import Transaction, TransactionStaticData
+from .serializers import TransactionSerializer, RecurringTransactionSerializer
+from .models import Transaction, TransactionStaticData, RecurringTransaction
 
 # TODO: Implement logic when mixins are pushed
 
@@ -38,3 +39,34 @@ class TransactionIncomeAllView(TransactionMixin, ListView):
 class TransactionExpenseAllView(TransactionMixin, ListView):
     def get_queryset(self):
         return super().get_queryset().filter(type=TransactionStaticData.EXPENSE)
+
+
+class RecurringTransactionMixin(CompanyFilterMixin):
+    lookup_field = 'id'
+    queryset = RecurringTransaction.objects.all()
+    serializer_class = RecurringTransactionSerializer
+
+
+class RecurringView(RecurringTransactionMixin, RetrieveCreateUpdateDestroyView):
+    def perform_destroy(self, instance):
+        instance.template.delete()
+        super().perform_destroy(instance)
+
+
+class RecurringAllView(RecurringTransactionMixin, ListView):
+    pass
+
+
+class RecurringActive(RecurringTransactionMixin, ListView):
+    def get_queryset(self):
+        return super().get_queryset().filter(start_date__lte=date.today(), end_date__gte=date.today())
+
+
+# The two following can make use of code from month (do later).
+
+class RecurringByDate(CompanyFilterMixin, ListView):
+    pass
+
+
+class RecurringByDateRange(CompanyFilterMixin, ListView):
+    pass

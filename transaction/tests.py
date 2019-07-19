@@ -5,9 +5,8 @@ from base.tests import JWTTestCase
 from custom_auth import roles
 from company.models import Company
 from company.tests import CompanyTestMixin
-from .models import Transaction
+from .models import Transaction, RecurringTransaction, TransactionTemplate, TransactionStaticData
 from . import views
-from .models import TransactionStaticData
 
 
 class TransactionTestMixin(CompanyTestMixin):
@@ -15,23 +14,51 @@ class TransactionTestMixin(CompanyTestMixin):
         super().setUp()
         self.force_login(self.user)
         self.company = self.create_company()
-        self.set_role(self.company, self.user, roles.REPORTER)
-        self.date = date(2017, 5, 17)
+        self.set_role(self.company, self.user, roles.USER)
         self.type = 'IN'
         self.money = '3000'
         self.description = '11th income.'
         self.notes = 'Incomes are cool.'
+        self.date = date(2017, 5, 17)
         self.recurring_transaction = None
+        self.day_delta = 7
+        self.month_delta = 0
+        self.start_date  = date(2018, 4, 23)
+        self.end_date = date(2018, 10, 15)
 
     def create_transaction(self, date=None, company=None, recurring_transaction=None, money=None,
                            type=None, description=None, notes=None, save=True):
-        transaction = Transaction(date=(date or self.date), company=(company or self.company),
+        transaction = Transaction(date=(date or self.date),
+                                  company=(company or self.company),
                                   recurring_transaction=(recurring_transaction or self.recurring_transaction),
-                                  money=(money or self.money), type=(type or self.type),
-                                  description=(description or self.description), notes=(notes or self.notes))
+                                  money=(money or self.money),
+                                  type=(type or self.type),
+                                  description=(description or self.description),
+                                  notes=(notes or self.notes))
         if save:
             transaction.save()
         return transaction
+
+    def create_recurring_transaction(self, day_delta=None, month_delta=None, start_date=None, end_date=None,
+                                     company=None, money=None, type=None, description=None, notes=None, save=True):
+        template = TransactionTemplate(money=(money or self.money),
+                                       type=(type or self.type),
+                                       description=(description or self.description),
+                                       notes=(notes or self.notes))
+        if save:
+            template.save()
+
+        recurring_transaction = RecurringTransaction(day_delta=(day_delta or self.day_delta),
+                                                     month_delta=(month_delta or self.month_delta),
+                                                     start_date=(start_date or self.start_date),
+                                                     end_date=(end_date or self.end_date),
+                                                     company=(company or self.company),
+                                                     template=template
+                                                     )
+        if save:
+            recurring_transaction.save()
+        return recurring_transaction
+
 
 class TransactionAllTestCase(TransactionTestMixin, JWTTestCase):
     def setUp(self):
@@ -159,8 +186,7 @@ class TransactionByDateTestCase(TransactionTestMixin, JWTTestCase):
         self.assertEquals(len(response.data['results']), 2, msg=response.data)
 
         transactions_ids = [x['id'] for x in response.data['results']]
-        self.assertIn(tr1.id, transactions_ids, msg=response.content)
-        self.assertIn(tr2.id, transactions_ids, msg=response.content)
+        self.assertListEqual(transactions_ids, [tr1.id, tr2.id], msg=response.content)
         self.assertNotIn(tr3.id, transactions_ids, msg=response.content)
 
     def test_transaction_from_correct_company(self):
@@ -241,3 +267,92 @@ class TransactionExpenseAllTestCase(TransactionTestMixin, JWTTestCase):
         transaction_ids = [trans['id'] for trans in response.data['results']]
         self.assertEquals([trans_ex.id], transaction_ids, msg=response.content)
         self.assertNotIn(trans_in.id, transaction_ids, msg=response.content)
+
+
+class RecurringTransactionTestCase(TransactionTestMixin, JWTTestCase):
+    def setUp(self):
+        super().setUp()
+        self.force_login(self.user)
+        self.template = {
+            'money': 5000, 'type': 'IN', 'description': 'Monthly rent of room under stairs.',
+            'notes': 'Harry will move out of it after a year.',
+        }
+        self.recurring = {
+            'company_id': self.company.pk, 'day_delta': 0, 'month_delta': 1, 'start_date': '2018-08-25',
+            'end_date': '2020-10-30', 'template': self.template
+        }
+
+    def test_create_recurring_transaction(self):
+        response = self.post(views.RecurringView, self.recurring)
+        self.assertEquals(response.status_code, 201, msg=response.content)
+        self.assertEquals(response.data['template']['money'], self.template['money'], msg=response.content)
+        self.assertTrue(TransactionTemplate.objects.filter(money=5000).exists(), msg=response.content)
+        self.assertEquals(response.data['start_date'], '2018-08-25', msg=response.content)
+        self.assertTrue(RecurringTransaction.objects.filter(company_id=self.company.pk).exists(), msg=response.content)
+
+    def test_update_recurring_transaction(self):
+        response = self.post(views.RecurringView, self.recurring)
+
+        new_recurring = self.recurring
+        new_recurring['id'] = response.data['id']
+        new_recurring['end_date'] = '2022-08-25'
+        new_template = self.template
+        new_income = 3000
+        new_template['money'] = new_income
+        new_template['id'] = response.data['template']['id']
+        new_recurring['template'] = new_template
+
+        response = self.put(views.RecurringView, self.recurring)
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        templates = TransactionTemplate.objects.all()
+        self.assertEquals(len(templates), 1, msg=response.content)
+        self.assertEquals(templates[0].money, new_income, msg=response.content)
+        recurring_trans = RecurringTransaction.objects.all()
+        self.assertEquals(len(recurring_trans), 1, msg=response.content)
+        self.assertEquals(recurring_trans[0].template, templates[0], msg=response.content)
+        self.assertEquals(recurring_trans[0].end_date, date(2022, 8, 25), msg=response.content)
+
+    def test_delete_recurring_transaction(self):
+        recurring_trans = self.create_recurring_transaction()
+
+        response = self.delete(views.RecurringView, {'id': recurring_trans.id})
+        self.assertEquals(response.status_code, 204, msg=response.content)
+        self.assertFalse(RecurringTransaction.objects.exists(), msg=RecurringTransaction.objects.all())
+        self.assertFalse(TransactionTemplate.objects.exists(), msg=TransactionTemplate.objects.all())
+
+    def test_transactions_read_only(self):
+        self.recurring['transactions'] = [1, 2]
+
+        response = self.post(views.RecurringView, self.recurring)
+        self.assertEquals(response.status_code, 201, msg=response.content)
+
+        response = self.get(views.RecurringView, {'id': response.data['id']})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data['transactions'], [], msg=response.data['transactions'])
+
+
+    def test_enforce_start_date_before_end_date(self):
+        self.recurring['start_date'] = '2020-10-30'
+        self.recurring['end_date'] = '2018-09-29'
+        response = self.post(views.RecurringView, self.recurring)
+        self.assertEquals(response.status_code, 400, msg=response.content)
+        self.assertIn(b'Start date must occur before end date.', response.content, msg=response.content)
+
+
+class RecurringActiveTestCase(TransactionTestMixin, JWTTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.force_login(self.user)
+
+    def test_recurring_active(self):
+        self.create_recurring_transaction(end_date=(date.today()-timedelta(days=1)))
+        recurring_2 = self.create_recurring_transaction(end_date=(date.today() + timedelta(days=10)))
+        recurring_3 = self.create_recurring_transaction(start_date=date.today(), end_date=date.today())
+        self.create_recurring_transaction(start_date=(date.today()+timedelta(days=10)),
+                                          end_date=(date.today()+timedelta(days=300)))
+
+        response = self.get(views.RecurringActive, {'company_id': self.company.pk})
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        ids = [elmt['id'] for elmt in response.data['results']]
+        self.assertListEqual(ids, [recurring_2.id, recurring_3.id], msg=response.data)

@@ -41,7 +41,6 @@ class Transaction(TransactionStaticData):
         ordering = ['date']
 
 
-
 class RecurringTransaction(models.Model):
     day_delta = models.PositiveIntegerField()
     month_delta = models.PositiveIntegerField()
