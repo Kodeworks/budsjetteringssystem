@@ -7,7 +7,9 @@ import Input from '../components/atoms/Input';
 import NavigationBrand from '../components/atoms/NavigationBrand';
 import NavigationPill from '../components/atoms/NavigationPill';
 import OutlinedButton from '../components/atoms/OutlinedButton';
-import RecurringTransactionOptions from '../components/atoms/RecurringTransactionOptions';
+import RecurringTransactionOptions, {
+  intervalType,
+} from '../components/atoms/RecurringTransactionOptions';
 import Select from '../components/atoms/Select';
 import TextArea from '../components/atoms/TextArea';
 import TransactionEntry from '../components/atoms/TransactionEntry';
@@ -18,8 +20,8 @@ import Navigation from '../components/organism/Navigation';
 import Toolbar from '../components/organism/Toolbar';
 import Transactions from '../components/organism/Transactions';
 import LandingPage from '../components/pages/LandingPage';
+import { ITransaction } from '../declarations/transaction';
 import GlobalWrapper from '../helpers/GlobalWrapper';
-import { createDummyTransaction } from '../helpers/transaction_creator';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
 
@@ -101,22 +103,61 @@ storiesOf('Dashboard', module)
     </CardContainer>
   ));
 
-// storiesOf('Dashboard/Transactions', module)
-//   .add('Entry (expense)', () => (
-//   <GlobalWrapper>
-//     <TransactionEntry />
-//   </GlobalWrapper>
-//   ))
-//   .add('Entry (income)', () => <TransactionEntry />);
+const expenseTx = {
+  company_id: 1337,
+  date: '2019-12-16',
+  description: 'Storybook expense',
+  id: 1,
+  money: 12345,
+  notes: 'Storybook is neat!',
+  recurring_id: 666,
+  type: 'expense',
+} as ITransaction;
 
-// storiesOf('Transactions', module)
-//   .addDecorator(fn => (
-//   <div style={{ width: '80vw', margin: '2em', background: theme.palette.primary.main }}>
-//   {fn()}
-//   </div>
-//   ))
-//   .add('Transaction page', () => <Transactions />)
-//   .add('Recurring options', () => <RecurringTransactionOptions/>);
+const incomeTx = {
+  company_id: 1337,
+  date: '2019-12-16',
+  description: 'Storybook expense',
+  id: 1,
+  money: 12345,
+  notes: 'Storybook is neat!',
+  recurring_id: 666,
+  type: 'income',
+} as ITransaction;
+
+storiesOf('Dashboard/Transactions', module)
+  .add('Entry (expense)', () => <TransactionEntry {...expenseTx} />)
+  .add('Entry (income)', () => <TransactionEntry {...incomeTx} />);
+
+storiesOf('Transactions', module)
+  .addDecorator(fn => (
+    <div
+      style={{
+        background: theme.palette.primary.main,
+        margin: '2em',
+        width: '80vw',
+      }}
+    >
+      {fn()}
+    </div>
+  ))
+  .add('Transaction page', () => <Transactions />)
+  .add('Recurring options', () => {
+    const [intervalValue, setIntervalValue] = React.useState(2);
+    const [intervalTypeValue, setIntervalType] = React.useState<intervalType>(
+      'month'
+    );
+    const [DoMValue, setDoM] = React.useState(7);
+    const options = {
+      DoMValue,
+      intervalTypeValue,
+      intervalValue,
+      setDoM,
+      setInterval: setIntervalValue,
+      setTypeInterval: setIntervalType,
+    };
+    return <RecurringTransactionOptions {...options} />;
+  });
 
 storiesOf('Input/Text', module)
   .addDecorator(fn => (
@@ -152,29 +193,69 @@ storiesOf('Input/Date', module)
     </Input>
   ));
 
-// storiesOf('Input/Checkbox', module)
-//   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('Unticked', () => <Checkbox>Lipsum?</Checkbox>)
-//   .add('Ticked', () => <Checkbox value={true}>Lipsum?</Checkbox>);
+storiesOf('Input/Checkbox', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('Unticked', () => {
+    const [value, setState] = React.useState(false);
+    const props = {
+      id: '_',
+      setState,
+      value,
+    };
+    return <Checkbox {...props}>Lipsum?</Checkbox>;
+  })
+  .add('Ticked', () => {
+    const [value, setState] = React.useState(true);
+    const props = {
+      id: '_',
+      setState,
+      value,
+    };
+    return <Checkbox {...props}>Lipsum?</Checkbox>;
+  });
 
-// storiesOf('Filters', module)
-//   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('With placeholder', () => <Filters setFilter={() => {}} />)
+storiesOf('Filters', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('With placeholder', () => {
+    const filterFn = () => true;
+    return <Filters setFilter={filterFn} />;
+  });
 
-// storiesOf('Add new transaction', module)
-//   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('Default', () => <AddTransaction />);
+storiesOf('Add new transaction', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('Default', () => <AddTransaction />);
 
-// storiesOf('Input/Textarea', module)
-//   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add(
-//     'With placeholder',
-//      () => (
-//      <TextArea placeholder="Insert a funny otter fact.">
-//         Welcome to the jungle
-//     </TextArea>
-//     ),
-//   );
+storiesOf('Input/Textarea', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('With placeholder', () => {
+    const [value, setState] = React.useState('');
+    return (
+      <TextArea
+        id="_"
+        value={value}
+        setState={setState}
+        placeholder="Insert a funny otter fact."
+      >
+        Welcome to the jungle
+      </TextArea>
+    );
+  });
 
 const values = [
   { name: 'Otter', value: 'otter' },
@@ -182,11 +263,17 @@ const values = [
   { name: 'Beaver', value: 'beaver' },
 ];
 
-// storiesOf('Input/Select', module)
-//   .addDecorator(fn => <div style={{ margin: '2em', background: theme.palette.primary.main }}>{fn()}</div>)
-//   .add('Default', () => (
-//     <Select values={values}>
-//       Select your spirit animal
-//     </Select>
-//     ),
-//   );
+storiesOf('Input/Select', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('Default', () => {
+    const [value, setState] = React.useState('otter');
+    return (
+      <Select value={value} setState={setState} values={values}>
+        Select your spirit animal
+      </Select>
+    );
+  });

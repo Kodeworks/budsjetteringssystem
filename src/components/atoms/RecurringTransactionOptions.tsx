@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import Input from './Input';
 import Select from './Select';
 
+export type intervalType = 'month' | 'week';
+
 interface IProps {
   intervalValue: number;
   setInterval: React.Dispatch<React.SetStateAction<number>>;
-  intervalTypeValue: string;
+  intervalTypeValue: intervalType;
   DoMValue: number;
-  setTypeInterval: React.Dispatch<React.SetStateAction<string>>;
+  setTypeInterval: React.Dispatch<React.SetStateAction<intervalType>>;
   setDoM: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -45,7 +47,7 @@ const RecurringTransactionOptions: React.FC<IProps> = props => {
         id="intervalType"
         values={selectOptions}
         value={props.intervalTypeValue}
-        setState={props.setTypeInterval}
+        setState={props.setTypeInterval as Dispatch<SetStateAction<string>>}
       >
         Interval type
       </Select>
