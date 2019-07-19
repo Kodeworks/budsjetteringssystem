@@ -9,7 +9,7 @@ from transaction.tests import RecurringTransactionTestMixin
 from transaction.utils import RecurringTransactionOccurence
 from . import views
 from .models import BankBalance
-from .serializers import BankBalanceSerializer, MonthSerializer
+from .serializers import BankBalanceSerializer, BalanceSerializer, MonthSerializer
 from .utils import Balance, Month
 
 
@@ -388,7 +388,7 @@ class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWT
             'year': 2019,
             'month': 6,
             'start_balance': 0,
-            'lowest_balance': bank1.money,
+            'lowest_balance': BalanceSerializer(bank1).data,
             'transactions': [],
             'recurring': [],
             'balances': [],
@@ -404,7 +404,7 @@ class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWT
                 year=2019,
                 month=7,
                 start_balance=bank1.money,
-                lowest_balance=3000,
+                lowest_balance=Balance(self.company.pk, datetime.date(2019, 7, 2), 3000),
                 transactions=[
                     transaction1,
                     transaction2,
@@ -425,6 +425,82 @@ class MonthViewTestCase(BankBalanceTestMixin, RecurringTransactionTestMixin, JWT
                 ],
                 bank_balances=[
                     bank2,
+                ],
+            )
+        ).data
+        self.assertEqual(response.data, expected, msg=response.content)
+
+    def test_lowest_balance(self):
+        bank1 = self.create_bank_balance(datetime.date(2019, 6, 2), 1000)
+        bank2 = self.create_bank_balance(datetime.date(2019, 8, 2), 4000)
+        bank3 = self.create_bank_balance(datetime.date(2019, 9, 1), 6000)
+        transaction1 = self.create_transaction(date=datetime.date(2019, 7, 2), money=-1000)
+
+        response = self.get(views.MonthView, {'year': 2019, 'month': 6})
+        expected = MonthSerializer(
+            Month(
+                year=2019,
+                month=6,
+                start_balance=0,
+                lowest_balance=Balance(self.company.pk, datetime.date(2019, 5, 31), 0),
+                transactions=[],
+                recurring=[],
+                balances=[],
+                bank_balances=[
+                    bank1,
+                ],
+            )
+        ).data
+        self.assertEqual(response.data, expected, msg=response.content)
+
+        response = self.get(views.MonthView, {'year': 2019, 'month': 7})
+        expected = MonthSerializer(
+            Month(
+                year=2019,
+                month=7,
+                start_balance=1000,
+                lowest_balance=Balance(self.company.pk, datetime.date(2019, 7, 2), 0),
+                transactions=[
+                    transaction1,
+                ],
+                recurring=[],
+                balances=[
+                    Balance(self.company.pk, datetime.date(2019, 7, 2), 0),
+                ],
+                bank_balances=[],
+            )
+        ).data
+        self.assertEqual(response.data, expected, msg=response.content)
+
+        response = self.get(views.MonthView, {'year': 2019, 'month': 8})
+        expected = MonthSerializer(
+            Month(
+                year=2019,
+                month=8,
+                start_balance=0,
+                lowest_balance=Balance(self.company.pk, datetime.date(2019, 7, 31), 0),
+                transactions=[],
+                recurring=[],
+                balances=[],
+                bank_balances=[
+                    bank2,
+                ],
+            )
+        ).data
+        self.assertEqual(response.data, expected, msg=response.content)
+
+        response = self.get(views.MonthView, {'year': 2019, 'month': 9})
+        expected = MonthSerializer(
+            Month(
+                year=2019,
+                month=9,
+                start_balance=4000,
+                lowest_balance=bank3,
+                transactions=[],
+                recurring=[],
+                balances=[],
+                bank_balances=[
+                    bank3,
                 ],
             )
         ).data

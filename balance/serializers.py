@@ -30,7 +30,7 @@ class MonthSerializer(serializers.Serializer):
     year = serializers.IntegerField()
     month = serializers.IntegerField()
     start_balance = serializers.IntegerField()
-    lowest_balance = serializers.IntegerField()
+    lowest_balance = BalanceSerializer()
     transactions = TransactionSerializer(many=True)
     recurring = RecurringTransactionOccurenceSerializer(many=True)
     balances = BalanceSerializer(many=True)

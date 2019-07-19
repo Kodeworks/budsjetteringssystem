@@ -67,31 +67,34 @@ class Balance:
         balance = cls.for_date(company_id, start_date - day, True).money
         bank_balances = BankBalance.objects.filter(company=company_id, date__gte=start_date, date__lte=end_date)
 
-        if bank_balances and bank_balances[0].date != start_date:
-            period_end = bank_balances[0].date
-            if include_bank_balances:
-                period_end -= day
-
-            balances.update(cls.get_transaction_balances(company_id, start_date, period_end, balance))
-        elif not include_bank_balances:
-            balances.update(cls.get_transaction_balances(company_id, start_date, start_date, balance))
-
-        for i, bank_balance in enumerate(bank_balances):
-            if include_bank_balances:
-                balances[bank_balance.date] = cls.from_bank_balance(bank_balance)
-
-            balance = bank_balance.money
-
-            period_start = bank_balance.date + day
-
-            if len(bank_balances) > i + 1:
-                period_end = bank_balances[i + 1].date
-                if not include_bank_balances:
+        if not bank_balances:
+            balances = cls.get_transaction_balances(company_id, start_date, end_date, balance)
+        else:
+            if bank_balances[0].date != start_date:
+                period_end = bank_balances[0].date
+                if include_bank_balances:
                     period_end -= day
-            else:
-                period_end = end_date
 
-            balances.update(cls.get_transaction_balances(company_id, period_start, period_end, balance))
+                balances.update(cls.get_transaction_balances(company_id, start_date, period_end, balance))
+            elif not include_bank_balances:
+                balances.update(cls.get_transaction_balances(company_id, start_date, start_date, balance))
+
+            for i, bank_balance in enumerate(bank_balances):
+                if include_bank_balances:
+                    balances[bank_balance.date] = cls.from_bank_balance(bank_balance)
+
+                balance = bank_balance.money
+
+                period_start = bank_balance.date + day
+
+                if len(bank_balances) > i + 1:
+                    period_end = bank_balances[i + 1].date
+                    if not include_bank_balances:
+                        period_end -= day
+                else:
+                    period_end = end_date
+
+                balances.update(cls.get_transaction_balances(company_id, period_start, period_end, balance))
 
         return list(balances.values())
 
@@ -141,7 +144,7 @@ class Month:
     year: int
     month: int
     start_balance: int
-    lowest_balance: int
+    lowest_balance: Balance
     transactions: Any
     recurring: Any
     balances: Any
@@ -154,7 +157,7 @@ class Month:
         month_end = month_start + relativedelta(day=31)
         filter = Q(company=company_id, date__gte=month_start, date__lte=month_end)
 
-        start_balance = Balance.for_date(company_id, month_start - relativedelta(days=1)).money
+        start_balance = Balance.for_date(company_id, month_start - relativedelta(days=1))
         balances = Balance.for_date_range(company_id, month_start, month_end)
         transactions = Transaction.objects.filter(filter)
         bank_balances = BankBalance.objects.filter(filter)
@@ -163,9 +166,18 @@ class Month:
                                                                                      month_start,
                                                                                      month_end)]
 
-        lowest_balance = min([balance.money for balance in balances + list(bank_balances)], default=start_balance)
+        # If there isn't a balance for the first day of the month we include the incoming
+        # balance in the calculation of the lowest balance
+        if balances and balances[0].date == month_start:
+            lowest_balance = balances[0]
+        elif bank_balances and bank_balances[0].date == month_start:
+            lowest_balance = bank_balances[0]
+        else:
+            lowest_balance = start_balance
 
-        return cls(year, month, start_balance, lowest_balance, transactions, recurring, balances, bank_balances)
+        lowest_balance = min(list(balances) + list(bank_balances) + [lowest_balance], key=lambda x: x.money)
+
+        return cls(year, month, start_balance.money, lowest_balance, transactions, recurring, balances, bank_balances)
 
     @classmethod
     def for_date_range(cls, company_id, start_date, end_date):
