@@ -5,7 +5,9 @@ import Checkbox from '../atoms/Checkbox';
 import Collapsable from '../atoms/Collapsable';
 import Input from '../atoms/Input';
 import OutlinedButton from '../atoms/OutlinedButton';
-import RecurringTransactionOptions from '../atoms/RecurringTransactionOptions';
+import RecurringTransactionOptions, {
+  IntervalType,
+} from '../atoms/RecurringTransactionOptions';
 import TextArea from '../atoms/TextArea';
 
 import { TransactionType } from '../../declarations/transaction';
@@ -28,7 +30,9 @@ const AddTransaction: React.FC<IProps> = props => {
   const [notes, setNotes] = React.useState('');
   const [recurring, setRecurring] = React.useState(false);
   const [interval, setInterval] = React.useState(1);
-  const [intervalType, setIntervalType] = React.useState('Month');
+  const [intervalTypeValue, setIntervalType] = React.useState<IntervalType>(
+    'month'
+  );
   const [dayOfMonth, setDayOfMonth] = React.useState(23);
   const [, setError] = React.useState('');
 
@@ -73,7 +77,7 @@ const AddTransaction: React.FC<IProps> = props => {
   const recurringTransactionOptions = (
     <RecurringTransactionOptions
       intervalValue={interval}
-      intervalTypeValue={intervalType}
+      intervalTypeValue={intervalTypeValue}
       DoMValue={dayOfMonth}
       setInterval={setInterval}
       setTypeInterval={setIntervalType}

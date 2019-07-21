@@ -1,6 +1,5 @@
-import { getByText, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import GlobalWrapper from '../../../helpers/GlobalWrapper';
 import NavigationPill from '../NavigationPill';
 
