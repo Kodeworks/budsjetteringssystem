@@ -1,8 +1,8 @@
 import { fetchWithCallback } from '.';
+import { IPaginated } from '../declarations/pagination';
 import {
-  IPaginatedExpenseTransaction,
-  IPaginatedIncomeTransaction,
-  IPaginatedTransaction,
+  IExpenseTransaction,
+  IIncomeTransaction,
   ITransaction,
 } from '../declarations/transaction';
 
@@ -56,7 +56,7 @@ export const getAllTransactions = async (
   offset: number = 0,
   limit?: number
 ) =>
-  await fetchWithCallback<IPaginatedTransaction>(
+  await fetchWithCallback<IPaginated<ITransaction>>(
     '/transaction/all/',
     `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
   );
@@ -67,7 +67,7 @@ export const getTransactionsByDate = async (
   offset: number = 0,
   limit?: number
 ) =>
-  await fetchWithCallback<IPaginatedTransaction>(
+  await fetchWithCallback<IPaginated<ITransaction>>(
     '/transaction/byDate/',
     `?company_id=${companyId}&date=${date}&offset=${offset}${limit &&
       `&limit=${limit}`}`
@@ -80,7 +80,7 @@ export const getTransactionsByDateRange = async (
   offset: number = 0,
   limit?: number
 ) =>
-  await fetchWithCallback<IPaginatedTransaction>(
+  await fetchWithCallback<IPaginated<ITransaction>>(
     '/transaction/byDateRange/',
     `?company_id=${companyId}&end_date=${endDate}&start_date=${startDate}&offset=${offset}${limit &&
       `&limit=${limit}`}`
@@ -91,7 +91,7 @@ export const getAllIncomeTransactions = async (
   offset: number = 0,
   limit?: number
 ) =>
-  await fetchWithCallback<IPaginatedIncomeTransaction>(
+  await fetchWithCallback<IPaginated<IIncomeTransaction>>(
     '/transaction/income/all/',
     `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
   );
@@ -101,7 +101,7 @@ export const getAllExpenseTransactions = async (
   offset: number = 0,
   limit?: number
 ) =>
-  await fetchWithCallback<IPaginatedExpenseTransaction>(
+  await fetchWithCallback<IPaginated<IExpenseTransaction>>(
     '/transaction/expense/all/',
     `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
   );

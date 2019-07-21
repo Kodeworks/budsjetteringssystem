@@ -11,6 +11,10 @@ const endpoints = [
   '/transaction/byDate/',
   '/transaction/byDateRange/',
   '/balance/',
+  '/balance/byDateRange/',
+  '/balance/bank/',
+  '/balance/bank/byDate/',
+  '/balance/bank/byDateRange/',
   '/recurring/',
   '/month/',
   '/month/all/',
@@ -97,6 +101,7 @@ export const fetchWithCallback = async <T>(
     return await ({
       200: async resp => (await resp.json()) as T,
       201: async resp => (await resp.json()) as T,
+      204: async () => true,
       400: async resp => {
         throw new Error(((await resp.json()) as IError).detail);
       },

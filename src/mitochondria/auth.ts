@@ -8,12 +8,11 @@ export interface ILoginResponse {
   refresh: string;
 }
 
-export const register = async (
-  email: string,
-  firstName: string,
-  lastName: string,
-  password: string
-): Promise<IUser> => {
+interface IRegisterUser extends Omit<IUser, 'id' | 'companies'> {
+  password: string;
+}
+
+export const register = async (user: IRegisterUser): Promise<IUser> => {
   // We want to clear the tokens, as if not, it will fail if tokens are outdated when logging in!
   localStorage.removeItem('access');
   localStorage.removeItem('refresh');
@@ -22,12 +21,7 @@ export const register = async (
     '/user/',
     '',
     {
-      body: JSON.stringify({
-        email,
-        first_name: firstName,
-        last_name: lastName,
-        password,
-      }),
+      body: JSON.stringify(user),
       method: 'POST',
     },
     {
@@ -75,24 +69,12 @@ export const login = async (
   );
 };
 
-export const updateUser = async (
-  id: number,
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string
-) =>
+export const updateUser = async (user: IUser) =>
   await fetchWithCallback<true>(
     '/user/',
     '',
     {
-      body: JSON.stringify({
-        email,
-        first_name: firstName,
-        id,
-        last_name: lastName,
-        password,
-      }),
+      body: JSON.stringify(user),
       method: 'PUT',
     },
     {

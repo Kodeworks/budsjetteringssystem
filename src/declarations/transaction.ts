@@ -1,5 +1,3 @@
-import { IPaginated } from './pagination';
-
 export type TransactionType = 'IN' | 'EX';
 
 export interface ITransaction {
@@ -17,18 +15,6 @@ export interface IIncomeTransaction extends ITransaction {
   type: 'IN';
 }
 
-export interface IPaginatedIncomeTransaction extends IPaginated {
-  results: Array<IIncomeTransaction>;
-}
-
 export interface IExpenseTransaction extends ITransaction {
   type: 'EX';
-}
-
-export interface IPaginatedExpenseTransaction extends IPaginated {
-  results: Array<IExpenseTransaction>;
-}
-
-export interface IPaginatedTransaction extends IPaginated {
-  results: Array<ITransaction>;
 }
