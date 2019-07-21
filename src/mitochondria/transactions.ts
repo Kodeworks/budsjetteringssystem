@@ -6,9 +6,9 @@ import {
   ITransaction,
 } from '../declarations/transaction';
 
-export type INewTransaction = Omit<ITransaction, 'id' | 'recurring_id'>;
+export type ICreateTransaction = Omit<ITransaction, 'id' | 'recurring_id'>;
 
-export const createTransaction = async (transaction: INewTransaction) =>
+export const createTransaction = async (transaction: ICreateTransaction) =>
   await fetchWithCallback<ITransaction>('/transaction/', '', {
     body: JSON.stringify(transaction),
     method: 'POST',

@@ -98,7 +98,10 @@ export const getUserById = async (id: number): Promise<IUser> =>
   await fetchWithCallback<IUser>('/user/', `?id=${id}`);
 
 export const getUserByEmail = async (email: string): Promise<IUser> =>
-  await fetchWithCallback<IUser>('/user/byEmail/', `?email=${email}`);
+  await fetchWithCallback<IUser>(
+    '/user/byEmail/',
+    `?email=${encodeURI(email)}`
+  );
 
 export const logout = () => {
   localStorage.removeItem('access');

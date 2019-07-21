@@ -18,7 +18,7 @@ describe('authentication', () => {
   let initialAuth: [string, string, string];
 
   beforeEach(async () => {
-    user = await api.register(registerObj());
+    user = await api.login('testing@liquidator.com', 'password');
 
     /**
      * We want to save the information that was in the localStorage so we can restore
@@ -30,14 +30,6 @@ describe('authentication', () => {
       localStorage.getItem('refresh'),
       localStorage.getItem('user_id'),
     ] as [string, string, string];
-  });
-
-  afterEach(async () => {
-    localStorage.setItem('access', initialAuth[0]);
-    localStorage.setItem('refresh', initialAuth[1]);
-    localStorage.setItem('user_id', initialAuth[2]);
-
-    await api.deleteUser(user.email);
   });
 
   test('register creates a new user and returns user', () => {
@@ -69,25 +61,28 @@ describe('authentication', () => {
   });
 
   test('update user', async () => {
+    const firstName = `${Math.random()}`;
+    const lastName = `${Math.random()}`;
+
     expect(
       await api.updateUser({
         ...user,
-        first_name: 'Tom',
-        last_name: 'Riddle',
+        first_name: firstName,
+        last_name: lastName,
       })
     ).toBe(true);
 
     const resp = await api.getUserById(user.id);
 
     expect(resp.id).toBe(user.id);
-    expect(resp.first_name).toBe('Tom');
-    expect(resp.last_name).toBe('Riddle');
+    expect(resp.first_name).toBe(firstName);
+    expect(resp.last_name).toBe(lastName);
   });
 
   test('delete user', async () => {
     const newUserRegister = {
       ...registerObj(),
-      email: `willbedeletedshortly-${Math.random()}@hotmail.com`,
+      email: 'willbedeletedshortly@hotmail.com',
     };
 
     const newUser = await api.register(newUserRegister);

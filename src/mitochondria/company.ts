@@ -1,7 +1,7 @@
 import { fetchWithCallback } from '.';
 import { ICompany, ICompanyUser } from '../declarations/company';
 
-export const createCompany = (company: Omit<ICompany, 'id'>) =>
+export const createCompany = (company: Omit<ICompany, 'id' | 'users'>) =>
   fetchWithCallback<ICompany>('/company/', '', {
     body: JSON.stringify(company),
     method: 'POST',
@@ -10,7 +10,11 @@ export const createCompany = (company: Omit<ICompany, 'id'>) =>
 export const getCompanyById = (companyId: number) =>
   fetchWithCallback<ICompany>('/company/', `?company_id=${companyId}`);
 
-export const updateCompany = (company: ICompany) =>
+interface IUpdateCompany extends Pick<ICompany, 'org_nr' | 'name'> {
+  company_id: number;
+}
+
+export const updateCompany = (company: IUpdateCompany) =>
   fetchWithCallback<true>(
     '/company/',
     '',

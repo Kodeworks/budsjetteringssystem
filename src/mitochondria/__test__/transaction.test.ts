@@ -1,7 +1,7 @@
 import { cleanup } from '@testing-library/react';
 import nock from 'nock';
 import * as api from '..';
-import { INewTransaction } from '../transactions';
+import { ICreateTransaction } from '../transactions';
 
 afterEach(cleanup);
 
@@ -12,8 +12,8 @@ test('createTransaction should return with a valid new transaction with id', asy
     description: 'Test transaction description',
     money: 200,
     notes: 'Test transaction note',
-    type: ['income', 'expense'][Math.floor(Math.random() * 2)],
-  } as INewTransaction;
+    type: ['IN', 'EX'][Math.floor(Math.random() * 2)],
+  } as ICreateTransaction;
   // See https://github.com/nock/nock on using nock to mock API responses.
   nock('http://localhost:8000')
     .defaultReplyHeaders({
