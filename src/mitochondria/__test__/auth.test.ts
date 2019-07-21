@@ -12,6 +12,13 @@ const loginFirstName = 'Admin';
 const loginLastName = 'Liquid';
 const loginPassword = 'password';
 
+const registerObj = {
+  email: loginEmail,
+  first_name: loginFirstName,
+  last_name: loginLastName,
+  password: loginPassword,
+};
+
 describe('Authentication/Registration', () => {
   beforeEach(() => {
     nock('http://localhost:8000')
@@ -33,12 +40,7 @@ describe('Authentication/Registration', () => {
   });
 
   test('register creates a new user and returns', async () => {
-    const registerResp = await api.register(
-      loginEmail,
-      loginFirstName,
-      loginLastName,
-      loginPassword
-    );
+    const registerResp = await api.register(registerObj);
     expect(registerResp).toEqual({
       companies: [],
       email: loginEmail,
@@ -49,12 +51,7 @@ describe('Authentication/Registration', () => {
   });
 
   test('register sets the user values in localStorage', async () => {
-    await api.register(
-      loginEmail,
-      loginFirstName,
-      loginLastName,
-      loginPassword
-    );
+    await api.register(registerObj);
 
     expect(localStorage.getItem('access')).toBe(access);
     expect(localStorage.getItem('refresh')).toBe(refresh);
@@ -86,5 +83,17 @@ describe('Authentication/Login', () => {
 
     expect(localStorage.getItem('access')).toBe(access);
     expect(localStorage.getItem('refresh')).toBe(refresh);
+  });
+});
+
+describe('Authentication/Logout', () => {
+  test('removes localStorage values', () => {
+    localStorage.setItem('access', 'access');
+    localStorage.setItem('refresh', 'refresh');
+
+    api.logout();
+
+    expect(localStorage.getItem('access')).toBeFalsy();
+    expect(localStorage.getItem('refresh')).toBeFalsy();
   });
 });

@@ -1,5 +1,5 @@
 import { fetchWithCallback } from '.';
-import { ICompany, ICompanyUser, Role } from '../declarations/company';
+import { ICompany, ICompanyUser } from '../declarations/company';
 
 export const createCompany = (company: Omit<ICompany, 'id'>) =>
   fetchWithCallback<ICompany>('/company/', '', {
