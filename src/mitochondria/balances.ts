@@ -9,19 +9,13 @@ export const getMonth = async (
 ) =>
   await fetchWithCallback<Array<IMonth>>(
     '/month/',
-    `?month=${month}&year=${year}&company_id=${companyId}`,
-    {}, // options: nothing, just rock the default
-    { 200: resp => resp.json() as Promise<Array<IMonth>> }
+    `?month=${month}&year=${year}&company_id=${companyId}`
   );
 
 export const getAllMonths = async (companyId: number) =>
   await fetchWithCallback<IPaginatedMonths>(
     '/month/all/',
-    `?company_id=${companyId}`,
-    {},
-    {
-      200: resp => resp.json() as Promise<IPaginatedMonths>,
-    }
+    `?company_id=${companyId}`
   );
 
 /**
@@ -36,9 +30,5 @@ export const getMonthInDateRange = async (
 ) =>
   await fetchWithCallback<IPaginatedMonths>(
     '/month/byDateRange/',
-    `?company_id=${companyId}&start_date=${startDate}&end_date=${endDate}`,
-    {},
-    {
-      200: resp => resp.json() as Promise<IPaginatedMonths>,
-    }
+    `?company_id=${companyId}&start_date=${startDate}&end_date=${endDate}`
   );

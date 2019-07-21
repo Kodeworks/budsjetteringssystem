@@ -9,17 +9,10 @@ import {
 export type INewTransaction = Omit<ITransaction, 'id' | 'recurring_id'>;
 
 export const createTransaction = async (transaction: INewTransaction) =>
-  await fetchWithCallback<ITransaction>(
-    '/transaction/',
-    '',
-    {
-      body: JSON.stringify(transaction),
-      method: 'POST',
-    },
-    {
-      201: resp => resp.json() as Promise<ITransaction>,
-    }
-  );
+  await fetchWithCallback<ITransaction>('/transaction/', '', {
+    body: JSON.stringify(transaction),
+    method: 'POST',
+  });
 
 export const getTransaction = async (
   companyId: number,
@@ -27,15 +20,11 @@ export const getTransaction = async (
 ) =>
   await fetchWithCallback<ITransaction>(
     '/transaction/',
-    `?company_id=${companyId}&id=${transactionId}`,
-    {},
-    {
-      200: resp => resp.json(),
-    }
+    `?company_id=${companyId}&id=${transactionId}`
   );
 
 export const updateTransaction = async (transaction: ITransaction) =>
-  await fetchWithCallback<boolean>(
+  await fetchWithCallback<true>(
     '/transaction/',
     '',
     {
@@ -51,7 +40,7 @@ export const deleteTransaction = async (
   companyId: number,
   transactionId: number
 ) =>
-  await fetchWithCallback<boolean>(
+  await fetchWithCallback<true>(
     '/transaction/',
     `?company_id=${companyId}&id=${transactionId}`,
     {
@@ -69,11 +58,7 @@ export const getAllTransactions = async (
 ) =>
   await fetchWithCallback<IPaginatedTransaction>(
     '/transaction/all/',
-    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`,
-    {},
-    {
-      200: resp => resp.json(),
-    }
+    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
   );
 
 export const getTransactionsByDate = async (
@@ -85,11 +70,7 @@ export const getTransactionsByDate = async (
   await fetchWithCallback<IPaginatedTransaction>(
     '/transaction/byDate/',
     `?company_id=${companyId}&date=${date}&offset=${offset}${limit &&
-      `&limit=${limit}`}`,
-    {},
-    {
-      200: resp => resp.json(),
-    }
+      `&limit=${limit}`}`
   );
 
 export const getTransactionsByDateRange = async (
@@ -102,11 +83,7 @@ export const getTransactionsByDateRange = async (
   await fetchWithCallback<IPaginatedTransaction>(
     '/transaction/byDateRange/',
     `?company_id=${companyId}&end_date=${endDate}&start_date=${startDate}&offset=${offset}${limit &&
-      `&limit=${limit}`}`,
-    {},
-    {
-      200: resp => resp.json(),
-    }
+      `&limit=${limit}`}`
   );
 
 export const getAllIncomeTransactions = async (
@@ -116,11 +93,7 @@ export const getAllIncomeTransactions = async (
 ) =>
   await fetchWithCallback<IPaginatedIncomeTransaction>(
     '/transaction/income/all/',
-    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`,
-    {},
-    {
-      200: resp => resp.json(),
-    }
+    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
   );
 
 export const getAllExpenseTransactions = async (
@@ -130,9 +103,5 @@ export const getAllExpenseTransactions = async (
 ) =>
   await fetchWithCallback<IPaginatedExpenseTransaction>(
     '/transaction/expense/all/',
-    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`,
-    {},
-    {
-      200: resp => resp.json(),
-    }
+    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
   );

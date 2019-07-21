@@ -75,15 +75,48 @@ export const login = async (
   );
 };
 
-export const getUserById = async (id: number): Promise<IUser> =>
-  await fetchWithCallback<IUser>(
+export const updateUser = async (
+  id: number,
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string
+) =>
+  await fetchWithCallback<true>(
     '/user/',
-    `?id=${id}`,
-    {},
+    '',
     {
-      200: resp => resp.json() as Promise<IUser>,
+      body: JSON.stringify({
+        email,
+        first_name: firstName,
+        id,
+        last_name: lastName,
+        password,
+      }),
+      method: 'PUT',
+    },
+    {
+      200: async () => true,
     }
   );
+
+export const deleteUser = async (email: string) =>
+  await fetchWithCallback<true>(
+    '/user/',
+    `?email=${email}`,
+    {
+      method: 'DELETE',
+    },
+    {
+      200: async () => true,
+    }
+  );
+
+export const getUserById = async (id: number): Promise<IUser> =>
+  await fetchWithCallback<IUser>('/user/', `?id=${id}`);
+
+export const getUserByEmail = async (email: string): Promise<IUser> =>
+  await fetchWithCallback<IUser>('/user/', `?email=${email}`);
 
 export const logout = () => {
   localStorage.removeItem('access');

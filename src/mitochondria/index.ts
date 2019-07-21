@@ -67,7 +67,8 @@ interface ICallbacks {
 /**
  * @summary """
  * Perform a fetch call with the access token. Will handle refetching of token
- * if it has expired.
+ * if it has expired. By default, it will return `Promise<resp.json()>` for 200 and
+ * 201 responses.
  * """
  *
  * @param url "URL to fetch. Can pass in query parameters if GET request."
@@ -77,8 +78,8 @@ interface ICallbacks {
 export const fetchWithCallback = async <T>(
   path: ApiEndpoint,
   queryParams: string,
-  options: RequestInit,
-  callbacks: ICallbacks
+  options: RequestInit = {},
+  callbacks: ICallbacks = {}
 ): Promise<T> => {
   const res = await fetch(`${BASE_URL}${path}${queryParams}`, {
     headers: {
@@ -94,6 +95,8 @@ export const fetchWithCallback = async <T>(
   // Call the callback with a status corresponding to the response.
   try {
     return await ({
+      200: async resp => (await resp.json()) as T,
+      201: async resp => (await resp.json()) as T,
       400: async resp => {
         throw new Error(((await resp.json()) as IError).detail);
       },
