@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
-import { ITransaction } from '../../declarations/transaction';
 import * as BalancesAPI from '../../mitochondria/balances';
 import BalancesViewPicker from '../atoms/BalancesViewPicker';
 import MonthPicker from '../atoms/MonthPicker';
