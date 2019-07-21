@@ -104,7 +104,4 @@ export const logout = () => {
   localStorage.removeItem('access');
   localStorage.removeItem('refresh');
   localStorage.removeItem('user_id');
-
-  // Force the application to rebuild, causing app to not have auth set anymore.
-  window.location.reload();
 };

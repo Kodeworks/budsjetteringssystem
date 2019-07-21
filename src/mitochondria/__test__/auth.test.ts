@@ -1,88 +1,52 @@
 import { cleanup } from '@testing-library/react';
-import nock from 'nock';
 import * as api from '..';
 
 afterEach(cleanup);
 
-const access = 'welcome to';
-const refresh = 'the jungle';
-
-const loginEmail = 'admin@liquidator.com';
+const loginEmail = () =>
+  `${Math.floor(Math.random() * 1000000)}-test@liquidator.com`;
 const loginFirstName = 'Admin';
 const loginLastName = 'Liquid';
 const loginPassword = 'password';
 
-const registerObj = {
-  email: loginEmail,
+const registerObj = () => ({
+  email: loginEmail(),
   first_name: loginFirstName,
   last_name: loginLastName,
   password: loginPassword,
-};
+});
 
 describe('Authentication/Registration', () => {
-  beforeEach(() => {
-    nock('http://localhost:8000')
-      .defaultReplyHeaders({
-        'access-control-allow-headers': 'authorization',
-        'access-control-allow-origin': '*',
-      })
-      .options('/user/')
-      .reply(200)
-      .post('/user/')
-      .reply(201, (uri: string, requestBody: any) => {
-        const { email, first_name, last_name } = requestBody.valueOf();
-        return {
-          access,
-          refresh,
-          user: { email, first_name, last_name, companies: [], id: 0 },
-        };
-      });
-  });
+  test('register creates a new user and returns user', async () => {
+    const user = registerObj();
+    const registerResp = await api.register(user);
 
-  test('register creates a new user and returns', async () => {
-    const registerResp = await api.register(registerObj);
-    expect(registerResp).toEqual({
-      companies: [],
-      email: loginEmail,
-      first_name: loginFirstName,
-      id: 0,
-      last_name: loginLastName,
-    });
+    expect(registerResp.first_name).toBe(user.first_name);
+    expect(registerResp.last_name).toBe(user.last_name);
+    expect(registerResp.email).toBe(user.email);
+    expect(registerResp.id).not.toBeNull();
   });
 
   test('register sets the user values in localStorage', async () => {
-    await api.register(registerObj);
+    await api.register(registerObj());
 
-    expect(localStorage.getItem('access')).toBe(access);
-    expect(localStorage.getItem('refresh')).toBe(refresh);
+    expect(localStorage.getItem('access')).not.toBeFalsy();
+    expect(localStorage.getItem('refresh')).not.toBeFalsy();
   });
 });
 
 describe('Authentication/Login', () => {
-  beforeEach(() => {
-    nock('http://localhost:8000')
-      .defaultReplyHeaders({
-        'access-control-allow-headers': 'authorization',
-        'access-control-allow-origin': '*',
-      })
-      .options('/user/login/')
-      .reply(200)
-      .post('/user/login/')
-      .reply(200, (uri: string, requestBody: any) => {
-        const { email, first_name, last_name } = requestBody.valueOf();
-        return {
-          access,
-          refresh,
-          user: { email, companies: [], id: 0, first_name, last_name },
-        };
-      });
-  });
-
   test('login sets localStorage', async () => {
-    await api.login(loginEmail, loginPassword);
+    const user = registerObj();
 
-    expect(localStorage.getItem('access')).toBe(access);
-    expect(localStorage.getItem('refresh')).toBe(refresh);
+    await api.register(user);
+
+    api.logout();
+
+    await api.login(user.email, user.password);
+
+    expect(localStorage.getItem('access')).not.toBeFalsy();
+    expect(localStorage.getItem('refresh')).not.toBeFalsy();
   });
 });
 
