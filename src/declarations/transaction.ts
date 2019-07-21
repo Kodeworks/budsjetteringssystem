@@ -18,3 +18,32 @@ export interface IIncomeTransaction extends ITransaction {
 export interface IExpenseTransaction extends ITransaction {
   type: 'EX';
 }
+
+interface IRecurringTransactionTemplate {
+  id: number;
+  money: number;
+  type: TransactionType;
+  description: string;
+  notes: string;
+}
+
+export type RecurringTransactionInterval = 'DA' | 'MO';
+
+export interface IRecurringTransaction {
+  id: number;
+  template: IRecurringTransactionTemplate;
+  company_id: number;
+  interval: number;
+  interval_type: RecurringTransactionInterval;
+  start_date: string;
+  end_date: string;
+  transactions: Array<ITransaction['id']>; // this makes it clearer that it is a reference to the IDs
+}
+
+export interface ICreateRecurringTransaction
+  extends Omit<IRecurringTransaction, 'id' | 'transactions' | 'template'> {
+  template: Omit<IRecurringTransactionTemplate, 'id'>;
+}
+
+export interface IUpdateRecurringTransaction
+  extends Omit<IRecurringTransaction, 'transactions'> {}

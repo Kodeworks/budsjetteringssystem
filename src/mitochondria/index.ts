@@ -27,6 +27,11 @@ const endpoints = [
   '/company/addUser/',
   '/company/removeUser/',
   '/company/setRole/',
+  '/recurring/',
+  '/recurring/all/',
+  '/recurring/active/',
+  '/recurring/byDate/',
+  '/recurring/byDateRange/',
 ] as const;
 
 // Union of endpoints: '/transaction' | '/transaction/all' | ...
@@ -137,3 +142,4 @@ export * from './balances';
 export * from './transactions';
 export * from './auth';
 export * from './company';
+export * from './recurring';
