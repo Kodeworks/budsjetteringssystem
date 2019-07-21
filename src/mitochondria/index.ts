@@ -4,34 +4,35 @@ export interface IError {
 
 // Add endpoints here as needed
 const endpoints = [
-  '/transaction/',
-  '/transaction/all/',
-  '/transaction/income/all/',
-  '/transaction/expense/all/',
-  '/transaction/byDate/',
-  '/transaction/byDateRange/',
   '/balance/',
-  '/balance/byDateRange/',
   '/balance/bank/',
   '/balance/bank/byDate/',
   '/balance/bank/byDateRange/',
-  '/recurring/',
-  '/month/',
-  '/month/all/',
-  '/month/byDateRange/',
+  '/balance/byDateRange/',
   '/company/',
-  '/user/',
-  '/user/login/',
-  '/user/register/',
   '/company/',
   '/company/addUser/',
   '/company/removeUser/',
   '/company/setRole/',
+  '/month/',
+  '/month/all/',
+  '/month/byDateRange/',
   '/recurring/',
-  '/recurring/all/',
+  '/recurring/',
   '/recurring/active/',
+  '/recurring/all/',
   '/recurring/byDate/',
   '/recurring/byDateRange/',
+  '/transaction/',
+  '/transaction/all/',
+  '/transaction/byDate/',
+  '/transaction/byDateRange/',
+  '/transaction/expense/all/',
+  '/transaction/income/all/',
+  '/user/',
+  '/user/byEmail/',
+  '/user/login/',
+  '/user/register/',
 ] as const;
 
 // Union of endpoints: '/transaction' | '/transaction/all' | ...
@@ -64,7 +65,7 @@ export const fetchNewToken = async (): Promise<string> => {
       throw new Error('Refresh token has expired.');
     default:
       throw new Error(
-        'Unexpected response from server when fetching new access token.'
+        `Unexpected response from server when fetching new access token.`
       );
   }
 };
