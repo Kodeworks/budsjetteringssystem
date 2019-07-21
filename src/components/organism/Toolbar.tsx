@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { IUser } from '../../declarations/user';
-import { AuthDispatch, useAuth, useAuthState } from '../../store/contexts/auth';
+import { AuthDispatch, useAuth } from '../../store/contexts/auth';
 import { AuthActions } from '../../store/reducers/auth';
 
 const ToolbarContainer = styled.div`
