@@ -10,14 +10,13 @@ interface ITabMenuProps {
 }
 
 const UL = styled.ul`
-  border-bottom: 1px solid #ccc;
   padding-left: 0;
+  height: 100%;
   list-style-type: none;
-  background-color: ${props => props.theme.palette.background.paper};
+  background-color: ${props => props.theme.palette.background.default};
 `;
 
 const TabMenu: React.FC<ITabMenuProps> = props => {
-  
   const handleTabClick = (label: string) => {
     props.setActiveTab(label);
   };
@@ -26,8 +25,8 @@ const TabMenu: React.FC<ITabMenuProps> = props => {
     props.tabLabels.map((label, i) => (
       <TabLabel
         key={label}
-        tabIndex={i}
-        onClick={() => handleTabClick(label)}
+        label={label}
+        onClick={handleTabClick}
         isActive={label === props.activeTab}
       >
         {label}

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Tab from '../molecules/Tab';
 import PageTitle from '../atoms/PageTitle';
+import Tab from '../molecules/Tab';
 import TabsContainer from '../organism/TabsContainer';
 
 interface IProps {
@@ -19,11 +19,11 @@ const UnstyledDashboard: React.FC<IProps> = props => {
         />
       </div>
       <TabsContainer className="tabs-container">
-        <Tab label="Tab-1"> 
-          <h5>This is tab-1</h5>
+        <Tab label="Minimum Liquidity">
+          <h2>This is tab-1</h2>
         </Tab>
-        <Tab label="Tab-2">
-          <h5>This is tab-2</h5>
+        <Tab label="Transaction Volumes">
+          <h2>This is tab-2</h2>
         </Tab>
       </TabsContainer>
     </div>

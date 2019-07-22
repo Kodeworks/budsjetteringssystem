@@ -7,11 +7,7 @@ interface IPropsTab {
 }
 
 const Tab: React.FC<IPropsTab> = props => {
-  return  (
-    <div className={props.className}>
-      {props.children}
-    </div>
-  )
+  return <div className={props.className}>{props.children}</div>;
 };
 
 export default Tab;
