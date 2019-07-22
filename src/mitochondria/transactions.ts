@@ -54,7 +54,7 @@ export const deleteTransaction = async (
 export const getAllTransactions = async (
   companyId: number,
   offset: number = 0,
-  limit?: number
+  limit: number = 0
 ) =>
   await fetchWithCallback<IPaginated<ITransaction>>(
     '/transaction/all/',
@@ -65,7 +65,7 @@ export const getTransactionsByDate = async (
   companyId: number,
   date: string,
   offset: number = 0,
-  limit?: number
+  limit: number = 0
 ) =>
   await fetchWithCallback<IPaginated<ITransaction>>(
     '/transaction/byDate/',
@@ -78,7 +78,7 @@ export const getTransactionsByDateRange = async (
   startDate: string,
   endDate: string,
   offset: number = 0,
-  limit?: number
+  limit: number = 0
 ) =>
   await fetchWithCallback<IPaginated<ITransaction>>(
     '/transaction/byDateRange/',
@@ -89,7 +89,7 @@ export const getTransactionsByDateRange = async (
 export const getAllIncomeTransactions = async (
   companyId: number,
   offset: number = 0,
-  limit?: number
+  limit: number = 0
 ) =>
   await fetchWithCallback<IPaginated<IIncomeTransaction>>(
     '/transaction/income/all/',
@@ -99,7 +99,7 @@ export const getAllIncomeTransactions = async (
 export const getAllExpenseTransactions = async (
   companyId: number,
   offset: number = 0,
-  limit?: number
+  limit: number = 0
 ) =>
   await fetchWithCallback<IPaginated<IExpenseTransaction>>(
     '/transaction/expense/all/',

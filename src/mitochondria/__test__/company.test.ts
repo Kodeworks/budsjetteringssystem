@@ -9,12 +9,13 @@ describe('company', () => {
   let user2: IUser;
   let company: ICompany;
 
-  beforeEach(async done => {
+  beforeAll(async () => {
     await api.login('testing@liquidator.com', 'password');
-    company = await api.getCompanyById(143);
     user2 = await api.getUserByEmail('testing2@liquidator.com');
+  });
 
-    done();
+  beforeEach(async () => {
+    company = await api.getCompanyById(143);
   });
 
   test('create and delete a company', async done => {
