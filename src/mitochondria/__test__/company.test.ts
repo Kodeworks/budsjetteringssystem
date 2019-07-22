@@ -6,12 +6,11 @@ import { IUser } from '../../declarations/user';
 afterEach(cleanup);
 
 describe('company', () => {
-  let user: IUser;
   let user2: IUser;
   let company: ICompany;
 
   beforeEach(async done => {
-    user = await api.login('testing@liquidator.com', 'password');
+    await api.login('testing@liquidator.com', 'password');
     company = await api.getCompanyById(143);
     user2 = await api.getUserByEmail('testing2@liquidator.com');
 
@@ -51,5 +50,33 @@ describe('company', () => {
       company_id: id,
       name: 'Testing company',
     });
+  });
+
+  test('set role for user in company', async () => {
+    await api.addUserToCompany({
+      company_id: company.id,
+      role: 'US',
+      user_id: user2.id,
+    });
+
+    expect(
+      (await api.getCompanyById(company.id)).users.find(
+        e => e.user_id === user2.id
+      )!.role
+    ).toBe('US');
+
+    await api.setRoleForUserInCompany({
+      company_id: company.id,
+      role: 'RE',
+      user_id: user2.id,
+    });
+
+    expect(
+      (await api.getCompanyById(company.id)).users.find(
+        e => e.user_id === user2.id
+      )!.role
+    ).toBe('RE');
+
+    await api.removeUserFromCompany(company.id, user2.id);
   });
 });
