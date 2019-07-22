@@ -61,7 +61,8 @@ const TransactionEntry: React.FC<IProps> = props => {
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
       <h6>
         {moment(props.date).format('L')}
-        {props.recurring_id && `  ${String.fromCharCode(183)} Recurring`}
+        {props.recurring_transaction_id &&
+          `  ${String.fromCharCode(183)} Recurring`}
       </h6>
       <p>{displayNotes && props.notes}</p>
     </div>

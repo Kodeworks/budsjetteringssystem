@@ -6,7 +6,7 @@ export interface ITransaction {
   money: number;
   date: string; // ISO 8601 format: 'YYYY-MM-DD'
   company_id: number;
-  recurring_id?: number;
+  recurring_transaction_id?: number;
   type: TransactionType;
   notes?: string;
 }

@@ -16,7 +16,7 @@
     {
       "id": 0,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2019-11-06",
       "money": 11589934,
       "type": "EX",
@@ -26,7 +26,7 @@
     {
       "id": 1,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2021-02-22",
       "money": 9268882,
       "type": "EX",
@@ -36,7 +36,7 @@
     {
       "id": 2,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2019-04-12",
       "money": 3244316,
       "type": "EX",
@@ -46,7 +46,7 @@
     {
       "id": 3,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2020-11-14",
       "money": 3591509,
       "type": "EX",
@@ -56,7 +56,7 @@
     {
       "id": 4,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2022-06-17",
       "money": 2454858,
       "type": "IN",
@@ -66,7 +66,7 @@
     {
       "id": 5,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2021-04-13",
       "money": 1119311,
       "type": "EX",
@@ -76,7 +76,7 @@
     {
       "id": 6,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2018-12-19",
       "money": 10611,
       "type": "IN",
@@ -86,7 +86,7 @@
     {
       "id": 7,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2021-06-22",
       "money": 583962,
       "type": "EX",
@@ -96,7 +96,7 @@
     {
       "id": 8,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2020-12-20",
       "money": 11988465,
       "type": "IN",
@@ -106,7 +106,7 @@
     {
       "id": 9,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2019-06-19",
       "money": 12361637,
       "type": "IN",
@@ -116,7 +116,7 @@
     {
       "id": 10,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2019-12-23",
       "money": 1148204,
       "type": "EX",
@@ -126,7 +126,7 @@
     {
       "id": 11,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2020-06-10",
       "money": 4371402,
       "type": "IN",
@@ -136,7 +136,7 @@
     {
       "id": 12,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2022-02-24",
       "money": 1934922,
       "type": "IN",
@@ -146,7 +146,7 @@
     {
       "id": 13,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2020-11-01",
       "money": 9068507,
       "type": "EX",
@@ -156,7 +156,7 @@
     {
       "id": 14,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2020-01-05",
       "money": 9795767,
       "type": "EX",
@@ -166,7 +166,7 @@
     {
       "id": 15,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2021-11-17",
       "money": 13592660,
       "type": "IN",
@@ -176,7 +176,7 @@
     {
       "id": 16,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2022-07-31",
       "money": 9440328,
       "type": "IN",
@@ -186,7 +186,7 @@
     {
       "id": 17,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2019-05-14",
       "money": 4891236,
       "type": "EX",
@@ -196,7 +196,7 @@
     {
       "id": 18,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2018-03-08",
       "money": 1265772,
       "type": "EX",
@@ -206,7 +206,7 @@
     {
       "id": 19,
       "company_id": 0,
-      "recurring_id": null,
+      "recurring_transaction_id": null,
       "date": "2019-11-09",
       "money": 11276159,
       "type": "IN",

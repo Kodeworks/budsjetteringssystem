@@ -9,15 +9,9 @@ export const getMonth = async (
   year: number,
   companyId: number
 ) =>
-  await fetchWithCallback<Array<IMonth>>(
+  await fetchWithCallback<IMonth>(
     '/month/',
     `?month=${month}&year=${year}&company_id=${companyId}`
-  );
-
-export const getAllMonths = async (companyId: number) =>
-  await fetchWithCallback<IPaginated<IMonth>>(
-    '/month/all/',
-    `?company_id=${companyId}`
   );
 
 /**

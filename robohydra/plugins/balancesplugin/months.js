@@ -6,7 +6,7 @@ module.exports.june = [
 			{
 				"id": 1,
 				"company_id": 1,
-				"recurring_id": 0,
+				"recurring_transaction_id": 0,
 				"date": "2019-06-28",
 				"money": 1000000,
 				"type": "IN",
@@ -16,7 +16,7 @@ module.exports.june = [
 			{
 				"id": 2,
 				"company_id": 1,
-				"recurring_id": 0,
+				"recurring_transaction_id": 0,
 				"date": "2019-06-03",
 				"money": 1200000,
 				"type": "IN",
@@ -26,7 +26,7 @@ module.exports.june = [
 			{
 				"id": 3,
 				"company_id": 1,
-				"recurring_id": 0,
+				"recurring_transaction_id": 0,
 				"date": "2019-06-03",
 				"money": 2000000,
 				"type": "IN",
@@ -36,7 +36,7 @@ module.exports.june = [
 			{
 				"id": 4,
 				"company_id": 1,
-				"recurring_id": 0,
+				"recurring_transaction_id": 0,
 				"date": "2019-06-22",
 				"money": 5000000,
 				"type": "IN",
@@ -45,7 +45,7 @@ module.exports.june = [
 			}, {
 				"id": 5,
 				"company_id": 1,
-				"recurring_id": 0,
+				"recurring_transaction_id": 0,
 				"date": "2019-06-22",
 				"money": 5000000,
 				"type": "EX",
@@ -85,7 +85,7 @@ module.exports.july = [
 			{
 				"id": 1,
 				"company_id": 1,
-				"recurring_id": 0,
+				"recurring_transaction_id": 0,
 				"date": "2019-07-28",
 				"money": 1000000,
 				"type": "IN",
@@ -95,7 +95,7 @@ module.exports.july = [
 			{
 				"id": 2,
 				"company_id": 1,
-				"recurring_id": 0,
+				"recurring_transaction_id": 0,
 				"date": "2019-07-03",
 				"money": 1200000,
 				"type": "IN",
@@ -105,7 +105,7 @@ module.exports.july = [
 			{
 				"id": 3,
 				"company_id": 1,
-				"recurring_id": 0,
+				"recurring_transaction_id": 0,
 				"date": "2019-07-03",
 				"money": 2000000,
 				"type": "IN",
@@ -115,7 +115,7 @@ module.exports.july = [
 			{
 				"id": 4,
 				"company_id": 1,
-				"recurring_id": 0,
+				"recurring_transaction_id": 0,
 				"date": "2019-07-22",
 				"money": 5000000,
 				"type": "EX",

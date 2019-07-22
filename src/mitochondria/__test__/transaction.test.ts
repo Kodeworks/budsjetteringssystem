@@ -2,7 +2,6 @@ import { cleanup } from '@testing-library/react';
 import * as api from '..';
 import { ICompany } from '../../declarations/company';
 import { ITransaction } from '../../declarations/transaction';
-import { IUser } from '../../declarations/user';
 
 afterEach(cleanup);
 

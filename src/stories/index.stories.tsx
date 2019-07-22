@@ -110,7 +110,7 @@ const expenseTx = {
   id: 1,
   money: 12345,
   notes: 'Storybook is neat!',
-  recurring_id: 666,
+  recurring_transaction_id: 666,
   type: 'EX',
 } as ITransaction;
 
@@ -121,7 +121,7 @@ const incomeTx = {
   id: 1,
   money: 12345,
   notes: 'Storybook is neat!',
-  recurring_id: 666,
+  recurring_transaction_id: 666,
   type: 'IN',
 } as ITransaction;
 

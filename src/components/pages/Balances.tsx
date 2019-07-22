@@ -25,7 +25,7 @@ const createBalanceEntriesFromMonth = (month: IMonth) => {
       liquidity: number;
     };
   } = {};
-  const sortedBalances = month.balance.sort((a, b) =>
+  const sortedBalances = month.balances.sort((a, b) =>
     a.date <= b.date ? -1 : 1
   );
 

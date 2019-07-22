@@ -42,7 +42,7 @@ export const createDummyTransaction = (): ITransaction => ({
           .map(randomWord)
           .join(' ')
       : undefined,
-  recurring_id:
+  recurring_transaction_id:
     Math.random() > 0.5 ? Math.floor(Math.random() * 10) : undefined,
   type: randomType(),
 });

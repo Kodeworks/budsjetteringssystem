@@ -6,7 +6,10 @@ import {
   ITransaction,
 } from '../declarations/transaction';
 
-export type ICreateTransaction = Omit<ITransaction, 'id' | 'recurring_id'>;
+export type ICreateTransaction = Omit<
+  ITransaction,
+  'id' | 'recurring_transaction_id'
+>;
 
 export const createTransaction = async (transaction: ICreateTransaction) =>
   await fetchWithCallback<ITransaction>('/transaction/', '', {
