@@ -76,10 +76,12 @@ storiesOf('Button/Outlined', module).add('Normal', () => (
 
 storiesOf('LandingPage', module).add('Full', () => <LandingPage />);
 
+/** TODO: Remove
+
 const tabs = ['Tab 1', 'Tab 2', 'Tab 3'];
 
 storiesOf('Page', module).add('Tabs', () => <TabMenu tabLabels={tabs} />);
-
+*/
 storiesOf('Dashboard', module)
   .addDecorator(fn => (
     <div style={{ margin: '2em', background: theme.palette.primary.main }}>

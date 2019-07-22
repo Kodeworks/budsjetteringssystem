@@ -5,7 +5,7 @@ interface IProps {
   isActive: boolean;
   className?: string;
   tabIndex: number;
-  onClick: (index: number) => void;
+  onClick: () => void;
 }
 
 const LI = styled.li`
@@ -16,14 +16,13 @@ const LI = styled.li`
 `;
 
 const TabLabel: React.FC<IProps> = props => {
-  const handleClick = () => props.onClick(props.tabIndex);
-  return <LI onClick={handleClick}>{props.children}</LI>;
+  return <LI onClick={props.onClick}>{props.children}</LI>;
 };
 
 export default styled(TabLabel)`
-  ${props =>
-    props.isActive &&
-    `border: solid #ccc;
-  background-color: white;
-  border-width: 1px 1px 0 1px;`};
+  
+  background-color: ${props => 
+    props.isActive ? props.theme.palette.background.paper : props.theme.palette.background.default }
+  
+  border-width: 1px 1px 0 1px;
 `;
