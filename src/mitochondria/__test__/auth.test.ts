@@ -1,42 +1,20 @@
 import { cleanup } from '@testing-library/react';
 import * as api from '..';
 import { IUser } from '../../declarations/user';
+import { loginDetails, setupTests, teardown } from '../../helpers/test-utils';
 
 afterEach(cleanup);
 
-const registerObj = () => ({
-  email: `${Math.floor(
-    Math.random() * 1000000
-  )}-kinds-of-people@i-know.all.com`,
-  first_name: 'Admin',
-  last_name: 'Liquid',
-  password: 'password',
-});
-
 describe('authentication', () => {
   let user: IUser;
-  let initialAuth: [string, string, string];
 
-  beforeEach(async () => {
-    user = await api.login('testing@liquidator.com', 'password');
-
-    /**
-     * We want to save the information that was in the localStorage so we can restore
-     * the session before leaving the test. This way, we can delete the test user
-     * after the test is done.
-     */
-    initialAuth = [
-      localStorage.getItem('access'),
-      localStorage.getItem('refresh'),
-      localStorage.getItem('user_id'),
-    ] as [string, string, string];
+  beforeAll(async () => {
+    const [u] = await setupTests();
+    user = u;
   });
 
-  test('register creates a new user and returns user', () => {
-    expect(user.first_name).toBe(user.first_name);
-    expect(user.last_name).toBe(user.last_name);
-    expect(user.email).toBe(user.email);
-    expect(user.id).not.toBeNull();
+  afterAll(async () => {
+    await teardown();
   });
 
   test('register sets the user values in localStorage', () => {
@@ -54,40 +32,53 @@ describe('authentication', () => {
   test('login sets localStorage', async () => {
     api.logout();
 
-    await api.login(user.email, registerObj().password);
+    await api.login(user.email, loginDetails.password);
 
     expect(localStorage.getItem('access')).not.toBeFalsy();
     expect(localStorage.getItem('refresh')).not.toBeFalsy();
   });
 
-  test('update user', async () => {
-    const firstName = `${Math.random()}`;
-    const lastName = `${Math.random()}`;
-
+  test.skip('update user', async () => {
     expect(
       await api.updateUser({
-        ...user,
-        first_name: firstName,
-        last_name: lastName,
+        email: user.email,
+        first_name: 'John',
+        id: user.id,
+        last_name: 'Doe',
       })
     ).toBe(true);
 
+    await api.login(loginDetails.email, loginDetails.password);
+
     const resp = await api.getUserById(user.id);
 
-    expect(resp.id).toBe(user.id);
-    expect(resp.first_name).toBe(firstName);
-    expect(resp.last_name).toBe(lastName);
+    expect(resp.first_name).toBe('John');
+    expect(resp.last_name).toBe('Doe');
+
+    await api.updateUser({
+      email: user.email,
+      first_name: 'Testing',
+      id: user.id,
+      last_name: 'Testingsson',
+    });
   });
 
-  test('delete user', async () => {
+  test('delete yourself', async () => {
     const newUserRegister = {
-      ...registerObj(),
       email: 'willbedeletedshortly@hotmail.com',
+      first_name: 'Something',
+      last_name: 'Funny',
+      password: 'password',
     };
 
     const newUser = await api.register(newUserRegister);
 
-    expect(await api.deleteUser(newUser.email)).toBe(true);
+    expect(localStorage.getItem('refresh')).not.toBeFalsy();
+    expect(localStorage.getItem('access')).not.toBeFalsy();
+
+    expect(await api.deleteUser()).toBe(true);
+
+    await api.login(loginDetails.email, loginDetails.password);
 
     expect(api.getUserByEmail(newUser.email)).rejects.toThrow();
   });

@@ -69,7 +69,7 @@ export const login = async (
   );
 };
 
-export const updateUser = async (user: IUser) =>
+export const updateUser = async (user: Omit<IUser, 'companies'>) =>
   await fetchWithCallback<true>(
     '/user/',
     '',
@@ -82,10 +82,11 @@ export const updateUser = async (user: IUser) =>
     }
   );
 
-export const deleteUser = async (email: string) =>
+// delete yourself :o
+export const deleteUser = async () =>
   await fetchWithCallback<true>(
     '/user/',
-    `?email=${email}`,
+    '',
     {
       method: 'DELETE',
     },
@@ -98,10 +99,7 @@ export const getUserById = async (id: number): Promise<IUser> =>
   await fetchWithCallback<IUser>('/user/', `?id=${id}`);
 
 export const getUserByEmail = async (email: string): Promise<IUser> =>
-  await fetchWithCallback<IUser>(
-    '/user/byEmail/',
-    `?email=${encodeURI(email)}`
-  );
+  await fetchWithCallback<IUser>('/user/byEmail/', `?email=${email}`);
 
 export const logout = () => {
   localStorage.removeItem('access');

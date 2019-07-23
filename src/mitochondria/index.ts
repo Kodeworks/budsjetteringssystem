@@ -1,5 +1,16 @@
 export interface IError {
+  detail?: string;
+  error?: string;
+}
+
+export interface IExpiredTokenResponse {
   detail: string;
+  code: string;
+  messages?: Array<{
+    token_class: string;
+    token_type: string;
+    message: string;
+  }>;
 }
 
 // Add endpoints here as needed
@@ -60,15 +71,30 @@ export const fetchNewToken = async (): Promise<string> => {
   switch (res.status) {
     case 200:
       return ((await res.json()) as ITokenResponse).access;
+    case 400:
+      throw new Error(`Invalid request for new token. Refresh: ${refresh}.`);
     case 401:
-      // The refresh token has expired
-      throw new Error('Refresh token has expired.');
+      const parsed = (await res.json()) as IExpiredTokenResponse;
+
+      if (parsed.code === 'token_not_valid') {
+        throw new Error('Refresh token has expired.');
+      } else {
+        throw new Error(
+          `Unexpected response from backend when refreshing token: ${JSON.stringify(
+            parsed
+          )}.`
+        );
+      }
     default:
       throw new Error(
         `Unexpected response from server when fetching new access token.`
       );
   }
 };
+
+async function errorHandler(e: Response) {
+  throw new Error(await e.text());
+}
 
 interface ICallbacks {
   [statusCode: number]: (resp: Response) => Promise<any>;
@@ -108,33 +134,40 @@ export const fetchWithCallback = async <T>(
       200: async resp => (await resp.json()) as T,
       201: async resp => (await resp.json()) as T,
       204: async () => true,
-      400: async resp => {
-        throw new Error(((await resp.json()) as IError).detail);
-      },
+      400: async resp => errorHandler(resp),
       401: async resp => {
-        const newToken = await fetchNewToken();
-        localStorage.setItem('access', newToken);
-        return await fetchWithCallback(path, queryParams, options, callbacks);
+        try {
+          const parsed = (await resp.json()) as IExpiredTokenResponse;
+
+          if (
+            parsed.code !== 'token_not_valid' ||
+            parsed.detail === 'Authentication credentials were not provided.'
+          ) {
+            throw new Error('You do not have access to this action.');
+          }
+
+          const newToken = await fetchNewToken();
+          localStorage.setItem('access', newToken);
+          return await fetchWithCallback(path, queryParams, options, callbacks);
+        } catch (e) {
+          throw new Error(
+            `Unexpected error response from server: ${e.message}.`
+          );
+        }
       },
-      403: async resp => {
-        throw new Error(((await resp.json()) as IError).detail);
-      },
-      404: async resp => {
-        throw new Error(((await resp.json()) as IError).detail);
-      },
-      500: async resp => {
-        throw new Error(((await resp.json()) as IError).detail);
-      },
+      403: async resp => errorHandler(resp),
+      404: async resp => errorHandler(resp),
+      500: async resp => errorHandler(resp),
       ...callbacks,
     } as ICallbacks)[res.status](res);
   } catch (e) {
-    if (e instanceof TypeError) {
-      throw new Error(
-        `No handler implemented for HTTP status code ${res.status}: ${e.message}.`
-      );
-    }
-
-    throw e;
+    throw new Error(
+      `encountered for status code ${res.status}. Options were ${Object.entries(
+        options
+      ).toString() || '{}'}. Path was ${
+        queryParams ? `${path}${queryParams}` : path
+      }: ${e.message}.`
+    );
   }
 };
 

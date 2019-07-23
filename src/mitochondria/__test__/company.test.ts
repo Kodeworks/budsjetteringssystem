@@ -18,11 +18,9 @@ describe('company', () => {
     company = await api.getCompanyById(143);
   });
 
-  test('create and delete a company', async done => {
+  test('create and delete a company', async () => {
     const resp = await api.createCompany({ name: 'Wow!', org_nr: '1234' });
     await api.deleteCompany(resp.id);
-
-    done();
   });
 
   test('get company by ID', async () => {
