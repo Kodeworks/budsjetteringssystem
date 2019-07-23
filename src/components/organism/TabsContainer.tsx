@@ -10,12 +10,15 @@ interface IProps {
 
 interface IPropsTabContent {
   className?: string;
+  id: string;
+  labelledBy: string;
+  role: string;
   label: string;
   activeTab: string;
 }
 
 const TabContent: React.FC<IPropsTabContent> = props => {
-  return <div className={props.className}>{props.children}</div>;
+  return <div className={props.className} id={props.id} role={props.role} aria-labelledby={props.labelledBy}>{props.children}</div>;
 };
 
 const TabsContainer: React.FC<IProps> = props => {
@@ -29,7 +32,7 @@ const TabsContainer: React.FC<IProps> = props => {
   });
 
   return (
-    <div className={props.className}>
+    <div className={props.className} >
       <TabMenu
         className="tab-menu"
         tabLabels={tabLabels}
@@ -41,7 +44,10 @@ const TabsContainer: React.FC<IProps> = props => {
         .map(child => (
           <TabContent
             className="tab-content"
+            id={`${child.props.label}-tab`}
+            labelledBy={child.props.label}
             key={child.props.label}
+            role="tabpanel"
             label={child.props.label}
             activeTab={activeTab}
           >
@@ -55,8 +61,8 @@ const TabsContainer: React.FC<IProps> = props => {
 export default styled(TabsContainer)`
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 2.3em auto;
-  height: 500px;
+  grid-template-rows: 2em auto;
+  height: 630px;
   background-color: ${props => props.theme.palette.background.paper};
 
   .tab-menu {
@@ -66,7 +72,7 @@ export default styled(TabsContainer)`
     grid-row: 2;
     border-radius: ${props => props.theme.shape.borderRadius};
     box-shadow: ${props => props.theme.shadow};
-    padding: 0.8em;
+    padding: 1.2em 0.8em;
     z-index: 300;
   }
 `;

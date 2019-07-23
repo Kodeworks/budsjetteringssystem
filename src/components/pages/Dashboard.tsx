@@ -20,10 +20,13 @@ const UnstyledDashboard: React.FC<IProps> = props => {
       </div>
       <TabsContainer className="tabs-container">
         <Tab label="Minimum Liquidity">
-          <h2>This is tab-1</h2>
+          <h3>Projected minimum liquidity</h3>
         </Tab>
         <Tab label="Transaction Volumes">
-          <h2>This is tab-2</h2>
+          <h3>Transaction volumes</h3>
+        </Tab>
+        <Tab label="Balances">
+          <h3>Monthly balances</h3>
         </Tab>
       </TabsContainer>
     </div>

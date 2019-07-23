@@ -12,6 +12,7 @@ interface ITabMenuProps {
 const UL = styled.ul`
   padding-left: 0;
   height: 100%;
+  padding: 0px 5px;
   list-style-type: none;
   background-color: ${props => props.theme.palette.background.default};
 `;
@@ -32,7 +33,7 @@ const TabMenu: React.FC<ITabMenuProps> = props => {
         {label}
       </TabLabel>
     ));
-  return <UL>{renderTabs()}</UL>;
+  return <UL role="tablist" aria-label="Dashboard graphs">{renderTabs()}</UL>;
 };
 
 export default TabMenu;
