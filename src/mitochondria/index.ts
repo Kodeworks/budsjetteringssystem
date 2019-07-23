@@ -92,8 +92,16 @@ export const fetchNewToken = async (): Promise<string> => {
   }
 };
 
-async function errorHandler(e: Response) {
-  throw new Error(await e.text());
+async function errorHandler(
+  path: ApiEndpoint,
+  queryParams: string,
+  options: RequestInit,
+  res: Response
+) {
+  throw new Error(`Error callback for status ${res.status} ${res.statusText}.
+Path was ${queryParams ? `${path}${queryParams}` : path}.
+Options were ${JSON.stringify(options)}.
+`);
 }
 
 interface ICallbacks {
@@ -134,7 +142,7 @@ export const fetchWithCallback = async <T>(
       200: async resp => (await resp.json()) as T,
       201: async resp => (await resp.json()) as T,
       204: async () => true,
-      400: async resp => errorHandler(resp),
+      400: async resp => errorHandler(path, queryParams, options, resp),
       401: async resp => {
         try {
           const parsed = (await resp.json()) as IExpiredTokenResponse;
@@ -155,19 +163,17 @@ export const fetchWithCallback = async <T>(
           );
         }
       },
-      403: async resp => errorHandler(resp),
-      404: async resp => errorHandler(resp),
-      500: async resp => errorHandler(resp),
+      403: async resp => errorHandler(path, queryParams, options, resp),
+      404: async resp => errorHandler(path, queryParams, options, resp),
+      500: async resp => errorHandler(path, queryParams, options, resp),
       ...callbacks,
     } as ICallbacks)[res.status](res);
   } catch (e) {
-    throw new Error(
-      `encountered for status code ${res.status}. Options were ${Object.entries(
-        options
-      ).toString() || '{}'}. Path was ${
-        queryParams ? `${path}${queryParams}` : path
-      }: ${e.message}.`
-    );
+    throw new Error(`Encountered unhandled response from server for status ${
+      res.status
+    }: ${res.statusText}.
+Path was ${queryParams ? `${path}${queryParams}` : path}.
+Options were ${JSON.stringify(options)}.`);
   }
 };
 
