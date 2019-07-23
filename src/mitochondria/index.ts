@@ -92,16 +92,40 @@ export const fetchNewToken = async (): Promise<string> => {
   }
 };
 
+class ResponseError extends Error {
+  constructor(
+    status: number,
+    statusText: string,
+    path: ApiEndpoint,
+    queryParams: string,
+    options: RequestInit,
+    body: string
+  ) {
+    super(`Error callback for status ${status} ${statusText}.
+Path was ${queryParams ? `${path}${queryParams}` : path}.
+Options were ${JSON.stringify(options)}.
+
+${body}
+`);
+
+    Object.setPrototypeOf(this, ResponseError.prototype);
+  }
+}
+
 async function errorHandler(
   path: ApiEndpoint,
   queryParams: string,
   options: RequestInit,
   res: Response
 ) {
-  throw new Error(`Error callback for status ${res.status} ${res.statusText}.
-Path was ${queryParams ? `${path}${queryParams}` : path}.
-Options were ${JSON.stringify(options)}.
-`);
+  throw new ResponseError(
+    res.status,
+    res.statusText,
+    path,
+    queryParams,
+    options,
+    JSON.stringify(await res.json())
+  );
 }
 
 interface ICallbacks {
@@ -144,24 +168,22 @@ export const fetchWithCallback = async <T>(
       204: async () => true,
       400: async resp => errorHandler(path, queryParams, options, resp),
       401: async resp => {
-        try {
-          const parsed = (await resp.json()) as IExpiredTokenResponse;
+        const parsed = (await resp.json()) as IExpiredTokenResponse;
 
-          if (
-            parsed.code !== 'token_not_valid' ||
-            parsed.detail === 'Authentication credentials were not provided.'
-          ) {
-            throw new Error('You do not have access to this action.');
-          }
-
-          const newToken = await fetchNewToken();
-          localStorage.setItem('access', newToken);
-          return await fetchWithCallback(path, queryParams, options, callbacks);
-        } catch (e) {
-          throw new Error(
-            `Unexpected error response from server: ${e.message}.`
+        if (parsed.code !== 'token_not_valid') {
+          throw new ResponseError(
+            resp.status,
+            resp.statusText,
+            path,
+            queryParams,
+            options,
+            JSON.stringify(parsed)
           );
         }
+
+        const newToken = await fetchNewToken();
+        localStorage.setItem('access', newToken);
+        return await fetchWithCallback(path, queryParams, options, callbacks);
       },
       403: async resp => errorHandler(path, queryParams, options, resp),
       404: async resp => errorHandler(path, queryParams, options, resp),
@@ -169,11 +191,18 @@ export const fetchWithCallback = async <T>(
       ...callbacks,
     } as ICallbacks)[res.status](res);
   } catch (e) {
+    if (e instanceof ResponseError) {
+      throw e;
+    }
+
     throw new Error(`Encountered unhandled response from server for status ${
       res.status
     }: ${res.statusText}.
 Path was ${queryParams ? `${path}${queryParams}` : path}.
-Options were ${JSON.stringify(options)}.`);
+Options were ${JSON.stringify(options)}.
+
+${JSON.stringify(e.message)}
+`);
   }
 };
 

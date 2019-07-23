@@ -26,16 +26,29 @@ export const setupTests = async () => {
   let user: IUser;
   let company: ICompany;
 
-  user = await api.register({
-    first_name: 'Testing',
-    last_name: 'Testingsson',
-    ...loginDetails,
-  });
+  try {
+    user = await api.register({
+      first_name: 'Testing',
+      last_name: 'Testingsson',
+      ...loginDetails,
+    });
 
-  company = await api.createCompany({
-    name: 'Testing company',
-    org_nr: '4242424242',
-  });
+    company = await api.createCompany({
+      name: 'Testing company',
+      org_nr: '4242424242',
+    });
+  } catch (_) {
+    user = await api.login(loginDetails.email, loginDetails.password);
+
+    try {
+      company = await api.getCompanyById(user.companies[0]!.company_id);
+    } catch (_) {
+      company = await api.createCompany({
+        name: 'Testing company',
+        org_nr: '4242424242',
+      });
+    }
+  }
 
   user = {
     ...user,
@@ -49,14 +62,4 @@ export const setupTests = async () => {
   };
 
   return [user, company] as [IUser, ICompany];
-};
-
-export const teardown = async () => {
-  const user = await api.login(loginDetails.email, loginDetails.password);
-
-  for (const company of user.companies) {
-    await api.deleteCompany(company.company_id);
-  }
-
-  await api.deleteUser();
 };

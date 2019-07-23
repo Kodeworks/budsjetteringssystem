@@ -53,7 +53,7 @@ export const deleteRecurringTransaction = async (
 export const getAllRecurringTransactions = async (
   companyId: number,
   offset: number = 0,
-  limit?: number
+  limit: number = 0
 ) =>
   await fetchWithCallback<IPaginated<IRecurringTransaction>>(
     '/recurring/all/',
@@ -63,7 +63,7 @@ export const getAllRecurringTransactions = async (
 export const getActiveRecurringTransactions = async (
   companyId: number,
   offset: number = 0,
-  limit?: number
+  limit: number = 0
 ) =>
   await fetchWithCallback<IPaginated<IRecurringTransaction>>(
     '/recurring/active/',
@@ -77,7 +77,7 @@ export const getRecurringTransactionsByDate = async (
   companyId: number,
   date: string,
   offset: number = 0,
-  limit?: number
+  limit: number = 0
 ) =>
   await fetchWithCallback<IPaginated<IRecurringTransaction>>(
     '/recurring/byDate/',
@@ -93,7 +93,7 @@ export const getRecurringTransactionsByDateRange = async (
   startDate: string,
   endDate: string,
   offset: number = 0,
-  limit?: number
+  limit: number = 0
 ) =>
   await fetchWithCallback<IPaginated<IRecurringTransaction>>(
     '/recurring/byDate/',
