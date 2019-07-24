@@ -165,13 +165,21 @@ describe('account balance', () => {
     });
 
     test('get bank balances for a date range', async () => {
+      const bb = await api.createBankBalance({
+        company_id: company.id,
+        date: '4097-01-01',
+        money: 10000,
+      });
+
       const resp = await api.getBankBalanceByDateRange(
-        bankBalance.company_id,
-        '2019-08-22',
-        '2019-08-24'
+        bb.company_id,
+        '4097-01-01',
+        '4097-12-31'
       );
 
-      expect(resp.results.find(e => e.id === bankBalance.id)).toBeTruthy();
+      expect(resp.results.find(e => e.id === bb.id)).toBeTruthy();
+
+      await api.deleteBankBalance(bb.company_id, bb.id);
     });
   });
 });
