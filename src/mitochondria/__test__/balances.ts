@@ -151,11 +151,17 @@ describe('account balance', () => {
     });
 
     test('get a bank balance for a given day', async () => {
-      const resp = await api.getBankBalanceByDate(
-        bankBalance.company_id,
-        bankBalance.date
-      );
-      expect(resp).toEqual(bankBalance);
+      const bb = await api.createBankBalance({
+        company_id: company.id,
+        date: '4096-01-01',
+        money: 10000,
+      });
+
+      const resp = await api.getBankBalanceByDate(bb.company_id, bb.date);
+
+      expect(resp).toEqual(bb);
+
+      await api.deleteBankBalance(bb.company_id, bb.id);
     });
 
     test('get bank balances for a date range', async () => {
