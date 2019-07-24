@@ -10,21 +10,20 @@ from . import views
 
 
 class TransactionTestMixin(CompanyTestMixin):
-    def setUp(self):
-        super().setUp()
-        self.force_login(self.user)
-        self.company = self.create_company()
-        self.set_role(self.company, self.user, roles.USER)
-        self.type = 'IN'
-        self.money = '3000'
-        self.description = '11th income.'
-        self.notes = 'Incomes are cool.'
-        self.date = date(2017, 5, 17)
-        self.recurring_transaction = None
-        self.day_delta = 7
-        self.month_delta = 0
-        self.start_date = date(2018, 4, 23)
-        self.end_date = date(2018, 10, 15)
+    setup_login = True
+    setup_set_role = True
+
+    role = roles.USER
+    type = 'IN'
+    money = '3000'
+    description = '11th income.'
+    notes = 'Incomes are cool.'
+    start_date = date(2018, 4, 23)
+    end_date = date(2018, 10, 15)
+    date = date(2017, 5, 17)
+    recurring_transaction = None
+    day_delta = 7
+    month_delta = 0
 
     def create_transaction(self, date=None, company=None, recurring_transaction=None, money=None,
                            type=None, description=None, notes=None, save=True):
@@ -61,9 +60,6 @@ class TransactionTestMixin(CompanyTestMixin):
 
 
 class TransactionAllTestCase(TransactionTestMixin, JWTTestCase):
-    def setUp(self):
-        super().setUp()
-
     def test_no_login(self):
         self.logout()
         response = self.get(views.TransactionAllView, {'limit': 3, 'offset': 0})
@@ -171,10 +167,6 @@ class TransactionAllTestCase(TransactionTestMixin, JWTTestCase):
 
 
 class TransactionByDateTestCase(TransactionTestMixin, JWTTestCase):
-    def setUp(self):
-        super().setUp()
-        self.force_login(self.user)
-
     def test_transaction_by_date(self):
         test_date = date(2019, 4, 23)
         tr1 = self.create_transaction(money=3000, date=test_date)
@@ -210,10 +202,6 @@ class TransactionByDateTestCase(TransactionTestMixin, JWTTestCase):
 
 
 class TransactionByDateRangeTestCase(TransactionTestMixin, JWTTestCase):
-    def setUp(self):
-        super().setUp()
-        self.force_login(self.user)
-
     def test_transactions_by_date_range(self):
         dates = [date(2017, 6, 4), date(2017, 6, 5), date(2017, 6, 5), date(2019, 6, 7),
                  date(2019, 6, 7), date(2019, 7, 2), date(2021, 8, 3), date(2021, 8, 4)]
@@ -238,10 +226,6 @@ class TransactionByDateRangeTestCase(TransactionTestMixin, JWTTestCase):
 
 
 class TransactionIncomeAllTestCase(TransactionTestMixin, JWTTestCase):
-    def setUp(self):
-        super().setUp()
-        self.force_login(self.user)
-
     def test_only_income_returned(self):
         trans_in = self.create_transaction(money=3000, type=TransactionStaticData.INCOME)
         trans_ex = self.create_transaction(money=4000, type=TransactionStaticData.EXPENSE)
@@ -254,10 +238,6 @@ class TransactionIncomeAllTestCase(TransactionTestMixin, JWTTestCase):
 
 
 class TransactionExpenseAllTestCase(TransactionTestMixin, JWTTestCase):
-    def setUp(self):
-        super().setUp()
-        self.force_login(self.user)
-
     def test_only_expenses_returned(self):
         trans_in = self.create_transaction(money=3000, type=TransactionStaticData.INCOME)
         trans_ex = self.create_transaction(money=4000, type=TransactionStaticData.EXPENSE)
@@ -270,10 +250,6 @@ class TransactionExpenseAllTestCase(TransactionTestMixin, JWTTestCase):
 
 
 class RecurringTransactionUtilTestCase(TransactionTestMixin, JWTTestCase):
-    def setUp(self):
-        super().setUp()
-        self.force_login(self.user)
-
     def test_get_in_date_range(self):
         recurring = self.create_recurring_transaction(start_date=date(2018, 1, 1),
                                                       end_date=date(2018, 1, 8),
@@ -348,7 +324,6 @@ class RecurringTransactionUtilTestCase(TransactionTestMixin, JWTTestCase):
 class RecurringTransactionTestCase(TransactionTestMixin, JWTTestCase):
     def setUp(self):
         super().setUp()
-        self.force_login(self.user)
         self.template = {
             'money': 5000, 'type': 'IN', 'description': 'Monthly rent of room under stairs.',
             'notes': 'Harry will move out of it after a year.',
@@ -415,10 +390,6 @@ class RecurringTransactionTestCase(TransactionTestMixin, JWTTestCase):
 
 
 class RecurringActiveTestCase(TransactionTestMixin, JWTTestCase):
-    def setUp(self):
-        super().setUp()
-        self.force_login(self.user)
-
     def test_recurring_active(self):
         self.create_recurring_transaction(end_date=(date.today() - timedelta(days=1)))
         recurring_2 = self.create_recurring_transaction(end_date=(date.today() + timedelta(days=10)))

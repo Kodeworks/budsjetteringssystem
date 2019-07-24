@@ -1,4 +1,4 @@
-from base.tests import JWTTestCase
+from base.tests import JWTTestCase, UserTestMixin
 from custom_auth import roles
 from custom_auth.models import UserCompanyThrough
 
@@ -6,15 +6,28 @@ from . import views
 from .models import Company
 
 
-class CompanyTestMixin:
+class CompanyTestMixin(UserTestMixin):
+    setup_create_company = False
+    setup_set_role = False
+
     company = None
+    company_name = 'Kodeworks AS'
+    org_nr = '472487782428'
     company_id_field = 'company_id'
+    role = roles.REPORTER
 
     def setUp(self):
         super().setUp()
-        self.user = self.create_user()
-        self.company_name = 'Kodeworks AS'
-        self.org_nr = '472487782428'
+
+        self.setup_create_company = self.setup_create_company or self.setup_set_role
+
+        if self.setup_create_company:
+            self.company = self.create_company()
+
+        if self.setup_set_role:
+            if not self.user:
+                self.user = self.create_user()
+            self.set_role()
 
     def perform_request(self, method, view, data={}, url='', **kwargs):
         if self.company_id_field not in data and self.company is not None:
@@ -25,11 +38,15 @@ class CompanyTestMixin:
     def create_company(self, name=None, org_nr=None):
         return Company.objects.create(name=name or self.company_name, org_nr=org_nr or self.org_nr)
 
-    def set_role(self, company, user, role):
-        UserCompanyThrough.objects.update_or_create(company=company, user=user, defaults={'role': role})
+    def set_role(self, company=None, user=None, role=None):
+        UserCompanyThrough.objects.update_or_create(company=company or self.company,
+                                                    user=user or self.user,
+                                                    defaults={'role': role or self.role})
 
 
-class CompanyViewTestCase(CompanyTestMixin, JWTTestCase):
+class CompanyViewReporterTestCase(CompanyTestMixin, JWTTestCase):
+    setup_create_user = True
+
     def test_create_company(self):
         response = self.post(views.CompanyView, {'name': self.company_name, 'org_nr': self.org_nr})
         self.assertEquals(response.status_code, 401, msg=response.content)
@@ -61,75 +78,67 @@ class CompanyViewTestCase(CompanyTestMixin, JWTTestCase):
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data, expected, msg=response.content)
 
-    def test_update_company(self):
-        company = self.create_company()
-        self.force_login(self.user)
-        self.set_role(company, self.user, roles.OWNER)
 
+class CompanyViewOwnerTestCase(CompanyTestMixin, JWTTestCase):
+    setup_create_company = True
+    setup_login = True
+    setup_set_role = True
+
+    role = roles.OWNER
+
+    def test_update_company(self):
         new_name = 'New Inc.'
-        response = self.put(views.CompanyView, {'company_id': company.pk, 'name': new_name, 'org_nr': self.org_nr})
+        response = self.put(views.CompanyView, {'company_id': self.company.pk, 'name': new_name,
+                                                'org_nr': self.org_nr})
         self.assertEquals(response.status_code, 200, msg=response.content)
         self.assertEquals(response.data['name'], new_name, msg=response.content)
         self.assertEquals(Company.objects.get(org_nr=self.org_nr).name, new_name, msg=response.content)
 
     def test_delete_company(self):
-        company = self.create_company()
-        self.force_login(self.user)
-        self.set_role(company, self.user, roles.OWNER)
-
-        response = self.delete(views.CompanyView, {'company_id': company.pk})
+        response = self.delete(views.CompanyView, {'company_id': self.company.pk})
         self.assertEquals(response.status_code, 204, msg=response.content)
-        self.assertFalse(Company.objects.filter(pk=company.pk).exists(), msg=response.content)
+        self.assertFalse(Company.objects.filter(pk=self.company.pk).exists(), msg=response.content)
 
     def test_add_user(self):
-        company = self.create_company()
-        self.force_login(self.user)
-        self.set_role(company, self.user, roles.OWNER)
         user2 = self.create_user('user2@test.com', 'password2')
         user3 = self.create_user('user3@test.com', 'password3')
         user4 = self.create_user('user4@test.com', 'password4')
 
-        response = self.post(views.CompanyAddUserView, {'company_id': company.pk, 'user_id': user2.pk})
+        response = self.post(views.CompanyAddUserView, {'company_id': self.company.pk, 'user_id': user2.pk})
         self.assertEquals(response.status_code, 200, msg=response.content)
-        self.assertTrue(user2.has_role(company, roles.USER), msg=response.content)
+        self.assertTrue(user2.has_role(self.company, roles.USER), msg=response.content)
 
         response = self.post(views.CompanyAddUserView,
-                             {'company_id': company.pk, 'user_id': user3.pk, 'role': roles.REPORTER})
+                             {'company_id': self.company.pk, 'user_id': user3.pk, 'role': roles.REPORTER})
         self.assertEquals(response.status_code, 200, msg=response.content)
-        self.assertTrue(user3.has_role(company, roles.REPORTER), msg=response.content)
+        self.assertTrue(user3.has_role(self.company, roles.REPORTER), msg=response.content)
 
         response = self.post(views.CompanyAddUserView,
-                             {'company_id': company.pk, 'user_id': user4.pk, 'role': None})
+                             {'company_id': self.company.pk, 'user_id': user4.pk, 'role': None})
         self.assertEquals(response.status_code, 200, msg=response.content)
-        self.assertTrue(user4.has_role(company, roles.USER), msg=response.content)
+        self.assertTrue(user4.has_role(self.company, roles.USER), msg=response.content)
 
     def test_remove_user(self):
-        company = self.create_company()
-        self.force_login(self.user)
-        self.set_role(company, self.user, roles.OWNER)
         user2 = self.create_user('user2@test.com', 'password2')
 
-        response = self.post(views.CompanyRemoveUserView, {'company_id': company.pk, 'user_id': user2.pk})
+        response = self.post(views.CompanyRemoveUserView, {'company_id': self.company.pk, 'user_id': user2.pk})
         self.assertEquals(response.status_code, 404, msg=response.content)
 
-        self.set_role(company, user2, roles.REPORTER)
+        self.set_role(self.company, user2, roles.REPORTER)
 
-        response = self.post(views.CompanyRemoveUserView, {'company_id': company.pk, 'user_id': user2.pk})
+        response = self.post(views.CompanyRemoveUserView, {'company_id': self.company.pk, 'user_id': user2.pk})
         self.assertEquals(response.status_code, 200, msg=response.content)
-        self.assertFalse(user2.has_role(company, roles.REPORTER), msg=response.content)
+        self.assertFalse(user2.has_role(self.company, roles.REPORTER), msg=response.content)
 
     def test_set_role(self):
-        company = self.create_company()
-        self.force_login(self.user)
-        self.set_role(company, self.user, roles.OWNER)
         user2 = self.create_user('user2@test.com', 'password2')
 
-        data = {'company_id': company.pk, 'user_id': user2.pk, 'role': roles.USER}
+        data = {'company_id': self.company.pk, 'user_id': user2.pk, 'role': roles.USER}
         response = self.post(views.CompanySetRoleView, data)
         self.assertEquals(response.status_code, 404, msg=response.content)
 
-        self.set_role(company, user2, roles.REPORTER)
+        self.set_role(self.company, user2, roles.REPORTER)
 
         response = self.post(views.CompanySetRoleView, data)
         self.assertEquals(response.status_code, 200, msg=response.content)
-        self.assertTrue(user2.has_role(company, roles.USER), msg=response.content)
+        self.assertTrue(user2.has_role(self.company, roles.USER), msg=response.content)

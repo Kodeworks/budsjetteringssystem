@@ -8,13 +8,43 @@ from custom_auth.models import User
 from custom_auth.views import Login
 
 
-class JWTTestCase(TestCase):
+class UserTestMixin:
+    setup_create_user = False
+
+    user = None
+    email = 'test@test.com'
+    password = 'password'
+
     def setUp(self):
+        super().setUp()
+
+        if self.setup_create_user:
+            self.user = self.create_user()
+
+    def create_user(self, email=None, password=None, save=True):
+        user = User(email=email or self.email)
+        user.set_password(password or self.password)
+
+        if save:
+            user.save()
+        return user
+
+
+class JWTTestCase(UserTestMixin, TestCase):
+    setup_login = False
+
+    def setUp(self):
+        super().setUp()
+
         self.factory = APIRequestFactory()
-        self.email = 'test@test.com'
-        self.password = 'password'
         self.access_token = None
         self.refresh_token = None
+
+        if self.setup_login:
+            if not self.user:
+                self.user = self.create_user()
+
+            self.force_login()
 
     def tearDown(self):
         self.factory = None
@@ -23,21 +53,13 @@ class JWTTestCase(TestCase):
         self.access_token = None
         self.refresh_token = None
 
-    def create_user(self, email=None, password=None, save=True):
-        """Helper method"""
-        user = User(email=(email or self.email))
-        user.set_password(password or self.password)
-        if save:
-            user.save()
-        return user
-
     def login(self, email, password):
         response = self.post(Login, {'email': email, 'password': password})
         self.access_token = response.data['access']
         self.refresh_token = response.data['refresh']
 
-    def force_login(self, user):
-        refresh = RefreshToken.for_user(user)
+    def force_login(self, user=None):
+        refresh = RefreshToken.for_user(user or self.user)
         self.refresh_token = str(refresh)
         self.access_token = str(refresh.access_token)
 
