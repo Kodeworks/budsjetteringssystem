@@ -30,4 +30,10 @@ yarn storybook
 
 Other than that, it's just a create-react-app, so the normal `yarn build` etc. works!
 
+To test the application, we have three different commands;
+
+1. `yarn test` -- Runs the component and reducer tests. Does not require a backend running.
+2. `yarn test:api` -- Only run the backend integration tests. Requires a running instance of [`liquidator-backend`](https://github.com/kodeworks/liquidator-backend).
+3. `yarn test:all` -- Runs _everything_. Requires a running instance of `liquidator-backend`.
+
 Happy hacking! :tada:
