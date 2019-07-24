@@ -53,3 +53,17 @@ describe('month', () => {
 
   test.todo('get month by date range');
 });
+
+describe('account balance', () => {
+  test.todo('get balance for a given day');
+  test.todo('get balance for a date range');
+
+  describe('bank balance', () => {
+    test.todo('get bank balance by ID');
+    test.todo('create a bank balance');
+    test.todo('update an existing bank balance');
+    test.todo('delete a bank balance');
+    test.todo('get a bank balance for a given day');
+    test.todo('get bank balances for a date range');
+  });
+});
