@@ -16,25 +16,39 @@ beforeEach(async () => {
   await api.login(loginDetails.email, loginDetails.password);
 });
 
-test('register sets the user values in localStorage', () => {
-  expect(localStorage.getItem('access')).not.toBeFalsy();
-  expect(localStorage.getItem('refresh')).not.toBeFalsy();
-});
+describe('manipulating localstorage tokens', () => {
+  test('register sets the user values in localStorage', () => {
+    expect(localStorage.getItem('access')).not.toBeFalsy();
+    expect(localStorage.getItem('refresh')).not.toBeFalsy();
+  });
 
-test('removes localStorage values', () => {
-  api.logout();
+  test('removes localStorage values', () => {
+    api.logout();
 
-  expect(localStorage.getItem('access')).toBeFalsy();
-  expect(localStorage.getItem('refresh')).toBeFalsy();
-});
+    expect(localStorage.getItem('access')).toBeFalsy();
+    expect(localStorage.getItem('refresh')).toBeFalsy();
+  });
 
-test('login sets localStorage', async () => {
-  api.logout();
+  test('login sets localStorage', async () => {
+    api.logout();
 
-  await api.login(user.email, loginDetails.password);
+    await api.login(user.email, loginDetails.password);
 
-  expect(localStorage.getItem('access')).not.toBeFalsy();
-  expect(localStorage.getItem('refresh')).not.toBeFalsy();
+    expect(localStorage.getItem('access')).not.toBeFalsy();
+    expect(localStorage.getItem('refresh')).not.toBeFalsy();
+  });
+
+  test('refetch token if it expired', async () => {
+    localStorage.setItem('access', 'invalid');
+    await api.getUserById(user.id);
+    expect(localStorage.getItem('access')).not.toBe('invalid');
+  });
+
+  test('throw if refresh token expired', async () => {
+    localStorage.setItem('access', 'invalid');
+    localStorage.setItem('refresh', 'invalid');
+    expect(api.getUserById(user.id)).rejects.toThrow();
+  });
 });
 
 // Currently not working on the backend.
