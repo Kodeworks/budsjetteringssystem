@@ -1,5 +1,6 @@
 import { cleanup } from '@testing-library/react';
 import * as api from '..';
+import { IBankBalance } from '../../declarations/balance';
 import { ICompany } from '../../declarations/company';
 import { ITransaction } from '../../declarations/transaction';
 import { setupTests } from '../../helpers/test-utils';
@@ -55,15 +56,116 @@ describe('month', () => {
 });
 
 describe('account balance', () => {
-  test.todo('get balance for a given day');
-  test.todo('get balance for a date range');
+  test('get balance for a given day', async () => {
+    const resp = await api.getBalanceForDay(company.id, '2019-08-23');
+
+    expect(resp.date).toBe('2019-08-23');
+    expect(resp.company_id).toBe(company.id);
+    expect(resp.money).not.toBeNull();
+  });
+
+  test('get balance for a date range', async () => {
+    const txs: Array<ITransaction> = [];
+
+    for (const d of [23, 24, 25, 26]) {
+      txs.push(
+        await api.createTransaction({
+          company_id: company.id,
+          date: `2019-08-${d}`,
+          description: 'Test transaction',
+          money: 100,
+          type: 'IN',
+        })
+      );
+    }
+
+    const resp = await api.getBalanceByDateRange(
+      company.id,
+      '2019-08-23',
+      '2019-08-26'
+    );
+
+    expect(resp.length).toBe(4);
+
+    for (const tx of txs) {
+      await api.deleteTransaction(tx.company_id, tx.id);
+    }
+  });
 
   describe('bank balance', () => {
-    test.todo('get bank balance by ID');
-    test.todo('create a bank balance');
-    test.todo('update an existing bank balance');
-    test.todo('delete a bank balance');
-    test.todo('get a bank balance for a given day');
-    test.todo('get bank balances for a date range');
+    let bankBalance: IBankBalance;
+
+    beforeAll(async () => {
+      bankBalance = await api.createBankBalance({
+        company_id: company.id,
+        date: '2019-08-23',
+        money: 10000,
+      });
+    });
+
+    afterAll(async () => {
+      await api.deleteBankBalance(bankBalance.company_id, bankBalance.id);
+    });
+
+    test('get bank balance by ID', async () => {
+      const resp = await api.getBankBalanceById(
+        bankBalance.company_id,
+        bankBalance.id
+      );
+
+      expect(resp.money).not.toBeNull();
+    });
+
+    test('create and delete a bank balance', async () => {
+      const bb = await api.createBankBalance({
+        company_id: company.id,
+        date: '4096-01-01',
+        money: 10000,
+      });
+
+      expect(bb).not.toBeNull();
+
+      await api.deleteBankBalance(bb.company_id, bb.id);
+
+      expect(api.getBankBalanceById(bb.company_id, bb.id)).rejects.toThrow();
+    });
+
+    test('update an existing bank balance', async () => {
+      const bb = await api.createBankBalance({
+        company_id: company.id,
+        date: '4096-01-01',
+        money: 10000,
+      });
+
+      await api.updateBankBalance({
+        ...bb,
+        money: 424242,
+      });
+
+      expect(api.getBankBalanceById(bb.company_id, bb.id)).resolves.toEqual({
+        ...bb,
+        money: 424242,
+      });
+
+      await api.deleteBankBalance(bb.company_id, bb.id);
+    });
+
+    test('get a bank balance for a given day', async () => {
+      const resp = await api.getBankBalanceByDate(
+        bankBalance.company_id,
+        bankBalance.date
+      );
+      expect(resp).toEqual(bankBalance);
+    });
+
+    test('get bank balances for a date range', async () => {
+      const resp = await api.getBankBalanceByDateRange(
+        bankBalance.company_id,
+        '2019-08-22',
+        '2019-08-24'
+      );
+
+      expect(resp.results.find(e => e.id === bankBalance.id)).toBeTruthy();
+    });
   });
 });
