@@ -7,7 +7,6 @@ import * as API from './../../mitochondria';
 const LOGIN = 'LOGIN' as const;
 const REGISTER = 'REGISTER' as const;
 const LOGOUT = 'LOGOUT' as const;
-const SET_USER = 'SET_USER' as const;
 const UPDATE_USER = 'UPDATE_USER' as const;
 
 export type AuthState = IUser | null;
@@ -60,15 +59,6 @@ const doLogout = (dispatch: React.Dispatch<ICreatedAction>) => {
   dispatch(logout());
 };
 
-const setUser = (user: IUser) => ({
-  payload: user,
-  type: SET_USER,
-});
-async function doSetUser(id: number, dispatch: React.Dispatch<ICreatedAction>) {
-  const user = await API.getUserById(id);
-  dispatch(setUser(user));
-}
-
 type UpdateUser = Omit<IUser, 'companies'>;
 const updateUser = (user: UpdateUser) => ({
   payload: user,
@@ -95,7 +85,6 @@ export const AuthActionCreators = {
   login,
   logout,
   register,
-  setUser,
   updateUser,
 };
 
@@ -104,7 +93,6 @@ export const AuthActions = {
   doLogin,
   doLogout,
   doRegister,
-  doSetUser,
   doUpdateUser,
 };
 
@@ -125,8 +113,6 @@ export const authReducer = (
       return action.payload;
     case LOGOUT:
       return null;
-    case SET_USER:
-      return action.payload;
     case UPDATE_USER:
       return { ...action.payload, companies: state!.companies };
   }
