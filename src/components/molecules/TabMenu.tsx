@@ -23,7 +23,7 @@ const TabMenu: React.FC<ITabMenuProps> = props => {
   };
 
   const renderTabs = () =>
-    props.tabLabels.map((label, i) => (
+    props.tabLabels.map(label => (
       <TabLabel
         key={label}
         label={label}
