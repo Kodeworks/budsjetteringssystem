@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { IMonth } from '../../declarations/month';
 import * as BalancesAPI from '../../mitochondria/balances';
+import { useCompanyState } from '../../store/contexts/company';
 import BalancesViewPicker from '../atoms/BalancesViewPicker';
 import MonthPicker from '../atoms/MonthPicker';
 import PageTitle from '../atoms/PageTitle';
 import BalancesCalendar from '../molecules/BalancesCalendar';
 import BalancesTable from '../molecules/BalancesTable';
-import { useCompanyState } from '../../store/contexts/company';
 
 interface IProps {
   className?: string;
@@ -90,12 +90,10 @@ const Balances: React.FC<IProps> = props => {
             monthChosen.year(),
             currentCompany.id
           );
-          newEntries[entryKey] = createBalanceEntriesFromMonth(
-            month
-          );
+          newEntries[entryKey] = createBalanceEntriesFromMonth(month);
           setEntries(newEntries);
-        } catch(e) {
-          alert('Oopsie'); 
+        } catch (e) {
+          alert('Oopsie');
           newEntries[entryKey] = [];
         }
       }
