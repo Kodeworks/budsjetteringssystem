@@ -34,7 +34,7 @@ const TabMenu: React.FC<ITabMenuProps> = props => {
       </TabLabel>
     ));
   return (
-    <UL role="tablist" aria-label="Dashboard graphs">
+    <UL role="tablist" aria-label="Dashboard graphs" data-testid="Tab-menu">
       {renderTabs()}
     </UL>
   );

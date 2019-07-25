@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import TabMenu from '../molecules/TabMenu';
+import TabMenu from './TabMenu';
 
 interface IProps {
   className?: string;

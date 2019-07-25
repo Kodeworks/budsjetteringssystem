@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import PageTitle from '../atoms/PageTitle';
 import Tab from '../molecules/Tab';
-import TabsContainer from '../organism/TabsContainer';
+import TabsContainer from '../molecules/TabsContainer';
 
 interface IProps {
   className?: string;
