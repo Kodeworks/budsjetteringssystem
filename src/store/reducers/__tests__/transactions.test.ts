@@ -11,7 +11,7 @@ const tx: ITransaction = {
   description: 'Test transaction #0',
   id: 0,
   money: 10000,
-  type: 'income',
+  type: 'IN',
 };
 
 test('adds a new transaction', () => {
@@ -33,20 +33,26 @@ test('adds a new transaction', () => {
 
 test('removes a transaction', () => {
   let state = initialState;
+
   expect(state.transactions.length).toBe(0);
+
   state = transactionReducer(
     state,
     TransactionActionCreators.addTransaction(tx)
   );
+
   state = transactionReducer(
     state,
     TransactionActionCreators.addTransaction({ ...tx, id: 1 })
   );
+
   expect(state.transactions.length).toBe(2);
+
   state = transactionReducer(
     state,
-    TransactionActionCreators.removeTransaction(tx)
+    TransactionActionCreators.removeTransaction(tx.company_id, tx.id)
   );
+
   expect(state.transactions.length).toBe(1);
 });
 
@@ -64,7 +70,7 @@ test("doesn't remove if no match", () => {
   expect(state.transactions.length).toBe(2);
   state = transactionReducer(
     state,
-    TransactionActionCreators.removeTransaction({ ...tx, id: 2 })
+    TransactionActionCreators.removeTransaction(tx.company_id, 3)
   );
   expect(state.transactions.length).toBe(2);
 });

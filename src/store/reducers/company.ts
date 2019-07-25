@@ -1,7 +1,6 @@
 import { ICompany, ICompanyUser } from '../../declarations/company';
 
 import * as API from '../../mitochondria';
-import { IUpdateCompany } from '../../mitochondria';
 
 export type CompanyState = Array<ICompany>;
 
@@ -33,12 +32,12 @@ const doAddCompany = async (
   dispatch(addCompany(await API.getCompanyById(companyId)));
 };
 
-const updateCompany = (company: IUpdateCompany) => ({
+const updateCompany = (company: API.IUpdateCompany) => ({
   payload: company,
   type: UPDATE_COMPANY,
 });
 const doUpdateCompany = async (
-  company: IUpdateCompany,
+  company: API.IUpdateCompany,
   dispatch: React.Dispatch<ICreatedAction>
 ) => {
   await API.updateCompany(company);
