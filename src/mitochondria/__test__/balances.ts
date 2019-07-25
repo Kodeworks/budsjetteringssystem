@@ -52,6 +52,12 @@ describe('month', () => {
     expect(resp.balances[0].money).toBe(transaction.money);
   });
 
+  test('get month that does not have any balances', async () => {
+    const resp = await api.getMonth(1, 2000, company.id);
+
+    expect(resp.balances.length).toBe(0);
+  });
+
   test.todo('get month by date range');
 });
 
