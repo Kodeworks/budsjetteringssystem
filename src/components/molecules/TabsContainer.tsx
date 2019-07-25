@@ -5,7 +5,7 @@ import TabMenu from './TabMenu';
 
 interface IProps {
   className?: string;
-  children: Array<any>;
+  children: Array<JSX.Element>;
 }
 
 interface IPropsTabContent {
