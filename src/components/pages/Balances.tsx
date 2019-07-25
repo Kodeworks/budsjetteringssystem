@@ -10,12 +10,11 @@ import MonthPicker from '../atoms/MonthPicker';
 import PageTitle from '../atoms/PageTitle';
 import BalancesCalendar from '../molecules/BalancesCalendar';
 import BalancesTable from '../molecules/BalancesTable';
+import { useCompanyState } from '../../store/contexts/company';
 
 interface IProps {
   className?: string;
 }
-
-const companyId = 1; // Hardcoded until we get a global company context.
 
 const createBalanceEntriesFromMonth = (month: IMonth) => {
   const monthBalances: {
@@ -74,27 +73,31 @@ const Balances: React.FC<IProps> = props => {
   }>({});
   const [showCalendar, setShowCalendar] = React.useState(true);
 
+  // Current company is hardcoded to be the first company in the companyState array.
+  // This will be changed to use the state for "current company selected" when that gets implemented.
+  const currentCompany = useCompanyState()[0];
+
   React.useEffect(() => {
     (async () => {
       const entryKey = monthChosen.format('YYYY-MM');
 
       if (!(entryKey in entries)) {
         // API is indexing months starting from 1, therefore we need to add 1 to get correct result.
-        const balanceEntries = await BalancesAPI.getMonth(
-          monthChosen.month() + 1,
-          monthChosen.year(),
-          companyId
-        );
-
         const newEntries = { ...entries };
-        if (balanceEntries.length !== 1) {
-          newEntries[entryKey] = [];
-        } else {
-          newEntries[entryKey] = createBalanceEntriesFromMonth(
-            balanceEntries[0]
+        try {
+          const month = await BalancesAPI.getMonth(
+            monthChosen.month() + 1,
+            monthChosen.year(),
+            currentCompany.id
           );
+          newEntries[entryKey] = createBalanceEntriesFromMonth(
+            month
+          );
+          setEntries(newEntries);
+        } catch(e) {
+          alert('Oopsie'); 
+          newEntries[entryKey] = [];
         }
-        setEntries(newEntries);
       }
     })();
   }, [monthChosen, entries]);
