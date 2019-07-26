@@ -8,7 +8,7 @@ interface IProps {
   onClick: (label: string) => void;
 }
 
-const BUTTON = styled.button`
+const Button = styled.button`
   display: inline-block;
   list-style: none;
   margin: 0px 4px;
@@ -23,7 +23,7 @@ const TabLabel: React.FC<IProps> = props => {
     props.onClick(props.label);
   };
   return (
-    <BUTTON
+    <Button
       className={props.className}
       onClick={handleTabClick}
       role="tab"
@@ -32,7 +32,7 @@ const TabLabel: React.FC<IProps> = props => {
       aria-controls={`${props.label}-tab`}
     >
       {props.children}
-    </BUTTON>
+    </Button>
   );
 };
 

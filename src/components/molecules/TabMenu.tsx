@@ -9,7 +9,7 @@ interface ITabMenuProps {
   setActiveTab: (label: string) => void;
 }
 
-const UL = styled.ul`
+const Ul = styled.ul`
   padding-left: 0;
   height: 100%;
   padding: 0px 5px;
@@ -34,9 +34,9 @@ const TabMenu: React.FC<ITabMenuProps> = props => {
       </TabLabel>
     ));
   return (
-    <UL role="tablist" aria-label="Dashboard graphs" data-testid="Tab-menu">
+    <Ul role="tablist" aria-label="Dashboard graphs" data-testid="Tab-menu">
       {renderTabs()}
-    </UL>
+    </Ul>
   );
 };
 

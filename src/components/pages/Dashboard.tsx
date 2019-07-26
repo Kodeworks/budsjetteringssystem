@@ -9,7 +9,7 @@ interface IProps {
   className?: string;
 }
 
-const UnstyledDashboard: React.FC<IProps> = props => {
+const Dashboard: React.FC<IProps> = props => {
   return (
     <div className={props.className}>
       <div className="page-title">
@@ -33,7 +33,7 @@ const UnstyledDashboard: React.FC<IProps> = props => {
   );
 };
 
-const Dashboard = styled(UnstyledDashboard)`
+export default styled(Dashboard)`
   display: grid;
   grid-template-columns: repeat(12, calc(100% / 12));
   grid-template-rows: 25% auto;
@@ -46,5 +46,3 @@ const Dashboard = styled(UnstyledDashboard)`
     grid-column: 1 / span 12;
   }
 `;
-
-export default Dashboard;
