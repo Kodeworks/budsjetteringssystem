@@ -95,6 +95,7 @@ const Balances: React.FC<IProps> = props => {
         } catch (e) {
           alert('Oopsie');
           newEntries[entryKey] = [];
+          setEntries(newEntries);
         }
       }
     })();
