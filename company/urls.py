@@ -1,11 +1,9 @@
 from django.urls import path
 
-from .views import CompanyView, CompanyAddUserView, CompanyRemoveUserView, CompanySetRoleView
+from .views import CompanyView, CompanyUserView
 
 
 urlpatterns = [
     path('', CompanyView.as_view(), name='company'),
-    path('addUser/', CompanyAddUserView.as_view(), name='company-add-user'),
-    path('removeUser/', CompanyRemoveUserView.as_view(), name='company-remove-user'),
-    path('setRole/', CompanySetRoleView.as_view(), name='company-set-role'),
+    path('user/', CompanyUserView.as_view(), name='company-add-user'),
 ]

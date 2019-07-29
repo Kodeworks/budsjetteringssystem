@@ -2,9 +2,9 @@ from rest_framework.exceptions import ParseError
 
 from base.views import RetrieveCreateUpdateDestroyView, ByDateRangeView, RetrieveView
 from base.mixins import CompanyFilterMixin, ManyMixin, ByDateRangeMixin
-from base.serializers import DateSerializer, DateRangeSerializer
+from base.serializers import DateSerializer
 from .models import BankBalance
-from .serializers import BankBalanceSerializer, BalanceSerializer, MonthSerializer
+from .serializers import BankBalanceSerializer, BalanceSerializer, MonthSerializer, MonthYearSerializer
 from .utils import Balance, Month
 
 
@@ -28,9 +28,10 @@ class BankBalanceByDateRangeView(BankBalanceMixin, ByDateRangeView):
 
 class BalanceView(RetrieveView):
     serializer_class = BalanceSerializer
+    request_serializer_class = DateSerializer
 
     def get_object(self):
-        arg_serializer = DateSerializer(data=self.get_data())
+        arg_serializer = self.request_serializer_class(data=self.get_data())
         arg_serializer.is_valid(raise_exception=True)
 
         date = arg_serializer.validated_data['date']
@@ -49,12 +50,15 @@ class BalanceByDateRangeView(ManyMixin, ByDateRangeMixin, RetrieveView):
 
 class MonthView(RetrieveView):
     serializer_class = MonthSerializer
+    request_serializer_class = MonthYearSerializer
 
     def get_object(self):
         company_id = self.get_company_id()
-        data = self.get_data()
-        year = int(data['year'])
-        month = int(data['month'])
+        serializer = self.request_serializer_class(data=self.get_data())
+        serializer.is_valid(raise_exception=True)
+
+        year = serializer.data['year']
+        month = serializer.data['month']
 
         try:
             return Month.get(company_id, year, month)

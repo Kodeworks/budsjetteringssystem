@@ -26,6 +26,17 @@ class BalanceSerializer(serializers.Serializer):
     money = serializers.IntegerField()
 
 
+class MonthYearSerializer(serializers.Serializer):
+    year = serializers.IntegerField()
+    month = serializers.IntegerField()
+
+    def validate_month(self, month):
+        if not 1 <= month <= 12:
+            raise serializers.ValidationError('Month must be between 1 and 12')
+
+        return month
+
+
 class MonthSerializer(serializers.Serializer):
     year = serializers.IntegerField()
     month = serializers.IntegerField()

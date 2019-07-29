@@ -21,7 +21,7 @@ class AuthenticationTestCase(JWTTestCase):
 
     def test_incorrect_login(self):
         response = self.post(views.Login, {'email': self.email, 'password': 'wrong'})
-        self.assertEquals(response.status_code, 400, msg=response.content)
+        self.assertEquals(response.status_code, 404, msg=response.content)
 
     def test_correct_JWT_refresh(self):
         response = self.post(views.Login, {'email': self.email, 'password': self.password})

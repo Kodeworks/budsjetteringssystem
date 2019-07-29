@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     'corsheaders',
     'base',
     'company',
@@ -147,6 +148,10 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(days=1),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=5),
+}
+
+SWAGGER_SETTINGS = {
+    'DEFAULT_AUTO_SCHEMA_CLASS': 'base.api.LiquidatorAutoSchema',
 }
 
 

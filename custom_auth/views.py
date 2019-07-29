@@ -1,36 +1,47 @@
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import NotFound
+from drf_yasg.inspectors import SwaggerAutoSchema
+from drf_yasg.utils import swagger_auto_schema
 
 from base.views import RetrieveCreateUpdateDestroyView, RetrieveView
 from .models import User
-from .serializers import UserSerializer
+from .utils import UserToken
+from .serializers import UserSerializer, LoginSerializer, UserTokenSerializer
 
 
 class Login(APIView):
-    def post(self, request, *args, **kwargs):
-        if not request.data:
-            return Response({'error': 'Please provide email/password'}, status="400")
+    missing_msg = 'Please provide email/password'
+    invalid_msg = 'Invalid email/password'
 
-        email = request.data['email']
-        password = request.data['password']
+    @swagger_auto_schema(
+        auto_schema=SwaggerAutoSchema,
+        request_body=LoginSerializer,
+        responses={
+            '200': UserTokenSerializer(),
+            '400': missing_msg,
+            '404': invalid_msg,
+        }
+    )
+    def post(self, request, *args, **kwargs):
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.data['email']
+        password = serializer.data['password']
 
         user = authenticate(email=email, password=password)
 
         if user:
-            refresh = RefreshToken.for_user(user)
-            serializer = UserSerializer(user)
-
-            return Response(
-                {'refresh': str(refresh), 'access': str(refresh.access_token), 'user': serializer.data},
-                status='200',
-            )
+            serializer = UserTokenSerializer(UserToken(user))
+            return Response(serializer.data, status='200')
         else:
-            return Response({'detail': 'Invalid email/password'}, status='400')
+            raise NotFound(self.invalid_msg)
 
 
 class UserMixin:
+    company_id_field = None
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'id'
@@ -70,12 +81,8 @@ class UserView(UserMixin, RetrieveCreateUpdateDestroyView):
     def create(self, *args, **kwargs):
         response = super().create(*args, **kwargs)
         if self.user:
-            refresh = RefreshToken.for_user(self.user)
-            response.data = {
-                'user': response.data,
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }
+            serializer = UserTokenSerializer(UserToken(self.user))
+            response.data = serializer.data
 
         return response
 
