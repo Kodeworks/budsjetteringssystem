@@ -37,10 +37,10 @@ const Filters: React.FC<IProps> = props => {
       parseBooleans: true,
     }) as IFilterSettingsFromQuery;
 
-    setFromDate(qFromDate || fromDate);
-    setToDate(qToDate || toDate);
-    setDescription(qDesc || description);
-    setRecurring(qRecurring || recurring);
+    setFromDate(v => qFromDate || v);
+    setToDate(v => qToDate || v);
+    setDescription(v => qDesc || v);
+    setRecurring(v => qRecurring || v);
   }, []);
 
   React.useEffect(() => {
