@@ -18,7 +18,7 @@ type TransactionType = import('../../declarations/transaction').TransactionType;
 const AddTransaction: React.FC<{ className?: string }> = props => {
   const dispatch = useTransactionDispatch();
   const [transactionType, setTransactionType] = React.useState<TransactionType>(
-    'EX'
+    'expense'
   );
   const [date, setDate] = React.useState('1970-01-01');
   const [amount, setAmount] = React.useState('');

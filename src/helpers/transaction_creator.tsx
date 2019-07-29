@@ -3,7 +3,7 @@ import React from 'react';
 import { useTransactionDispatch } from '../store/contexts/transactions';
 import { TransactionActions } from '../store/reducers/transactions';
 
-type TransactionType = import('../declarations/transaction').ITransaction;
+type TransactionType = import('../declarations/transaction').ITransaction['type'];
 
 const words: Array<string> = [
   'Otter',
