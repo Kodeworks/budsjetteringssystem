@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { ITransaction } from '../../declarations/transaction';
 
-interface IProps {
+interface IIncomeTransactionsProps {
   tx: Array<ITransaction>;
   className?: string;
   fetchMore: () => void;
@@ -17,10 +17,10 @@ const txEntry = (t: ITransaction) => (
   <TransactionEntry hideIncomeExpenseBadge={true} key={t.id} {...t} />
 );
 
-const IncomeTransactions: React.FC<IProps> = props => {
+const IncomeTransactions: React.FC<IIncomeTransactionsProps> = props => {
   const renderTransactions = () =>
     props.tx
-      .filter(e => e.type === 'income')
+      .filter(e => e.type === 'IN')
       .sort((t1, t2) => (t2.date > t1.date ? 1 : -1))
       .map(txEntry);
   return (

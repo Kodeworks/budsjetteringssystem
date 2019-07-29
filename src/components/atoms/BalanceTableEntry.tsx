@@ -1,15 +1,14 @@
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
-import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { currencyFormat } from '../../helpers/currency';
 
-interface IPropsTableEntry {
+interface ITableEntryProps {
   className?: string;
-  data: IBalanceEntry;
+  data: import('../../declarations/balanceEntries').IBalanceEntry;
 }
 
-const tableEntry: React.FC<IPropsTableEntry> = props => {
+const tableEntry: React.FC<ITableEntryProps> = props => {
   return (
     <div className={props.className}>
       <span>{moment(props.data.date).format('ddd[,] Do MMMM')}</span>

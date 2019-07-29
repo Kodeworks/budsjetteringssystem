@@ -7,12 +7,12 @@ import Input from '../atoms/Input';
 import styled from 'styled-components';
 import { ITransaction } from '../../declarations/transaction';
 
-interface IProps {
+interface IFiltersProps {
   className?: string;
   setFilter: React.Dispatch<React.SetStateAction<(t: ITransaction) => boolean>>;
 }
 
-const Filters: React.FC<IProps> = props => {
+const Filters: React.FC<IFiltersProps> = props => {
   const [fromDate, setFromDate] = React.useState('1970-01-01');
   const [toDate, setToDate] = React.useState('2030-01-01');
   const [description, setDescription] = React.useState('');

@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-interface IProps {
+interface IOutlinedButtonProps {
   className?: string;
   variant?: 'error' | 'success';
 }
 
-const OutlinedButton = styled.button<IProps>`
+const OutlinedButton = styled.button<IOutlinedButtonProps>`
   /* Sizing */
   height: 2.5em;
   margin: 0.5em calc(0.5em + 5px) calc(0.5em + 5px) 0.5em; /* We need to factor in

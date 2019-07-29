@@ -14,14 +14,10 @@ import { TransactionType } from '../../declarations/transaction';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
 
-interface IProps {
-  className?: string;
-}
-
-const AddTransaction: React.FC<IProps> = props => {
+const AddTransaction: React.FC<{ className?: string }> = props => {
   const dispatch = useTransactionDispatch();
   const [transactionType, setTransactionType] = React.useState<TransactionType>(
-    'expense'
+    'EX'
   );
   const [date, setDate] = React.useState('1970-01-01');
   const [amount, setAmount] = React.useState('');

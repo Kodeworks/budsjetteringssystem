@@ -10,10 +10,6 @@ import Filters from '../molecules/Filters';
 import IncomeTransactions from '../molecules/IncomeTransactions';
 import TransactionCalculator from '../molecules/TransactionCalculator';
 
-interface IProps {
-  className?: string;
-}
-
 const Content = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
@@ -22,7 +18,7 @@ const Content = styled.div`
   margin-top: 2em;
 `;
 
-const Transactions: React.FC<IProps> = ({ className }) => {
+const Transactions: React.FC<{ className?: string }> = ({ className }) => {
   const store = useTransactionState();
 
   const [filter, setFilter] = React.useState<(t: ITransaction) => boolean>(

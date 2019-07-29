@@ -3,12 +3,12 @@ import React from 'react';
 import { Link, LinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 
-interface IProps extends LinkProps {
+interface IAccentedLinkProps extends LinkProps {
   className?: string;
   to: string;
 }
 
-const AccentedLink: React.FC<IProps> = ({
+const AccentedLink: React.FC<IAccentedLinkProps> = ({
   to,
   className,
   children,

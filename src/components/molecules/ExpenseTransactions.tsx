@@ -7,7 +7,7 @@ import TransactionEntry from '../atoms/TransactionEntry';
 
 import styled from 'styled-components';
 
-interface IProps {
+interface IExpenseTransactionsProps {
   tx: Array<ITransaction>;
   className?: string;
   fetchMore: () => void;
@@ -17,10 +17,10 @@ const txEntry = (t: ITransaction) => (
   <TransactionEntry hideIncomeExpenseBadge={true} key={t.id} {...t} />
 );
 
-const ExpenseTransactions: React.FC<IProps> = props => {
+const ExpenseTransactions: React.FC<IExpenseTransactionsProps> = props => {
   const renderTransactions = () =>
     props.tx
-      .filter(e => e.type === 'expense')
+      .filter(e => e.type === 'EX')
       .sort((t1, t2) => (t2.date > t1.date ? 1 : -1))
       .map(txEntry);
 

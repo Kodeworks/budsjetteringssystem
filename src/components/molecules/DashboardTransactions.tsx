@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { ITransaction } from '../../declarations/transaction';
 import TransactionEntry from '../atoms/TransactionEntry';
 
-interface IProps {
+interface IDashboardTransactionsProps {
   className?: string;
   transactions: Array<ITransaction>;
 }
 
-const DashboardTransactions: React.FC<IProps> = ({
+const DashboardTransactions: React.FC<IDashboardTransactionsProps> = ({
   className,
   transactions,
 }) => (

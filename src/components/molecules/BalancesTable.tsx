@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import { IBalanceEntry } from '../../declarations/balanceEntries';
 import BalanceTableEntry from '../atoms/BalanceTableEntry';
 
-interface IPropsTable {
+interface ITableProps {
   className?: string;
   entries: Array<IBalanceEntry>;
 }
 
-interface IPropsHeaders {
+interface IHeadersProps {
   className?: string;
 }
 
-const headers: React.FC<IPropsHeaders> = props => {
+const headers: React.FC<IHeadersProps> = props => {
   return (
     <div className={props.className}>
       <h2>Date</h2>
@@ -36,7 +36,7 @@ const BalancesTableHeaders = styled(headers)`
   }
 `;
 
-const BalancesTable: React.FC<IPropsTable> = props => {
+const BalancesTable: React.FC<ITableProps> = props => {
   return (
     <div className={props.className}>
       <BalancesTableHeaders />

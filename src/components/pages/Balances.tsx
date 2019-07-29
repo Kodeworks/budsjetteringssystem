@@ -11,10 +11,6 @@ import PageTitle from '../atoms/PageTitle';
 import BalancesCalendar from '../molecules/BalancesCalendar';
 import BalancesTable from '../molecules/BalancesTable';
 
-interface IProps {
-  className?: string;
-}
-
 const companyId = 1; // Hardcoded until we get a global company context.
 
 const createBalanceEntriesFromMonth = (month: IMonth) => {
@@ -60,7 +56,7 @@ const createBalanceEntriesFromMonth = (month: IMonth) => {
   return balanceEntries;
 };
 
-const Balances: React.FC<IProps> = props => {
+const Balances: React.FC<{ className?: string }> = props => {
   const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(
     moment().startOf('month')
   );
