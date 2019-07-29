@@ -4,6 +4,8 @@ import Checkbox from '../atoms/Checkbox';
 import Collapsable from '../atoms/Collapsable';
 import Input from '../atoms/Input';
 
+import queryString from 'query-string';
+
 import styled from 'styled-components';
 import { ITransaction } from '../../declarations/transaction';
 
@@ -12,11 +14,45 @@ interface IProps {
   setFilter: React.Dispatch<React.SetStateAction<(t: ITransaction) => boolean>>;
 }
 
+interface IFilterSettingsFromQuery {
+  fromDate?: string;
+  toDate?: string;
+  desc?: string;
+  recurring?: boolean;
+}
+
 const Filters: React.FC<IProps> = props => {
   const [fromDate, setFromDate] = React.useState('1970-01-01');
   const [toDate, setToDate] = React.useState('2030-01-01');
   const [description, setDescription] = React.useState('');
   const [recurring, setRecurring] = React.useState(false);
+
+  React.useEffect(() => {
+    const {
+      fromDate: qFromDate,
+      toDate: qToDate,
+      desc: qDesc,
+      recurring: qRecurring,
+    } = queryString.parse(window.location.search, {
+      parseBooleans: true,
+    }) as IFilterSettingsFromQuery;
+
+    if (qFromDate) {
+      setFromDate(qFromDate);
+    }
+
+    if (qToDate) {
+      setToDate(qToDate);
+    }
+
+    if (qDesc) {
+      setDescription(qDesc);
+    }
+
+    if (qRecurring) {
+      setRecurring(qRecurring);
+    }
+  }, []);
 
   React.useEffect(() => {
     props.setFilter(() => (t: ITransaction) => {
