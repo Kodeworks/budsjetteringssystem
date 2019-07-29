@@ -77,6 +77,14 @@ async function doDeleteUser(dispatch: React.Dispatch<ICreatedAction>) {
   dispatch(logout());
 }
 
+const doSetUser = async (
+  userId: number,
+  dispatch: React.Dispatch<ICreatedAction>
+) => {
+  const user = await API.getUserById(userId);
+  dispatch(login(user));
+};
+
 /**
  * Under here you will find action creators, the reducer, and created action creators.
  */
@@ -93,6 +101,7 @@ export const AuthActions = {
   doLogin,
   doLogout,
   doRegister,
+  doSetUser,
   doUpdateUser,
 };
 
