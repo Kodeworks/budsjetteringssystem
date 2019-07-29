@@ -1,6 +1,7 @@
-import { IMonth, IPaginatedMonths } from '../declarations/month';
-
 import { fetchWithCallback } from '.';
+
+type IMonth = import('../declarations/month').IMonth;
+type IPaginatedMonths = import('../declarations/month').IPaginatedMonths;
 
 export const getMonth = async (
   month: number,

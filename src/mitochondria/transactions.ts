@@ -1,5 +1,6 @@
 import { fetchWithCallback } from '.';
-import { ITransaction } from '../declarations/transaction';
+
+type ITransaction = import('../declarations/transaction').ITransaction;
 
 /**
  * Interface for body of a post request (Add Transaction) of the API

@@ -5,7 +5,8 @@ import Collapsable from '../atoms/Collapsable';
 import Input from '../atoms/Input';
 
 import styled from 'styled-components';
-import { ITransaction } from '../../declarations/transaction';
+
+type ITransaction = import('../../declarations/transaction').ITransaction;
 
 interface IFiltersProps {
   className?: string;

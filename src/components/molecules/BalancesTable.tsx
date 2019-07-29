@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IBalanceEntry } from '../../declarations/balanceEntries';
 import BalanceTableEntry from '../atoms/BalanceTableEntry';
 
 interface ITableProps {
   className?: string;
-  entries: Array<IBalanceEntry>;
+  entries: Array<import('../../declarations/balanceEntries').IBalanceEntry>;
 }
 
 interface IHeadersProps {

@@ -1,6 +1,6 @@
-import { IUser } from '../declarations/user';
-
 import { fetchWithCallback } from '.';
+
+type IUser = import('../declarations/user').IUser;
 
 export interface ILoginResponse {
   user: IUser;

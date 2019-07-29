@@ -1,5 +1,7 @@
 import { fetchWithCallback } from '.';
-import { ICompany, Role } from '../declarations/company';
+
+type ICompany = import('../declarations/company').ICompany;
+type Role = import('../declarations/company').Role;
 
 export const createCompany = (id: number, name: string, orgNr: string) =>
   fetchWithCallback<ICompany>(

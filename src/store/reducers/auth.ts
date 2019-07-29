@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { IUser } from './../../declarations/user';
 import * as API from './../../mitochondria';
+
+type IUser = import('../../declarations/user').IUser;
 
 // Action types
 const LOGIN = 'LOGIN' as const;

@@ -1,8 +1,9 @@
 import moment from 'moment';
 import React from 'react';
-import { ITransaction, TransactionType } from '../declarations/transaction';
 import { useTransactionDispatch } from '../store/contexts/transactions';
 import { TransactionActions } from '../store/reducers/transactions';
+
+type TransactionType = import('../declarations/transaction').ITransaction;
 
 const words: Array<string> = [
   'Otter',
@@ -29,7 +30,7 @@ const randomType = (): TransactionType =>
 
 let i: number = 0;
 
-export const createDummyTransaction = (): ITransaction => ({
+export const createDummyTransaction = (): import('../declarations/transaction').ITransaction => ({
   company_id: 0,
   date: moment(Math.floor(Math.random() * 1500000000000)).format('YYYY-MM-DD'),
   description: `${randomWord()} ${randomWord()}`,

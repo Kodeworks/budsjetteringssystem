@@ -5,7 +5,7 @@ import TransactionEntry from '../atoms/TransactionEntry';
 
 import styled from 'styled-components';
 
-import { ITransaction } from '../../declarations/transaction';
+type ITransaction = import('../../declarations/transaction').ITransaction;
 
 interface IIncomeTransactionsProps {
   tx: Array<ITransaction>;

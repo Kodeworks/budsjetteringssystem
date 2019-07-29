@@ -2,8 +2,6 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 
-import { IBalanceEntry } from '../../declarations/balanceEntries';
-import { IMonth } from '../../declarations/month';
 import * as BalancesAPI from '../../mitochondria/balances';
 import BalancesViewPicker from '../atoms/BalancesViewPicker';
 import MonthPicker from '../atoms/MonthPicker';
@@ -13,7 +11,11 @@ import BalancesTable from '../molecules/BalancesTable';
 
 const companyId = 1; // Hardcoded until we get a global company context.
 
-const createBalanceEntriesFromMonth = (month: IMonth) => {
+type IBalanceEntry = import('../../declarations/balanceEntries').IBalanceEntry;
+
+const createBalanceEntriesFromMonth = (
+  month: import('../../declarations/month').IMonth
+) => {
   const monthBalances: {
     [s: string]: { income: number; expense: number; liquidity: number };
   } = {};

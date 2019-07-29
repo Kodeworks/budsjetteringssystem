@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ITransaction } from '../../declarations/transaction';
-
 import { useTransactionState } from '../../store/contexts/transactions';
 import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
 import Filters from '../molecules/Filters';
 import IncomeTransactions from '../molecules/IncomeTransactions';
 import TransactionCalculator from '../molecules/TransactionCalculator';
+
+type ITransaction = import('../../declarations/transaction').ITransaction;
 
 const Content = styled.div`
   display: grid;

@@ -10,9 +10,10 @@ import RecurringTransactionOptions, {
 } from '../atoms/RecurringTransactionOptions';
 import TextArea from '../atoms/TextArea';
 
-import { TransactionType } from '../../declarations/transaction';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
+
+type TransactionType = import('../../declarations/transaction').TransactionType;
 
 const AddTransaction: React.FC<{ className?: string }> = props => {
   const dispatch = useTransactionDispatch();

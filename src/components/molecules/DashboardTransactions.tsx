@@ -1,12 +1,11 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { ITransaction } from '../../declarations/transaction';
 import TransactionEntry from '../atoms/TransactionEntry';
 
 interface IDashboardTransactionsProps {
   className?: string;
-  transactions: Array<ITransaction>;
+  transactions: Array<import('../../declarations/transaction').ITransaction>;
 }
 
 const DashboardTransactions: React.FC<IDashboardTransactionsProps> = ({

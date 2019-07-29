@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { ITransaction } from '../../declarations/transaction';
-
 import OutlinedButton from '../atoms/OutlinedButton';
 import TransactionEntry from '../atoms/TransactionEntry';
 
 import styled from 'styled-components';
+
+type ITransaction = import('../../declarations/transaction').ITransaction;
 
 interface IExpenseTransactionsProps {
   tx: Array<ITransaction>;

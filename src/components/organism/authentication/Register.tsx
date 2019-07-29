@@ -4,10 +4,11 @@ import Authentication, { AuthType, IOnRegister } from './Authentication';
 
 import { AuthActions } from '../../../store/reducers/auth';
 
-import { RouteComponentProps } from 'react-router';
 import { useAuthDispatch } from '../../../store/contexts/auth';
 
-const Register: React.FC<RouteComponentProps<{}>> = props => {
+const Register: React.FC<
+  import('react-router').RouteComponentProps<{}>
+> = props => {
   const authDispatch = useAuthDispatch();
   const [error, setError] = React.useState('');
 
