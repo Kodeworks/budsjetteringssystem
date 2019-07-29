@@ -1,25 +1,49 @@
 export interface IError {
+  detail?: string;
+  error?: string;
+}
+
+export interface IExpiredTokenResponse {
   detail: string;
+  code: string;
+  messages?: Array<{
+    token_class: string;
+    token_type: string;
+    message: string;
+  }>;
 }
 
 // Add endpoints here as needed
 const endpoints = [
-  '/transaction/',
-  '/transaction/all/',
-  '/transaction/income/all/',
   '/balance/',
-  '/recurring/',
-  '/month/',
-  '/month/all/',
-  '/month/byDateRange/',
+  '/balance/bank/',
+  '/balance/bank/byDate/',
+  '/balance/bank/byDateRange/',
+  '/balance/byDateRange/',
   '/company/',
-  '/user/',
-  '/user/login/',
-  '/user/register/',
   '/company/',
   '/company/addUser/',
   '/company/removeUser/',
   '/company/setRole/',
+  '/month/',
+  '/month/all/',
+  '/month/byDateRange/',
+  '/recurring/',
+  '/recurring/',
+  '/recurring/active/',
+  '/recurring/all/',
+  '/recurring/byDate/',
+  '/recurring/byDateRange/',
+  '/transaction/',
+  '/transaction/all/',
+  '/transaction/byDate/',
+  '/transaction/byDateRange/',
+  '/transaction/expense/all/',
+  '/transaction/income/all/',
+  '/user/',
+  '/user/byEmail/',
+  '/user/login/',
+  '/user/register/',
 ] as const;
 
 // Union of endpoints: '/transaction' | '/transaction/all' | ...
@@ -47,15 +71,62 @@ export const fetchNewToken = async (): Promise<string> => {
   switch (res.status) {
     case 200:
       return ((await res.json()) as ITokenResponse).access;
+    case 400:
+      throw new Error(`Invalid request for new token. Refresh: ${refresh}.`);
     case 401:
-      // The refresh token has expired
-      throw new Error('Refresh token has expired.');
+      const parsed = (await res.json()) as IExpiredTokenResponse;
+
+      if (parsed.code === 'token_not_valid') {
+        throw new Error('Refresh token has expired.');
+      } else {
+        throw new Error(
+          `Unexpected response from backend when refreshing token: ${JSON.stringify(
+            parsed
+          )}.`
+        );
+      }
     default:
       throw new Error(
-        'Unexpected response from server when fetching new access token.'
+        `Unexpected response from server when fetching new access token.`
       );
   }
 };
+
+class ResponseError extends Error {
+  constructor(
+    status: number,
+    statusText: string,
+    path: ApiEndpoint,
+    queryParams: string,
+    options: RequestInit,
+    body: string
+  ) {
+    super(`Error callback for status ${status} ${statusText}.
+Path was ${queryParams ? `${path}${queryParams}` : path}.
+Options were ${JSON.stringify(options)}.
+
+${body}
+`);
+
+    Object.setPrototypeOf(this, ResponseError.prototype);
+  }
+}
+
+async function errorHandler(
+  path: ApiEndpoint,
+  queryParams: string,
+  options: RequestInit,
+  res: Response
+) {
+  throw new ResponseError(
+    res.status,
+    res.statusText,
+    path,
+    queryParams,
+    options,
+    JSON.stringify(await res.json())
+  );
+}
 
 interface ICallbacks {
   [statusCode: number]: (resp: Response) => Promise<any>;
@@ -64,7 +135,8 @@ interface ICallbacks {
 /**
  * @summary """
  * Perform a fetch call with the access token. Will handle refetching of token
- * if it has expired.
+ * if it has expired. By default, it will return `Promise<resp.json()>` for 200 and
+ * 201 responses.
  * """
  *
  * @param url "URL to fetch. Can pass in query parameters if GET request."
@@ -74,8 +146,8 @@ interface ICallbacks {
 export const fetchWithCallback = async <T>(
   path: ApiEndpoint,
   queryParams: string,
-  options: RequestInit,
-  callbacks: ICallbacks
+  options: RequestInit = {},
+  callbacks: ICallbacks = {}
 ): Promise<T> => {
   const res = await fetch(`${BASE_URL}${path}${queryParams}`, {
     headers: {
@@ -91,30 +163,46 @@ export const fetchWithCallback = async <T>(
   // Call the callback with a status corresponding to the response.
   try {
     return await ({
-      400: async resp => {
-        throw new Error(((await resp.json()) as IError).detail);
-      },
+      200: async resp => (await resp.json()) as T,
+      201: async resp => (await resp.json()) as T,
+      204: async () => true,
+      400: async resp => errorHandler(path, queryParams, options, resp),
       401: async resp => {
+        const parsed = (await resp.json()) as IExpiredTokenResponse;
+
+        if (parsed.code !== 'token_not_valid') {
+          throw new ResponseError(
+            resp.status,
+            resp.statusText,
+            path,
+            queryParams,
+            options,
+            JSON.stringify(parsed)
+          );
+        }
+
         const newToken = await fetchNewToken();
         localStorage.setItem('access', newToken);
         return await fetchWithCallback(path, queryParams, options, callbacks);
       },
-      403: async resp => {
-        throw new Error(((await resp.json()) as IError).detail);
-      },
-      404: async resp => {
-        throw new Error(((await resp.json()) as IError).detail);
-      },
+      403: async resp => errorHandler(path, queryParams, options, resp),
+      404: async resp => errorHandler(path, queryParams, options, resp),
+      500: async resp => errorHandler(path, queryParams, options, resp),
       ...callbacks,
     } as ICallbacks)[res.status](res);
   } catch (e) {
-    if (e instanceof TypeError) {
-      throw new Error(
-        `No handler implemented for HTTP status code ${res.status}: ${e.message}.`
-      );
+    if (e instanceof ResponseError) {
+      throw e;
     }
 
-    throw e;
+    throw new Error(`Encountered unhandled response from server for status ${
+      res.status
+    }: ${res.statusText}.
+Path was ${queryParams ? `${path}${queryParams}` : path}.
+Options were ${JSON.stringify(options)}.
+
+${JSON.stringify(e.message)}
+`);
   }
 };
 
@@ -123,3 +211,4 @@ export * from './balances';
 export * from './transactions';
 export * from './auth';
 export * from './company';
+export * from './recurring';

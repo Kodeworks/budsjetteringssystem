@@ -117,8 +117,8 @@ const expenseTx = {
   id: 1,
   money: 12345,
   notes: 'Storybook is neat!',
-  recurring_id: 666,
-  type: 'expense',
+  recurring_transaction_id: 666,
+  type: 'EX',
 } as ITransaction;
 
 const incomeTx = {
@@ -128,8 +128,8 @@ const incomeTx = {
   id: 1,
   money: 12345,
   notes: 'Storybook is neat!',
-  recurring_id: 666,
-  type: 'income',
+  recurring_transaction_id: 666,
+  type: 'IN',
 } as ITransaction;
 
 storiesOf('Dashboard/Transactions', module)

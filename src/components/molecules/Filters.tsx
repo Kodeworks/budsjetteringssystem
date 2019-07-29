@@ -22,7 +22,7 @@ const Filters: React.FC<IProps> = props => {
     props.setFilter(() => (t: ITransaction) => {
       // If recurring filter is toggled and transaction is not of reccuring type
       // return false
-      if (recurring && !t.recurring_id) {
+      if (recurring && !t.recurring_transaction_id) {
         return false;
       }
 

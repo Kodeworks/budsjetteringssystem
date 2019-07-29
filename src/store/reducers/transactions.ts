@@ -26,7 +26,7 @@ const addTransaction = (
  * @throws "Error if return code is not 201"
  */
 const doAddTransaction = async (
-  newTransaction: api.INewTransaction,
+  newTransaction: api.ICreateTransaction,
   dispatch: TransactionDispatch
 ) => {
   // All values are stored as hundreths in state and database.
