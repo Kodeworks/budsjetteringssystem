@@ -8,8 +8,8 @@ import Navigation from '../organism/Navigation';
 import Transactions from '../organism/Transactions';
 import Balances from '../pages/Balances';
 import { Companies } from '../pages/Companies';
+import Dashboard from '../pages/Dashboard';
 import FAQ from '../pages/FAQ';
-import Homepage from '../pages/Homepage';
 import Page from '../templates/Page';
 
 const Routes: React.FC<RouteComponentProps<{}>> = props => {
@@ -34,7 +34,7 @@ const Routes: React.FC<RouteComponentProps<{}>> = props => {
       <>
         <Navigation />
         <Page>
-          <Route path="/" exact={true} component={Homepage} />
+          <Route path="/" exact={true} component={Dashboard} />
           <Route path="/faq" component={FAQ} />
           <Route path="/transactions" component={Transactions} />
           <Route path="/balances" component={Balances} />

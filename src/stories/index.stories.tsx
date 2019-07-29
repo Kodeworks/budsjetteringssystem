@@ -15,7 +15,8 @@ import TextArea from '../components/atoms/TextArea';
 import TransactionEntry from '../components/atoms/TransactionEntry';
 import AddTransaction from '../components/molecules/AddTransaction';
 import Filters from '../components/molecules/Filters';
-import TabMenu from '../components/molecules/TabMenu';
+import Tab from '../components/molecules/Tab';
+import TabsContainer from '../components/molecules/TabsContainer';
 import Navigation from '../components/organism/Navigation';
 import Toolbar from '../components/organism/Toolbar';
 import Transactions from '../components/organism/Transactions';
@@ -76,10 +77,6 @@ storiesOf('Button/Outlined', module).add('Normal', () => (
 
 storiesOf('LandingPage', module).add('Full', () => <LandingPage />);
 
-const tabs = ['Tab 1', 'Tab 2', 'Tab 3'];
-
-storiesOf('Page', module).add('Tabs', () => <TabMenu tabLabels={tabs} />);
-
 storiesOf('Dashboard', module)
   .addDecorator(fn => (
     <div style={{ margin: '2em', background: theme.palette.primary.main }}>
@@ -101,6 +98,16 @@ storiesOf('Dashboard', module)
         truck paleo keytar.
       </p>
     </CardContainer>
+  ))
+  .add('TabsContainer', () => (
+    <TabsContainer>
+      <Tab label="Minimum liquidity">
+        <h2>Projected Minimum Liquidity</h2>
+      </Tab>
+      <Tab label="Transaction volumes">
+        <h2>Transaction Volumes</h2>
+      </Tab>
+    </TabsContainer>
   ));
 
 const expenseTx = {
