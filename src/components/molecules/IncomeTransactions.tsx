@@ -20,7 +20,7 @@ const txEntry = (t: ITransaction) => (
 const IncomeTransactions: React.FC<IProps> = props => {
   const renderTransactions = () =>
     props.tx
-      .filter(e => e.type === 'income')
+      .filter(e => e.type === 'IN')
       .sort((t1, t2) => (t2.date > t1.date ? 1 : -1))
       .map(txEntry);
   return (

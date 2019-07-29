@@ -40,7 +40,7 @@ test('Only show recurring', () => {
   fireEvent.click(getByLabelText('Only recurring?'));
   dummyTxs.forEach(e => {
     expect(container.querySelectorAll('h4~strong~h6').length).toBe(
-      dummyTxs.filter(t => t.recurring_id).length
+      dummyTxs.filter(t => t.recurring_transaction_id).length
     );
   });
 });
