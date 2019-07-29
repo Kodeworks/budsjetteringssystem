@@ -2,13 +2,13 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 
-interface IProps {
+interface IMonthPickerProps {
   className?: string;
   month: moment.Moment;
   setState: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const MonthPicker: React.FC<IProps> = props => {
+const MonthPicker: React.FC<IMonthPickerProps> = props => {
   const decreaseMonth = () => {
     props.setState(props.month.clone().subtract(1, 'month'));
   };

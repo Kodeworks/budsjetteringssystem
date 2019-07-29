@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IProps {
+interface ITabLabelProps {
   isActive: boolean;
   className?: string;
   tabIndex: number;
@@ -15,7 +15,7 @@ const LI = styled.li`
   padding: 0.5rem 0.75rem;
 `;
 
-const TabLabel: React.FC<IProps> = props => {
+const TabLabel: React.FC<ITabLabelProps> = props => {
   const handleClick = () => props.onClick(props.tabIndex);
   return <LI onClick={handleClick}>{props.children}</LI>;
 };
