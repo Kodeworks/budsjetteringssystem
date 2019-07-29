@@ -53,7 +53,7 @@ const AddTransaction: React.FC<IProps> = props => {
         type: transactionType,
       };
       try {
-        TransactionActions.doAddTransaction(formValues, dispatch);
+        TransactionActions.doCreateTransaction(formValues, dispatch);
       } catch (e) {
         setError(e.message);
         /* TODO – handle and display error to the user */
