@@ -10,25 +10,29 @@ export const getRecurringTransactionById = async (
   companyId: number,
   id: number
 ) =>
-  await fetchWithCallback<IRecurringTransaction>(
-    '/recurring/',
-    `?company_id=${companyId}&id=${id}`
-  );
+  await fetchWithCallback<IRecurringTransaction>('/recurring/', {
+    company_id: companyId,
+    id,
+  });
 
 export const createRecurringTransaction = async (
   recurringTransaction: ICreateRecurringTransaction
 ) =>
-  await fetchWithCallback<IRecurringTransaction>('/recurring/', '', {
-    body: JSON.stringify(recurringTransaction),
-    method: 'POST',
-  });
+  await fetchWithCallback<IRecurringTransaction>(
+    '/recurring/',
+    {},
+    {
+      body: JSON.stringify(recurringTransaction),
+      method: 'POST',
+    }
+  );
 
 export const updateRecurringTransaction = async (
   recurringTransaction: IUpdateRecurringTransaction
 ) =>
   await fetchWithCallback<true>(
     '/recurring/',
-    '',
+    {},
     {
       body: JSON.stringify(recurringTransaction),
       method: 'PUT',
@@ -44,7 +48,7 @@ export const deleteRecurringTransaction = async (
 ) =>
   await fetchWithCallback<true>(
     '/recurring/',
-    `?company_id=${companyId}&id=${id}`,
+    { company_id: companyId, id },
     {
       method: 'DELETE',
     }
@@ -57,7 +61,7 @@ export const getAllRecurringTransactions = async (
 ) =>
   await fetchWithCallback<IPaginated<IRecurringTransaction>>(
     '/recurring/all/',
-    `?company_id=${companyId}&offset=${offset}&limit=${limit}`
+    { company_id: companyId, offset, limit }
   );
 
 export const getActiveRecurringTransactions = async (
@@ -67,7 +71,7 @@ export const getActiveRecurringTransactions = async (
 ) =>
   await fetchWithCallback<IPaginated<IRecurringTransaction>>(
     '/recurring/active/',
-    `?company_id=${companyId}&offset=${offset}&limit=${limit}`
+    { company_id: companyId, offset, limit }
   );
 
 /**
@@ -81,7 +85,7 @@ export const getRecurringTransactionsByDate = async (
 ) =>
   await fetchWithCallback<IPaginated<IRecurringTransaction>>(
     '/recurring/byDate/',
-    `?company_id=${companyId}&date=${date}&offset=${offset}&limit=${limit}`
+    { company_id: companyId, date, offset, limit }
   );
 
 /**
@@ -97,5 +101,11 @@ export const getRecurringTransactionsByDateRange = async (
 ) =>
   await fetchWithCallback<IPaginated<IRecurringTransaction>>(
     '/recurring/byDate/',
-    `?company_id=${companyId}&start_date=${startDate}&end_date=${endDate}&offset=${offset}&limit=${limit}`
+    {
+      company_id: companyId,
+      end_date: endDate,
+      limit,
+      offset,
+      start_date: startDate,
+    }
   );
