@@ -7,7 +7,7 @@ import { useTransactions } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
-  color: ${props => (props.type === 'expense' ? '#ff6961' : '#77dd77')};
+  color: ${props => (props.type === 'EX' ? '#ff6961' : '#77dd77')};
   padding-right: 0.3em;
 `;
 
@@ -54,14 +54,15 @@ const TransactionEntry: React.FC<IProps> = props => {
     >
       <h4>{props.description}</h4>
       <strong>
-        {props.type === 'expense'
+        {props.type === 'EX'
           ? `(${(money / 100).toFixed(2)})`
           : (money / 100).toFixed(2)}
       </strong>
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
       <h6>
         {moment(props.date).format('L')}
-        {props.recurring_id && `  ${String.fromCharCode(183)} Recurring`}
+        {props.recurring_transaction_id &&
+          `  ${String.fromCharCode(183)} Recurring`}
       </h6>
       <p>{displayNotes && props.notes}</p>
     </div>

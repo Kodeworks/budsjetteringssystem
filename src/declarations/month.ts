@@ -1,23 +1,13 @@
-import { IPaginated } from './pagination';
-import { ITransaction } from './transaction';
-
-export interface IBalance {
-  company_id: number;
-  date: string;
-  money: number;
-}
+import { IBalance, IBankBalance } from './balance';
+import { IRecurringTransaction, ITransaction } from './transaction';
 
 export interface IMonth {
   year: number;
   month: number;
   transactions: Array<ITransaction>;
-  balance: Array<IBalance>;
+  recurring: Array<{ object: IRecurringTransaction; dates: Array<string> }>;
+  balances: Array<IBalance>;
+  bank_balances: Array<IBankBalance>;
   start_balance: number;
-  lowest_balance: number;
-  next: string;
-  previous: string;
-}
-
-export interface IPaginatedMonths extends IPaginated {
-  months: Array<IMonth>;
+  lowest_balance: IBalance;
 }

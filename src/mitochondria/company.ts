@@ -1,47 +1,34 @@
 import { fetchWithCallback } from '.';
-import { ICompany, Role } from '../declarations/company';
+import { ICompany, ICompanyUser } from '../declarations/company';
 
-export const createCompany = (id: number, name: string, orgNr: string) =>
-  fetchWithCallback<ICompany>(
-    '/company/',
-    '',
-    {
-      body: JSON.stringify({ id, name, org_nr: orgNr }),
-      method: 'POST',
-    },
-    {
-      201: resp => resp.json() as Promise<ICompany>,
-    }
-  );
+export const createCompany = (company: Omit<ICompany, 'id' | 'users'>) =>
+  fetchWithCallback<ICompany>('/company/', '', {
+    body: JSON.stringify(company),
+    method: 'POST',
+  });
 
 export const getCompanyById = (companyId: number) =>
-  fetchWithCallback<ICompany>(
-    '/company/',
-    `?company_id=${companyId}`,
-    {},
-    {
-      200: resp => resp.json() as Promise<ICompany>,
-      400: () => {
-        throw new Error(`Could not find company with ID ${companyId}.`);
-      },
-    }
-  );
+  fetchWithCallback<ICompany>('/company/', `?company_id=${companyId}`);
 
-export const updateCompany = (id: number, name: string, orgNr: string) =>
-  fetchWithCallback<boolean>(
+interface IUpdateCompany extends Pick<ICompany, 'org_nr' | 'name'> {
+  company_id: number;
+}
+
+export const updateCompany = (company: IUpdateCompany) =>
+  fetchWithCallback<true>(
     '/company/',
     '',
     {
-      body: JSON.stringify({ id, name, org_nr: orgNr }),
+      body: JSON.stringify(company),
       method: 'PUT',
     },
     {
-      200: async () => true, // we have to return a promise as async function
+      200: async () => true,
     }
   );
 
 export const deleteCompany = (companyId: number) =>
-  fetchWithCallback<boolean>(
+  fetchWithCallback<true>(
     '/company/',
     `?company_id=${companyId}`,
     {
@@ -52,16 +39,12 @@ export const deleteCompany = (companyId: number) =>
     }
   );
 
-export const addUserToCompany = (
-  companyId: number,
-  userId: number,
-  role?: Role
-) =>
-  fetchWithCallback<boolean>(
+export const addUserToCompany = (companyUser: ICompanyUser) =>
+  fetchWithCallback<true>(
     '/company/addUser/',
     '',
     {
-      body: JSON.stringify({ company_id: companyId, user_id: userId, role }),
+      body: JSON.stringify(companyUser),
       method: 'POST',
     },
     {
@@ -70,7 +53,7 @@ export const addUserToCompany = (
   );
 
 export const removeUserFromCompany = (companyId: number, userId: number) =>
-  fetchWithCallback<boolean>(
+  fetchWithCallback<true>(
     '/company/removeUser/',
     '',
     {
@@ -82,16 +65,12 @@ export const removeUserFromCompany = (companyId: number, userId: number) =>
     }
   );
 
-export const setRoleForUserInCompany = (
-  companyId: number,
-  userId: number,
-  role: Role
-) =>
-  fetchWithCallback<boolean>(
+export const setRoleForUserInCompany = (companyUser: ICompanyUser) =>
+  fetchWithCallback<true>(
     '/company/setRole/',
     '',
     {
-      body: JSON.stringify({ company_id: companyId, user_id: userId, role }),
+      body: JSON.stringify(companyUser),
       method: 'POST',
     },
     {

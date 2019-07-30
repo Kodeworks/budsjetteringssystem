@@ -11,7 +11,7 @@ test('TransactionEntry', () => {
   const testMoney = 50000;
   const testDate = '2019-08-22';
   const testCompanyId = 1;
-  const testType = 'income';
+  const testType = 'IN';
   const testNotes = 'Edgy';
 
   const { container } = render(
