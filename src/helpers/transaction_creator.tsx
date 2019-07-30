@@ -23,7 +23,7 @@ const words: Array<string> = [
 const randomWord = (): string =>
   words[Math.floor(Math.random() * words.length)];
 
-const types: Array<TransactionType> = ['expense', 'income'];
+const types: Array<TransactionType> = ['EX', 'IN'];
 
 const randomType = (): TransactionType =>
   types[Math.floor(Math.random() * types.length)];
@@ -43,7 +43,7 @@ export const createDummyTransaction = (): import('../declarations/transaction').
           .map(randomWord)
           .join(' ')
       : undefined,
-  recurring_id:
+  recurring_transaction_id:
     Math.random() > 0.5 ? Math.floor(Math.random() * 10) : undefined,
   type: randomType(),
 });

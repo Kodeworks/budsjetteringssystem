@@ -3,13 +3,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 import * as BalancesAPI from '../../mitochondria/balances';
+import { useCompanyState } from '../../store/contexts/company';
 import BalancesViewPicker from '../atoms/BalancesViewPicker';
 import MonthPicker from '../atoms/MonthPicker';
 import PageTitle from '../atoms/PageTitle';
 import BalancesCalendar from '../molecules/BalancesCalendar';
 import BalancesTable from '../molecules/BalancesTable';
-
-const companyId = 1; // Hardcoded until we get a global company context.
 
 type IBalanceEntry = import('../../declarations/balanceEntries').IBalanceEntry;
 
@@ -17,9 +16,13 @@ const createBalanceEntriesFromMonth = (
   month: import('../../declarations/month').IMonth
 ) => {
   const monthBalances: {
-    [s: string]: { income: number; expense: number; liquidity: number };
+    [s: string]: {
+      income: number;
+      expense: number;
+      liquidity: number;
+    };
   } = {};
-  const sortedBalances = month.balance.sort((a, b) =>
+  const sortedBalances = month.balances.sort((a, b) =>
     a.date <= b.date ? -1 : 1
   );
 
@@ -43,7 +46,8 @@ const createBalanceEntriesFromMonth = (
   });
 
   month.transactions.forEach(t => {
-    monthBalances[t.date][t.type] += t.money;
+    const type = { IN: 'income' as const, EX: 'expense' as const }[t.type];
+    monthBalances[t.date][type] += t.money;
   });
 
   const balanceEntries: Array<IBalanceEntry> = [];
@@ -67,30 +71,33 @@ const Balances: React.FC<{ className?: string }> = props => {
   }>({});
   const [showCalendar, setShowCalendar] = React.useState(true);
 
+  // Current company is hardcoded to be the first company in the companyState array.
+  // This will be changed to use the state for "current company selected" when that gets implemented.
+  const currentCompany = useCompanyState()[0];
+
   React.useEffect(() => {
     (async () => {
       const entryKey = monthChosen.format('YYYY-MM');
 
       if (!(entryKey in entries)) {
         // API is indexing months starting from 1, therefore we need to add 1 to get correct result.
-        const balanceEntries = await BalancesAPI.getMonth(
-          monthChosen.month() + 1,
-          monthChosen.year(),
-          companyId
-        );
-
         const newEntries = { ...entries };
-        if (balanceEntries.length !== 1) {
-          newEntries[entryKey] = [];
-        } else {
-          newEntries[entryKey] = createBalanceEntriesFromMonth(
-            balanceEntries[0]
+        try {
+          const month = await BalancesAPI.getMonth(
+            monthChosen.month() + 1,
+            monthChosen.year(),
+            currentCompany.id
           );
+          newEntries[entryKey] = createBalanceEntriesFromMonth(month);
+          setEntries(newEntries);
+        } catch (e) {
+          alert('Oopsie');
+          newEntries[entryKey] = [];
+          setEntries(newEntries);
         }
-        setEntries(newEntries);
       }
     })();
-  }, [monthChosen, entries]);
+  }, [monthChosen, entries, currentCompany.id]);
 
   const entriesIndex = monthChosen.format('YYYY-MM');
   const title = 'Balances';

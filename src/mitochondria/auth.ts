@@ -8,12 +8,11 @@ export interface ILoginResponse {
   refresh: string;
 }
 
-export const register = async (
-  email: string,
-  firstName: string,
-  lastName: string,
-  password: string
-): Promise<IUser> => {
+interface IRegisterUser extends Omit<IUser, 'id' | 'companies'> {
+  password: string;
+}
+
+export const register = async (user: IRegisterUser): Promise<IUser> => {
   // We want to clear the tokens, as if not, it will fail if tokens are outdated when logging in!
   localStorage.removeItem('access');
   localStorage.removeItem('refresh');
@@ -22,12 +21,7 @@ export const register = async (
     '/user/',
     '',
     {
-      body: JSON.stringify({
-        email,
-        first_name: firstName,
-        last_name: lastName,
-        password,
-      }),
+      body: JSON.stringify(user),
       method: 'POST',
     },
     {
@@ -75,21 +69,40 @@ export const login = async (
   );
 };
 
-export const getUserById = async (id: number): Promise<IUser> =>
-  await fetchWithCallback<IUser>(
+export const updateUser = async (user: Omit<IUser, 'companies'>) =>
+  await fetchWithCallback<true>(
     '/user/',
-    `?id=${id}`,
-    {},
+    '',
     {
-      200: resp => resp.json() as Promise<IUser>,
+      body: JSON.stringify(user),
+      method: 'PUT',
+    },
+    {
+      200: async () => true,
     }
   );
+
+// delete yourself :o
+export const deleteUser = async () =>
+  await fetchWithCallback<true>(
+    '/user/',
+    '',
+    {
+      method: 'DELETE',
+    },
+    {
+      200: async () => true,
+    }
+  );
+
+export const getUserById = async (id: number): Promise<IUser> =>
+  await fetchWithCallback<IUser>('/user/', `?id=${id}`);
+
+export const getUserByEmail = async (email: string): Promise<IUser> =>
+  await fetchWithCallback<IUser>('/user/byEmail/', `?email=${email}`);
 
 export const logout = () => {
   localStorage.removeItem('access');
   localStorage.removeItem('refresh');
   localStorage.removeItem('user_id');
-
-  // Force the application to rebuild, causing app to not have auth set anymore.
-  window.location.reload();
 };

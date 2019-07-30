@@ -1,26 +1,109 @@
 import { fetchWithCallback } from '.';
 
+type IPaginated<T> = import('../declarations/pagination').IPaginated<T>;
+type IExpenseTransaction = import('../declarations/transaction').IExpenseTransaction;
+type IIncomeTransaction = import('../declarations/transaction').IIncomeTransaction;
 type ITransaction = import('../declarations/transaction').ITransaction;
 
-/**
- * Interface for body of a post request (Add Transaction) of the API
- */
-export type INewTransaction = Omit<ITransaction, 'id' | 'recurring_id'>;
+export type ICreateTransaction = Omit<
+  ITransaction,
+  'id' | 'recurring_transaction_id'
+>;
 
-/**
- * This function call the calls the @function post function to create the Transaction in the database.
- * @param transaction The transaction we want to post to the API
- */
-export const createTransaction = async (transaction: INewTransaction) => {
-  return await fetchWithCallback<ITransaction>(
+export const createTransaction = async (transaction: ICreateTransaction) =>
+  await fetchWithCallback<ITransaction>('/transaction/', '', {
+    body: JSON.stringify(transaction),
+    method: 'POST',
+  });
+
+export const getTransaction = async (
+  companyId: number,
+  transactionId: number
+) =>
+  await fetchWithCallback<ITransaction>(
+    '/transaction/',
+    `?company_id=${companyId}&id=${transactionId}`
+  );
+
+export const updateTransaction = async (transaction: ITransaction) =>
+  await fetchWithCallback<true>(
     '/transaction/',
     '',
     {
       body: JSON.stringify(transaction),
-      method: 'POST',
+      method: 'PUT',
     },
     {
-      201: resp => resp.json() as Promise<ITransaction>,
+      200: async () => true,
     }
   );
-};
+
+export const deleteTransaction = async (
+  companyId: number,
+  transactionId: number
+) =>
+  await fetchWithCallback<true>(
+    '/transaction/',
+    `?company_id=${companyId}&id=${transactionId}`,
+    {
+      method: 'DELETE',
+    },
+    {
+      200: async () => true,
+    }
+  );
+
+export const getAllTransactions = async (
+  companyId: number,
+  offset: number = 0,
+  limit: number = 0
+) =>
+  await fetchWithCallback<IPaginated<ITransaction>>(
+    '/transaction/all/',
+    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
+  );
+
+export const getTransactionsByDate = async (
+  companyId: number,
+  date: string,
+  offset: number = 0,
+  limit: number = 0
+) =>
+  await fetchWithCallback<IPaginated<ITransaction>>(
+    '/transaction/byDate/',
+    `?company_id=${companyId}&date=${date}&offset=${offset}${limit &&
+      `&limit=${limit}`}`
+  );
+
+export const getTransactionsByDateRange = async (
+  companyId: number,
+  startDate: string,
+  endDate: string,
+  offset: number = 0,
+  limit: number = 0
+) =>
+  await fetchWithCallback<IPaginated<ITransaction>>(
+    '/transaction/byDateRange/',
+    `?company_id=${companyId}&end_date=${endDate}&start_date=${startDate}&offset=${offset}${limit &&
+      `&limit=${limit}`}`
+  );
+
+export const getAllIncomeTransactions = async (
+  companyId: number,
+  offset: number = 0,
+  limit: number = 0
+) =>
+  await fetchWithCallback<IPaginated<IIncomeTransaction>>(
+    '/transaction/income/all/',
+    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
+  );
+
+export const getAllExpenseTransactions = async (
+  companyId: number,
+  offset: number = 0,
+  limit: number = 0
+) =>
+  await fetchWithCallback<IPaginated<IExpenseTransaction>>(
+    '/transaction/expense/all/',
+    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
+  );

@@ -43,7 +43,12 @@ async function doRegister(
   password: string,
   dispatch: React.Dispatch<ICreatedAction>
 ) {
-  const resp = await API.register(email, firstName, lastName, password);
+  const resp = await API.register({
+    email,
+    first_name: firstName,
+    last_name: lastName,
+    password,
+  });
   dispatch(register(resp));
 }
 
