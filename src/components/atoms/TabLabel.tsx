@@ -13,7 +13,7 @@ const Button = styled.button`
   list-style: none;
   margin: 0px 4px;
   padding: 0.5rem 0.75rem 0.75rem 0.75rem;
-  height 100%;
+  height: 100%;
   font-size: 0.9em;
   vertical-align: middle;
 `;
