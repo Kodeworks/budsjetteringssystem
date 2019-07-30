@@ -23,7 +23,7 @@ const addTransaction = (tx: ITransaction) => ({
  * @param dispatch The dispatch method from the TransactionDispatchContext
  * @throws "Error if return code is not 201"
  */
-const doCreateTransaction = async (
+const doAddTransaction = async (
   newTransaction: api.ICreateTransaction,
   dispatch: TransactionDispatch
 ) => {
