@@ -3,7 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ITransaction, TransactionType } from '../../declarations/transaction';
-import { useTransactions } from '../../store/contexts/transactions';
+import {
+  useTransactionDispatch,
+  useTransactions,
+} from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
@@ -24,27 +27,53 @@ const incomeExpenseBadge = (type: TransactionType) => (
 );
 
 const TransactionEntry: React.FC<IProps> = props => {
-  const [displayNotes, setDisplayNotes] = React.useState(false);
+  const transactionDispatch = useTransactionDispatch();
+
+  const [showMore, setShowMore] = React.useState(false);
   const { money, hideIncomeExpenseBadge } = props;
   const [store, dispatch] = useTransactions();
 
-  const disableNotes = () => setDisplayNotes(false);
-  const enableNotes = () => setDisplayNotes(true);
+  const [status, setStatus] = React.useState('');
 
   const isInIntermediary = !(
     store.intermediary.find(e => e === props.id) === undefined
   );
 
-  const onClick = () =>
-    isInIntermediary
-      ? TransactionActions.doRemoveFromIntermediary(props.id, dispatch)
-      : TransactionActions.doAddToIntermediary(props.id, dispatch);
+  const onClickDelete = async () => {
+    try {
+      setStatus('Deleting...');
+      await TransactionActions.doDeleteTransaction(
+        props.company_id,
+        props.id,
+        transactionDispatch
+      );
+    } catch (e) {
+      setStatus(`Error encountered when deleting.`);
+      setTimeout(() => {
+        setStatus('');
+      }, 3000);
+    }
+  };
+
+  const onUpdateSubmit = async (tx: ITransaction) => {
+    try {
+      setStatus('Updating...');
+      await TransactionActions.doUpdateTransaction(tx, transactionDispatch);
+      setStatus('');
+    } catch (e) {
+      setStatus(`Error encountered when updating.`);
+      setTimeout(() => {
+        setStatus('');
+      }, 3000);
+    }
+  };
+
+  // invert
+  const onClick = () => setShowMore(_ => !_);
 
   return (
     <div
       className={props.className}
-      onMouseEnter={enableNotes}
-      onMouseLeave={disableNotes}
       onClick={onClick}
       style={
         isInIntermediary
@@ -52,6 +81,7 @@ const TransactionEntry: React.FC<IProps> = props => {
           : {}
       }
     >
+      {status && <strong>{status}</strong>}
       <h4>{props.description}</h4>
       <strong>
         {props.type === 'EX'
@@ -64,7 +94,12 @@ const TransactionEntry: React.FC<IProps> = props => {
         {props.recurring_transaction_id &&
           `  ${String.fromCharCode(183)} Recurring`}
       </h6>
-      <p>{displayNotes && props.notes}</p>
+      {showMore && (
+        <div>
+          <p>{props.notes}</p>
+          <button onClick={onClickDelete}>Delete</button>
+        </div>
+      )}
     </div>
   );
 };
@@ -77,7 +112,7 @@ export default styled(TransactionEntry)`
   text-decoration: none;
   color: black;
 
-  & > *:nth-child(2n):not(p) {
+  & > *:nth-child(2n):not(div) {
     text-align: right;
   }
 
@@ -90,10 +125,11 @@ export default styled(TransactionEntry)`
     font-weight: 400;
   }
 
-  p {
+  div {
     font-size: 0.7em;
     font-weight: 400;
     grid-column: 1 / span 2;
+    text-align: left;
   }
 
   &:hover {
