@@ -6,6 +6,7 @@ import Input from '../atoms/Input';
 
 import queryString from 'query-string';
 
+import { RouteComponentProps, withRouter } from 'react-router';
 import styled from 'styled-components';
 import { ITransaction } from '../../declarations/transaction';
 
@@ -21,7 +22,7 @@ interface IFilterSettingsFromQuery {
   recurring?: boolean;
 }
 
-const Filters: React.FC<IProps> = props => {
+const Filters: React.FC<IProps & RouteComponentProps<{}>> = props => {
   const [fromDate, setFromDate] = React.useState('1970-01-01');
   const [toDate, setToDate] = React.useState('2030-01-01');
   const [description, setDescription] = React.useState('');
@@ -43,8 +44,28 @@ const Filters: React.FC<IProps> = props => {
     setRecurring(v => qRecurring || v);
   }, []);
 
+  const setFilter = props.setFilter;
+
   React.useEffect(() => {
-    props.setFilter(() => (t: ITransaction) => {
+    if (
+      `?${queryString.stringify({
+        desc: description,
+        fromDate,
+        recurring,
+        toDate,
+      })}` !== props.location.search
+    ) {
+      props.history.push({
+        search: `?${queryString.stringify({
+          desc: description,
+          fromDate,
+          recurring,
+          toDate,
+        })}`,
+      });
+    }
+
+    setFilter(() => (t: ITransaction) => {
       // If recurring filter is toggled and transaction is not of reccuring type
       // return false
       if (recurring && !t.recurring_id) {
@@ -60,7 +81,15 @@ const Filters: React.FC<IProps> = props => {
       }
       return true;
     });
-  }, [fromDate, toDate, description, recurring, props]);
+  }, [
+    fromDate,
+    toDate,
+    description,
+    recurring,
+    setFilter,
+    props.location.search,
+    props.history,
+  ]);
 
   return (
     <Collapsable heading={<h1>Filters</h1>}>
@@ -94,7 +123,7 @@ const Filters: React.FC<IProps> = props => {
   );
 };
 
-export default styled(Filters)`
+export default styled(withRouter(Filters))`
   display: grid;
   grid-template-columns: 50% 50%;
   margin-top: 1em;
