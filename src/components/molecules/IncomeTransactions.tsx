@@ -5,9 +5,9 @@ import TransactionEntry from '../atoms/TransactionEntry';
 
 import styled from 'styled-components';
 
-import { ITransaction } from '../../declarations/transaction';
+type ITransaction = import('../../declarations/transaction').ITransaction;
 
-interface IProps {
+interface IIncomeTransactionsProps {
   tx: Array<ITransaction>;
   className?: string;
   fetchMore: () => void;
@@ -17,7 +17,7 @@ const txEntry = (t: ITransaction) => (
   <TransactionEntry hideIncomeExpenseBadge={true} key={t.id} {...t} />
 );
 
-const IncomeTransactions: React.FC<IProps> = props => {
+const IncomeTransactions: React.FC<IIncomeTransactionsProps> = props => {
   const renderTransactions = () =>
     props.tx
       .filter(e => e.type === 'IN')

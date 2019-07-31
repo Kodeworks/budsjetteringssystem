@@ -4,14 +4,14 @@ import styled from 'styled-components';
 
 import Label from './Label';
 
-interface IProps {
+interface ICheckboxProps {
   className?: string;
   id: string;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   value: boolean;
 }
 
-const Checkbox: React.FC<IProps> = props => {
+const Checkbox: React.FC<ICheckboxProps> = props => {
   const updateState = (e: React.FormEvent<HTMLInputElement>) =>
     props.setState(e.currentTarget.checked);
 

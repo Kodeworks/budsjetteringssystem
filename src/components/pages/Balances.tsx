@@ -2,8 +2,6 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 
-import { IBalanceEntry } from '../../declarations/balanceEntries';
-import { IMonth } from '../../declarations/month';
 import * as BalancesAPI from '../../mitochondria/balances';
 import { useCompanyState } from '../../store/contexts/company';
 import BalancesViewPicker from '../atoms/BalancesViewPicker';
@@ -12,11 +10,11 @@ import PageTitle from '../atoms/PageTitle';
 import BalancesCalendar from '../molecules/BalancesCalendar';
 import BalancesTable from '../molecules/BalancesTable';
 
-interface IProps {
-  className?: string;
-}
+type IBalanceEntry = import('../../declarations/balanceEntries').IBalanceEntry;
 
-const createBalanceEntriesFromMonth = (month: IMonth) => {
+const createBalanceEntriesFromMonth = (
+  month: import('../../declarations/month').IMonth
+) => {
   const monthBalances: {
     [s: string]: {
       income: number;
@@ -64,7 +62,7 @@ const createBalanceEntriesFromMonth = (month: IMonth) => {
   return balanceEntries;
 };
 
-const Balances: React.FC<IProps> = props => {
+const Balances: React.FC<{ className?: string }> = props => {
   const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(
     moment().startOf('month')
   );
@@ -99,7 +97,7 @@ const Balances: React.FC<IProps> = props => {
         }
       }
     })();
-  }, [monthChosen, entries]);
+  }, [monthChosen, entries, currentCompany.id]);
 
   const entriesIndex = monthChosen.format('YYYY-MM');
   const title = 'Balances';

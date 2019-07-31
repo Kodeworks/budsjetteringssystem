@@ -2,11 +2,12 @@ import React from 'react';
 
 import Authentication, { AuthType, IOnLogin } from './Authentication';
 
-import { RouteComponentProps } from 'react-router';
 import { useAuthDispatch } from '../../../store/contexts/auth';
 import { AuthActions } from '../../../store/reducers/auth';
 
-const Login: React.FC<RouteComponentProps<{}>> = props => {
+const Login: React.FC<
+  import('react-router').RouteComponentProps<{}>
+> = props => {
   const [error, setError] = React.useState('');
   const dispatch = useAuthDispatch();
 

@@ -2,9 +2,10 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 
-import { ITransaction, TransactionType } from '../../declarations/transaction';
 import { useTransactions } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
+
+type ITransaction = import('../../declarations/transaction').ITransaction;
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => (props.type === 'EX' ? '#ff6961' : '#77dd77')};
@@ -16,7 +17,9 @@ interface IProps extends ITransaction {
   hideIncomeExpenseBadge?: boolean;
 }
 
-const incomeExpenseBadge = (type: TransactionType) => (
+const incomeExpenseBadge = (
+  type: import('../../declarations/transaction').TransactionType
+) => (
   <h6>
     <IncomeExpenseIcon type={type}>&#9632;</IncomeExpenseIcon>
     {type}

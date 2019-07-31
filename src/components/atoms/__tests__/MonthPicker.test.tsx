@@ -3,12 +3,12 @@ import React from 'react';
 import { fireEvent, render } from '../../../helpers/test-utils';
 import MonthPicker from '../MonthPicker';
 
-interface IProps {
+interface IWrapperFCProps {
   startMonth: moment.Moment;
 }
 
 test('MonthPicker renders and updates month when clicked', () => {
-  const WrapperFC: React.FC<IProps> = props => {
+  const WrapperFC: React.FC<IWrapperFCProps> = props => {
     const [monthChosen, setMonthChosen] = React.useState<moment.Moment>(
       props.startMonth
     );

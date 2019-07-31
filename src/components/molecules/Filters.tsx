@@ -8,9 +8,10 @@ import queryString from 'query-string';
 
 import { RouteComponentProps, withRouter } from 'react-router';
 import styled from 'styled-components';
-import { ITransaction } from '../../declarations/transaction';
 
-interface IProps {
+type ITransaction = import('../../declarations/transaction').ITransaction;
+
+interface IFiltersProps {
   className?: string;
   setFilter: React.Dispatch<React.SetStateAction<(t: ITransaction) => boolean>>;
 }
