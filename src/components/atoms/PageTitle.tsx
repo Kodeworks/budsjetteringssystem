@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IProps {
+interface ITitleProps {
   className?: string;
   title: string;
   description?: string;
 }
 
-const Title: React.FC<IProps> = props => {
+const Title: React.FC<ITitleProps> = props => {
   return (
     <div className={props.className}>
       <h1>{props.title}</h1>

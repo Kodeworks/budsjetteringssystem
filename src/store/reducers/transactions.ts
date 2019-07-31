@@ -1,6 +1,7 @@
 import * as api from '../../mitochondria';
-import { ITransaction } from './../../declarations/transaction';
 import { TransactionDispatch } from './../contexts/transactions';
+
+type ITransaction = import('../../declarations/transaction').ITransaction;
 
 // Action types
 const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION' as const;

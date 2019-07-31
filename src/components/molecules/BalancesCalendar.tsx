@@ -3,12 +3,11 @@ import 'moment/locale/en-gb';
 import React from 'react';
 import styled from 'styled-components';
 
-import { IBalanceEntry } from '../../declarations/balanceEntries';
 import BalancesCalendarEntry from '../atoms/BalancesCalendarEntry';
 
 interface ICalendarProps {
   className?: string;
-  entries: Array<IBalanceEntry>;
+  entries: Array<import('../../declarations/balanceEntries').IBalanceEntry>;
   month: moment.Moment;
 }
 

@@ -5,7 +5,7 @@ import Select from './Select';
 
 export type IntervalType = 'month' | 'week';
 
-interface IProps {
+interface IRecurringTransactionOptionsProps {
   intervalValue: number;
   setInterval: Dispatch<SetStateAction<number>>;
   intervalTypeValue: IntervalType;
@@ -19,7 +19,9 @@ const selectOptions = [
   { name: 'Month', value: 'month' },
 ];
 
-const RecurringTransactionOptions: React.FC<IProps> = props => {
+const RecurringTransactionOptions: React.FC<
+  IRecurringTransactionOptionsProps
+> = props => {
   const DayOfMonth = (
     <Input
       type="number"

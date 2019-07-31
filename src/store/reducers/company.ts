@@ -1,7 +1,6 @@
-import { ICompany, ICompanyUser } from '../../declarations/company';
-
 import * as API from '../../mitochondria';
 
+type ICompany = import('../../declarations/company').ICompany;
 export type CompanyState = Array<ICompany>;
 
 // Actions

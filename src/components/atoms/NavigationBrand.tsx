@@ -1,16 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IProps {
-  className?: string;
-}
-
 // const BrandImage = styled.img`
 //   display: block;
 //   margin: 0 auto .3em;
 // `;
 
-const NavigationBrand: React.FC<IProps> = ({ className }) => (
+const NavigationBrand: React.FC<{ className?: string }> = ({ className }) => (
   <div className={className}>
     {/* <BrandImage src="https://www.fillmurray.com/100/100" alt="Mill Burray" /> */}
     <h2>LIQUIDATOR</h2>

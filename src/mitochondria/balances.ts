@@ -1,18 +1,19 @@
 import { fetchWithCallback } from '.';
-
 import { IBalance, IBankBalance } from '../declarations/balance';
-import { IMonth } from '../declarations/month';
-import { IPaginated } from '../declarations/pagination';
+
+type IMonth = import('../declarations/month').IMonth;
+type IPaginated<T> = import('../declarations/pagination').IPaginated<T>;
 
 export const getMonth = async (
   month: number,
   year: number,
   companyId: number
 ) =>
-  await fetchWithCallback<IMonth>(
-    '/month/',
-    `?month=${month}&year=${year}&company_id=${companyId}`
-  );
+  await fetchWithCallback<IMonth>('/month/', {
+    company_id: companyId,
+    month,
+    year,
+  });
 
 /**
  * @summary "Get a paginated response with months in a date range."
@@ -24,19 +25,20 @@ export const getMonthByDateRange = async (
   startDate: string,
   endDate: string
 ) =>
-  await fetchWithCallback<IPaginated<IMonth>>(
-    '/month/byDateRange/',
-    `?company_id=${companyId}&start_date=${startDate}&end_date=${endDate}`
-  );
+  await fetchWithCallback<IPaginated<IMonth>>('/month/byDateRange/', {
+    company_id: companyId,
+    end_date: endDate,
+    start_date: startDate,
+  });
 
 /**
  * @param date "ISO-8601"
  */
 export const getBalanceForDay = async (companyId: number, date: string) =>
-  await fetchWithCallback<IBalance>(
-    '/balance/',
-    `?company_id=${companyId}&date=${date}`
-  );
+  await fetchWithCallback<IBalance>('/balance/', {
+    company_id: companyId,
+    date,
+  });
 
 /**
  * @param startDate "Inclusive (ISO-8601)"
@@ -47,32 +49,37 @@ export const getBalanceByDateRange = async (
   startDate: string,
   endDate: string
 ) =>
-  await fetchWithCallback<Array<IBalance>>(
-    '/balance/byDateRange/',
-    `?company_id=${companyId}&start_date=${startDate}&end_date=${endDate}`
-  );
+  await fetchWithCallback<Array<IBalance>>('/balance/byDateRange/', {
+    company_id: companyId,
+    end_date: endDate,
+    start_date: startDate,
+  });
 
 /**
  * @param id "Defined in swagger as: 'ID of the object to get'."
  */
 export const getBankBalanceById = async (companyId: number, id: number) =>
-  await fetchWithCallback<IBankBalance>(
-    '/balance/bank/',
-    `?company_id=${companyId}&id=${id}`
-  );
+  await fetchWithCallback<IBankBalance>('/balance/bank/', {
+    company_id: companyId,
+    id,
+  });
 
 export const createBankBalance = async (
   bankBalance: Omit<IBankBalance, 'id'>
 ) =>
-  await fetchWithCallback<IBankBalance>('/balance/bank/', '', {
-    body: JSON.stringify(bankBalance),
-    method: 'POST',
-  });
+  await fetchWithCallback<IBankBalance>(
+    '/balance/bank/',
+    {},
+    {
+      body: JSON.stringify(bankBalance),
+      method: 'POST',
+    }
+  );
 
 export const updateBankBalance = async (bankBalance: IBankBalance) =>
   await fetchWithCallback<true>(
     '/balance/bank/',
-    '',
+    {},
     {
       body: JSON.stringify(bankBalance),
       method: 'PUT',
@@ -85,7 +92,7 @@ export const updateBankBalance = async (bankBalance: IBankBalance) =>
 export const deleteBankBalance = async (companyId: number, id: number) =>
   await fetchWithCallback<true>(
     '/balance/bank/',
-    `?company_id=${companyId}&id=${id}`,
+    { company_id: companyId, id },
     { method: 'DELETE' }
   );
 
@@ -93,10 +100,10 @@ export const getBankBalanceByDate = async (
   companyId: number,
   date: string // ISO-8601
 ) =>
-  await fetchWithCallback<IBankBalance>(
-    '/balance/bank/byDate/',
-    `?company_id=${companyId}&date=${date}`
-  );
+  await fetchWithCallback<IBankBalance>('/balance/bank/byDate/', {
+    company_id: companyId,
+    date,
+  });
 
 /**
  * @param startDate "Inclusive (ISO-8601)"
@@ -109,5 +116,5 @@ export const getBankBalanceByDateRange = async (
 ) =>
   await fetchWithCallback<IPaginated<IBankBalance>>(
     '/balance/bank/byDateRange/',
-    `?company_id=${companyId}&start_date=${startDate}&end_date=${endDate}`
+    { company_id: companyId, start_date: startDate, end_date: endDate }
   );
