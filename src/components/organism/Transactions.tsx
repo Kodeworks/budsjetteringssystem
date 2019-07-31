@@ -55,16 +55,6 @@ const Transactions: React.FC<{ className?: string }> = ({ className }) => {
 };
 
 export default styled(Transactions)`
-  h1 {
-    font-weight: 700;
-    font-size: 1.8em;
-  }
-
-  h5 {
-    font-weight: 300;
-    line-height: 0.7em;
-  }
-
   display: grid;
 
   grid-template-columns: calc(70% - 2em) calc(30% - 2em);
