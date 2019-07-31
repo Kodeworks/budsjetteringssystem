@@ -2,15 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-interface IProps {
+interface INavigationPillProps {
   to: string;
   className?: string;
   active: boolean;
 }
 
-const NavigationPill: React.FC<IProps> = ({ children, active, ...props }) => (
-  <Link {...props}>{children}</Link>
-);
+const NavigationPill: React.FC<INavigationPillProps> = ({
+  children,
+  active,
+  ...props
+}) => <Link {...props}>{children}</Link>;
 
 export default styled(NavigationPill)`
   /* Positioning */

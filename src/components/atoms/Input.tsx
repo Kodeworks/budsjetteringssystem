@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Label from './Label';
 
-interface IProps {
+interface IInputProps {
   className?: string;
   id: string;
   placeholder?: string;
@@ -14,7 +14,7 @@ interface IProps {
   ariaLabel?: string;
 }
 
-const Input: React.FC<IProps> = props => {
+const Input: React.FC<IInputProps> = props => {
   const updateState = (e: React.FormEvent<HTMLInputElement>) =>
     props.setState ? props.setState(e.currentTarget.value) : null;
   return (

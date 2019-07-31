@@ -6,10 +6,6 @@ import NavigationBrand from '../atoms/NavigationBrand';
 import NavigationPill from '../atoms/NavigationPill';
 import NavigationSeparator from '../atoms/NavigationSeparator';
 
-interface IProps {
-  className?: string;
-}
-
 const links: Array<{ to: string; name: string }> = [
   { to: '', name: 'Dashboard' },
   { to: 'transactions', name: 'Transactions' },
@@ -18,7 +14,7 @@ const links: Array<{ to: string; name: string }> = [
   { to: 'companies', name: 'Companies' },
 ];
 
-const Navigation: React.FC<IProps & RouteComponentProps> = ({
+const Navigation: React.FC<{ className?: string } & RouteComponentProps> = ({
   className,
   location: { pathname },
 }) => (

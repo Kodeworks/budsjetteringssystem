@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCompanyState } from '../../store/contexts/company';
 
-export const Companies: React.FC = props => {
+const Companies: React.FC = props => {
   const companies = useCompanyState();
 
   return (
@@ -28,3 +28,5 @@ export const Companies: React.FC = props => {
     </>
   );
 };
+
+export default Companies;

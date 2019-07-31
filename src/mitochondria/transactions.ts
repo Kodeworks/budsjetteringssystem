@@ -1,10 +1,9 @@
 import { fetchWithCallback } from '.';
-import { IPaginated } from '../declarations/pagination';
-import {
-  IExpenseTransaction,
-  IIncomeTransaction,
-  ITransaction,
-} from '../declarations/transaction';
+
+type IPaginated<T> = import('../declarations/pagination').IPaginated<T>;
+type IExpenseTransaction = import('../declarations/transaction').IExpenseTransaction;
+type IIncomeTransaction = import('../declarations/transaction').IIncomeTransaction;
+type ITransaction = import('../declarations/transaction').ITransaction;
 
 export type ICreateTransaction = Omit<
   ITransaction,

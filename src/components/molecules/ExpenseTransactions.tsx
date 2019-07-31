@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { ITransaction } from '../../declarations/transaction';
-
 import OutlinedButton from '../atoms/OutlinedButton';
 import TransactionEntry from '../atoms/TransactionEntry';
 
 import styled from 'styled-components';
 
-interface IProps {
+type ITransaction = import('../../declarations/transaction').ITransaction;
+
+interface IExpenseTransactionsProps {
   tx: Array<ITransaction>;
   className?: string;
   fetchMore: () => void;
@@ -17,7 +17,7 @@ const txEntry = (t: ITransaction) => (
   <TransactionEntry hideIncomeExpenseBadge={true} key={t.id} {...t} />
 );
 
-const ExpenseTransactions: React.FC<IProps> = props => {
+const ExpenseTransactions: React.FC<IExpenseTransactionsProps> = props => {
   const renderTransactions = () =>
     props.tx
       .filter(e => e.type === 'EX')

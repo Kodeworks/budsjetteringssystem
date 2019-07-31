@@ -1,7 +1,6 @@
-import { ICompany } from '../../declarations/company';
-
 import * as API from '../../mitochondria';
 
+type ICompany = import('../../declarations/company').ICompany;
 export type CompanyState = Array<ICompany>;
 
 const ADD_COMPANY = 'ADD_COMPANY' as const;

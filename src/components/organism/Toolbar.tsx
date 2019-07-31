@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { IUser } from '../../declarations/user';
 import { AuthDispatch, useAuth } from '../../store/contexts/auth';
 import { AuthActions } from '../../store/reducers/auth';
 
@@ -38,7 +37,10 @@ const LogoutButton = styled.button`
 `;
 
 const Toolbar: React.FC = () => {
-  const [user, dispatch] = useAuth() as [NonNullable<IUser>, AuthDispatch];
+  const [user, dispatch] = useAuth() as [
+    NonNullable<import('../../declarations/user').IUser>,
+    AuthDispatch
+  ];
 
   const onLogout = () => AuthActions.doLogout(dispatch);
 

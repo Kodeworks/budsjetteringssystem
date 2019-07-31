@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IProps {
+interface ITabLabelProps {
   isActive: boolean;
   className?: string;
   label: string;
@@ -18,7 +18,7 @@ const Button = styled.button`
   vertical-align: middle;
 `;
 
-const TabLabel: React.FC<IProps> = props => {
+const TabLabel: React.FC<ITabLabelProps> = props => {
   const handleTabClick = () => {
     props.onClick(props.label);
   };
