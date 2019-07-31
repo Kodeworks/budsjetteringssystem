@@ -12,7 +12,7 @@ const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   padding-right: 0.3em;
 `;
 
-interface IProps extends ITransaction {
+interface ITransactionEntryProps extends ITransaction {
   className?: string;
   hideIncomeExpenseBadge?: boolean;
 }
@@ -26,7 +26,7 @@ const incomeExpenseBadge = (
   </h6>
 );
 
-const TransactionEntry: React.FC<IProps> = props => {
+const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
   const [displayNotes, setDisplayNotes] = React.useState(false);
   const { money, hideIncomeExpenseBadge } = props;
   const [store, dispatch] = useTransactions();

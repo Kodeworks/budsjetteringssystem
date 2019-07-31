@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface IPropsTab {
+interface ITabProps {
   className?: string;
   label: string;
 }
 
-const Tab: React.FC<IPropsTab> = props => {
+const Tab: React.FC<ITabProps> = props => {
   return <div className={props.className}>{props.children}</div>;
 };
 

@@ -23,7 +23,7 @@ interface IFilterSettingsFromQuery {
   recurring?: boolean;
 }
 
-const Filters: React.FC<IProps & RouteComponentProps<{}>> = props => {
+const Filters: React.FC<IFiltersProps & RouteComponentProps<{}>> = props => {
   const [fromDate, setFromDate] = React.useState('1970-01-01');
   const [toDate, setToDate] = React.useState('2030-01-01');
   const [description, setDescription] = React.useState('');
