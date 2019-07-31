@@ -4,13 +4,17 @@ type ICompany = import('../declarations/company').ICompany;
 type ICompanyUser = import('../declarations/company').ICompanyUser;
 
 export const createCompany = (company: Omit<ICompany, 'id' | 'users'>) =>
-  fetchWithCallback<ICompany>('/company/', '', {
-    body: JSON.stringify(company),
-    method: 'POST',
-  });
+  fetchWithCallback<ICompany>(
+    '/company/',
+    {},
+    {
+      body: JSON.stringify(company),
+      method: 'POST',
+    }
+  );
 
 export const getCompanyById = (companyId: number) =>
-  fetchWithCallback<ICompany>('/company/', `?company_id=${companyId}`);
+  fetchWithCallback<ICompany>('/company/', { company_id: companyId });
 
 interface IUpdateCompany extends Pick<ICompany, 'org_nr' | 'name'> {
   company_id: number;
@@ -19,7 +23,7 @@ interface IUpdateCompany extends Pick<ICompany, 'org_nr' | 'name'> {
 export const updateCompany = (company: IUpdateCompany) =>
   fetchWithCallback<true>(
     '/company/',
-    '',
+    {},
     {
       body: JSON.stringify(company),
       method: 'PUT',
@@ -32,7 +36,7 @@ export const updateCompany = (company: IUpdateCompany) =>
 export const deleteCompany = (companyId: number) =>
   fetchWithCallback<true>(
     '/company/',
-    `?company_id=${companyId}`,
+    { company_id: companyId },
     {
       method: 'DELETE',
     },
@@ -44,7 +48,7 @@ export const deleteCompany = (companyId: number) =>
 export const addUserToCompany = (companyUser: ICompanyUser) =>
   fetchWithCallback<true>(
     '/company/addUser/',
-    '',
+    {},
     {
       body: JSON.stringify(companyUser),
       method: 'POST',
@@ -57,7 +61,7 @@ export const addUserToCompany = (companyUser: ICompanyUser) =>
 export const removeUserFromCompany = (companyId: number, userId: number) =>
   fetchWithCallback<true>(
     '/company/removeUser/',
-    '',
+    {},
     {
       body: JSON.stringify({ company_id: companyId, user_id: userId }),
       method: 'POST',
@@ -70,7 +74,7 @@ export const removeUserFromCompany = (companyId: number, userId: number) =>
 export const setRoleForUserInCompany = (companyUser: ICompanyUser) =>
   fetchWithCallback<true>(
     '/company/setRole/',
-    '',
+    {},
     {
       body: JSON.stringify(companyUser),
       method: 'POST',

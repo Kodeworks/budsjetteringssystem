@@ -19,7 +19,7 @@ export const register = async (user: IRegisterUser): Promise<IUser> => {
 
   return await fetchWithCallback<IUser>(
     '/user/',
-    '',
+    {},
     {
       body: JSON.stringify(user),
       method: 'POST',
@@ -49,7 +49,7 @@ export const login = async (
 
   return await fetchWithCallback<IUser>(
     '/user/login/',
-    '',
+    {},
     {
       body: JSON.stringify({ email, password }),
       method: 'POST',
@@ -72,7 +72,7 @@ export const login = async (
 export const updateUser = async (user: Omit<IUser, 'companies'>) =>
   await fetchWithCallback<true>(
     '/user/',
-    '',
+    {},
     {
       body: JSON.stringify(user),
       method: 'PUT',
@@ -86,7 +86,7 @@ export const updateUser = async (user: Omit<IUser, 'companies'>) =>
 export const deleteUser = async () =>
   await fetchWithCallback<true>(
     '/user/',
-    '',
+    {},
     {
       method: 'DELETE',
     },
@@ -96,10 +96,10 @@ export const deleteUser = async () =>
   );
 
 export const getUserById = async (id: number): Promise<IUser> =>
-  await fetchWithCallback<IUser>('/user/', `?id=${id}`);
+  await fetchWithCallback<IUser>('/user/', { id });
 
 export const getUserByEmail = async (email: string): Promise<IUser> =>
-  await fetchWithCallback<IUser>('/user/byEmail/', `?email=${email}`);
+  await fetchWithCallback<IUser>('/user/byEmail/', { email });
 
 export const logout = () => {
   localStorage.removeItem('access');
