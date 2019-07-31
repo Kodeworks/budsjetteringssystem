@@ -9,6 +9,7 @@ from .serializers import CompanySerializer
 
 
 class CompanyView(RetrieveCreateUpdateDestroyView):
+    """Manage a company."""
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     lookup_arg_field = 'company_id'
@@ -25,6 +26,7 @@ class CompanyView(RetrieveCreateUpdateDestroyView):
 
 
 class CompanyUserView(RetrieveCreateUpdateDestroyView):
+    """Manage users in a company."""
     # A little trick to add 'user_id' to the API spec
     lookup_field = 'user_id'
     serializer_class = UserCompanyThroughSerializer

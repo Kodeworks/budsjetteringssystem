@@ -21,14 +21,14 @@ class BankBalanceSerializer(LiquidatorSerializer):
 
 
 class BalanceSerializer(serializers.Serializer):
-    company_id = serializers.IntegerField()
-    date = serializers.DateField()
-    money = serializers.IntegerField()
+    company_id = serializers.IntegerField(help_text='The ID of the company')
+    date = serializers.DateField(help_text='The date the balance was calculated for')
+    money = serializers.IntegerField(help_text='The balance on the given date')
 
 
 class MonthYearSerializer(serializers.Serializer):
-    year = serializers.IntegerField()
-    month = serializers.IntegerField()
+    year = serializers.IntegerField(help_text='The year')
+    month = serializers.IntegerField(help_text='The month. Must be between 1 and 12')
 
     def validate_month(self, month):
         if not 1 <= month <= 12:
@@ -37,12 +37,16 @@ class MonthYearSerializer(serializers.Serializer):
         return month
 
 
-class MonthSerializer(serializers.Serializer):
-    year = serializers.IntegerField()
-    month = serializers.IntegerField()
-    start_balance = serializers.IntegerField()
-    lowest_balance = BalanceSerializer()
-    transactions = TransactionSerializer(many=True)
-    recurring = RecurringTransactionOccurenceSerializer(many=True)
-    balances = BalanceSerializer(many=True)
-    bank_balances = BankBalanceSerializer(many=True)
+class MonthSerializer(MonthYearSerializer):
+    start_balance = serializers.IntegerField(help_text='The incoming balance from the previous month')
+    lowest_balance = BalanceSerializer(help_text='The lowest balance in the month. This can be the `start_balance`')
+    transactions = TransactionSerializer(
+        many=True,
+        help_text='All transactions that occured in the month (includes recurring transactions that are changed)',
+    )
+    recurring = RecurringTransactionOccurenceSerializer(
+        many=True,
+        help_text='All recurring transactions that have occurences during the month',
+    )
+    balances = BalanceSerializer(many=True, help_text='The balances each day the balance changed')
+    bank_balances = BankBalanceSerializer(many=True, help_text='All bank balances from the month')

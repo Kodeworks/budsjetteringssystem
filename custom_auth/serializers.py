@@ -31,11 +31,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField()
+    email = serializers.EmailField(help_text='The email')
+    password = serializers.CharField(help_text='The password')
 
 
 class UserTokenSerializer(serializers.Serializer):
-    user = UserSerializer()
-    refresh = serializers.CharField()
-    access = serializers.CharField()
+    user = UserSerializer(help_text='The current user')
+    refresh = serializers.CharField(help_text='The refresh token')
+    access = serializers.CharField(help_text='The access token')

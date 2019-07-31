@@ -15,18 +15,22 @@ class BankBalanceMixin(CompanyFilterMixin):
 
 
 class BankBalanceView(BankBalanceMixin, RetrieveCreateUpdateDestroyView):
+    """Manage a bank balance for a company."""
     pass
 
 
 class BankBalanceByDateView(BankBalanceMixin, RetrieveView):
+    """Get a bank balance for a company by date."""
     lookup_field = 'date'
 
 
 class BankBalanceByDateRangeView(BankBalanceMixin, ByDateRangeView):
+    """Get a bank balance for a company by date range."""
     pass
 
 
 class BalanceView(RetrieveView):
+    """Get a balance for a company by date."""
     serializer_class = BalanceSerializer
     request_serializer_class = DateSerializer
 
@@ -40,6 +44,7 @@ class BalanceView(RetrieveView):
 
 
 class BalanceByDateRangeView(ManyMixin, ByDateRangeMixin, RetrieveView):
+    """Get a balance for a company by date range."""
     serializer_class = BalanceSerializer
 
     def get_object(self):
@@ -49,6 +54,7 @@ class BalanceByDateRangeView(ManyMixin, ByDateRangeMixin, RetrieveView):
 
 
 class MonthView(RetrieveView):
+    """Get a month for a company by year and month number."""
     serializer_class = MonthSerializer
     request_serializer_class = MonthYearSerializer
 
@@ -67,6 +73,7 @@ class MonthView(RetrieveView):
 
 
 class MonthByDateRangeView(ManyMixin, ByDateRangeMixin, RetrieveView):
+    """Get a month for a company by date range."""
     serializer_class = MonthSerializer
 
     def get_object(self):

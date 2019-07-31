@@ -12,12 +12,14 @@ from .serializers import UserSerializer, LoginSerializer, UserTokenSerializer
 
 
 class Login(APIView):
+    """Log an user into the system."""
     missing_msg = 'Please provide email/password'
     invalid_msg = 'Invalid email/password'
 
     @swagger_auto_schema(
         auto_schema=SwaggerAutoSchema,
         request_body=LoginSerializer,
+        security=[],
         responses={
             '200': UserTokenSerializer(),
             '400': missing_msg,
@@ -57,12 +59,9 @@ class UserMixin:
            and data[self.lookup_field] != getattr(request.user, self.lookup_field):
             super().check_company_role(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        request.data['companies'] = []
-        return super().post(request, *args, **kwargs)
-
 
 class UserView(UserMixin, RetrieveCreateUpdateDestroyView):
+    """Manage the current user."""
     permissions = {
         'POST': None,
     }
@@ -86,6 +85,16 @@ class UserView(UserMixin, RetrieveCreateUpdateDestroyView):
 
         return response
 
+    @swagger_auto_schema(security=[], responses={'401': None, '403': None})
+    def post(self, request, *args, **kwargs):
+        """
+        Create a new user. This doesn't require being logged in,
+        and the new user is automatically logged in after creation.
+        """
+        request.data['companies'] = []
+        return super().post(request, *args, **kwargs)
+
 
 class UserByEmailView(UserMixin, RetrieveView):
+    """Get a user by their email."""
     lookup_field = 'email'
