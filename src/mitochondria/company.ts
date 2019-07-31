@@ -16,7 +16,7 @@ export const createCompany = (company: Omit<ICompany, 'id' | 'users'>) =>
 export const getCompanyById = (companyId: number) =>
   fetchWithCallback<ICompany>('/company/', { company_id: companyId });
 
-interface IUpdateCompany extends Pick<ICompany, 'org_nr' | 'name'> {
+export interface IUpdateCompany extends Pick<ICompany, 'org_nr' | 'name'> {
   company_id: number;
 }
 

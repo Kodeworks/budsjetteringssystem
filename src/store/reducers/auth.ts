@@ -8,7 +8,7 @@ type IUser = import('../../declarations/user').IUser;
 const LOGIN = 'LOGIN' as const;
 const REGISTER = 'REGISTER' as const;
 const LOGOUT = 'LOGOUT' as const;
-const SET_USER = 'SET_USER' as const;
+const UPDATE_USER = 'UPDATE_USER' as const;
 
 export type AuthState = IUser | null;
 
@@ -60,31 +60,50 @@ const doLogout = (dispatch: React.Dispatch<ICreatedAction>) => {
   dispatch(logout());
 };
 
-const setUser = (user: IUser) => ({
-  payload: { user },
-  type: SET_USER,
+type UpdateUser = Omit<IUser, 'companies'>;
+const updateUser = (user: UpdateUser) => ({
+  payload: user,
+  type: UPDATE_USER,
 });
-async function doSetUser(id: number, dispatch: React.Dispatch<ICreatedAction>) {
-  const user = await API.getUserById(id);
-  dispatch(setUser(user));
+async function doUpdateUser(
+  user: UpdateUser,
+  dispatch: React.Dispatch<ICreatedAction>
+) {
+  await API.updateUser(user);
+  dispatch(updateUser(user));
 }
+
+async function doDeleteUser(dispatch: React.Dispatch<ICreatedAction>) {
+  await API.deleteUser();
+  dispatch(logout());
+}
+
+const doSetUser = async (
+  userId: number,
+  dispatch: React.Dispatch<ICreatedAction>
+) => {
+  const user = await API.getUserById(userId);
+  dispatch(login(user));
+};
 
 /**
  * Under here you will find action creators, the reducer, and created action creators.
  */
 
-const AuthActionCreators = {
+export const AuthActionCreators = {
   login,
   logout,
   register,
-  setUser,
+  updateUser,
 };
 
 export const AuthActions = {
+  doDeleteUser,
   doLogin,
   doLogout,
   doRegister,
   doSetUser,
+  doUpdateUser,
 };
 
 // the return types of all the elements in ActionCreators
@@ -104,8 +123,8 @@ export const authReducer = (
       return action.payload;
     case LOGOUT:
       return null;
-    case SET_USER:
-      return action.payload.user;
+    case UPDATE_USER:
+      return { ...action.payload, companies: state!.companies };
   }
 
   return state;

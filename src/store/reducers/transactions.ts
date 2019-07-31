@@ -4,47 +4,43 @@ import { TransactionDispatch } from './../contexts/transactions';
 type ITransaction = import('../../declarations/transaction').ITransaction;
 
 // Action types
-const ADD_TRANSACTION = 'ADD_TRANSACTION';
-const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION';
-const RESET_TRANSACTIONS = 'RESET_TRANSACTIONS'; // mostly for testing purposes.
-const INTERMEDIARY_ADD = 'INTERMEDIARY_ADD';
-const INTERMEDIARY_REMOVE = 'INTERMEDIARY_REMOVE';
+const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION' as const;
+const RESET_TRANSACTIONS = 'RESET_TRANSACTIONS' as const; // mostly for testing purposes.
+const INTERMEDIARY_ADD = 'INTERMEDIARY_ADD' as const;
+const INTERMEDIARY_REMOVE = 'INTERMEDIARY_REMOVE' as const;
+const ADD_TRANSACTION = 'ADD_TRANSACTION' as const;
+const UPDATE_TRANSACTION = 'UPDATE_TRANSACTION' as const;
 
 // You need to define the return-type to have the typeof ADD_TRANSACTION as it will not be able to
 // infer that it is actually just a const string - by default it will infer a string.
 
-const addTransaction = (
-  tx: ITransaction
-): { type: typeof ADD_TRANSACTION; payload: ITransaction } => ({
+const addTransaction = (tx: ITransaction) => ({
   payload: tx,
   type: ADD_TRANSACTION,
 });
-
 /**
  * It posts the new transaction to the API and dispatches an ADD_TRANSACTION action if successful.
  * @param newTransaction The new transaction that is to be posted to the API
  * @param dispatch The dispatch method from the TransactionDispatchContext
  * @throws "Error if return code is not 201"
  */
-const doAddTransaction = async (
+const doCreateTransaction = async (
   newTransaction: api.ICreateTransaction,
   dispatch: TransactionDispatch
 ) => {
-  // All values are stored as hundreths in state and database.
-  newTransaction.money *= 100;
-
   const createdTransaction = await api.createTransaction(newTransaction);
   dispatch(addTransaction(createdTransaction));
 };
 
-const removeTransaction = (
-  tx: ITransaction
-): { type: typeof REMOVE_TRANSACTION; payload: ITransaction } => ({
-  payload: tx,
+const removeTransaction = (companyId: number, txId: number) => ({
+  payload: { companyId, txId },
   type: REMOVE_TRANSACTION,
 });
-const doRemoveTransaction = (tx: ITransaction, dispatch: TransactionDispatch) =>
-  dispatch(removeTransaction(tx));
+const doRemoveTransaction = (
+  companyId: number,
+  txId: number,
+  dispatch: TransactionDispatch
+) => dispatch(removeTransaction(companyId, txId));
 
 const resetTransactions = (
   init: Array<ITransaction> = []
@@ -57,9 +53,7 @@ const doResetTransactions = (
   dispatch: TransactionDispatch
 ) => dispatch(resetTransactions(init));
 
-const addToIntermediary = (
-  id: ITransaction['id']
-): { type: typeof INTERMEDIARY_ADD; payload: ITransaction['id'] } => ({
+const addToIntermediary = (id: ITransaction['id']) => ({
   payload: id,
   type: INTERMEDIARY_ADD,
 });
@@ -68,9 +62,7 @@ const doAddToIntermediary = (
   dispatch: TransactionDispatch
 ) => dispatch(addToIntermediary(id));
 
-const removeFromIntermediary = (
-  id: ITransaction['id']
-): { type: typeof INTERMEDIARY_REMOVE; payload: ITransaction['id'] } => ({
+const removeFromIntermediary = (id: ITransaction['id']) => ({
   payload: id,
   type: INTERMEDIARY_REMOVE,
 });
@@ -79,20 +71,121 @@ const doRemoveFromIntermediary = (
   dispatch: TransactionDispatch
 ) => dispatch(removeFromIntermediary(id));
 
+const doFetchTransaction = async (
+  companyId: number,
+  transactionId: number,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  const resp = await api.getTransaction(companyId, transactionId);
+  dispatch(addTransaction(resp));
+};
+
+const updateTransaction = (tx: ITransaction) => ({
+  payload: tx,
+  type: UPDATE_TRANSACTION,
+});
+const doUpdateTransaction = async (
+  tx: ITransaction,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  await api.updateTransaction(tx);
+  dispatch(updateTransaction(tx));
+};
+
+const doDeleteTransaction = async (
+  companyId: number,
+  txId: number,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  await api.deleteTransaction(companyId, txId);
+  dispatch(removeTransaction(companyId, txId));
+};
+
+const doGetAllTransactions = async (
+  companyId: number,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  const resp = await api.getAllTransactions(companyId);
+
+  for (const t of resp.results) {
+    dispatch(addTransaction(t));
+  }
+};
+
+const doGetTransactionsByDate = async (
+  companyId: number,
+  date: string,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  const resp = await api.getTransactionsByDate(companyId, date);
+
+  for (const t of resp.results) {
+    dispatch(addTransaction(t));
+  }
+};
+
+const doGetTransactionsByDateRange = async (
+  companyId: number,
+  startDate: string,
+  endDate: string,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  const resp = await api.getTransactionsByDateRange(
+    companyId,
+    startDate,
+    endDate
+  );
+
+  for (const t of resp.results) {
+    dispatch(addTransaction(t));
+  }
+};
+
+const doGetAllIncomeTransactions = async (
+  companyId: number,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  const resp = await api.getAllIncomeTransactions(companyId);
+
+  for (const t of resp.results) {
+    dispatch(addTransaction(t));
+  }
+};
+
+const doGetAllExpenseTransactions = async (
+  companyId: number,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  const resp = await api.getAllExpenseTransactions(companyId);
+
+  for (const t of resp.results) {
+    dispatch(addTransaction(t));
+  }
+};
+
 export const TransactionActionCreators = {
   addToIntermediary,
   addTransaction,
   removeFromIntermediary,
   removeTransaction,
   resetTransactions,
+  updateTransaction,
 };
 
 export const TransactionActions = {
   doAddToIntermediary,
-  doAddTransaction,
+  doCreateTransaction,
+  doDeleteTransaction,
+  doFetchTransaction,
+  doGetAllExpenseTransactions,
+  doGetAllIncomeTransactions,
+  doGetAllTransactions,
+  doGetTransactionsByDate,
+  doGetTransactionsByDateRange,
   doRemoveFromIntermediary,
   doRemoveTransaction,
   doResetTransactions,
+  doUpdateTransaction,
 };
 
 /**
@@ -122,7 +215,9 @@ export const transactionReducer = (
       return {
         ...state,
         transactions: state.transactions.filter(
-          e => e.id !== action.payload.id
+          e =>
+            e.id !== action.payload.txId &&
+            e.company_id === action.payload.companyId
         ),
       };
     case INTERMEDIARY_ADD:
@@ -139,6 +234,14 @@ export const transactionReducer = (
       return {
         ...state,
         transactions: action.payload,
+      };
+    case UPDATE_TRANSACTION:
+      return {
+        ...state,
+        transactions: [
+          ...state.transactions.filter(e => e.id !== action.payload.id),
+          action.payload,
+        ],
       };
     default:
       return state;
