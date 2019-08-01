@@ -6,6 +6,7 @@ export type CompanyState = Array<ICompany>;
 
 // Actions
 const ADD_COMPANY = 'ADD_COMPANY' as const;
+const CREATE_COMPANY = 'CREATE_COMPANY' as const;
 const UPDATE_COMPANY = 'UPDATE_COMPANY' as const;
 const DELETE_COMPANY = 'DELETE_COMPANY' as const;
 const ADD_USER_TO_COMPANY = 'ADD_USER_TO_COMPANY' as const;
@@ -30,6 +31,14 @@ const doAddCompany = async (
   dispatch: React.Dispatch<ICreatedAction>
 ) => {
   dispatch(addCompany(await API.getCompanyById(companyId)));
+};
+
+const doCreateCompany = async (
+  company: Omit<ICompany, 'id' | 'users'>,
+  dispatch: React.Dispatch<ICreatedAction>
+) => {
+  const createdCompany = await API.createCompany(company);
+  dispatch(addCompany(createdCompany));
 };
 
 const updateCompany = (company: API.IUpdateCompany) => ({
@@ -112,6 +121,7 @@ export const CompanyActionCreators = {
 export const CompanyActions = {
   doAddCompany,
   doAddUserToCompany,
+  doCreateCompany,
   doDeleteCompany,
   doRemoveUserFromCompany,
   doSetRoleForUserInCompany,

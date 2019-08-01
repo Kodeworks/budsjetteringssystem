@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuthState } from '../../store/contexts/auth';
 import { navbarWidth } from '../../styling/sizes';
 import NavigationBrand from '../atoms/NavigationBrand';
 import NavigationPill from '../atoms/NavigationPill';
@@ -17,20 +18,33 @@ const links: Array<{ to: string; name: string }> = [
 const Navigation: React.FC<{ className?: string } & RouteComponentProps> = ({
   className,
   location: { pathname },
-}) => (
-  <nav className={className}>
-    <NavigationBrand />
-    <NavigationSeparator />
-    <div>
-      {links.map(l => (
-        <NavigationPill key={l.to} to={l.to} active={pathname === `/${l.to}`}>
-          {l.name}
-        </NavigationPill>
-      ))}
-    </div>
-    <NavigationSeparator style={{ marginTop: 'auto' }} />
-  </nav>
-);
+}) => {
+  const auth = useAuthState();
+
+  return (
+    <nav className={className}>
+      <NavigationBrand />
+      <NavigationSeparator />
+      <div>
+        {auth!.companies.length === 0 && (
+          <NavigationPill
+            key="create-company"
+            to="/create-company"
+            active={pathname === '/create-company'}
+          >
+            <strong>Create a company</strong>
+          </NavigationPill>
+        )}
+        {links.map(l => (
+          <NavigationPill key={l.to} to={l.to} active={pathname === `/${l.to}`}>
+            {l.name}
+          </NavigationPill>
+        ))}
+      </div>
+      <NavigationSeparator style={{ marginTop: 'auto' }} />
+    </nav>
+  );
+};
 
 export default styled(withRouter(Navigation))`
   /* Positioning and size */
