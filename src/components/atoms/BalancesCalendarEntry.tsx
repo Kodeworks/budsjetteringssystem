@@ -1,16 +1,15 @@
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
-import { IBalanceEntry } from '../../declarations/balanceEntries';
 import { currencyFormat } from '../../helpers/currency';
 
-interface IPropsCalendarEntry {
+interface ICalendarEntryProps {
   className?: string;
-  entry?: IBalanceEntry;
+  entry?: import('../../declarations/balanceEntries').IBalanceEntry;
   date: string;
 }
 
-const calendarEntry: React.FC<IPropsCalendarEntry> = props => {
+const calendarEntry: React.FC<ICalendarEntryProps> = props => {
   return (
     <div className={props.className}>
       <h5>{`${moment(props.date).format('D')}.`}</h5>

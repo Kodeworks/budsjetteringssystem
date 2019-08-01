@@ -4,11 +4,7 @@ import DashboardTransactions from '../molecules/DashboardTransactions';
 
 import { useTransactionState } from '../../store/contexts/transactions';
 
-interface IProps {
-  className?: string;
-}
-
-const Homepage: React.FC<IProps> = ({ className }) => {
+const Homepage: React.FC<{ className?: string }> = ({ className }) => {
   const store = useTransactionState();
 
   return (

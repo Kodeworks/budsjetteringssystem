@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ITransaction } from '../../declarations/transaction';
-
 import { useTransactionState } from '../../store/contexts/transactions';
 import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
@@ -10,9 +8,7 @@ import Filters from '../molecules/Filters';
 import IncomeTransactions from '../molecules/IncomeTransactions';
 import TransactionCalculator from '../molecules/TransactionCalculator';
 
-interface IProps {
-  className?: string;
-}
+type ITransaction = import('../../declarations/transaction').ITransaction;
 
 const Content = styled.div`
   display: grid;
@@ -22,7 +18,7 @@ const Content = styled.div`
   margin-top: 2em;
 `;
 
-const Transactions: React.FC<IProps> = ({ className }) => {
+const Transactions: React.FC<{ className?: string }> = ({ className }) => {
   const store = useTransactionState();
 
   const [filter, setFilter] = React.useState<(t: ITransaction) => boolean>(
@@ -59,16 +55,6 @@ const Transactions: React.FC<IProps> = ({ className }) => {
 };
 
 export default styled(Transactions)`
-  h1 {
-    font-weight: 700;
-    font-size: 1.8em;
-  }
-
-  h5 {
-    font-weight: 300;
-    line-height: 0.7em;
-  }
-
   display: grid;
 
   grid-template-columns: calc(70% - 2em) calc(30% - 2em);

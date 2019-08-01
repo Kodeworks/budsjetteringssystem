@@ -1,10 +1,9 @@
 import { fetchWithCallback } from '.';
-import { IPaginated } from '../declarations/pagination';
-import {
-  IExpenseTransaction,
-  IIncomeTransaction,
-  ITransaction,
-} from '../declarations/transaction';
+
+type IPaginated<T> = import('../declarations/pagination').IPaginated<T>;
+type IExpenseTransaction = import('../declarations/transaction').IExpenseTransaction;
+type IIncomeTransaction = import('../declarations/transaction').IIncomeTransaction;
+type ITransaction = import('../declarations/transaction').ITransaction;
 
 export type ICreateTransaction = Omit<
   ITransaction,
@@ -12,24 +11,25 @@ export type ICreateTransaction = Omit<
 >;
 
 export const createTransaction = async (transaction: ICreateTransaction) =>
-  await fetchWithCallback<ITransaction>('/transaction/', '', {
-    body: JSON.stringify(transaction),
-    method: 'POST',
-  });
-
-export const getTransaction = async (
-  companyId: number,
-  transactionId: number
-) =>
   await fetchWithCallback<ITransaction>(
     '/transaction/',
-    `?company_id=${companyId}&id=${transactionId}`
+    {},
+    {
+      body: JSON.stringify(transaction),
+      method: 'POST',
+    }
   );
+
+export const getTransaction = async (companyId: number, id: number) =>
+  await fetchWithCallback<ITransaction>('/transaction/', {
+    company_id: companyId,
+    id,
+  });
 
 export const updateTransaction = async (transaction: ITransaction) =>
   await fetchWithCallback<true>(
     '/transaction/',
-    '',
+    {},
     {
       body: JSON.stringify(transaction),
       method: 'PUT',
@@ -39,13 +39,10 @@ export const updateTransaction = async (transaction: ITransaction) =>
     }
   );
 
-export const deleteTransaction = async (
-  companyId: number,
-  transactionId: number
-) =>
+export const deleteTransaction = async (companyId: number, id: number) =>
   await fetchWithCallback<true>(
     '/transaction/',
-    `?company_id=${companyId}&id=${transactionId}`,
+    { company_id: companyId, id },
     {
       method: 'DELETE',
     },
@@ -59,10 +56,11 @@ export const getAllTransactions = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<ITransaction>>(
-    '/transaction/all/',
-    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
-  );
+  await fetchWithCallback<IPaginated<ITransaction>>('/transaction/all/', {
+    company_id: companyId,
+    limit,
+    offset,
+  });
 
 export const getTransactionsByDate = async (
   companyId: number,
@@ -70,11 +68,12 @@ export const getTransactionsByDate = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<ITransaction>>(
-    '/transaction/byDate/',
-    `?company_id=${companyId}&date=${date}&offset=${offset}${limit &&
-      `&limit=${limit}`}`
-  );
+  await fetchWithCallback<IPaginated<ITransaction>>('/transaction/byDate/', {
+    company_id: companyId,
+    date,
+    limit,
+    offset,
+  });
 
 export const getTransactionsByDateRange = async (
   companyId: number,
@@ -85,8 +84,13 @@ export const getTransactionsByDateRange = async (
 ) =>
   await fetchWithCallback<IPaginated<ITransaction>>(
     '/transaction/byDateRange/',
-    `?company_id=${companyId}&end_date=${endDate}&start_date=${startDate}&offset=${offset}${limit &&
-      `&limit=${limit}`}`
+    {
+      company_id: companyId,
+      end_date: endDate,
+      limit,
+      offset,
+      start_date: startDate,
+    }
   );
 
 export const getAllIncomeTransactions = async (
@@ -96,7 +100,7 @@ export const getAllIncomeTransactions = async (
 ) =>
   await fetchWithCallback<IPaginated<IIncomeTransaction>>(
     '/transaction/income/all/',
-    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
+    { company_id: companyId, offset, limit }
   );
 
 export const getAllExpenseTransactions = async (
@@ -106,5 +110,5 @@ export const getAllExpenseTransactions = async (
 ) =>
   await fetchWithCallback<IPaginated<IExpenseTransaction>>(
     '/transaction/expense/all/',
-    `?company_id=${companyId}&offset=${offset}${limit && `&limit=${limit}`}`
+    { company_id: companyId, offset, limit }
   );

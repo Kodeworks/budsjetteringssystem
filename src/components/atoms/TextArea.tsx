@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Label from './Label';
 
-interface IProps {
+interface ITextAreaProps {
   className?: string;
   id: string;
   placeholder?: string;
@@ -12,7 +12,7 @@ interface IProps {
   value: string | number;
 }
 
-const TextArea: React.FC<IProps> = props => {
+const TextArea: React.FC<ITextAreaProps> = props => {
   const updateState = (e: React.FormEvent<HTMLTextAreaElement>) =>
     props.setState(e.currentTarget.value);
 

@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 export interface IError {
   detail?: string;
   error?: string;
@@ -96,13 +98,12 @@ class ResponseError extends Error {
   constructor(
     status: number,
     statusText: string,
-    path: ApiEndpoint,
-    queryParams: string,
+    url: string,
     options: RequestInit,
     body: string
   ) {
     super(`Error callback for status ${status} ${statusText}.
-Path was ${queryParams ? `${path}${queryParams}` : path}.
+Path was ${url}.
 Options were ${JSON.stringify(options)}.
 
 ${body}
@@ -112,17 +113,11 @@ ${body}
   }
 }
 
-async function errorHandler(
-  path: ApiEndpoint,
-  queryParams: string,
-  options: RequestInit,
-  res: Response
-) {
+async function errorHandler(url: string, options: RequestInit, res: Response) {
   throw new ResponseError(
     res.status,
     res.statusText,
-    path,
-    queryParams,
+    url,
     options,
     JSON.stringify(await res.json())
   );
@@ -145,11 +140,17 @@ interface ICallbacks {
  */
 export const fetchWithCallback = async <T>(
   path: ApiEndpoint,
-  queryParams: string,
+  queryParams: object,
   options: RequestInit = {},
   callbacks: ICallbacks = {}
 ): Promise<T> => {
-  const res = await fetch(`${BASE_URL}${path}${queryParams}`, {
+  let url = `${BASE_URL}${path}`;
+
+  if (Object.keys(queryParams).length > 0) {
+    url = `${url}?${queryString.stringify(queryParams)}`;
+  }
+
+  const res = await fetch(url, {
     headers: {
       Authorization: localStorage.getItem('access')
         ? `Bearer ${localStorage.getItem('access')}`
@@ -166,7 +167,7 @@ export const fetchWithCallback = async <T>(
       200: async resp => (await resp.json()) as T,
       201: async resp => (await resp.json()) as T,
       204: async () => true,
-      400: async resp => errorHandler(path, queryParams, options, resp),
+      400: async resp => errorHandler(url, options, resp),
       401: async resp => {
         const parsed = (await resp.json()) as IExpiredTokenResponse;
 
@@ -174,8 +175,7 @@ export const fetchWithCallback = async <T>(
           throw new ResponseError(
             resp.status,
             resp.statusText,
-            path,
-            queryParams,
+            url,
             options,
             JSON.stringify(parsed)
           );
@@ -185,9 +185,9 @@ export const fetchWithCallback = async <T>(
         localStorage.setItem('access', newToken);
         return await fetchWithCallback(path, queryParams, options, callbacks);
       },
-      403: async resp => errorHandler(path, queryParams, options, resp),
-      404: async resp => errorHandler(path, queryParams, options, resp),
-      500: async resp => errorHandler(path, queryParams, options, resp),
+      403: async resp => errorHandler(url, options, resp),
+      404: async resp => errorHandler(url, options, resp),
+      500: async resp => errorHandler(url, options, resp),
       ...callbacks,
     } as ICallbacks)[res.status](res);
   } catch (e) {
@@ -198,7 +198,7 @@ export const fetchWithCallback = async <T>(
     throw new Error(`Encountered unhandled response from server for status ${
       res.status
     }: ${res.statusText}.
-Path was ${queryParams ? `${path}${queryParams}` : path}.
+Path was ${url}.
 Options were ${JSON.stringify(options)}.
 
 ${JSON.stringify(e.message)}

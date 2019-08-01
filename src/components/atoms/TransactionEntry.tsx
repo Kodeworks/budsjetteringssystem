@@ -2,36 +2,34 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 
-import { ITransaction, TransactionType } from '../../declarations/transaction';
-import {
-  useTransactionDispatch,
-  useTransactions,
-} from '../../store/contexts/transactions';
+import { useTransactions } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
+
+type ITransaction = import('../../declarations/transaction').ITransaction;
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => (props.type === 'EX' ? '#ff6961' : '#77dd77')};
   padding-right: 0.3em;
 `;
 
-interface IProps extends ITransaction {
+interface ITransactionEntryProps extends ITransaction {
   className?: string;
   hideIncomeExpenseBadge?: boolean;
 }
 
-const incomeExpenseBadge = (type: TransactionType) => (
+const incomeExpenseBadge = (
+  type: import('../../declarations/transaction').TransactionType
+) => (
   <h6>
     <IncomeExpenseIcon type={type}>&#9632;</IncomeExpenseIcon>
     {type}
   </h6>
 );
 
-const TransactionEntry: React.FC<IProps> = props => {
-  const transactionDispatch = useTransactionDispatch();
-
+const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
   const [showMore, setShowMore] = React.useState(false);
   const { money, hideIncomeExpenseBadge } = props;
-  const [store, dispatch] = useTransactions();
+  const [store, transactionDispatch] = useTransactions();
 
   const [status, setStatus] = React.useState('');
 

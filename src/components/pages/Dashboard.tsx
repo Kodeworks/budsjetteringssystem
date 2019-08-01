@@ -5,11 +5,7 @@ import PageTitle from '../atoms/PageTitle';
 import Tab from '../molecules/Tab';
 import TabsContainer from '../molecules/TabsContainer';
 
-interface IProps {
-  className?: string;
-}
-
-const Dashboard: React.FC<IProps> = props => {
+const Dashboard: React.FC<{ className?: string }> = props => {
   return (
     <div className={props.className}>
       <div className="page-title">

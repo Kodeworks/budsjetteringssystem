@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 import TabMenu from './TabMenu';
 
-interface IProps {
+interface ITabsContainerProps {
   className?: string;
   children: Array<JSX.Element>;
 }
 
-interface IPropsTabContent {
+interface ITabContentProps {
   className?: string;
   id: string;
   labelledBy: string;
@@ -17,7 +17,7 @@ interface IPropsTabContent {
   activeTab: string;
 }
 
-const TabContent: React.FC<IPropsTabContent> = props => {
+const TabContent: React.FC<ITabContentProps> = props => {
   return (
     <div
       className={props.className}
@@ -30,7 +30,7 @@ const TabContent: React.FC<IPropsTabContent> = props => {
   );
 };
 
-const TabsContainer: React.FC<IProps> = props => {
+const TabsContainer: React.FC<ITabsContainerProps> = props => {
   const [activeTab, setActiveTab] = React.useState(
     props.children[0].props.label
   );

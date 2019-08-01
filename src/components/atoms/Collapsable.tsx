@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-interface IProps {
+interface ICollapsableHeadingProps {
   open?: boolean;
   className?: string;
   heading: React.ReactNode;
@@ -31,7 +31,7 @@ const CollapsableHeading = styled.button`
   }
 `;
 
-const Collapsable: React.FC<IProps> = props => {
+const Collapsable: React.FC<ICollapsableHeadingProps> = props => {
   const [collapsed, setCollapsed] = React.useState(!props.open);
   const toggle = () => setCollapsed(!collapsed);
 

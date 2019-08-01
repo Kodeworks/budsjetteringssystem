@@ -10,16 +10,13 @@ import RecurringTransactionOptions, {
 } from '../atoms/RecurringTransactionOptions';
 import TextArea from '../atoms/TextArea';
 
-import { TransactionType } from '../../declarations/transaction';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
 
-interface IProps {
-  className?: string;
-}
+type TransactionType = import('../../declarations/transaction').TransactionType;
 
-const AddTransaction: React.FC<IProps> = props => {
+const AddTransaction: React.FC<{ className?: string }> = props => {
   const dispatch = useTransactionDispatch();
   const auth = useAuthState();
 

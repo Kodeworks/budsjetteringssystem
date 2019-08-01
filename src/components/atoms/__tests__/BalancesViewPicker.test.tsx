@@ -5,12 +5,12 @@ import BalancesViewPicker from '../BalancesViewPicker';
 
 afterEach(cleanup);
 
-interface IProps {
+interface IWrapperFCProps {
   startShowCalendar: boolean;
 }
 
 test('ViewPicker renders with correct choice set', () => {
-  const WrapperFC: React.FC<IProps> = props => {
+  const WrapperFC: React.FC<IWrapperFCProps> = props => {
     const [showCalendar, setShowCalendar] = React.useState<boolean>(
       props.startShowCalendar
     );

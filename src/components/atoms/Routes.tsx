@@ -7,7 +7,7 @@ import Register from '../organism/authentication/Register';
 import Navigation from '../organism/Navigation';
 import Transactions from '../organism/Transactions';
 import Balances from '../pages/Balances';
-import { Companies } from '../pages/Companies';
+import Companies from '../pages/Companies';
 import Dashboard from '../pages/Dashboard';
 import FAQ from '../pages/FAQ';
 import Page from '../templates/Page';
