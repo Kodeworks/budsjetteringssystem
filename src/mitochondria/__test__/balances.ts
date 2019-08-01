@@ -159,7 +159,7 @@ describe('account balance', () => {
     test('get a bank balance for a given day', async () => {
       const bb = await api.createBankBalance({
         company_id: company.id,
-        date: '4096-01-01',
+        date: '2012-01-01',
         money: 10000,
       });
 
