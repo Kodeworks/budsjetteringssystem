@@ -42,7 +42,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
 
     if (!recurring) {
       const formValues = {
-        company_id: auth!.companies[0].company_id,
+        company_id: auth!.selectedCompany!,
         date,
         description: name,
         money: parseFloat(amount),

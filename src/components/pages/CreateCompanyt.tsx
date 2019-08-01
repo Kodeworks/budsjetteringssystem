@@ -2,6 +2,7 @@ import React from 'react';
 import { useCompanyDispatch } from '../../store/contexts/company';
 import { CompanyActions } from '../../store/reducers/company';
 import Input from '../atoms/Input';
+import PageTitle from '../atoms/PageTitle';
 
 const CreateCompany: React.FC = () => {
   const [name, setName] = React.useState('');
@@ -19,7 +20,10 @@ const CreateCompany: React.FC = () => {
 
   return (
     <>
-      <h1>Create a company</h1>
+      <PageTitle
+        title="Create new company"
+        description="Don't have a company? Don't despair. This page will help you out."
+      />
 
       <form onSubmit={onSubmit}>
         <Input

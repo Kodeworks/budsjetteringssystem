@@ -5,10 +5,9 @@ import styled from 'styled-components';
 import Label from './Label';
 
 interface ISelectProps extends React.HTMLProps<HTMLSelectElement> {
-  values: Array<{ name: string; value: string }>;
-
-  value: string;
-  setState: React.Dispatch<React.SetStateAction<string>>;
+  values: Array<{ name: string; value: any }>;
+  value: any;
+  setState: (value: any) => void;
 }
 
 const Select: React.FC<ISelectProps> = ({

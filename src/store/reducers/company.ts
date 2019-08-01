@@ -6,7 +6,6 @@ export type CompanyState = Array<ICompany>;
 
 // Actions
 const ADD_COMPANY = 'ADD_COMPANY' as const;
-const CREATE_COMPANY = 'CREATE_COMPANY' as const;
 const UPDATE_COMPANY = 'UPDATE_COMPANY' as const;
 const DELETE_COMPANY = 'DELETE_COMPANY' as const;
 const ADD_USER_TO_COMPANY = 'ADD_USER_TO_COMPANY' as const;
@@ -140,6 +139,10 @@ export const companyReducer = (
 ): CompanyState => {
   switch (action.type) {
     case ADD_COMPANY:
+      if (state.find(e => e.id === action.payload.id) !== undefined) {
+        return state;
+      }
+
       return [action.payload, ...state];
     case UPDATE_COMPANY:
       return [

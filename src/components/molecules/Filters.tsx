@@ -8,6 +8,7 @@ import queryString from 'query-string';
 
 import { RouteComponentProps, withRouter } from 'react-router';
 import styled from 'styled-components';
+import { useAuthState } from '../../store/contexts/auth';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
 
@@ -28,6 +29,7 @@ const Filters: React.FC<IFiltersProps & RouteComponentProps<{}>> = props => {
   const [toDate, setToDate] = React.useState('2030-01-01');
   const [description, setDescription] = React.useState('');
   const [recurring, setRecurring] = React.useState(false);
+  const auth = useAuthState();
 
   React.useEffect(() => {
     const {
@@ -73,6 +75,10 @@ const Filters: React.FC<IFiltersProps & RouteComponentProps<{}>> = props => {
         return false;
       }
 
+      if (auth!.selectedCompany !== t.company_id) {
+        return false;
+      }
+
       if (t.date < fromDate || t.date > toDate) {
         return false;
       }
@@ -90,6 +96,7 @@ const Filters: React.FC<IFiltersProps & RouteComponentProps<{}>> = props => {
     setFilter,
     props.location.search,
     props.history,
+    auth,
   ]);
 
   return (
