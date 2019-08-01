@@ -34,7 +34,7 @@ const TransactionProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     if (auth) {
-      const ps = auth.companies.forEach(async c => {
+      auth.companies.forEach(async c => {
         if (state.transactions.find(e => e.id !== c.company_id)) {
           return;
         }
