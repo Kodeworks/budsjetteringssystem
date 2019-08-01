@@ -34,14 +34,12 @@ const TransactionProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     if (auth) {
-      for (const c of auth.companies) {
-        if (
-          state.transactions.find(e => e.company_id === c.company_id) ===
-          undefined
-        ) {
-          TransactionActions.doGetAllTransactions(c.company_id, dispatch);
+      const ps = auth.companies.forEach(async c => {
+        if (state.transactions.find(e => e.id !== c.company_id)) {
+          return;
         }
-      }
+        await TransactionActions.doGetAllTransactions(c.company_id, dispatch);
+      });
     }
   }, [auth, state.transactions]);
 
