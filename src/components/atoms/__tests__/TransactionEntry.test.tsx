@@ -1,6 +1,5 @@
 import moment from 'moment';
 import React from 'react';
-import { TransactionProvider } from '../../../store/contexts/transactions';
 import TransactionEntry from '../TransactionEntry';
 import { fireEvent, render } from './../../../helpers/test-utils';
 
@@ -24,8 +23,7 @@ test('TransactionEntry', () => {
       company_id={testCompanyId}
       type={testType}
       notes={testNotes}
-    />,
-    { wrapper: TransactionProvider }
+    />
   );
   const div = container.querySelector('div');
   const header4 = container.querySelector('h4');
@@ -35,9 +33,6 @@ test('TransactionEntry', () => {
 
   /* Component should render with props given */
   expect(div).not.toBe(null);
-  if (div) {
-    expect(div.className).toContain(testClassName);
-  }
   expect(header4).not.toBe(null);
   if (header4) {
     expect(header4.textContent).toEqual(testDescription);
@@ -45,10 +40,7 @@ test('TransactionEntry', () => {
   expect(header6Array.length).toBe(2);
   expect(header6Array[0].textContent).toContain(testType);
   expect(header6Array[1].textContent).toContain(moment(testDate).format('L'));
-  expect(paragraph).not.toBe(null);
-  if (paragraph) {
-    expect(paragraph.textContent).toEqual('');
-  }
+  expect(paragraph).toBe(null);
   expect(strong).not.toBe(null);
   if (strong) {
     expect(strong.textContent).toEqual(`${(testMoney / 100).toFixed(2)}`);
@@ -56,7 +48,7 @@ test('TransactionEntry', () => {
 
   /* Hovering over TransactionEntry component should display paragraph */
   if (header4 && paragraph) {
-    fireEvent.mouseEnter(header4);
+    fireEvent.click(header4);
     expect(paragraph.textContent).toEqual(testNotes);
   }
 });
