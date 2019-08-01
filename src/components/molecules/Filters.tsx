@@ -75,7 +75,7 @@ const Filters: React.FC<IFiltersProps & RouteComponentProps<{}>> = props => {
         return false;
       }
 
-      if (auth!.selectedCompany !== t.company_id) {
+      if (auth && auth.selectedCompany !== t.company_id) {
         return false;
       }
 
