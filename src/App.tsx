@@ -4,12 +4,10 @@ import styled from 'styled-components';
 
 import Routes from './components/atoms/Routes';
 import Wrap from './helpers/GlobalWrapper';
-import { TransactionMocker } from './helpers/transaction_creator';
 import { navbarWidth } from './styling/sizes';
 
 const App: React.FC<{ className?: string }> = props => (
   <Wrap className={props.className}>
-    <TransactionMocker quantity={100} />
     <Routes />
   </Wrap>
 );

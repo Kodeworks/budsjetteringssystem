@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { useTransactions } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
+import UpdateTransaction from '../molecules/UpdateTransaction';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
 
@@ -32,6 +33,11 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
   const [store, transactionDispatch] = useTransactions();
 
   const [status, setStatus] = React.useState('');
+
+  const [showUpdate, setShowUpdate] = React.useState(false);
+
+  // invert state of showUpdate
+  const toggleShowUpdateForm = () => setShowUpdate(_ => !_);
 
   const isInIntermediary = !(
     store.intermediary.find(e => e === props.id) === undefined
@@ -72,7 +78,6 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
   return (
     <div
       className={props.className}
-      onClick={onClick}
       style={
         isInIntermediary
           ? { paddingLeft: '.6em', borderLeft: '4px solid black' }
@@ -80,7 +85,7 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
       }
     >
       {status && <strong>{status}</strong>}
-      <h4>{props.description}</h4>
+      <h4 onClick={onClick}>{props.description}</h4>
       <strong>
         {props.type === 'EX'
           ? `(${(money / 100).toFixed(2)})`
@@ -96,6 +101,12 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
         <div>
           <p>{props.notes}</p>
           <button onClick={onClickDelete}>Delete</button>
+          <button onClick={toggleShowUpdateForm}>
+            {showUpdate ? 'Hide update form' : 'Show update form'}
+          </button>
+          {showUpdate && (
+            <UpdateTransaction tx={props} onSubmit={onUpdateSubmit} />
+          )}
         </div>
       )}
     </div>
@@ -124,8 +135,6 @@ export default styled(TransactionEntry)`
   }
 
   div {
-    font-size: 0.7em;
-    font-weight: 400;
     grid-column: 1 / span 2;
     text-align: left;
   }
