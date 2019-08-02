@@ -2,7 +2,7 @@ import { cleanup } from '@testing-library/react';
 import * as api from '..';
 import { ICompany } from '../../declarations/company';
 import { ITransaction } from '../../declarations/transaction';
-import { loginDetails, setupTests } from '../../helpers/test-utils';
+import { createTx, loginDetails, setupTests } from '../../helpers/test-utils';
 
 afterEach(cleanup);
 
@@ -12,23 +12,6 @@ beforeAll(async () => {
   const [, c] = await setupTests();
   company = c;
 });
-
-const createTx = async () => {
-  const transaction = await api.createTransaction({
-    company_id: company.id,
-    date: '2019-08-31',
-    description: 'Test transaction #1',
-    money: 424242,
-    notes: 'Nothing really.',
-    type: 'EX',
-  });
-
-  return [
-    transaction,
-    async () =>
-      await api.deleteTransaction(transaction.company_id, transaction.id),
-  ] as [ITransaction, () => Promise<true>];
-};
 
 beforeEach(async () => {
   await api.login(loginDetails.email, loginDetails.password);
@@ -91,8 +74,8 @@ describe('actions working on singular transactions', () => {
 
 describe('actions returning plural transactions', () => {
   test('get all transactions', async () => {
-    const [transaction, clean1] = await createTx();
-    const [transaction2, clean2] = await createTx();
+    const [transaction, clean1] = await createTx(company.id);
+    const [transaction2, clean2] = await createTx(company.id);
 
     const txs = await api.getAllTransactions(company.id);
 
@@ -105,7 +88,7 @@ describe('actions returning plural transactions', () => {
   });
 
   test('get transactions by date', async () => {
-    const [transaction, clean] = await createTx();
+    const [transaction, clean] = await createTx(company.id);
 
     const txs = await api.getTransactionsByDate(company.id, transaction.date);
 
@@ -115,7 +98,7 @@ describe('actions returning plural transactions', () => {
   });
 
   test('get transactions by date range', async () => {
-    const [transaction, clean] = await createTx();
+    const [transaction, clean] = await createTx(company.id);
 
     const txs = await api.getTransactionsByDateRange(
       company.id,

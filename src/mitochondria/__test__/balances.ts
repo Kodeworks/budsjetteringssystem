@@ -1,55 +1,38 @@
 import { cleanup } from '@testing-library/react';
+import moment from 'moment';
 import * as api from '..';
 import { IBankBalance } from '../../declarations/balance';
 import { ICompany } from '../../declarations/company';
 import { ITransaction } from '../../declarations/transaction';
-import { setupTests } from '../../helpers/test-utils';
+import { createTx, setupTests } from '../../helpers/test-utils';
 
 afterEach(cleanup);
 
 let company: ICompany;
 
 beforeAll(async () => {
-  await setupTests();
-
-  company = await api.createCompany({
-    name: 'balances would like to test',
-    org_nr: '100010243892490187',
-  });
-});
-
-afterAll(async () => {
-  await api.deleteCompany(company.id);
+  const [, c] = await setupTests();
+  company = c;
 });
 
 describe('month', () => {
-  let transaction: ITransaction;
-
-  beforeEach(async () => {
-    transaction = await api.createTransaction({
-      company_id: company.id,
-      date: '4096-07-25',
-      description: 'Testing month',
-      money: 10000,
-      type: 'IN',
-    });
-  });
-
-  afterEach(async () => {
-    for (const t of (await api.getAllTransactions(company.id)).results) {
-      await api.deleteTransaction(t.company_id, t.id);
-    }
-  });
-
   test('get month', async () => {
-    const resp = await api.getMonth(7, 4096, company.id);
+    const [transaction, clean] = await createTx(company.id);
+    const date = moment(transaction.date, moment.ISO_8601);
+    const resp = await api.getMonth(
+      date.month() + 1,
+      date.year(),
+      transaction.company_id
+    );
 
     expect(
       resp.transactions.find(t => t.id === transaction.id)
-    ).not.toBeFalsy();
+    ).not.toBeUndefined();
     expect(resp.lowest_balance.money).not.toBeNull();
     expect(resp.balances.length).toBe(1);
-    expect(resp.balances[0].money).toBe(transaction.money);
+    expect(resp.balances[0].money).toBe(-transaction.money);
+
+    await clean();
   });
 
   test('get month that does not have any balances', async () => {
