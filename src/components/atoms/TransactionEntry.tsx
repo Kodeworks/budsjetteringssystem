@@ -22,8 +22,8 @@ const incomeExpenseBadge = (
   type: import('../../declarations/transaction').TransactionType
 ) => (
   <h6>
-    <IncomeExpenseIcon type={type}>&#9632;</IncomeExpenseIcon>
-    {type}
+    {' '}
+    <IncomeExpenseIcon type={type}>&#9632;</IncomeExpenseIcon> {type}{' '}
   </h6>
 );
 

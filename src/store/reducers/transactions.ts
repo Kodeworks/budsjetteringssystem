@@ -207,6 +207,15 @@ export const transactionReducer = (
 ): ITransactionState => {
   switch (action.type) {
     case ADD_TRANSACTION:
+      if (
+        state.transactions.find(
+          e =>
+            e.id === action.payload.id &&
+            e.company_id === action.payload.company_id
+        )
+      ) {
+        return state;
+      }
       return {
         ...state,
         transactions: [...state.transactions, action.payload],

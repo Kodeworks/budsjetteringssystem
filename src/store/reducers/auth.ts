@@ -9,8 +9,9 @@ const LOGIN = 'LOGIN' as const;
 const REGISTER = 'REGISTER' as const;
 const LOGOUT = 'LOGOUT' as const;
 const UPDATE_USER = 'UPDATE_USER' as const;
+const SET_ACTIVE_COMPANY = 'SET_ACTIVE_COMPANY' as const;
 
-export type AuthState = IUser | null;
+export type AuthState = IUser & { selectedCompany?: number } | null;
 
 export const initialState: AuthState = null;
 
@@ -86,6 +87,18 @@ const doSetUser = async (
   dispatch(login(user));
 };
 
+const setActiveCompany = (id: number) => ({
+  payload: id,
+  type: SET_ACTIVE_COMPANY,
+});
+
+const doSetActiveCompany = (
+  id: number,
+  dispatch: React.Dispatch<ICreatedAction>
+) => {
+  dispatch(setActiveCompany(id));
+};
+
 /**
  * Under here you will find action creators, the reducer, and created action creators.
  */
@@ -94,6 +107,7 @@ export const AuthActionCreators = {
   login,
   logout,
   register,
+  setActiveCompany,
   updateUser,
 };
 
@@ -102,6 +116,7 @@ export const AuthActions = {
   doLogin,
   doLogout,
   doRegister,
+  doSetActiveCompany,
   doSetUser,
   doUpdateUser,
 };
@@ -118,13 +133,19 @@ export const authReducer = (
 ): AuthState => {
   switch (action.type) {
     case LOGIN:
-      return action.payload;
+      const firstCompany = action.payload.companies[0];
+      return {
+        ...action.payload,
+        selectedCompany: (firstCompany && firstCompany.company_id) || undefined,
+      };
     case REGISTER:
       return action.payload;
     case LOGOUT:
       return null;
     case UPDATE_USER:
-      return { ...action.payload, companies: state!.companies };
+      return { ...state, ...action.payload, companies: state!.companies };
+    case SET_ACTIVE_COMPANY:
+      return { ...state!, selectedCompany: action.payload };
   }
 
   return state;

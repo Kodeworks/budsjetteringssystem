@@ -30,9 +30,12 @@ const CompanyProvider: React.FC = ({ children }) => {
     }
 
     user!.companies.forEach(company => {
+      if (state.find(e => e.id === company.company_id)) {
+        return;
+      }
       CompanyActions.doAddCompany(company.company_id, dispatch);
     });
-  }, [user, dispatch]);
+  }, [user, dispatch, state]);
 
   return (
     <CompanyStateContext.Provider value={state}>

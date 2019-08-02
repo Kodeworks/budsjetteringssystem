@@ -32,6 +32,14 @@ const doAddCompany = async (
   dispatch(addCompany(await API.getCompanyById(companyId)));
 };
 
+const doCreateCompany = async (
+  company: Omit<ICompany, 'id' | 'users'>,
+  dispatch: React.Dispatch<ICreatedAction>
+) => {
+  const createdCompany = await API.createCompany(company);
+  dispatch(addCompany(createdCompany));
+};
+
 const updateCompany = (company: API.IUpdateCompany) => ({
   payload: company,
   type: UPDATE_COMPANY,
@@ -112,6 +120,7 @@ export const CompanyActionCreators = {
 export const CompanyActions = {
   doAddCompany,
   doAddUserToCompany,
+  doCreateCompany,
   doDeleteCompany,
   doRemoveUserFromCompany,
   doSetRoleForUserInCompany,
@@ -130,6 +139,10 @@ export const companyReducer = (
 ): CompanyState => {
   switch (action.type) {
     case ADD_COMPANY:
+      if (state.find(e => e.id === action.payload.id) !== undefined) {
+        return state;
+      }
+
       return [action.payload, ...state];
     case UPDATE_COMPANY:
       return [
