@@ -13,6 +13,7 @@ import TextArea from '../atoms/TextArea';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
+import RadioButton from '../atoms/RadioButton';
 
 type TransactionType = import('../../declarations/transaction').TransactionType;
 
@@ -87,21 +88,22 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
     <Collapsable heading={<h1>Add new transaction</h1>}>
       <div className={props.className}>
         <form onSubmit={handleSubmit}>
-          <input
-            type="radio"
+          <RadioButton
             name="transactionType"
             value="expense"
             checked={transactionType === 'EX'}
-            onChange={handleTransactionTypeChange}
-          />{' '}
-          Expense
-          <input
-            type="radio"
+            handler={handleTransactionTypeChange}
+          >
+            Expense
+          </RadioButton>
+          <RadioButton
             name="transactionType"
             value="income"
-            onChange={handleTransactionTypeChange}
-          />{' '}
-          Income
+            checked={transactionType === 'IN'}
+            handler={handleTransactionTypeChange}
+          >
+            Income
+          </RadioButton>
           <Input value={date} id="date" type="date" setState={setDate}>
             Date
           </Input>
@@ -153,9 +155,12 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
 };
 
 export default styled(AddTransaction)`
-  display: grid;
-  grid-template-columns: 50% 50%;
+  form {
+    grid-gap: 1em;
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+
   margin-top: 1em;
-  grid-gap: 1em;
   width: calc(100% - 1em);
 `;
