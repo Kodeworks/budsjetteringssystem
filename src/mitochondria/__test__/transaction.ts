@@ -7,21 +7,14 @@ import { loginDetails, setupTests } from '../../helpers/test-utils';
 afterEach(cleanup);
 
 let company: ICompany;
-let transaction: ITransaction;
 
 beforeAll(async () => {
   const [, c] = await setupTests();
   company = c;
 });
 
-afterAll(async () => {
-  await api.deleteTransaction(transaction.company_id, transaction.id);
-});
-
-beforeEach(async () => {
-  await api.login(loginDetails.email, loginDetails.password);
-
-  transaction = await api.createTransaction({
+const createTx = async () => {
+  const transaction = await api.createTransaction({
     company_id: company.id,
     date: '2019-08-31',
     description: 'Test transaction #1',
@@ -29,10 +22,16 @@ beforeEach(async () => {
     notes: 'Nothing really.',
     type: 'EX',
   });
-});
 
-afterEach(async () => {
-  await api.deleteTransaction(transaction.company_id, transaction.id);
+  return [
+    transaction,
+    async () =>
+      await api.deleteTransaction(transaction.company_id, transaction.id),
+  ] as [ITransaction, () => Promise<true>];
+};
+
+beforeEach(async () => {
+  await api.login(loginDetails.email, loginDetails.password);
 });
 
 describe('actions working on singular transactions', () => {
@@ -91,44 +90,41 @@ describe('actions working on singular transactions', () => {
 });
 
 describe('actions returning plural transactions', () => {
-  let transaction2: ITransaction;
-
-  beforeEach(async () => {
-    transaction2 = await api.createTransaction({
-      company_id: company.id,
-      date: '4096-08-23',
-      description: 'Test transaction',
-      money: 10000, // 100 NOK
-      type: 'EX',
-    });
-  });
-
-  afterEach(async () => {
-    await api.deleteTransaction(company.id, transaction2.id);
-  });
-
   test('get all transactions', async () => {
+    const [transaction, clean1] = await createTx();
+    const [transaction2, clean2] = await createTx();
+
     const txs = await api.getAllTransactions(company.id);
 
     expect(txs.results.length).toBeGreaterThanOrEqual(2);
     expect(txs.results.find(e => e.id === transaction2.id)).not.toBeUndefined();
     expect(txs.results.find(e => e.id === transaction.id)).not.toBeUndefined();
+
+    await clean1();
+    await clean2();
   });
 
   test('get transactions by date', async () => {
-    const txs = await api.getTransactionsByDate(company.id, '4096-08-23');
+    const [transaction, clean] = await createTx();
 
-    expect(txs.results).toEqual([transaction2]);
+    const txs = await api.getTransactionsByDate(company.id, transaction.date);
+
+    expect(txs.results.find(e => e.id === transaction.id)).not.toBeUndefined();
+
+    await clean();
   });
 
   test('get transactions by date range', async () => {
+    const [transaction, clean] = await createTx();
+
     const txs = await api.getTransactionsByDateRange(
       company.id,
-      '3084-08-23',
-      '8012-08-23'
+      transaction.date,
+      transaction.date
     );
 
-    expect(txs.results).toEqual([transaction2]);
+    expect(txs.results.find(e => e.id === transaction.id)).not.toBeUndefined();
+    await clean();
   });
 
   describe('income/expense fetching', () => {

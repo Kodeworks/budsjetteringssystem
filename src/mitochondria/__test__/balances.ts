@@ -148,10 +148,9 @@ describe('account balance', () => {
         money: 424242,
       });
 
-      expect(api.getBankBalanceById(bb.company_id, bb.id)).resolves.toEqual({
-        ...bb,
-        money: 424242,
-      });
+      const resp = await api.getBankBalanceById(bb.company_id, bb.id);
+
+      expect(resp).toEqual({ ...bb, money: 424242 });
 
       await api.deleteBankBalance(bb.company_id, bb.id);
     });
@@ -160,30 +159,30 @@ describe('account balance', () => {
       const bb = await api.createBankBalance({
         company_id: company.id,
         date: '2012-01-01',
-        money: 10000,
+        money: 400,
       });
 
-      const resp = await api.getBankBalanceByDate(bb.company_id, bb.date);
+      const resp = await api.getBankBalanceByDate(company.id, '2012-01-01');
 
       expect(resp).toEqual(bb);
 
-      await api.deleteBankBalance(bb.company_id, bb.id);
+      await api.deleteBankBalance(resp.company_id, resp.id);
     });
 
     test('get bank balances for a date range', async () => {
       const bb = await api.createBankBalance({
         company_id: company.id,
-        date: '4097-01-01',
-        money: 10000,
+        date: '2011-04-01',
+        money: 105023,
       });
 
       const resp = await api.getBankBalanceByDateRange(
         bb.company_id,
-        '4097-01-01',
-        '4097-12-31'
+        '2010-01-01',
+        '2012-12-31'
       );
 
-      expect(resp.results.find(e => e.id === bb.id)).toBeTruthy();
+      expect(resp.results.find(e => e.id === bb.id)).not.toBeUndefined();
 
       await api.deleteBankBalance(bb.company_id, bb.id);
     });
