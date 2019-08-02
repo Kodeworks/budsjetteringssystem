@@ -43,7 +43,7 @@ jobs:
           name: Run frontend tests
           command: yarn test:all
       
-      -run:
+      - run:
           name: Run integration tests
           command: yarn test:api
 
