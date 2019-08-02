@@ -22,7 +22,7 @@ jobs:
       - run:
           name: "Setup environment variable with path to backend."
           command: |
-            echo 'export REACT_APP_BASE_URL="http://liquidator.kodeworks.nl"' >> $BASH_ENV
+            echo 'export REACT_APP_BASE_URL="http://liquidator.kodeworks.nl/api"' >> $BASH_ENV
 
       # Download and cache dependencies
       - restore_cache:
