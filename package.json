@@ -22,8 +22,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --testPathIgnorePatterns \"mitochondria\"",
-    "test:api": "react-scripts test \"mitochondria\"",
-    "test:all": "react-scripts test",
+    "test:api": "react-scripts test \"mitochondria\" --env=node",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"

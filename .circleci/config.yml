@@ -20,7 +20,7 @@ jobs:
       - checkout
 
       - run:
-          name: "Setup environment variable with path to backend."
+          name: "Setup environment variable with path to backend"
           command: |
             echo 'export REACT_APP_BASE_URL="http://liquidator.kodeworks.nl/api"' >> $BASH_ENV
 
@@ -40,8 +40,12 @@ jobs:
 
       # run tests!
       - run:
-          name: Run all tests.
+          name: Run frontend tests
           command: yarn test:all
+      
+      -run:
+          name: Run integration tests
+          command: yarn test:api
 
       # Check for lint and style errors
       - run: 
