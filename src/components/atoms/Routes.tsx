@@ -8,7 +8,7 @@ import Navigation from '../organism/Navigation';
 import Transactions from '../organism/Transactions';
 import Balances from '../pages/Balances';
 import Companies from '../pages/Companies';
-import CreateCompany from '../pages/CreateCompanyt';
+import CreateCompany from '../pages/CreateCompany';
 import Dashboard from '../pages/Dashboard';
 import FAQ from '../pages/FAQ';
 import Page from '../templates/Page';
