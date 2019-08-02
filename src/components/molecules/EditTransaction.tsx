@@ -4,12 +4,12 @@ import Input from '../atoms/Input';
 import OutlinedButton from '../atoms/OutlinedButton';
 import TextArea from '../atoms/TextArea';
 
-interface IUpdateTransactionProps {
+interface IEditTransactionProps {
   onSubmit: (tx: ITransaction) => void;
   tx: import('../../declarations/transaction').ITransaction;
 }
 
-const UpdateTransaction: React.FC<IUpdateTransactionProps> = props => {
+const EditTransaction: React.FC<IEditTransactionProps> = props => {
   const [date, setDate] = React.useState(props.tx.date);
   const [amount, setAmount] = React.useState(props.tx.money);
   const [name, setName] = React.useState(props.tx.description);
@@ -70,9 +70,9 @@ const UpdateTransaction: React.FC<IUpdateTransactionProps> = props => {
       >
         Notes
       </TextArea>
-      <OutlinedButton type="submit">Update transaction</OutlinedButton>
+      <OutlinedButton type="submit">Edit transaction</OutlinedButton>
     </form>
   );
 };
 
-export default UpdateTransaction;
+export default EditTransaction;

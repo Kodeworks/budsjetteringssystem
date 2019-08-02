@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useTransactions } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
-import UpdateTransaction from '../molecules/UpdateTransaction';
+import EditTransaction from '../molecules/EditTransaction';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
 
@@ -105,7 +105,7 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
             {showUpdate ? 'Hide update form' : 'Show update form'}
           </button>
           {showUpdate && (
-            <UpdateTransaction tx={props} onSubmit={onUpdateSubmit} />
+            <EditTransaction tx={props} onSubmit={onUpdateSubmit} />
           )}
         </div>
       )}
