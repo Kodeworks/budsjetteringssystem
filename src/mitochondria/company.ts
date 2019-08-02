@@ -47,7 +47,7 @@ export const deleteCompany = (companyId: number) =>
 
 export const addUserToCompany = (companyUser: ICompanyUser) =>
   fetchWithCallback<true>(
-    '/company/addUser/',
+    '/company/user/',
     {},
     {
       body: JSON.stringify(companyUser),
@@ -60,11 +60,10 @@ export const addUserToCompany = (companyUser: ICompanyUser) =>
 
 export const removeUserFromCompany = (companyId: number, userId: number) =>
   fetchWithCallback<true>(
-    '/company/removeUser/',
-    {},
+    '/company/user/',
+    { company_id: companyId, user_id: userId },
     {
-      body: JSON.stringify({ company_id: companyId, user_id: userId }),
-      method: 'POST',
+      method: 'DELETE',
     },
     {
       200: async () => true,
@@ -73,11 +72,11 @@ export const removeUserFromCompany = (companyId: number, userId: number) =>
 
 export const setRoleForUserInCompany = (companyUser: ICompanyUser) =>
   fetchWithCallback<true>(
-    '/company/setRole/',
+    '/company/user/',
     {},
     {
       body: JSON.stringify(companyUser),
-      method: 'POST',
+      method: 'PUT',
     },
     {
       200: async () => true,

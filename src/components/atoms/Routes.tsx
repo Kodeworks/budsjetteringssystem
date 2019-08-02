@@ -8,6 +8,7 @@ import Navigation from '../organism/Navigation';
 import Transactions from '../organism/Transactions';
 import Balances from '../pages/Balances';
 import Companies from '../pages/Companies';
+import CreateCompany from '../pages/CreateCompany';
 import Dashboard from '../pages/Dashboard';
 import FAQ from '../pages/FAQ';
 import Page from '../templates/Page';
@@ -39,6 +40,7 @@ const Routes: React.FC<RouteComponentProps<{}>> = props => {
           <Route path="/transactions" component={Transactions} />
           <Route path="/balances" component={Balances} />
           <Route path="/companies" component={Companies} />
+          <Route path="/create-company" component={CreateCompany} />
         </Page>
       </>
     );

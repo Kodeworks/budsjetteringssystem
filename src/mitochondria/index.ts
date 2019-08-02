@@ -24,9 +24,7 @@ const endpoints = [
   '/balance/byDateRange/',
   '/company/',
   '/company/',
-  '/company/addUser/',
-  '/company/removeUser/',
-  '/company/setRole/',
+  '/company/user/',
   '/month/',
   '/month/all/',
   '/month/byDateRange/',
@@ -51,7 +49,8 @@ const endpoints = [
 // Union of endpoints: '/transaction' | '/transaction/all' | ...
 export type ApiEndpoint = typeof endpoints[number];
 
-const BASE_URL = 'http://localhost:8000';
+// Default address of our backend server
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:8000';
 
 export interface ITokenResponse {
   access: string;

@@ -63,3 +63,23 @@ export const setupTests = async () => {
 
   return [user, company] as [IUser, ICompany];
 };
+
+export const createTx = async (companyId: number) => {
+  const transaction = await api.createTransaction({
+    company_id: companyId,
+    date: '2018-08-23',
+    description: 'Test transaction #1',
+    money: 424242,
+    notes: 'Nothing really.',
+    type: 'EX',
+  });
+
+  return [
+    transaction,
+    async () =>
+      await api.deleteTransaction(transaction.company_id, transaction.id),
+  ] as [
+    import('../declarations/transaction').ITransaction,
+    () => Promise<true>
+  ];
+};

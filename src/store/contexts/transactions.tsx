@@ -3,8 +3,10 @@ import * as React from 'react';
 import {
   ActionType,
   ITransactionState,
+  TransactionActions,
   transactionReducer,
 } from '../reducers/transactions';
+import { useAuthState } from './auth';
 
 /**
  * The initial state of transaction context when initializing the TransactinoProvider.
@@ -28,6 +30,18 @@ const TransactionDispatchContext = React.createContext<
 
 const TransactionProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(transactionReducer, initialState);
+  const auth = useAuthState();
+
+  React.useEffect(() => {
+    if (auth) {
+      auth.companies.forEach(async c => {
+        if (state.transactions.find(e => e.id !== c.company_id)) {
+          return;
+        }
+        await TransactionActions.doGetAllTransactions(c.company_id, dispatch);
+      });
+    }
+  }, [auth, state.transactions]);
 
   return (
     <TransactionStateContext.Provider value={state}>

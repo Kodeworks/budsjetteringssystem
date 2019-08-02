@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import * as BalancesAPI from '../../mitochondria/balances';
-import { useCompanyState } from '../../store/contexts/company';
+import { useAuthState } from '../../store/contexts/auth';
 import BalancesViewPicker from '../atoms/BalancesViewPicker';
 import MonthPicker from '../atoms/MonthPicker';
 import PageTitle from '../atoms/PageTitle';
@@ -73,7 +73,17 @@ const Balances: React.FC<{ className?: string }> = props => {
 
   // Current company is hardcoded to be the first company in the companyState array.
   // This will be changed to use the state for "current company selected" when that gets implemented.
-  const currentCompany = useCompanyState()[0];
+  const auth = useAuthState();
+
+  /**
+   * We want to clear the entries if the auth changes.
+   * Thankfully, react hooks are called sequentially, so we know this will run before the
+   * part which sets fetches the results, and uses the setEntries function to update
+   * the view.
+   */
+  React.useEffect(() => {
+    setEntries({});
+  }, [auth]);
 
   React.useEffect(() => {
     (async () => {
@@ -86,18 +96,18 @@ const Balances: React.FC<{ className?: string }> = props => {
           const month = await BalancesAPI.getMonth(
             monthChosen.month() + 1,
             monthChosen.year(),
-            currentCompany.id
+            auth!.selectedCompany!
           );
           newEntries[entryKey] = createBalanceEntriesFromMonth(month);
           setEntries(newEntries);
         } catch (e) {
-          alert('Oopsie');
+          alert(`Error encountered: ${e.message}.`);
           newEntries[entryKey] = [];
           setEntries(newEntries);
         }
       }
     })();
-  }, [monthChosen, entries, currentCompany.id]);
+  }, [monthChosen, entries, auth]);
 
   const entriesIndex = monthChosen.format('YYYY-MM');
   const title = 'Balances';
