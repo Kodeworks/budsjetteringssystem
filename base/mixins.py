@@ -65,12 +65,13 @@ class ManyMixin:
 
 
 class ByDateRangeMixin:
+    request_serializer_class = DateRangeSerializer
     start_date_arg = 'start_date'
     end_date_arg = 'end_date'
     date_field = 'date'
 
     def get_date_range(self):
-        arg_serializer = DateRangeSerializer(data=self.get_data())
+        arg_serializer = self.request_serializer_class(data=self.get_data())
         arg_serializer.is_valid(raise_exception=True)
 
-        return (arg_serializer.validated_data['start_date'], arg_serializer.validated_data['end_date'])
+        return (arg_serializer.validated_data[self.start_date_arg], arg_serializer.validated_data[self.end_date_arg])

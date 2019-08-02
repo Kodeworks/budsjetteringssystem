@@ -34,11 +34,13 @@ class User(AbstractUser):
     email = models.EmailField(
         max_length=255,
         unique=True,
+        help_text='The users email',
     )
     companies = models.ManyToManyField(
         Company,
         through='UserCompanyThrough',
         related_name='users',
+        help_text='The companies the user has access to',
     )
 
     objects = UserManager()
@@ -81,15 +83,18 @@ class UserCompanyThrough(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        help_text='The user',
     )
     company = models.ForeignKey(
         Company,
         on_delete=models.CASCADE,
+        help_text='The company',
     )
     role = models.CharField(
         choices=roles.choices,
         max_length=2,
         default=roles.USER,
+        help_text='The users role in the company',
     )
 
     def __str__(self):

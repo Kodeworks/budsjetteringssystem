@@ -12,21 +12,23 @@ class TransactionStaticData(models.Model):
         (EXPENSE, 'expense'),
     )
 
-    money = models.IntegerField()
-    type = models.CharField(max_length=2, choices=TRANSACTION_CHOICES)
-    description = models.TextField()
-    notes = models.TextField(blank=True)
+    money = models.IntegerField(help_text='The amount of money transferred in the transaction')
+    type = models.CharField(max_length=2, choices=TRANSACTION_CHOICES,
+                            help_text='The type of transaction (income or expense)')
+    description = models.TextField(help_text='A short description of what the transaction is for')
+    notes = models.TextField(blank=True, help_text='A longer description and details about the transaction')
 
     class Meta:
         abstract = True
 
 
 class Transaction(TransactionStaticData):
-    date = models.DateField()
+    date = models.DateField(help_text='The date of the transaction')
     company = models.ForeignKey(
         Company,
         related_name='transactions',
         on_delete=models.CASCADE,
+        help_text='The company'
     )
     recurring_transaction = models.ForeignKey(
         'RecurringTransaction',
@@ -34,6 +36,7 @@ class Transaction(TransactionStaticData):
         on_delete=models.DO_NOTHING,
         null=True,
         blank=True,
+        help_text='The associated recurring transaction, if applicable',
     )
 
     def __str__(self):
@@ -44,19 +47,23 @@ class Transaction(TransactionStaticData):
 
 
 class RecurringTransaction(models.Model):
-    day_delta = models.PositiveIntegerField()
-    month_delta = models.PositiveIntegerField()
-    start_date = models.DateField()
-    end_date = models.DateField()
+    day_delta = models.PositiveIntegerField(help_text='The number of days between each occurence')
+    month_delta = models.PositiveIntegerField(help_text='The number of months between each occurence')
+    start_date = models.DateField(help_text='The day of the first occurence')
+    end_date = models.DateField(
+        help_text="The last day there can be an occurence. Doesn't have to be the date of an occurence"
+    )
 
     company = models.ForeignKey(
         Company,
         related_name='recurring_transactions',
         on_delete=models.CASCADE,
+        help_text='The company that has this recurring transaction',
     )
     template = models.OneToOneField(
         'TransactionTemplate',
         on_delete=models.CASCADE,
+        help_text='The template for the transaction occurences'
     )
 
     def get_occurences(self, start_date, end_date, include_created=True):

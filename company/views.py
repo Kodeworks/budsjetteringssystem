@@ -1,15 +1,15 @@
-from django.db.utils import IntegrityError
-
-from rest_framework.response import Response
+from rest_framework.generics import get_object_or_404
 
 from custom_auth import roles
 from custom_auth.models import UserCompanyThrough
-from base.views import CompanyAccessView, RetrieveCreateUpdateDestroyView
+from custom_auth.serializers import UserCompanyThroughSerializer
+from base.views import RetrieveCreateUpdateDestroyView
 from .models import Company
 from .serializers import CompanySerializer
 
 
 class CompanyView(RetrieveCreateUpdateDestroyView):
+    """Manage a company."""
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     lookup_arg_field = 'company_id'
@@ -25,54 +25,29 @@ class CompanyView(RetrieveCreateUpdateDestroyView):
         self.request.user.companies.add(company, through_defaults={'role': roles.OWNER})
 
 
-class CompanyUserMixin:
+class CompanyUserView(RetrieveCreateUpdateDestroyView):
+    """Manage users in a company."""
+    # A little trick to add 'user_id' to the API spec
+    lookup_field = 'user_id'
+    serializer_class = UserCompanyThroughSerializer
+    queryset = UserCompanyThrough.objects.all()
     company_access = {
         'POST': roles.OWNER,
+        'PUT': roles.OWNER,
+        'DELETE': roles.OWNER,
     }
 
-    def post(self, request, *args, **kwargs):
-        company_id = self.get_company_id()
-        user_id = request.data['user_id']
+    def get_object(self):
+        data = self.get_data()
 
-        if 'role' in self.request.data and self.request.data['role']:
-            role = roles.get_role(request.data['role'])
+        # The serializer will check that the objects exists,
+        # returning a 400 when it doesn't exist. Therefore
+        # we handle the arguments manually, returning a 404 instead
+        if 'company_id' in data and 'user_id' in data:
+            company_id = data['company_id']
+            user_id = data['user_id']
+            return get_object_or_404(self.get_queryset(), company=company_id, user=user_id)
         else:
-            role = None
-
-        return self.handle_user(company_id, user_id, role)
-
-
-class CompanyAddUserView(CompanyUserMixin, CompanyAccessView):
-    def handle_user(self, company_id, user_id, role):
-        data = {'company_id': company_id, 'user_id': user_id}
-        if role:
-            data['role'] = role
-
-        try:
-            UserCompanyThrough.objects.create(**data)
-        except IntegrityError:
-            return Response({'detail': 'User not found'}, status='404')
-
-        return Response(status='200')
-
-
-class CompanyRemoveUserView(CompanyUserMixin, CompanyAccessView):
-    def handle_user(self, company_id, user_id, role):
-        try:
-            UserCompanyThrough.objects.get(user_id=user_id, company_id=company_id).delete()
-        except UserCompanyThrough.DoesNotExist:
-            return Response({'detail': 'The user is not member of this company'}, status='404')
-
-        return Response(status='200')
-
-
-class CompanySetRoleView(CompanyUserMixin, CompanyAccessView):
-    def handle_user(self, company_id, user_id, role):
-        queryset = UserCompanyThrough.objects.filter(user=user_id, company=company_id)
-
-        if queryset.exists():
-            queryset.update(role=role)
-        else:
-            return Response({'detail': 'The user is not member of this company'}, status='404')
-
-        return Response(status='200')
+            # We let the serializer handle creating the error
+            serializer = self.get_serializer_class()(data=data)
+            serializer.is_valid(raise_exception=True)

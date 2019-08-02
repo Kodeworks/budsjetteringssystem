@@ -48,13 +48,25 @@ class AppendIDMixin:
 
 
 class LiquidatorSerializer(AppendIDMixin, serializers.ModelSerializer):
+    """
+    A serializer that provides features that are useful for most
+    serializers in this project. Should be used as the default
+    serializer superclass.
+    """
     pass
 
 
 class DateSerializer(serializers.Serializer):
-    date = serializers.DateField()
+    """
+    A serializer that deserializes a date.
+
+    Useful as a request serializer, or to get a python
+    date from a date string.
+    """
+    date = serializers.DateField(help_text='The date')
 
 
 class DateRangeSerializer(serializers.Serializer):
-    start_date = serializers.DateField()
-    end_date = serializers.DateField()
+    """A serializer that deserializes a date range."""
+    start_date = serializers.DateField(help_text='The first date of the range (inclusive)')
+    end_date = serializers.DateField(help_text='The last day of the range (inclusive)')
