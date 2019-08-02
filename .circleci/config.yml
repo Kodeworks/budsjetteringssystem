@@ -41,7 +41,7 @@ jobs:
       # run tests!
       - run:
           name: Run frontend tests
-          command: yarn test:all
+          command: yarn test
       
       - run:
           name: Run integration tests
