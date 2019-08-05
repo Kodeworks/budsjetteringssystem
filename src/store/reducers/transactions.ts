@@ -2,6 +2,7 @@ import * as api from '../../mitochondria';
 import { TransactionDispatch } from './../contexts/transactions';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
+type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
 
 // Action types
 const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION' as const;
@@ -10,6 +11,9 @@ const INTERMEDIARY_ADD = 'INTERMEDIARY_ADD' as const;
 const INTERMEDIARY_REMOVE = 'INTERMEDIARY_REMOVE' as const;
 const ADD_TRANSACTION = 'ADD_TRANSACTION' as const;
 const UPDATE_TRANSACTION = 'UPDATE_TRANSACTION' as const;
+const ADD_RECURRING_TRANSACTION = 'ADD_RECURRING_TRANSACTION' as const;
+const REMOVE_RECURRING_TRANSACTION = 'REMOVE_RECURRING_TRANSACTION' as const;
+const UPDATE_RECURRING_TRANSACTION = 'UPDATE_RECURRING_TRANSACTION' as const;
 
 // You need to define the return-type to have the typeof ADD_TRANSACTION as it will not be able to
 // infer that it is actually just a const string - by default it will infer a string.
@@ -163,28 +167,102 @@ const doGetAllExpenseTransactions = async (
   }
 };
 
+const addRecurringTransaction = (rtx: IRecurringTransaction) => ({
+  payload: rtx,
+  type: ADD_RECURRING_TRANSACTION,
+});
+
+const removeRecurringTransaction = (companyId: number, id: number) => ({
+  payload: { company_id: companyId, id },
+  type: REMOVE_RECURRING_TRANSACTION,
+});
+
+const updateRecurringTransaction = (rtx: IRecurringTransaction) => ({
+  payload: rtx,
+  type: UPDATE_RECURRING_TRANSACTION,
+});
+
+const doFetchRecurringTransaction = async (
+  companyId: number,
+  recurringTransactionId: number,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  const resp = await api.getRecurringTransactionById(
+    companyId,
+    recurringTransactionId
+  );
+  dispatch(addRecurringTransaction(resp));
+};
+
+const doUpdateRecurringTransaction = async (
+  rtx: IRecurringTransaction,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  await api.updateRecurringTransaction(rtx);
+  dispatch(updateRecurringTransaction(rtx));
+};
+
+const doDeleteRecurringTransaction = async (
+  companyId: number,
+  rtxId: number,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  await api.deleteRecurringTransaction(companyId, rtxId);
+  dispatch(removeRecurringTransaction(companyId, rtxId));
+};
+
+const doGetAllRecurringTransactions = async (
+  companyId: number,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  const resp = await api.getAllRecurringTransactions(companyId);
+
+  for (const t of resp.results) {
+    dispatch(addRecurringTransaction(t));
+  }
+};
+
+const doGetAllActiveRecurringTransactions = async (
+  companyId: number,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  const resp = await api.getActiveRecurringTransactions(companyId);
+
+  for (const t of resp.results) {
+    dispatch(addRecurringTransaction(t));
+  }
+};
+
 export const TransactionActionCreators = {
+  addRecurringTransaction,
   addToIntermediary,
   addTransaction,
   removeFromIntermediary,
+  removeRecurringTransaction,
   removeTransaction,
   resetTransactions,
+  updateRecurringTransaction,
   updateTransaction,
 };
 
 export const TransactionActions = {
   doAddToIntermediary,
   doCreateTransaction,
+  doDeleteRecurringTransaction,
   doDeleteTransaction,
+  doFetchRecurringTransaction,
   doFetchTransaction,
+  doGetAllActiveRecurringTransactions,
   doGetAllExpenseTransactions,
   doGetAllIncomeTransactions,
+  doGetAllRecurringTransactions,
   doGetAllTransactions,
   doGetTransactionsByDate,
   doGetTransactionsByDateRange,
   doRemoveFromIntermediary,
   doRemoveTransaction,
   doResetTransactions,
+  doUpdateRecurringTransaction,
   doUpdateTransaction,
 };
 
@@ -198,6 +276,7 @@ export type ActionType = ReturnType<
 
 export interface ITransactionState {
   transactions: Array<ITransaction>;
+  recurring: Array<IRecurringTransaction>;
   intermediary: Array<ITransaction['id']>;
 }
 
@@ -225,8 +304,9 @@ export const transactionReducer = (
         ...state,
         transactions: state.transactions.filter(
           e =>
-            e.id !== action.payload.txId &&
-            e.company_id === action.payload.companyId
+            (e.id !== action.payload.txId &&
+              e.company_id === action.payload.companyId) ||
+            e.company_id !== action.payload.companyId
         ),
       };
     case INTERMEDIARY_ADD:
@@ -249,6 +329,39 @@ export const transactionReducer = (
         ...state,
         transactions: [
           ...state.transactions.filter(e => e.id !== action.payload.id),
+          action.payload,
+        ],
+      };
+    case ADD_RECURRING_TRANSACTION:
+      if (
+        state.recurring.find(
+          e =>
+            e.id === action.payload.id &&
+            e.company_id === action.payload.company_id
+        )
+      ) {
+        return state;
+      }
+
+      return {
+        ...state,
+        recurring: [...state.recurring, action.payload],
+      };
+    case REMOVE_RECURRING_TRANSACTION:
+      return {
+        ...state,
+        recurring: state.recurring.filter(
+          e =>
+            (e.id !== action.payload.id &&
+              e.company_id === action.payload.company_id) ||
+            e.company_id !== action.payload.company_id
+        ),
+      };
+    case UPDATE_RECURRING_TRANSACTION:
+      return {
+        ...state,
+        recurring: [
+          ...state.recurring.filter(e => e.id !== action.payload.id),
           action.payload,
         ],
       };

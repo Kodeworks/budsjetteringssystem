@@ -13,6 +13,7 @@ import { useAuthState } from './auth';
  */
 const initialState: ITransactionState = {
   intermediary: [],
+  recurring: [],
   transactions: [],
 };
 
