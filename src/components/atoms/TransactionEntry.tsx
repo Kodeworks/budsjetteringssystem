@@ -44,13 +44,15 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
   );
 
   const onClickDelete = async () => {
+    const deleteFun = props.recurring_transaction_id
+      ? TransactionActions.doDeleteRecurringTransaction
+      : TransactionActions.doDeleteTransaction;
+
+    const deleteId = props.recurring_transaction_id || props.id;
+
     try {
       setStatus('Deleting...');
-      await TransactionActions.doDeleteTransaction(
-        props.company_id,
-        props.id,
-        transactionDispatch
-      );
+      await deleteFun(props.company_id, deleteId, transactionDispatch);
     } catch (e) {
       setStatus(`Error encountered when deleting.`);
       setTimeout(() => {

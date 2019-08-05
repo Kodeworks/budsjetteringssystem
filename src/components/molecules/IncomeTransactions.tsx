@@ -14,7 +14,11 @@ interface IIncomeTransactionsProps {
 }
 
 const txEntry = (t: ITransaction) => (
-  <TransactionEntry hideIncomeExpenseBadge={true} key={t.id} {...t} />
+  <TransactionEntry
+    hideIncomeExpenseBadge={true}
+    key={`${t.id}-${t.company_id}-${t.recurring_transaction_id}`}
+    {...t}
+  />
 );
 
 const IncomeTransactions: React.FC<IIncomeTransactionsProps> = props => {
