@@ -6,7 +6,7 @@ from .models import Company
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    users = serializers.SerializerMethodField(read_only=True)
+    users = serializers.SerializerMethodField(read_only=True, help_text='The users in the company')
 
     class Meta:
         model = Company

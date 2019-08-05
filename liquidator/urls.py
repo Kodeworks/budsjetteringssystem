@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
 import custom_auth.urls
 import company.urls
@@ -22,6 +25,17 @@ import transaction.urls.transaction
 import transaction.urls.recurring
 import balance.urls
 import balance.month_urls
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='Liquidator API',
+        default_version='1.0.0',
+        license=openapi.License(name='MIT License'),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 
 urlpatterns = [
@@ -32,4 +46,5 @@ urlpatterns = [
     path('recurring/', include(transaction.urls.recurring)),
     path('balance/', include(balance.urls)),
     path('month/', include(balance.month_urls)),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]

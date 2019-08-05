@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from drf_yasg.utils import swagger_serializer_method
 
 from base.serializers import LiquidatorSerializer
 from .models import User, UserCompanyThrough
@@ -19,6 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'password', 'first_name', 'last_name', 'companies')
         extra_kwargs = {'password': {'write_only': True, 'required': False}}
 
+    @swagger_serializer_method(serializers.ListField(child=UserCompanyThroughSerializer()))
     def get_companies(self, obj):
         return UserCompanyThroughSerializer(UserCompanyThrough.objects.filter(user=obj), many=True).data
 
@@ -38,3 +40,14 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
 
         return user
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(help_text='The email')
+    password = serializers.CharField(help_text='The password')
+
+
+class UserTokenSerializer(serializers.Serializer):
+    user = UserSerializer(help_text='The current user')
+    refresh = serializers.CharField(help_text='The refresh token')
+    access = serializers.CharField(help_text='The access token')

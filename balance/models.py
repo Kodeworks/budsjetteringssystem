@@ -4,8 +4,8 @@ from company.models import Company
 
 
 class BankBalance(models.Model):
-    date = models.DateField()
-    money = models.PositiveIntegerField()
+    date = models.DateField(help_text='The date the balance was recorded on')
+    money = models.PositiveIntegerField(help_text='The amount of money available')
     company = models.ForeignKey(
         Company,
         on_delete=models.CASCADE,
