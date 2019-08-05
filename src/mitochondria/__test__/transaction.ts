@@ -1,8 +1,17 @@
 import { cleanup } from '@testing-library/react';
+import moment from 'moment';
 import * as api from '..';
 import { ICompany } from '../../declarations/company';
-import { ITransaction } from '../../declarations/transaction';
-import { createTx, loginDetails, setupTests } from '../../helpers/test-utils';
+import {
+  IRecurringTransaction,
+  ITransaction,
+} from '../../declarations/transaction';
+import {
+  createRecurringTx,
+  createTx,
+  loginDetails,
+  setupTests,
+} from '../../helpers/test-utils';
 
 afterEach(cleanup);
 
@@ -156,5 +165,101 @@ describe('actions returning plural transactions', () => {
         expect(t.type).toBe('EX');
       });
     });
+  });
+});
+
+describe('recurring transactions', () => {
+  test('create a new one', async () => {
+    const [rtx, clean] = await createRecurringTx(company.id);
+
+    expect(rtx).not.toBeFalsy();
+
+    await clean();
+  });
+
+  test('delete one', async () => {
+    const [rtx, clean] = await createRecurringTx(company.id);
+
+    await clean();
+
+    expect(
+      api.getRecurringTransactionById(rtx.company_id, rtx.id)
+    ).rejects.toThrow();
+  });
+
+  test('update', async () => {
+    const [rtx, clean] = await createRecurringTx(company.id);
+
+    await api.updateRecurringTransaction({
+      ...rtx,
+      interval: 4,
+      template: {
+        ...rtx.template,
+        type: 'EX',
+      },
+    });
+
+    const newRtx = await api.getRecurringTransactionById(
+      rtx.company_id,
+      rtx.id
+    );
+
+    expect(newRtx).toEqual({
+      ...rtx,
+      interval: 4,
+      template: {
+        ...rtx.template,
+        type: 'EX',
+      },
+    });
+
+    await clean();
+  });
+
+  describe('paginated responses', () => {
+    let rtx1: IRecurringTransaction;
+    let clean1: () => Promise<true>;
+    let rtx2: IRecurringTransaction;
+    let clean2: () => Promise<true>;
+
+    beforeAll(async () => {
+      const [r1, c1] = await createRecurringTx(company.id);
+      rtx1 = r1;
+      clean1 = c1;
+
+      const r2 = await api.createRecurringTransaction({
+        company_id: company.id,
+        end_date: moment('2017-01-01').format('YYYY-MM-DD'),
+        interval: 1,
+        interval_type: 'DA',
+        start_date: moment('1999-01-01').format('YYYY-MM-DD'),
+        template: { money: 1, type: 'EX', description: "C'est la vie" },
+      });
+
+      rtx2 = r2;
+      clean2 = () => api.deleteRecurringTransaction(r2.company_id, r2.id);
+    });
+
+    afterAll(async () => {
+      await clean1();
+      await clean2();
+    });
+
+    test('get all active', async () => {
+      const resp = await api.getActiveRecurringTransactions(company.id);
+
+      expect(resp.results.find(e => e.id === rtx1.id)).not.toBeUndefined();
+      expect(resp.results.find(e => e.id === rtx2.id)).toBeUndefined();
+    });
+
+    test('get all', async () => {
+      const resp = await api.getAllRecurringTransactions(company.id);
+
+      expect(resp.results.find(e => e.id === rtx1.id)).not.toBeUndefined();
+      expect(resp.results.find(e => e.id === rtx2.id)).not.toBeUndefined();
+    });
+
+    test.todo('get by date');
+    test.todo('get by date range');
   });
 });

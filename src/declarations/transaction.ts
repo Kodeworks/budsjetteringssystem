@@ -24,7 +24,7 @@ interface IRecurringTransactionTemplate {
   money: number;
   type: TransactionType;
   description: string;
-  notes: string;
+  notes?: string;
 }
 
 export type RecurringTransactionInterval = 'DA' | 'MO';

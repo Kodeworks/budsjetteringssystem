@@ -1,4 +1,5 @@
 import { render, RenderOptions } from '@testing-library/react';
+import moment from 'moment';
 import { ICompany } from '../declarations/company';
 import { IUser } from '../declarations/user';
 import * as api from '../mitochondria';
@@ -80,6 +81,35 @@ export const createTx = async (companyId: number) => {
       await api.deleteTransaction(transaction.company_id, transaction.id),
   ] as [
     import('../declarations/transaction').ITransaction,
+    () => Promise<true>
+  ];
+};
+
+export const createRecurringTx = async (companyId: number) => {
+  const transaction = await api.createRecurringTransaction({
+    company_id: companyId,
+    end_date: moment()
+      .year(2020)
+      .format('YYYY-MM-DD'),
+    interval: 3,
+    interval_type: 'MO',
+    start_date: moment().format('YYYY-MM-DD'),
+    template: {
+      description: 'Bursdagspenger',
+      money: 20000,
+      type: 'IN',
+    },
+  });
+
+  return [
+    transaction,
+    async () =>
+      await api.deleteRecurringTransaction(
+        transaction.company_id,
+        transaction.id
+      ),
+  ] as [
+    import('../declarations/transaction').IRecurringTransaction,
     () => Promise<true>
   ];
 };
