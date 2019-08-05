@@ -13,7 +13,6 @@ const EditTransaction: React.FC<IEditTransactionProps> = props => {
   const [date, setDate] = React.useState(props.tx.date);
   const [amount, setAmount] = React.useState(props.tx.money);
   const [name, setName] = React.useState(props.tx.description);
-  const [counterpart, setCounterpart] = React.useState('');
   const [notes, setNotes] = React.useState(props.tx.notes || '');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,15 +51,6 @@ const EditTransaction: React.FC<IEditTransactionProps> = props => {
         placeholder="John Doe"
       >
         Name
-      </Input>
-      <Input
-        value={counterpart}
-        id="counterpart"
-        type="text"
-        setState={setCounterpart}
-        placeholder="Otter Accessories Inc."
-      >
-        Counterpart
       </Input>
       <TextArea
         value={notes}

@@ -3,6 +3,7 @@ import { TransactionDispatch } from './../contexts/transactions';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
 type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
+type IUpdateRecurringTransaction = import('../../declarations/transaction').IUpdateRecurringTransaction;
 
 // Action types
 const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION' as const;
@@ -177,10 +178,17 @@ const removeRecurringTransaction = (companyId: number, id: number) => ({
   type: REMOVE_RECURRING_TRANSACTION,
 });
 
-const updateRecurringTransaction = (rtx: IRecurringTransaction) => ({
+const updateRecurringTransaction = (rtx: IUpdateRecurringTransaction) => ({
   payload: rtx,
   type: UPDATE_RECURRING_TRANSACTION,
 });
+
+const doCreateRecurringTransaction = async (
+  rtx: import('../../declarations/transaction').ICreateRecurringTransaction,
+  dispatch: React.Dispatch<ActionType>
+) => {
+  dispatch(addRecurringTransaction(await api.createRecurringTransaction(rtx)));
+};
 
 const doFetchRecurringTransaction = async (
   companyId: number,
@@ -195,7 +203,7 @@ const doFetchRecurringTransaction = async (
 };
 
 const doUpdateRecurringTransaction = async (
-  rtx: IRecurringTransaction,
+  rtx: IUpdateRecurringTransaction,
   dispatch: React.Dispatch<ActionType>
 ) => {
   await api.updateRecurringTransaction(rtx);
@@ -247,6 +255,7 @@ export const TransactionActionCreators = {
 
 export const TransactionActions = {
   doAddToIntermediary,
+  doCreateRecurringTransaction,
   doCreateTransaction,
   doDeleteRecurringTransaction,
   doDeleteTransaction,
@@ -358,11 +367,22 @@ export const transactionReducer = (
         ),
       };
     case UPDATE_RECURRING_TRANSACTION:
+      const rtx = state.recurring.find(
+        e =>
+          e.id === action.payload.id &&
+          e.company_id === action.payload.company_id
+      )!;
+      const updated: IRecurringTransaction = { ...rtx, ...action.payload };
       return {
         ...state,
         recurring: [
-          ...state.recurring.filter(e => e.id !== action.payload.id),
-          action.payload,
+          ...state.recurring.filter(
+            e =>
+              (e.id !== action.payload.id &&
+                e.company_id === action.payload.company_id) ||
+              e.company_id !== action.payload.company_id
+          ),
+          updated,
         ],
       };
     default:
