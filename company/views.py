@@ -1,11 +1,13 @@
 from rest_framework.generics import get_object_or_404
+from rest_framework.exceptions import ParseError
+from drf_yasg.utils import swagger_auto_schema
 
 from custom_auth import roles
-from custom_auth.models import UserCompanyThrough
+from custom_auth.models import User, UserCompanyThrough
 from custom_auth.serializers import UserCompanyThroughSerializer
 from base.views import RetrieveCreateUpdateDestroyView
 from .models import Company
-from .serializers import CompanySerializer
+from .serializers import CompanySerializer, AddUserToCompanySerializer
 
 
 class CompanyView(RetrieveCreateUpdateDestroyView):
@@ -38,16 +40,24 @@ class CompanyUserView(RetrieveCreateUpdateDestroyView):
     }
 
     def get_object(self):
-        data = self.get_data()
+        request_serializer = self.serializer_class(data=self.get_data())
+        request_serializer.is_valid(raise_exception=True)
 
-        # The serializer will check that the objects exists,
-        # returning a 400 when it doesn't exist. Therefore
-        # we handle the arguments manually, returning a 404 instead
-        if 'company_id' in data and 'user_id' in data:
-            company_id = data['company_id']
-            user_id = data['user_id']
-            return get_object_or_404(self.get_queryset(), company=company_id, user=user_id)
-        else:
-            # We let the serializer handle creating the error
-            serializer = self.get_serializer_class()(data=data)
-            serializer.is_valid(raise_exception=True)
+        company_id = self.get_company_id()
+        user_id = request_serializer.data['user_id']
+        return get_object_or_404(self.get_queryset(), company=company_id, user_id=user_id)
+
+    @swagger_auto_schema(
+        request_body=AddUserToCompanySerializer,
+        responses={'201': serializer_class},
+    )
+    def post(self, request, *args, **kwargs):
+        serializer = AddUserToCompanySerializer(data=self.get_data())
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            request.data['user_id'] = User.objects.get(email=serializer.data['email']).pk
+        except User.DoesNotExist:
+            raise ParseError('Invalid email')
+
+        return super().post(request, *args, **kwargs)
