@@ -6,7 +6,8 @@ from .models import Transaction, RecurringTransaction, TransactionTemplate
 class TransactionSerializer(LiquidatorSerializer):
     class Meta:
         model = Transaction
-        fields = ('id', 'money', 'type', 'description', 'notes', 'date', 'company', 'recurring_transaction')
+        fields = ('id', 'money', 'type', 'description', 'notes', 'date', 'company',
+                  'recurring_transaction', 'recurring_date')
 
 
 class TransactionTemplateSerializer(LiquidatorSerializer):
@@ -20,7 +21,7 @@ class RecurringTransactionSerializer(LiquidatorSerializer):
 
     class Meta:
         model = RecurringTransaction
-        fields = ('id', 'day_delta', 'month_delta', 'start_date', 'end_date', 'transactions', 'company', 'template')
+        fields = ('id', 'interval', 'interval_type', 'start_date', 'end_date', 'transactions', 'company', 'template')
         read_only_fields = ['transactions']
 
     def create(self, validated_data):
