@@ -55,6 +55,9 @@ class UserViewTestCase(JWTTestCase):
         self.assertEquals(response.status_code, 401, msg=response.content)
 
     def test_create_user(self):
+        response = self.post(views.UserView, {'email': self.email})
+        self.assertEquals(response.status_code, 400, msg=response.content)
+
         response = self.post(views.UserView, {'email': self.email, 'password': self.password})
         self.assertEquals(response.status_code, 201, msg=response.content)
         self.assertEquals(response.data['user']['email'], self.email, msg=response.content)
@@ -68,19 +71,31 @@ class UserViewTestCase(JWTTestCase):
 
         first_name = "Test"
         last_name = "Testing"
+
+        # A user can only update itself, so the id parameter should be disregarded
         data = {'id': user2.id, 'email': user.email, 'first_name': first_name, 'last_name': last_name}
-
-        # Delete deletes the current user, so the id parameter should be ignored
         response = self.put(views.UserView, data)
-
+        expected = {
+            'id': user.id,
+            'email': self.email,
+            'first_name': first_name,
+            'last_name': last_name,
+            'companies': [],
+        }
         self.assertEquals(response.status_code, 200, msg=response.content)
-        self.assertEquals(response.data['email'], self.email, msg=response.content)
-        self.assertEquals(response.data['first_name'], first_name, msg=response.content)
-        self.assertEquals(response.data['last_name'], last_name, msg=response.content)
+        self.assertEquals(response.data, expected, msg=response.content)
 
+        data = {'id': user2.id, 'email': user.email, 'first_name': first_name,
+                'last_name': last_name, 'password': 'pass3'}
+        response = self.put(views.UserView, data)
+        self.assertEquals(response.status_code, 200, msg=response.content)
+        self.assertEquals(response.data, expected, msg=response.content)
+
+        # Check that we updated the correct user
         user = User.objects.get(pk=user.pk)
         self.assertEquals(user.first_name, first_name, msg=response.content)
         self.assertEquals(user.last_name, last_name, msg=response.content)
+        self.assertTrue(user.check_password('pass3'))
 
         user2 = User.objects.get(pk=user2.pk)
         self.assertNotEquals(user2.first_name, first_name, msg=response.content)
@@ -91,8 +106,15 @@ class UserViewTestCase(JWTTestCase):
         self.force_login(user)
 
         response = self.get(views.UserView, {'id': user.id})
+        expected = {
+            'id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'companies': [],
+        }
         self.assertEquals(response.status_code, 200, msg=response.content)
-        self.assertEquals(response.data['email'], self.email, msg=response.content)
+        self.assertEquals(response.data, expected, msg=response.content)
 
     def test_get_user_by_email(self):
         user = self.create_user()

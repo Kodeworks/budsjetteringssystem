@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from drf_yasg.utils import swagger_serializer_method
 
 from base.serializers import LiquidatorSerializer
@@ -24,9 +25,20 @@ class UserSerializer(serializers.ModelSerializer):
         return UserCompanyThroughSerializer(UserCompanyThrough.objects.filter(user=obj), many=True).data
 
     def create(self, validated_data):
-        user = User(**validated_data)
-        user.set_password(validated_data['password'])
-        user.save()
+        if 'password' in validated_data:
+            user = super().create(validated_data)
+            user.set_password(validated_data['password'])
+        else:
+            raise ValidationError('Password is required')
+
+        return user
+
+    def update(self, instance, validated_data):
+        user = super().update(instance, validated_data)
+        if 'password' in validated_data:
+            user.set_password(validated_data['password'])
+            user.save()
+
         return user
 
 
