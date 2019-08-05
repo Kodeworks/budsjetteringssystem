@@ -5,3 +5,5 @@ djangorestframework_simplejwt
 flake8
 django-cors-headers
 python-dateutil
+drf-yasg
+packaging

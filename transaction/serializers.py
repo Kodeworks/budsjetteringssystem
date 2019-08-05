@@ -43,5 +43,6 @@ class RecurringTransactionSerializer(LiquidatorSerializer):
 
 
 class RecurringTransactionOccurenceSerializer(serializers.Serializer):
-    object = RecurringTransactionSerializer()
-    dates = serializers.ListField(child=serializers.DateField())
+    object = RecurringTransactionSerializer(help_text='The recurring transaction object')
+    dates = serializers.ListField(child=serializers.DateField(),
+                                  help_text='The dates the recurring transaction occures on')
