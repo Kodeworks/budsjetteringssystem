@@ -30,6 +30,7 @@ class Transaction(TransactionStaticData):
         on_delete=models.CASCADE,
         help_text='The company'
     )
+    recurring_date = models.DateField(null=True, blank=True)
     recurring_transaction = models.ForeignKey(
         'RecurringTransaction',
         related_name='transactions',
@@ -47,8 +48,19 @@ class Transaction(TransactionStaticData):
 
 
 class RecurringTransaction(models.Model):
-    day_delta = models.PositiveIntegerField(help_text='The number of days between each occurence')
-    month_delta = models.PositiveIntegerField(help_text='The number of months between each occurence')
+    DAY = 'DA'
+    MONTH = 'MO'
+    INTERVAL_CHOICES = (
+        (DAY, 'day'),
+        (MONTH, 'month'),
+    )
+
+    interval = models.PositiveIntegerField(help_text='The interval between each occurrence')
+    interval_type = models.CharField(
+        max_length=2,
+        choices=INTERVAL_CHOICES,
+        help_text='The value which the interval should operate on'
+    )
     start_date = models.DateField(help_text='The day of the first occurence')
     end_date = models.DateField(
         help_text="The last day there can be an occurence. Doesn't have to be the date of an occurence"
@@ -68,27 +80,30 @@ class RecurringTransaction(models.Model):
 
     def get_occurences(self, start_date, end_date, include_created=True):
         # Avoid an infinite loop if the deltas are both invalid
-        if self.day_delta < 1 and self.month_delta < 1:
+        if self.interval == 0:
             return []
 
         if end_date > self.end_date:
             end_date = self.end_date
 
         result = []
-        created = [] if include_created else [transaction.date for transaction in self.transactions.all()]
+        changed = {t.recurring_date: t.date for t in self.transactions.exclude(recurring_date=None)}
+        created = [] if include_created else [transaction.recurring_date or transaction.date
+                                              for transaction in self.transactions.all()]
 
         # Find the first occurence in the range, and work from there
-        if self.month_delta:
+        if self.interval_type == self.MONTH:
             freq = MONTHLY
-            interval = self.month_delta
-        else:
+        elif self.interval_type == self.DAY:
             freq = DAILY
-            interval = self.day_delta
 
-        occurences = rrule(freq, interval=interval, dtstart=self.start_date, until=end_date)
+        occurences = rrule(freq, interval=self.interval, dtstart=self.start_date, until=end_date)
 
         for occurence in occurences:
             occurence = occurence.date()
+            if occurence in changed and include_created:
+                occurence = changed[occurence]
+
             if occurence >= start_date and (include_created or occurence not in created):
                 result.append(occurence)
 
