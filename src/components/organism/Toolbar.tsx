@@ -11,6 +11,7 @@ const ToolbarContainer = styled.div`
   padding: 1em;
   position: sticky;
   top: 0;
+  z-index: 999;
 
   /* Coloring */
   background: ${props => props.theme.palette.background.default};
