@@ -9,28 +9,13 @@ import EditTransaction from '../molecules/EditTransaction';
 type ITransaction = import('../../declarations/transaction').ITransaction;
 type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
 
-const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
-  color: ${props => (props.type === 'EX' ? '#ff6961' : '#77dd77')};
-  padding-right: 0.3em;
-`;
-
 interface ITransactionEntryProps extends ITransaction {
   className?: string;
-  hideIncomeExpenseBadge?: boolean;
 }
-
-const incomeExpenseBadge = (
-  type: import('../../declarations/transaction').TransactionType
-) => (
-  <h6>
-    {' '}
-    <IncomeExpenseIcon type={type}>&#9632;</IncomeExpenseIcon> {type}{' '}
-  </h6>
-);
 
 const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
   const [showMore, setShowMore] = React.useState(false);
-  const { money, hideIncomeExpenseBadge } = props;
+  const { money } = props;
   const [store, transactionDispatch] = useTransactions();
 
   const [status, setStatus] = React.useState('');
@@ -101,7 +86,6 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
           ? `(${(money / 100).toFixed(2)})`
           : (money / 100).toFixed(2)}
       </strong>
-      {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
       <h6>
         {moment(props.date).format('L')}
         {props.recurring_transaction_id && ` - Recurring`}
