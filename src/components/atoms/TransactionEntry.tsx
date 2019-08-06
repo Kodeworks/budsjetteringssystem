@@ -7,6 +7,7 @@ import { TransactionActions } from '../../store/reducers/transactions';
 import EditTransaction from '../molecules/EditTransaction';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
+type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
 
 const IncomeExpenseIcon = styled.span<Pick<ITransaction, 'type'>>`
   color: ${props => (props.type === 'EX' ? '#ff6961' : '#77dd77')};
@@ -61,10 +62,17 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
     }
   };
 
-  const onUpdateSubmit = async (tx: ITransaction) => {
+  const onUpdateSubmit = async (tx: ITransaction | IRecurringTransaction) => {
     try {
       setStatus('Updating...');
-      await TransactionActions.doUpdateTransaction(tx, transactionDispatch);
+      if ('template' in tx) {
+        await TransactionActions.doUpdateRecurringTransaction(
+          tx,
+          transactionDispatch
+        );
+      } else {
+        await TransactionActions.doUpdateTransaction(tx, transactionDispatch);
+      }
       setStatus('');
     } catch (e) {
       setStatus(`Error encountered when updating.`);
@@ -96,8 +104,7 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
       {!hideIncomeExpenseBadge && incomeExpenseBadge(props.type)}
       <h6>
         {moment(props.date).format('L')}
-        {props.recurring_transaction_id &&
-          `  ${String.fromCharCode(183)} Recurring`}
+        {props.recurring_transaction_id && ` - Recurring`}
       </h6>
       {showMore && (
         <div>
@@ -134,6 +141,7 @@ export default styled(TransactionEntry)`
 
   h4 {
     font-weight: 400;
+    cursor: pointer;
   }
 
   div {
@@ -143,7 +151,6 @@ export default styled(TransactionEntry)`
 
   &:hover {
     padding-left: 0.3em;
-    cursor: pointer;
     border-left: 2px solid black;
   }
 `;
