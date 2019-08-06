@@ -1,7 +1,5 @@
-import moment from 'moment';
 import React from 'react';
 import { useTransactionState } from '../../store/contexts/transactions';
-import Checkbox from '../atoms/Checkbox';
 import Input from '../atoms/Input';
 import OutlinedButton from '../atoms/OutlinedButton';
 import RadioButton from '../atoms/RadioButton';
