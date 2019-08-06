@@ -40,6 +40,17 @@ const Transactions: React.FC<{ className?: string }> = ({ className }) => {
           d.isSameOrBefore(moment(e.end_date));
           d.add(e.interval, intervalTypeConverter(e.interval_type))
         ) {
+          if (
+            // Check if this date has been overwritten
+            store.transactions.find(
+              t =>
+                moment(t.date).isSame(d) &&
+                t.recurring_transaction_id === e.id &&
+                t.company_id === e.company_id
+            )
+          ) {
+            continue;
+          }
           dates.push(d.format('YYYY-MM-DD'));
         }
 
@@ -57,7 +68,7 @@ const Transactions: React.FC<{ className?: string }> = ({ className }) => {
             } as ITransaction)
         );
       }),
-    [store.recurring]
+    [store.recurring, store.transactions]
   );
 
   const txs = React.useMemo(

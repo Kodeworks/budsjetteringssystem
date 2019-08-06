@@ -14,10 +14,11 @@ type IntervalType = IRecurringTransaction['interval_type'];
 interface IEditTransactionProps {
   onSubmit: (tx: ITransaction | IRecurringTransaction) => void;
   tx: import('../../declarations/transaction').ITransaction;
+  isOverride: boolean;
 }
 
 const EditTransaction: React.FC<IEditTransactionProps> = props => {
-  if (!props.tx.recurring_transaction_id) {
+  if (!props.tx.recurring_transaction_id || props.isOverride) {
     return <EditRegularTransaction {...props} />;
   }
 
@@ -158,8 +159,9 @@ const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
       date,
       description: name,
       id: props.tx.id,
-      money: amount,
+      money: amount * 100,
       notes,
+      recurring_transaction_id: props.tx.recurring_transaction_id,
       type: props.tx.type,
     });
   };

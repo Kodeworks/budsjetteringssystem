@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useTransactions } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
 import EditTransaction from '../molecules/EditTransaction';
+import OverrideRecurringForm from '../molecules/OverrideRecurringForm';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
 type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
@@ -21,12 +22,17 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
   const [status, setStatus] = React.useState('');
 
   const [showUpdate, setShowUpdate] = React.useState(false);
-
-  // invert state of showUpdate
-  const toggleShowUpdateForm = () => setShowUpdate(_ => !_);
+  const [
+    showRecurringOverrideCreator,
+    setShowRecurringOverrideCreator,
+  ] = React.useState(false);
 
   const isInIntermediary = !(
     store.intermediary.find(e => e === props.id) === undefined
+  );
+
+  const isOverride = !!store.recurring.find(r =>
+    r.transactions.find(t => t === props.id)
   );
 
   const onClickDelete = async () => {
@@ -61,6 +67,7 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
       setStatus('');
     } catch (e) {
       setStatus(`Error encountered when updating.`);
+
       setTimeout(() => {
         setStatus('');
       }, 3000);
@@ -68,7 +75,8 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
   };
 
   // invert
-  const onClick = () => setShowMore(_ => !_);
+  const invert = (fn: (value: React.SetStateAction<boolean>) => void) => () =>
+    fn(_ => !_);
 
   return (
     <div
@@ -80,7 +88,7 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
       }
     >
       {status && <strong>{status}</strong>}
-      <h4 onClick={onClick}>{props.description}</h4>
+      <h4 onClick={invert(setShowMore)}>{props.description}</h4>
       <strong>
         {props.type === 'EX'
           ? `(${(money / 100).toFixed(2)})`
@@ -88,18 +96,30 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
       </strong>
       <h6>
         {moment(props.date).format('L')}
-        {props.recurring_transaction_id && ` - Recurring`}
+        {props.recurring_transaction_id &&
+          ` - Recurring${isOverride ? ' override' : ''}`}
       </h6>
       {showMore && (
         <div>
           <p>{props.notes}</p>
           <button onClick={onClickDelete}>Delete</button>
-          <button onClick={toggleShowUpdateForm}>
+          <button onClick={invert(setShowUpdate)}>
             {showUpdate ? 'Hide update form' : 'Show update form'}
           </button>
-          {showUpdate && (
-            <EditTransaction tx={props} onSubmit={onUpdateSubmit} />
+          {props.recurring_transaction_id && !isOverride && (
+            <button onClick={invert(setShowRecurringOverrideCreator)}>
+              {showRecurringOverrideCreator ? 'Hide' : 'Show'} override
+              recurring entry
+            </button>
           )}
+          {showUpdate && (
+            <EditTransaction
+              tx={props}
+              isOverride={isOverride}
+              onSubmit={onUpdateSubmit}
+            />
+          )}
+          {showRecurringOverrideCreator && <OverrideRecurringForm tx={props} />}
         </div>
       )}
     </div>
