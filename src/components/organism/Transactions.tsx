@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import moment from 'moment';
+import { flatMap } from '../../helpers/flatMap';
 import { useTransactionState } from '../../store/contexts/transactions';
 import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
@@ -32,7 +33,7 @@ const Transactions: React.FC<{ className?: string }> = ({ className }) => {
 
   const recurringTransactions = React.useMemo(
     () =>
-      store.recurring.flatMap(e => {
+      flatMap(store.recurring, e => {
         const dates: Array<string> = [];
 
         for (
