@@ -1,5 +1,10 @@
 import React from 'react';
-import { useTransactionState } from '../../store/contexts/transactions';
+import {
+  useTransactionDispatch,
+  useTransactions,
+  useTransactionState,
+} from '../../store/contexts/transactions';
+import { TransactionActions } from '../../store/reducers/transactions';
 import Input from '../atoms/Input';
 import OutlinedButton from '../atoms/OutlinedButton';
 import RadioButton from '../atoms/RadioButton';
@@ -12,7 +17,6 @@ type TransactionType = import('../../declarations/transaction').TransactionType;
 type IntervalType = IRecurringTransaction['interval_type'];
 
 interface IEditTransactionProps {
-  onSubmit: (tx: ITransaction | IRecurringTransaction) => void;
   tx: import('../../declarations/transaction').ITransaction;
   isOverride: boolean;
 }
@@ -26,7 +30,7 @@ const EditTransaction: React.FC<IEditTransactionProps> = props => {
 };
 
 const EditRecurringTransaction: React.FC<IEditTransactionProps> = props => {
-  const state = useTransactionState();
+  const [state, dispatch] = useTransactions();
 
   const rec = state.recurring.find(
     e => e.id === props.tx.recurring_transaction_id
@@ -48,6 +52,27 @@ const EditRecurringTransaction: React.FC<IEditTransactionProps> = props => {
     rec.interval_type
   );
 
+  const onSubmit: React.FormEventHandler = async e => {
+    e.preventDefault();
+    await TransactionActions.doUpdateRecurringTransaction(
+      {
+        ...rec,
+        end_date: endDate,
+        interval,
+        interval_type: intervalTypeValue,
+        start_date: date,
+        template: {
+          ...rec.template,
+          description,
+          money: amount * 100,
+          notes,
+          type: transactionType,
+        },
+      },
+      dispatch
+    );
+  };
+
   const handleTransactionTypeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -65,32 +90,8 @@ const EditRecurringTransaction: React.FC<IEditTransactionProps> = props => {
     />
   );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      props.onSubmit({
-        ...rec,
-        end_date: endDate,
-        interval,
-        interval_type: intervalTypeValue,
-        start_date: date,
-        template: {
-          ...rec.template,
-          description,
-          money: amount * 100,
-          type: transactionType,
-        },
-      });
-    } catch (e) {
-      /* TODO: handle and display error to the user */
-      // tslint:disable-next-line: no-console
-      console.error(e.message);
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSubmit}>
       <RadioButton
         name="transactionType"
         value="expense"
@@ -151,23 +152,28 @@ const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
   const [name, setName] = React.useState(props.tx.description);
   const [notes, setNotes] = React.useState(props.tx.notes || '');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const dispatch = useTransactionDispatch();
+
+  const onSubmit: React.FormEventHandler = async e => {
     e.preventDefault();
 
-    props.onSubmit({
-      company_id: props.tx.company_id,
-      date,
-      description: name,
-      id: props.tx.id,
-      money: amount * 100,
-      notes,
-      recurring_transaction_id: props.tx.recurring_transaction_id,
-      type: props.tx.type,
-    });
+    await TransactionActions.doUpdateTransaction(
+      {
+        company_id: props.tx.company_id,
+        date,
+        description: name,
+        id: props.tx.id,
+        money: amount * 100,
+        notes,
+        recurring_transaction_id: props.tx.recurring_transaction_id,
+        type: props.tx.type,
+      },
+      dispatch
+    );
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSubmit}>
       <Input value={date} id="date" type="date" setState={setDate}>
         Date
       </Input>

@@ -15,12 +15,9 @@ interface ITransactionEntryProps extends ITransaction {
 }
 
 const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
-  const [showMore, setShowMore] = React.useState(false);
-  const { money } = props;
   const [store, transactionDispatch] = useTransactions();
 
-  const [status, setStatus] = React.useState('');
-
+  const [showMore, setShowMore] = React.useState(false);
   const [showUpdate, setShowUpdate] = React.useState(false);
   const [
     showRecurringOverrideCreator,
@@ -36,45 +33,24 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
   );
 
   const onClickDelete = async () => {
-    const deleteFun = props.recurring_transaction_id
-      ? TransactionActions.doDeleteRecurringTransaction
-      : TransactionActions.doDeleteTransaction;
-
-    const deleteId = props.recurring_transaction_id || props.id;
-
-    try {
-      setStatus('Deleting...');
-      await deleteFun(props.company_id, deleteId, transactionDispatch);
-    } catch (e) {
-      setStatus(`Error encountered when deleting.`);
-      setTimeout(() => {
-        setStatus('');
-      }, 3000);
+    if (props.recurring_transaction_id && !isOverride) {
+      await TransactionActions.doDeleteRecurringTransaction(
+        props.company_id,
+        props.recurring_transaction_id,
+        store.recurring.find(r => r.id === props.recurring_transaction_id)!
+          .transactions,
+        transactionDispatch
+      );
+    } else {
+      await TransactionActions.doDeleteTransaction(
+        props.company_id,
+        props.id,
+        transactionDispatch
+      );
     }
   };
 
-  const onUpdateSubmit = async (tx: ITransaction | IRecurringTransaction) => {
-    try {
-      setStatus('Updating...');
-      if ('template' in tx) {
-        await TransactionActions.doUpdateRecurringTransaction(
-          tx,
-          transactionDispatch
-        );
-      } else {
-        await TransactionActions.doUpdateTransaction(tx, transactionDispatch);
-      }
-      setStatus('');
-    } catch (e) {
-      setStatus(`Error encountered when updating.`);
-
-      setTimeout(() => {
-        setStatus('');
-      }, 3000);
-    }
-  };
-
-  // invert
+  // invert setState hook value
   const invert = (fn: (value: React.SetStateAction<boolean>) => void) => () =>
     fn(_ => !_);
 
@@ -87,12 +63,11 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
           : {}
       }
     >
-      {status && <strong>{status}</strong>}
       <h4 onClick={invert(setShowMore)}>{props.description}</h4>
       <strong>
         {props.type === 'EX'
-          ? `(${(money / 100).toFixed(2)})`
-          : (money / 100).toFixed(2)}
+          ? `(${(props.money / 100).toFixed(2)})`
+          : (props.money / 100).toFixed(2)}
       </strong>
       <h6>
         {moment(props.date).format('L')}
@@ -112,13 +87,7 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
               recurring entry
             </button>
           )}
-          {showUpdate && (
-            <EditTransaction
-              tx={props}
-              isOverride={isOverride}
-              onSubmit={onUpdateSubmit}
-            />
-          )}
+          {showUpdate && <EditTransaction tx={props} isOverride={isOverride} />}
           {showRecurringOverrideCreator && <OverrideRecurringForm tx={props} />}
         </div>
       )}
