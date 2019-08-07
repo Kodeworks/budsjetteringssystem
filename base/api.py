@@ -1,6 +1,8 @@
 from drf_yasg.inspectors import SwaggerAutoSchema
 from drf_yasg.openapi import Parameter
 
+from .serializers import ErrorSerializer
+
 
 class LiquidatorAutoSchema(SwaggerAutoSchema):
     """
@@ -126,6 +128,7 @@ class LiquidatorAutoSchema(SwaggerAutoSchema):
             '400': 'Invalid arguments',
             '401': 'Not authenticated',
             '403': "You don't have access to do this operation on this company",
+            'error': ErrorSerializer,
         })
 
         return responses

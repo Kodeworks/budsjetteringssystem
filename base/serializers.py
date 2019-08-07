@@ -1,5 +1,20 @@
 from rest_framework import serializers, relations
 
+from .utils import ErrorType
+
+
+class EnumField(serializers.ChoiceField):
+    def __init__(self, enum_class, *args, **kwargs):
+        self.enum_class = enum_class
+        choices = [(item.value, item.value) for item in enum_class]
+        return super().__init__(*args, choices=choices, **kwargs)
+
+    def to_representation(self, instance):
+        if isinstance(instance, self.enum_class):
+            return super().to_representation(instance.value)
+        else:
+            return super().to_representation(instance)
+
 
 class IDManyRelatedField(relations.ManyRelatedField):
     """
@@ -70,3 +85,19 @@ class DateRangeSerializer(serializers.Serializer):
     """A serializer that deserializes a date range."""
     start_date = serializers.DateField(help_text='The first date of the range (inclusive)')
     end_date = serializers.DateField(help_text='The last day of the range (inclusive)')
+
+
+class ErrorEntrySerializer(serializers.Serializer):
+    code = serializers.CharField(help_text='The error code')
+    detail = serializers.CharField(help_text='A description of the error')
+
+
+class ErrorSerializer(serializers.Serializer):
+    error_type = EnumField(ErrorType, help_text='The type of error')
+    errors = ErrorEntrySerializer(many=True, help_text='Non-field errors')
+    field_errors = serializers.DictField(
+        child=serializers.ListField(
+            child=ErrorEntrySerializer()
+        ),
+        help_text='Errors corresponding to form fields',
+    )
