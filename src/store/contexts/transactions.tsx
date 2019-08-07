@@ -13,6 +13,7 @@ import { useAuthState } from './auth';
  */
 const initialState: ITransactionState = {
   intermediary: [],
+  recurring: [],
   transactions: [],
 };
 
@@ -39,9 +40,16 @@ const TransactionProvider: React.FC = ({ children }) => {
           return;
         }
         await TransactionActions.doGetAllTransactions(c.company_id, dispatch);
+        if (state.recurring.find(e => e.id !== c.company_id)) {
+          return;
+        }
+        await TransactionActions.doGetAllRecurringTransactions(
+          c.company_id,
+          dispatch
+        );
       });
     }
-  }, [auth, state.transactions]);
+  }, [auth, state.recurring, state.transactions]);
 
   return (
     <TransactionStateContext.Provider value={state}>
