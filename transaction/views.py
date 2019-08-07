@@ -4,8 +4,6 @@ from base.mixins import CompanyFilterMixin
 from .serializers import TransactionSerializer, RecurringTransactionSerializer
 from .models import Transaction, TransactionStaticData, RecurringTransaction
 
-# TODO: Implement logic when mixins are pushed
-
 
 class TransactionMixin(CompanyFilterMixin):
     lookup_field = 'id'
