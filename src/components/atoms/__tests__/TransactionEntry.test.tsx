@@ -37,9 +37,7 @@ test('TransactionEntry', () => {
   if (header4) {
     expect(header4.textContent).toEqual(testDescription);
   }
-  expect(header6Array.length).toBe(2);
-  expect(header6Array[0].textContent).toContain(testType);
-  expect(header6Array[1].textContent).toContain(moment(testDate).format('L'));
+  expect(header6Array.length).toBe(1);
   expect(paragraph).toBe(null);
   expect(strong).not.toBe(null);
   if (strong) {

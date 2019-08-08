@@ -152,7 +152,7 @@ storiesOf('Transactions', module)
   .add('Recurring options', () => {
     const [intervalValue, setIntervalValue] = React.useState(2);
     const [intervalTypeValue, setIntervalType] = React.useState<IntervalType>(
-      'month'
+      'MO'
     );
     const [DoMValue, setDoM] = React.useState(7);
     const options = {

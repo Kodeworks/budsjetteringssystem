@@ -1,19 +1,18 @@
+import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
-
+import { useAuthState } from '../../store/contexts/auth';
+import { useTransactionDispatch } from '../../store/contexts/transactions';
+import { TransactionActions } from '../../store/reducers/transactions';
 import Checkbox from '../atoms/Checkbox';
 import Collapsable from '../atoms/Collapsable';
 import Input from '../atoms/Input';
 import OutlinedButton from '../atoms/OutlinedButton';
+import RadioButton from '../atoms/RadioButton';
 import RecurringTransactionOptions, {
   IntervalType,
 } from '../atoms/RecurringTransactionOptions';
 import TextArea from '../atoms/TextArea';
-
-import { useAuthState } from '../../store/contexts/auth';
-import { useTransactionDispatch } from '../../store/contexts/transactions';
-import { TransactionActions } from '../../store/reducers/transactions';
-import RadioButton from '../atoms/RadioButton';
 
 type TransactionType = import('../../declarations/transaction').TransactionType;
 
@@ -25,43 +24,60 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
     'EX'
   );
 
-  const [date, setDate] = React.useState('1970-01-01');
-  const [amount, setAmount] = React.useState('');
-  const [name, setName] = React.useState('');
-  const [counterpart, setCounterpart] = React.useState('');
+  const [date, setDate] = React.useState(moment().format('YYYY-MM-DD'));
+  const [endDate, setEndDate] = React.useState(
+    moment()
+      .add(1, 'year')
+      .format('YYYY-MM-DD')
+  );
+  const [amount, setAmount] = React.useState(0);
+  const [description, setDescription] = React.useState('');
   const [notes, setNotes] = React.useState('');
   const [recurring, setRecurring] = React.useState(false);
   const [interval, setInterval] = React.useState(1);
   const [intervalTypeValue, setIntervalType] = React.useState<IntervalType>(
-    'month'
+    'MO'
   );
-  const [dayOfMonth, setDayOfMonth] = React.useState(23);
   const [, setError] = React.useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!recurring) {
-      const formValues = {
-        company_id: auth!.selectedCompany!,
-        date,
-        description: name,
-        money: parseFloat(amount),
-        notes,
-        type: transactionType,
-      };
-
-      try {
-        TransactionActions.doCreateTransaction(formValues, dispatch);
-      } catch (e) {
-        setError(e.message);
-        /* TODO: handle and display error to the user */
-        // tslint:disable-next-line: no-console
-        console.error(e.message);
+    try {
+      if (!recurring) {
+        TransactionActions.doCreateTransaction(
+          {
+            company_id: auth!.selectedCompany!,
+            date,
+            description,
+            money: amount * 100,
+            notes,
+            type: transactionType,
+          },
+          dispatch
+        );
+      } else {
+        TransactionActions.doCreateRecurringTransaction(
+          {
+            company_id: auth!.selectedCompany!,
+            end_date: endDate,
+            interval,
+            interval_type: intervalTypeValue,
+            start_date: date,
+            template: {
+              description,
+              money: amount * 100,
+              type: transactionType,
+            },
+          },
+          dispatch
+        );
       }
-    } else {
-      /* TODO – Add functionality for recurring transaction */
-      alert('Adding recurring transaction is not yet possible');
+    } catch (e) {
+      setError(e.message);
+      /* TODO: handle and display error to the user */
+      // tslint:disable-next-line: no-console
+      console.error(e.message);
     }
   };
 
@@ -77,10 +93,8 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
     <RecurringTransactionOptions
       intervalValue={interval}
       intervalTypeValue={intervalTypeValue}
-      DoMValue={dayOfMonth}
       setInterval={setInterval}
       setTypeInterval={setIntervalType}
-      setDoM={setDayOfMonth}
     />
   );
 
@@ -105,8 +119,18 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             Income
           </RadioButton>
           <Input value={date} id="date" type="date" setState={setDate}>
-            Date
+            {recurring ? 'Start date' : 'Date'}
           </Input>
+          {recurring && (
+            <Input
+              value={endDate}
+              id="end-date"
+              type="date"
+              setState={setEndDate}
+            >
+              End date
+            </Input>
+          )}
           <Input
             value={amount}
             id="amount"
@@ -117,22 +141,13 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             Amount
           </Input>
           <Input
-            value={name}
-            id="name"
+            value={description}
+            id="description"
             type="text"
-            setState={setName}
-            placeholder="John Doe"
+            setState={setDescription}
+            placeholder="Kakefestballong"
           >
-            Name
-          </Input>
-          <Input
-            value={counterpart}
-            id="counterpart"
-            type="text"
-            setState={setCounterpart}
-            placeholder="Otter Accessories Inc."
-          >
-            Counterpart
+            Description
           </Input>
           <TextArea
             value={notes}

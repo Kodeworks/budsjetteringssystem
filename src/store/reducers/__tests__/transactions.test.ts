@@ -1,9 +1,11 @@
 import { TransactionActionCreators, transactionReducer } from '../transactions';
 
-import { ITransaction } from '../../../declarations/transaction';
-
+import moment from 'moment';
 import { sum as intermediarySum } from '../../../helpers/intermediary_calc';
 import { initialState } from '../../contexts/transactions';
+
+type ITransaction = import('../../../declarations/transaction').ITransaction;
+type IRecurringTransaction = import('../../../declarations/transaction').IRecurringTransaction;
 
 const tx: ITransaction = {
   company_id: 0,
@@ -12,6 +14,19 @@ const tx: ITransaction = {
   id: 0,
   money: 10000,
   type: 'IN',
+};
+
+const rtx: IRecurringTransaction = {
+  company_id: 0,
+  end_date: moment()
+    .add(2, 'years')
+    .format('YYYY-MM-DD'),
+  id: 0,
+  interval: 14,
+  interval_type: 'DA',
+  start_date: moment().format('YYYY-MM-DD'),
+  template: { description: 'Testing', id: 0, money: 10000, type: 'IN' },
+  transactions: [],
 };
 
 test('adds a new transaction', () => {
@@ -142,4 +157,124 @@ test('reset transaction state', () => {
     TransactionActionCreators.resetTransactions()
   );
   expect(state.transactions.length).toBe(0);
+});
+
+describe('recurring', () => {
+  test('add recurring transaction', () => {
+    let state = initialState;
+    expect(state.recurring.length).toBe(0);
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.addRecurringTransaction(rtx)
+    );
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.addRecurringTransaction({ ...rtx, id: 1 })
+    );
+
+    const expected: Array<IRecurringTransaction> = [rtx, { ...rtx, id: 1 }];
+
+    state.transactions.forEach((e, i) => expect(e).toEqual(expected[i]));
+  });
+
+  test('add override', () => {
+    let state = initialState;
+
+    expect(state.recurring.length).toBe(0);
+
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.addRecurringTransaction(rtx)
+    );
+
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.setRecurringOverrideOnRecurringTransaction(
+        rtx.company_id,
+        rtx.id,
+        tx.id
+      )
+    );
+
+    expect(state.recurring.find(e => e.id === rtx.id)!.transactions[0]).toBe(
+      tx.id
+    );
+  });
+
+  test('remove reference from recurring["transactions"] when deleting override', () => {
+    let state = initialState;
+
+    expect(state.recurring.length).toBe(0);
+
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.addRecurringTransaction(rtx)
+    );
+
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.setRecurringOverrideOnRecurringTransaction(
+        rtx.company_id,
+        rtx.id,
+        tx.id
+      )
+    );
+
+    expect(
+      state.recurring.find(e => e.id === rtx.id)!.transactions
+    ).not.toEqual([]);
+
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.removeTransaction(rtx.company_id, tx.id)
+    );
+
+    expect(state.recurring.find(e => e.id === rtx.id)!.transactions).toEqual(
+      []
+    );
+  });
+
+  test('removes a recurring transaction', () => {
+    let state = initialState;
+
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.addRecurringTransaction(rtx)
+    );
+
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.addRecurringTransaction({ ...rtx, id: 1 })
+    );
+
+    expect(state.recurring.length).toBe(2);
+
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.removeRecurringTransaction(
+        rtx.company_id,
+        rtx.id
+      )
+    );
+
+    expect(state.recurring.length).toBe(1);
+  });
+
+  test("doesn't remove recurring transaction if no match", () => {
+    let state = initialState;
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.addRecurringTransaction(rtx)
+    );
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.addRecurringTransaction({ ...rtx, id: 1 })
+    );
+    expect(state.recurring.length).toBe(2);
+    state = transactionReducer(
+      state,
+      TransactionActionCreators.removeRecurringTransaction(rtx.company_id, 3)
+    );
+    expect(state.recurring.length).toBe(2);
+  });
 });
