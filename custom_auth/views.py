@@ -85,10 +85,6 @@ class UserView(UserMixin, RetrieveCreateUpdateDestroyView):
 
         return response
 
-    def perform_destroy(self, instance):
-        print(f'Deleting user {instance}')
-        super().perform_destroy(instance)
-
     @swagger_auto_schema(security=[], responses={'201': UserTokenSerializer, '401': None, '403': None})
     def post(self, request, *args, **kwargs):
         """

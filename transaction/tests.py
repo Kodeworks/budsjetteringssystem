@@ -1,5 +1,4 @@
 from datetime import date, datetime, timedelta
-from django.core.exceptions import ValidationError
 
 from base.tests import JWTTestCase
 from custom_auth import roles
@@ -199,8 +198,8 @@ class TransactionByDateTestCase(TransactionTestMixin, JWTTestCase):
     def test_invalid_date_format(self):
         test_date = '2019,88,102'
 
-        with self.assertRaises(ValidationError):
-            self.get(views.TransactionByDateView, {'date': test_date})
+        response = self.get(views.TransactionByDateView, {'date': test_date})
+        self.assertEquals(response.status_code, 400, msg=response.content)
 
 
 class TransactionByDateRangeTestCase(TransactionTestMixin, JWTTestCase):
