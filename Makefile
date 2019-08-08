@@ -25,7 +25,7 @@ makemigrations:
 migrate: makemigrations
 	docker-compose exec web python /code/manage.py migrate
 
-.PHONY: makemigrations
+.PHONY: createsuperuser
 createsuperuser:
 	docker-compose exec web python /code/manage.py createsuperuser
 

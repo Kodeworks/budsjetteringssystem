@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from drf_yasg.inspectors import SwaggerAutoSchema
 from drf_yasg.openapi import Parameter
 
@@ -120,15 +121,19 @@ class LiquidatorAutoSchema(SwaggerAutoSchema):
 
         return serializer
 
-    def get_default_responses(self):
-        """Get the default responses."""
-        responses = super().get_default_responses()
+    def get_response_serializers(self):
+        """
+        Get the response codes that this view is expected to return.
 
-        responses.update({
+        This is overriden to provide default responses, unless explicitly specified.
+        """
+        responses = OrderedDict({
             '400': 'Invalid arguments',
             '401': 'Not authenticated',
             '403': "You don't have access to do this operation on this company",
             'error': ErrorSerializer,
         })
+
+        responses.update(super().get_response_serializers())
 
         return responses
