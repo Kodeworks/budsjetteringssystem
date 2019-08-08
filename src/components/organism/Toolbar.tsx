@@ -11,6 +11,10 @@ const ToolbarContainer = styled.div`
   padding: 1em;
   position: sticky;
   top: 0;
+  /**
+   * Don't mind me, just triggering CI.
+   * This makes sure the toolbar is rendered above everything.
+   */
   z-index: 999;
 
   /* Coloring */
