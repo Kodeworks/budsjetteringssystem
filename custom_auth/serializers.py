@@ -28,6 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
         if 'password' in validated_data:
             user = super().create(validated_data)
             user.set_password(validated_data['password'])
+            user.save()
         else:
             raise ValidationError('Password is required')
 

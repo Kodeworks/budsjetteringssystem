@@ -64,6 +64,9 @@ class UserViewTestCase(JWTTestCase):
         self.assertIn('refresh', response.data, msg=response.content)
         self.assertIn('access', response.data, msg=response.content)
 
+        user = User.objects.get(email=self.email)
+        self.assertTrue(user.check_password(self.password))
+
     def test_update_user(self):
         user = self.create_user()
         user2 = self.create_user('user2@test.com', 'pass2')
