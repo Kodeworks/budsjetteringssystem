@@ -1,10 +1,43 @@
-[![CircleCI](https://circleci.com/gh/Kodeworks/liquidator-backend.svg?style=svg)](https://circleci.com/gh/Kodeworks/liquidator-backend)
+![Build - CircleCI](https://img.shields.io/circleci/build/github/Kodeworks/liquidator-frontend/master.svg)
+![Deps](https://img.shields.io/david/kodeworks/liquidator-frontend.svg)
+![Closed issues](https://img.shields.io/github/issues-closed/kodeworks/liquidator-frontend.svg)
+![License](https://img.shields.io/github/license/kodeworks/liquidator-frontend.svg)
 
-# Liquidator backend
+[**Milestones**](https://github.com/Kodeworks/liquidator-frontend/milestones) and [**Project Board**](https://github.com/Kodeworks/liquidator-frontend/projects/2)
 
 [API spesification](https://app.swaggerhub.com/apis/kw-liquidator/Liquidator/1.0.0#/)
 
-[Frontend](https://github.com/Kodeworks/liquidator-frontend)
+# Liquidator [Frontend]
+
+This is the frontend for liquidator.
+
+To run this (with hot-reload), simply run the command
+
+```bash
+yarn start
+```
+
+If you wish to use storybook (to see the components in isolation), first install it:
+
+```bash
+npx -p @storybook/cli
+```
+
+And then run it by entering
+
+```bash
+yarn storybook
+```
+
+Other than that, it's just a create-react-app, so the normal `yarn build` etc. works!
+
+To test the application, we have three different commands;
+
+1. `yarn test` -- Runs the component and reducer tests. Does not require a backend running.
+2. `yarn test:api` -- Only run the backend integration tests. Requires a running instance of [`liquidator-backend`](https://github.com/kodeworks/liquidator-backend).
+3. `yarn test:all` -- Runs _everything_. Requires a running instance of `liquidator-backend`.
+
+# Liquidator [Backend]
 
 ## Setup
 
@@ -50,3 +83,6 @@ Migrations created in the container are synced back to the source tree, and shou
 
 The server can be run as a normal django server, but then you have to install a database manually.
 The django settings can be overriden by creating the file `liquidator/local_settings.py` and overriding any variables set in `settings.py`.
+
+
+Happy hacking! :tada:

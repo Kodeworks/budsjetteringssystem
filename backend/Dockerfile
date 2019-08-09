@@ -2,10 +2,20 @@ FROM python:3.7-slim
 
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /code
+RUN useradd django -u 1000 -U -s /bin/false
 
-COPY requirements.txt /code/
+WORKDIR /backend/code
 
-RUN pip install -r /code/requirements.txt
+COPY requirements.txt ./
 
-COPY . /code/
+RUN pip install -r requirements.txt
+
+COPY . ./
+
+RUN ./manage.py collectstatic --no-input
+
+EXPOSE 8000
+
+USER django
+
+CMD ["gunicorn", "--chdir", "liquidator", "--bind", ":8000", "liquidator.wsgi:application"]
