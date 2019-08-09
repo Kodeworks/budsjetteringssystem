@@ -1,4 +1,4 @@
-FROM node:8-jessie
+FROM node:latest
 
 #RUN useradd frontend -u 1000 -U -s /bin/false
 
@@ -10,6 +10,8 @@ WORKDIR /frontend/code
 COPY . ./
 
 EXPOSE 3000
+
+RUN yarn install
 
 CMD ["yarn", "start"]
 

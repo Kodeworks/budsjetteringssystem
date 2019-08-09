@@ -15,29 +15,37 @@ all: update-backend migrate up
 
 .PHONY: build
 build:
-	docker-compose build
+	$(COMPOSE) build
 
 .PHONY: up
 up:
-	docker-compose up
+	$(COMPOSE) up
 
 .PHONY: background
 background:
-	docker-compose up -d
+	$(COMPOSE) up -d
 
 .PHONY: stop
 stop:
-	docker-compose stop
+	$(COMPOSE) stop
 
 .PHONY: down
 down:
-	docker-compose down
+	$(COMPOSE) down
+
+.PHONY: logs
+logs:
+	$(COMPOSE) logs
 
 .PHONY: test
 test: test-backend test-frontend-all
 
 
 ### FRONTEND ###
+.PHONY: tslint
+tslint:
+	$(FRONTEND_RUN) yarn tslint -p . $(YCMD)
+
 .PHONY: test-frontend
 test-frontend:
 	$(FRONTEND_RUN) yarn test $(YCMD)

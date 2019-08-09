@@ -1,0 +1,24 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+
+      # Run tests
+      - run:
+          name: Run backend tests
+          command: make test-backend
+
+      - run:
+          name: Run frontend tests
+          command: make test-frontend
+
+      - run:
+          name: Run integration tests
+          command: make test-frontend-api
+
+      # Check for lint and style errors
+      - run:
+          name: Running lint and style check
+          command: make tslint
