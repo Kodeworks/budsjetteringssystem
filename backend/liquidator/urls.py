@@ -38,7 +38,8 @@ schema_view = get_schema_view(
 )
 
 
-urlpatterns = [
+# The url patterns behind a common prefix
+api_patterns = [
     path('admin/', admin.site.urls),
     path('user/', include(custom_auth.urls)),
     path('company/', include(company.urls)),
@@ -47,4 +48,10 @@ urlpatterns = [
     path('balance/', include(balance.urls)),
     path('month/', include(balance.month_urls)),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+]
+
+
+# The root url patterns
+urlpatterns = [
+    path('api/', include(api_patterns)),
 ]

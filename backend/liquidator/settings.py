@@ -26,7 +26,11 @@ SECRET_KEY = 'g$kv%%4f5l^rxyjdw3mbf5ht$m$h!b41j_*^tqkk86v#l2#36('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'nginx',
+    'backend',
+]
 
 
 # Application definition
@@ -173,7 +177,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/backend/static/'
+STATIC_ROOT = '/backend/static'
+MEDIA_ROOT = '/backend/media'
+
 
 try:
     from .local_settings.py import *
@@ -184,5 +191,7 @@ except ImportError:
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
+    'http://localhost',
+    'http://frontend',
+    'http://liquidator',
 )
