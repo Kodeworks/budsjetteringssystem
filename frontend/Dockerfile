@@ -6,6 +6,7 @@ WORKDIR /frontend/code
 COPY package.json ./
 COPY yarn.lock ./
 RUN yarn
+ENV PATH="${PATH}:/frontend/code/node_modules/.bin"
 
 # Copy in the project files
 COPY . ./
