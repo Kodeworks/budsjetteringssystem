@@ -22,6 +22,7 @@ services:
     build: frontend
     environment:
       - REACT_APP_BASE_URL=http://localhost:${NGINX_PORT:-8000}/api
+      - CI
     volumes:
       - ./frontend:/frontend/code
     networks:
