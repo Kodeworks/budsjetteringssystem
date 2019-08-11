@@ -6,6 +6,7 @@ TEST_PROJECT=liquidator-test
 FRONTEND_RUN=$(COMPOSE) run --rm frontend
 FRONTEND_TEST_PROJECT=$(COMPOSE) --project-name=$(TEST_PROJECT)
 FRONTEND_TEST_EXEC=$(FRONTEND_TEST_PROJECT) exec -e REACT_APP_BASE_URL=$(TEST_BASE_URL) frontend
+FRONTEND_TEST_RUN=$(FRONTEND_TEST_PROJECT) run --rm -e REACT_APP_BASE_URL=$(TEST_BASE_URL) frontend
 
 BACKEND_RUN=$(COMPOSE) run --rm backend
 BACKEND_MANAGE=$(BACKEND_RUN) python manage.py
@@ -56,7 +57,7 @@ test-frontend-api:
 	NGINX_PORT=$(NGINX_TEST_PORT) $(FRONTEND_TEST_PROJECT) up -d
 	$(FRONTEND_TEST_PROJECT) exec backend python manage.py migrate
 	$(FRONTEND_TEST_PROJECT) exec backend python manage.py flush --no-input
-	$(FRONTEND_TEST_EXEC) yarn test:api $(YCMD)
+	$(FRONTEND_TEST_RUN) yarn test:api $(YCMD)
 	$(FRONTEND_TEST_PROJECT) logs
 	$(FRONTEND_TEST_PROJECT) stop
 
