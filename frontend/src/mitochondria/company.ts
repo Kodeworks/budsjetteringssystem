@@ -45,7 +45,11 @@ export const deleteCompany = (companyId: number) =>
     }
   );
 
-export const addUserToCompany = (companyUser: ICompanyUser) =>
+interface IAddCompanyUser extends Omit<ICompanyUser, 'user_id'> {
+  email: string;
+}
+
+export const addUserToCompany = (companyUser: IAddCompanyUser) =>
   fetchWithCallback<true>(
     '/company/user/',
     {},

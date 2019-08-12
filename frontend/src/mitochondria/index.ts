@@ -50,7 +50,7 @@ const endpoints = [
 export type ApiEndpoint = typeof endpoints[number];
 
 // Default address of our backend server
-const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:8000/api';
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:8000/';
 
 export interface ITokenResponse {
   access: string;
