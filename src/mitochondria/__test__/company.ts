@@ -47,8 +47,8 @@ test('get company by ID', async () => {
 test('add and remove user from company', async () => {
   await api.addUserToCompany({
     company_id: company.id,
+    email: user2.email,
     role: 'US',
-    user_id: user2.id,
   });
 
   expect((await api.getCompanyById(company.id)).users).toHaveLength(2);
@@ -70,8 +70,8 @@ test('update company', async () => {
 test('set role for user in company', async () => {
   await api.addUserToCompany({
     company_id: company.id,
+    email: user2.email,
     role: 'US',
-    user_id: user2.id,
   });
 
   expect(

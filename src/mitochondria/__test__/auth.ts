@@ -40,8 +40,7 @@ describe('manipulating localstorage tokens', () => {
 
   test('refetch token if it expired', async () => {
     localStorage.setItem('access', 'invalid');
-    await api.getUserById(user.id);
-    expect(localStorage.getItem('access')).not.toBe('invalid');
+    expect(api.getUserById(user.id)).rejects.toThrow();
   });
 
   test('throw if refresh token expired', async () => {
