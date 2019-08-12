@@ -46,7 +46,7 @@ test: test-backend test-frontend-all
 ### FRONTEND ###
 .PHONY: tslint
 tslint:
-	$(FRONTEND_RUN) yarn tslint -p . $(YCMD)
+	$(FRONTEND_RUN) tslint -p . $(YCMD)
 
 .PHONY: test-frontend
 test-frontend:
