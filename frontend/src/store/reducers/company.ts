@@ -69,11 +69,11 @@ const addUserToCompany = (user: ICompanyUser) => ({
   type: ADD_USER_TO_COMPANY,
 });
 const doAddUserToCompany = async (
-  user: ICompanyUser,
+  user: import('../../mitochondria/company').IAddCompanyUser,
   dispatch: React.Dispatch<ICreatedAction>
 ) => {
-  await API.addUserToCompany(user);
-  dispatch(addUserToCompany(user));
+  const companyUser = await API.addUserToCompany(user);
+  dispatch(addUserToCompany(companyUser));
 };
 
 const removeUserFromCompany = (companyId: number, userId: number) => ({
