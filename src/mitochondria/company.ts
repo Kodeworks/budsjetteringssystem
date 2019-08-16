@@ -45,20 +45,17 @@ export const deleteCompany = (companyId: number) =>
     }
   );
 
-interface IAddCompanyUser extends Omit<ICompanyUser, 'user_id'> {
+export interface IAddCompanyUser extends Omit<ICompanyUser, 'user_id'> {
   email: string;
 }
 
 export const addUserToCompany = (companyUser: IAddCompanyUser) =>
-  fetchWithCallback<true>(
+  fetchWithCallback<ICompanyUser>(
     '/company/user/',
     {},
     {
       body: JSON.stringify(companyUser),
       method: 'POST',
-    },
-    {
-      200: async () => true,
     }
   );
 
