@@ -23,7 +23,7 @@ assignees: ''
 1. [B should happen]
 
 [
-Also, here are a few points that need to be addressed:
+Other constraints:
 
 1. [Constraint 1;]
 1. [Constraint 2;]
