@@ -16,7 +16,7 @@ assignees: ''
 🏔 **Epic:** [Link to related Epic if any]
 ]
 
-### Acceptance Criteria
+### ✅ Acceptance Criteria
 > Since we have mentioned the type of user, the user story can refer to it with “I”. This is useful for **consistency** and to **avoid repetition** in the Acceptance criteria. It’s also good to practice a little **empathy**.
 
 1. [If I do A]
