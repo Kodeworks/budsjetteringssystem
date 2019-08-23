@@ -13,7 +13,7 @@ assignees: ''
 **so that** [reason for the story]
 
 [
-**Epic:** [Link to related Epic if any]
+🏔 **Epic:** [Link to related Epic if any]
 ]
 
 ### Acceptance Criteria
