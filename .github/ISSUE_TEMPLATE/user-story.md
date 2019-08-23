@@ -10,7 +10,7 @@ assignees: ''
 
 👤 	**As a** [user concerned by the story],
 **I want** [goal of the story],
-**so that** [reason for the story]
+🎯 **so that** [reason for the story]
 
 [
 🏔 **Epic:** [Link to related Epic if any]
