@@ -31,7 +31,7 @@ Also, here are a few points that need to be addressed:
 
 ]
 
-### Resources:
+### Resources
 
 * Mockups: [Here goes a URL to or the name of the mockup(s) in Figma];
 * Testing URL: [Here goes a URL to the testing branch];
