@@ -7,10 +7,9 @@ labels: user story
 assignees: ''
 
 ---
-
-👤 	**As a** [user concerned by the story],
-🙏 	**I want** [goal of the story],
-🎯 **so that** [reason for the story]
+| 👤 As a | 🙏 I want | 🎯 so that | 
+| :---: | :---: | :---
+| [user/persona concerned by the story] | [goal of the story] | [reason for the story] |
 
 [
 🏔 **Epic:** [Link to related Epic if any]
