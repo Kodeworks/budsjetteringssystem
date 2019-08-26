@@ -15,7 +15,7 @@ assignees: ''
 🏔 **Epic:** [Link to related Epic if any]
 ]
 
-### ✅ Acceptance Criteria
+### Acceptance Criteria :+1: / :-1:
 > Since we have mentioned the type of user, the user story can refer to it with “I”. This is useful for **consistency** and to **avoid repetition** in the Acceptance criteria. It’s also good to practice a little **empathy**.
 
 1. [If I do A]
@@ -30,14 +30,14 @@ Other constraints:
 
 ]
 
-### Resources
+### Resources 🍄
 
 * Mockups: [Here goes a URL to or the name of the mockup(s) in Figma];
 * Testing URL: [Here goes a URL to the testing branch];
 * Staging URL: [Here goes a URL to the feature on staging];
 
 
-### Notes
+### Notes 📝
 
 [
 Some complementary notes if necessary:
@@ -45,3 +45,6 @@ Some complementary notes if necessary:
 * > Here goes a quote from an email
 * Here goes whatever useful information can exist..
 ]
+
+### Tasks :white_check_mark:
+- [ ] _Add tasks here_
