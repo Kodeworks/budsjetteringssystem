@@ -5,7 +5,7 @@
 
 [**Milestones**](https://github.com/Kodeworks/liquidator-frontend/milestones) and [**Project Board**](https://github.com/Kodeworks/liquidator-frontend/projects/2)
 
-[API spesification](https://app.swaggerhub.com/apis/kw-liquidator/Liquidator/1.0.0#/)
+[API specification](https://app.swaggerhub.com/apis/kw-liquidator/Liquidator/1.0.0#/)
 
 # Liquidator [Frontend]
 
