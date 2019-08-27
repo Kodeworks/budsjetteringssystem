@@ -15,5 +15,3 @@ COPY . ./
 RUN ./manage.py collectstatic --no-input
 
 USER django
-
-CMD ["gunicorn", "--chdir", "liquidator", "--bind", ":8000", "liquidator.wsgi:application"]

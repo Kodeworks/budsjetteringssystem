@@ -14,6 +14,7 @@ ENV PATH="$PATH:/frontend/node_modules/.bin"
 # Copy in the project files
 COPY . ./
 
-USER node
+RUN yarn build
+RUN mv build ../
 
-CMD ["yarn", "start"]
+USER node
