@@ -1,0 +1,25 @@
+### Python ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+
+### Django ###
+local_settings.py
+db.sqlite3
+media
+
+### Environments ###
+.env
+.venv
+.direnv
+.envrc
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+
+### IDE ###
+.idea/
