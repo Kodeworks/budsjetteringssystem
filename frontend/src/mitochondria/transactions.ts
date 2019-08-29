@@ -1,4 +1,5 @@
 import { fetchWithCallback } from '.';
+import { paginationIterator } from '../helpers/pagination_iterator';
 
 type IPaginated<T> = import('../declarations/pagination').IPaginated<T>;
 type IExpenseTransaction = import('../declarations/transaction').IExpenseTransaction;
@@ -56,11 +57,13 @@ export const getAllTransactions = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<ITransaction>>('/transaction/all/', {
-    company_id: companyId,
-    limit,
-    offset,
-  });
+  paginationIterator<ITransaction>(
+    await fetchWithCallback<IPaginated<ITransaction>>('/transaction/all/', {
+      company_id: companyId,
+      limit,
+      offset,
+    })
+  );
 
 export const getTransactionsByDate = async (
   companyId: number,
@@ -68,12 +71,14 @@ export const getTransactionsByDate = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<ITransaction>>('/transaction/byDate/', {
-    company_id: companyId,
-    date,
-    limit,
-    offset,
-  });
+  paginationIterator<ITransaction>(
+    await fetchWithCallback<IPaginated<ITransaction>>('/transaction/byDate/', {
+      company_id: companyId,
+      date,
+      limit,
+      offset,
+    })
+  );
 
 export const getTransactionsByDateRange = async (
   companyId: number,
@@ -82,15 +87,17 @@ export const getTransactionsByDateRange = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<ITransaction>>(
-    '/transaction/byDateRange/',
-    {
-      company_id: companyId,
-      end_date: endDate,
-      limit,
-      offset,
-      start_date: startDate,
-    }
+  paginationIterator<ITransaction>(
+    await fetchWithCallback<IPaginated<ITransaction>>(
+      '/transaction/byDateRange/',
+      {
+        company_id: companyId,
+        end_date: endDate,
+        limit,
+        offset,
+        start_date: startDate,
+      }
+    )
   );
 
 export const getAllIncomeTransactions = async (
@@ -98,9 +105,11 @@ export const getAllIncomeTransactions = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<IIncomeTransaction>>(
-    '/transaction/income/all/',
-    { company_id: companyId, offset, limit }
+  paginationIterator<IIncomeTransaction>(
+    await fetchWithCallback<IPaginated<IIncomeTransaction>>(
+      '/transaction/income/all/',
+      { company_id: companyId, offset, limit }
+    )
   );
 
 export const getAllExpenseTransactions = async (
@@ -108,7 +117,9 @@ export const getAllExpenseTransactions = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<IExpenseTransaction>>(
-    '/transaction/expense/all/',
-    { company_id: companyId, offset, limit }
+  paginationIterator<IExpenseTransaction>(
+    await fetchWithCallback<IPaginated<IExpenseTransaction>>(
+      '/transaction/expense/all/',
+      { company_id: companyId, offset, limit }
+    )
   );

@@ -127,10 +127,12 @@ const doGetAllTransactions = async (
   companyId: number,
   dispatch: React.Dispatch<ActionType>
 ) => {
-  const resp = await api.getAllTransactions(companyId);
+  const iter = await api.getAllTransactions(companyId);
 
-  for (const t of resp.results) {
-    dispatch(addTransaction(t));
+  for await (const r of iter) {
+    for (const t of r) {
+      dispatch(addTransaction(t));
+    }
   }
 };
 
@@ -139,10 +141,12 @@ const doGetTransactionsByDate = async (
   date: string,
   dispatch: React.Dispatch<ActionType>
 ) => {
-  const resp = await api.getTransactionsByDate(companyId, date);
+  const iter = await api.getTransactionsByDate(companyId, date);
 
-  for (const t of resp.results) {
-    dispatch(addTransaction(t));
+  for await (const r of iter) {
+    for (const t of r) {
+      dispatch(addTransaction(t));
+    }
   }
 };
 
@@ -152,14 +156,16 @@ const doGetTransactionsByDateRange = async (
   endDate: string,
   dispatch: React.Dispatch<ActionType>
 ) => {
-  const resp = await api.getTransactionsByDateRange(
+  const iter = await api.getTransactionsByDateRange(
     companyId,
     startDate,
     endDate
   );
 
-  for (const t of resp.results) {
-    dispatch(addTransaction(t));
+  for await (const r of iter) {
+    for (const t of r) {
+      dispatch(addTransaction(t));
+    }
   }
 };
 
@@ -167,10 +173,12 @@ const doGetAllIncomeTransactions = async (
   companyId: number,
   dispatch: React.Dispatch<ActionType>
 ) => {
-  const resp = await api.getAllIncomeTransactions(companyId);
+  const iter = await api.getAllIncomeTransactions(companyId);
 
-  for (const t of resp.results) {
-    dispatch(addTransaction(t));
+  for await (const r of iter) {
+    for (const t of r) {
+      dispatch(addTransaction(t));
+    }
   }
 };
 
@@ -178,10 +186,12 @@ const doGetAllExpenseTransactions = async (
   companyId: number,
   dispatch: React.Dispatch<ActionType>
 ) => {
-  const resp = await api.getAllExpenseTransactions(companyId);
+  const iter = await api.getAllExpenseTransactions(companyId);
 
-  for (const t of resp.results) {
-    dispatch(addTransaction(t));
+  for await (const r of iter) {
+    for (const t of r) {
+      dispatch(addTransaction(t));
+    }
   }
 };
 
@@ -246,10 +256,12 @@ const doGetAllRecurringTransactions = async (
   companyId: number,
   dispatch: React.Dispatch<ActionType>
 ) => {
-  const resp = await api.getAllRecurringTransactions(companyId);
+  const iter = await api.getAllRecurringTransactions(companyId);
 
-  for (const t of resp.results) {
-    dispatch(addRecurringTransaction(t));
+  for await (const r of iter) {
+    for (const t of r) {
+      dispatch(addRecurringTransaction(t));
+    }
   }
 };
 
@@ -257,10 +269,12 @@ const doGetAllActiveRecurringTransactions = async (
   companyId: number,
   dispatch: React.Dispatch<ActionType>
 ) => {
-  const resp = await api.getActiveRecurringTransactions(companyId);
+  const iter = await api.getActiveRecurringTransactions(companyId);
 
-  for (const t of resp.results) {
-    dispatch(addRecurringTransaction(t));
+  for await (const r of iter) {
+    for (const t of r) {
+      dispatch(addRecurringTransaction(t));
+    }
   }
 };
 

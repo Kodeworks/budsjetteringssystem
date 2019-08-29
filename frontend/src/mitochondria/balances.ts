@@ -1,5 +1,6 @@
 import { fetchWithCallback } from '.';
 import { IBalance, IBankBalance } from '../declarations/balance';
+import { paginationIterator } from '../helpers/pagination_iterator';
 
 type IMonth = import('../declarations/month').IMonth;
 type IPaginated<T> = import('../declarations/pagination').IPaginated<T>;
@@ -25,11 +26,13 @@ export const getMonthByDateRange = async (
   startDate: string,
   endDate: string
 ) =>
-  await fetchWithCallback<IPaginated<IMonth>>('/month/byDateRange/', {
-    company_id: companyId,
-    end_date: endDate,
-    start_date: startDate,
-  });
+  paginationIterator<IMonth>(
+    await fetchWithCallback<IPaginated<IMonth>>('/month/byDateRange/', {
+      company_id: companyId,
+      end_date: endDate,
+      start_date: startDate,
+    })
+  );
 
 /**
  * @param date "ISO-8601"
@@ -114,7 +117,9 @@ export const getBankBalanceByDateRange = async (
   startDate: string,
   endDate: string
 ) =>
-  await fetchWithCallback<IPaginated<IBankBalance>>(
-    '/balance/bank/byDateRange/',
-    { company_id: companyId, start_date: startDate, end_date: endDate }
+  paginationIterator<IBankBalance>(
+    await fetchWithCallback<IPaginated<IBankBalance>>(
+      '/balance/bank/byDateRange/',
+      { company_id: companyId, start_date: startDate, end_date: endDate }
+    )
   );

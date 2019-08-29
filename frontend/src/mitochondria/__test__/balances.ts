@@ -159,13 +159,13 @@ describe('account balance', () => {
         money: 105023,
       });
 
-      const resp = await api.getBankBalanceByDateRange(
+      const resp = await (await api.getBankBalanceByDateRange(
         bb.company_id,
         '2010-01-01',
         '2012-12-31'
-      );
+      )).next();
 
-      expect(resp.results.find(e => e.id === bb.id)).not.toBeUndefined();
+      expect(resp.value.find(e => e.id === bb.id)).not.toBeUndefined();
 
       await api.deleteBankBalance(bb.company_id, bb.id);
     });
