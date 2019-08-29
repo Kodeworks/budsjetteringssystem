@@ -3,13 +3,14 @@ name: User Story
 about: Create a short, simple description of a feature told from the perspective of
   the person who desires the new capability
 title: "[Story] New user story"
-labels: user story
+labels: ''
 assignees: ''
 
 ---
-| 👤 As a | 🙏 I want | 🎯 so that | 
-| :---: | :---: | :---
-| [user/persona concerned by the story] | [goal of the story] | [reason for the story] |
+
+👤 **As a** [user/persona concerned by the story]
+🙏 **I want** [goal of the story]
+🎯 **so that** [reason for the story]
 
 [
 🏔 **Epic:** [Link to related Epic if any]
@@ -24,9 +25,9 @@ assignees: ''
 [
 Other constraints:
 
-1. [Constraint 1;]
-1. [Constraint 2;]
-1. [Constraint 3.]
+1. Constraint 1
+1. Constraint 2
+1. Constraint 3
 
 ]
 
