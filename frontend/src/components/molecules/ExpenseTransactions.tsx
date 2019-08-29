@@ -1,6 +1,5 @@
 import React from 'react';
 
-import OutlinedButton from '../atoms/OutlinedButton';
 import TransactionEntry from '../atoms/TransactionEntry';
 
 import styled from 'styled-components';
@@ -10,7 +9,6 @@ type ITransaction = import('../../declarations/transaction').ITransaction;
 interface IExpenseTransactionsProps {
   tx: Array<ITransaction>;
   className?: string;
-  fetchMore: () => void;
 }
 
 const txEntry = (t: ITransaction) => (
@@ -31,7 +29,6 @@ const ExpenseTransactions: React.FC<IExpenseTransactionsProps> = props => {
     <div className={props.className}>
       <h2>Expenses</h2>
       {renderTransactions()}
-      <OutlinedButton onClick={props.fetchMore}>Fetch more</OutlinedButton>
     </div>
   );
 };
