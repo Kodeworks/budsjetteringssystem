@@ -86,8 +86,8 @@ const Transactions: React.FC<{ className?: string }> = ({ className }) => {
           <AddTransaction />
           <Filters setFilter={setFilter} />
 
-          <IncomeTransactions tx={txs} fetchMore={alert} />
-          <ExpenseTransactions tx={txs} fetchMore={alert} />
+          <IncomeTransactions tx={txs} />
+          <ExpenseTransactions tx={txs} />
         </Content>
       </div>
       <TransactionCalculator />
