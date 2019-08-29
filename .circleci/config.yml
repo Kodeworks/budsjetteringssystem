@@ -1,53 +1,24 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: node:latest
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
+    machine: true
     steps:
       - checkout
 
+      # Run tests
       - run:
-          name: "Setup environment variable with path to backend"
-          command: |
-            echo 'export REACT_APP_BASE_URL="http://liquidator.kodeworks.nl/api"' >> $BASH_ENV
+          name: Run backend tests
+          command: make test-backend
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      # run tests!
       - run:
           name: Run frontend tests
-          command: yarn test
-      
+          command: make test-frontend
+
       - run:
           name: Run integration tests
-          command: yarn test:api
+          command: make test-frontend-api
 
       # Check for lint and style errors
-      - run: 
+      - run:
           name: Running lint and style check
-          command: yarn tslint -p .
+          command: make tslint
