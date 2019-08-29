@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10.1-alpine
+    networks:
+      - db_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  backend:
+    build: backend
+    volumes:
+      - ./backend:/backend/code
+      - backend_static:/backend/static
+      - backend_media:/backend/media
+    networks:
+      - db_network
+      - nginx_network
+    depends_on:
+      - db
+  frontend:
+    build: frontend
+    environment:
+      - REACT_APP_BASE_URL=http://localhost:${NGINX_PORT:-8000}/api
+      - CI
+    volumes:
+      - ./frontend:/frontend/code
+    networks:
+      - nginx_network
+    depends_on:
+      - backend
+  nginx:
+    image: nginx
+    environment:
+      - host=liquidator
+    ports:
+      - ${NGINX_PORT:-8000}:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - backend_static:/backend/static
+      - backend_media:/backend/media
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - nginx_network
+
+networks:
+  db_network:
+    driver: bridge
+  nginx_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  backend_static:
+  backend_media:
