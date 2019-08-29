@@ -1,8 +1,3 @@
-# The base docker-compose file.
-# During local development this file will be merged with
-# docker-compose.override.yml, providing config only used
-# in testing and development. During production it will be
-# merged with docker-compose.prod.yml instead.
 version: '3'
 
 services:
@@ -27,8 +22,13 @@ services:
     build: frontend
     environment:
       - REACT_APP_BASE_URL=http://localhost:${NGINX_PORT:-8000}/api
+      - CI
+    volumes:
+      - ./frontend:/frontend/code
     networks:
       - nginx_network
+    depends_on:
+      - backend
   nginx:
     image: nginx
     environment:
@@ -36,6 +36,7 @@ services:
     ports:
       - ${NGINX_PORT:-8000}:80
     volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
       - backend_static:/backend/static
       - backend_media:/backend/media
     depends_on:

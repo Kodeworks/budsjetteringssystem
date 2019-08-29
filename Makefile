@@ -1,7 +1,6 @@
 NGINX_TEST_PORT=8839
 
 COMPOSE=docker-compose
-COMPOSE_PROD=$(COMPOSE) -f docker-compose.yml -f docker-compose.prod.yml
 TEST_BASE_URL=http://nginx:80/api
 TEST_PROJECT=liquidator-test
 FRONTEND_RUN=$(COMPOSE) run --rm frontend
@@ -14,23 +13,7 @@ BACKEND_MANAGE=$(BACKEND_RUN) python manage.py
 
 
 .PHONY: all
-all: migrate up
-
-.PHONY: prod
-prod: build migrate
-	$(COMPOSE_PROD) up
-
-.PHONY: prod-background
-prod-background: build migrate
-	$(COMPOSE_PROD) up -d
-
-.PHONY: prod-down
-prod-logs:
-	$(COMPOSE_PROD) logs
-
-.PHONY: prod-down
-prod-down:
-	$(COMPOSE_PROD) down
+all: update-backend migrate up
 
 .PHONY: build
 build:
