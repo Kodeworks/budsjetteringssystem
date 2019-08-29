@@ -5,6 +5,7 @@ import {
   IRecurringTransaction,
   IUpdateRecurringTransaction,
 } from '../declarations/transaction';
+import { paginationIterator } from '../helpers/pagination_iterator';
 
 export const getRecurringTransactionById = async (
   companyId: number,
@@ -59,19 +60,22 @@ export const getAllRecurringTransactions = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<IRecurringTransaction>>(
-    '/recurring/all/',
-    { company_id: companyId, offset, limit }
+  paginationIterator<IRecurringTransaction>(
+    await fetchWithCallback<IPaginated<IRecurringTransaction>>(
+      '/recurring/all/',
+      { company_id: companyId, offset, limit }
+    )
   );
-
 export const getActiveRecurringTransactions = async (
   companyId: number,
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<IRecurringTransaction>>(
-    '/recurring/active/',
-    { company_id: companyId, offset, limit }
+  paginationIterator<IRecurringTransaction>(
+    await fetchWithCallback<IPaginated<IRecurringTransaction>>(
+      '/recurring/active/',
+      { company_id: companyId, offset, limit }
+    )
   );
 
 /**
@@ -83,9 +87,11 @@ export const getRecurringTransactionsByDate = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<IRecurringTransaction>>(
-    '/recurring/byDate/',
-    { company_id: companyId, date, offset, limit }
+  paginationIterator<IRecurringTransaction>(
+    await fetchWithCallback<IPaginated<IRecurringTransaction>>(
+      '/recurring/byDate/',
+      { company_id: companyId, date, offset, limit }
+    )
   );
 
 /**
@@ -99,13 +105,15 @@ export const getRecurringTransactionsByDateRange = async (
   offset: number = 0,
   limit: number = 0
 ) =>
-  await fetchWithCallback<IPaginated<IRecurringTransaction>>(
-    '/recurring/byDate/',
-    {
-      company_id: companyId,
-      end_date: endDate,
-      limit,
-      offset,
-      start_date: startDate,
-    }
+  paginationIterator<IRecurringTransaction>(
+    await fetchWithCallback<IPaginated<IRecurringTransaction>>(
+      '/recurring/byDate/',
+      {
+        company_id: companyId,
+        end_date: endDate,
+        limit,
+        offset,
+        start_date: startDate,
+      }
+    )
   );
