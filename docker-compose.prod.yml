@@ -4,9 +4,14 @@ services:
   backend:
     command: gunicorn --chdir liquidator --bind :8000 liquidator.wsgi:application
   frontend:
+    command: cp -r /frontend/build/ /frontend/static/
+    user: root
     volumes:
-      - /frontend/static:/frontend/build/
+      - frontend_static:/frontend/static/build
   nginx:
     volumes:
       - ./config/prod/nginx/conf.d:/etc/nginx/conf.d:ro
-      - /frontend/static:/frontend/static
+      - frontend_static:/frontend/static:ro
+
+volumes:
+  frontend_static:

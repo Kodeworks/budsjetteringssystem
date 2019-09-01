@@ -6,6 +6,7 @@ WORKDIR /frontend/code
 # We don't want the modules to be installed in the workdir,
 # which is overwritten when we mount the host volume,
 # so we install it in the parent directory
+RUN mkdir ../static
 COPY package.json ./
 COPY yarn.lock ./
 RUN yarn --modules-folder /frontend/node_modules

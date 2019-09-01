@@ -15,7 +15,6 @@ services:
   backend:
     build: backend
     volumes:
-      - ./backend:/backend/code
       - backend_static:/backend/static
       - backend_media:/backend/media
     networks:
@@ -36,8 +35,8 @@ services:
     ports:
       - ${NGINX_PORT:-8000}:80
     volumes:
-      - backend_static:/backend/static
-      - backend_media:/backend/media
+      - backend_static:/backend/static:ro
+      - backend_media:/backend/media:ro
     depends_on:
       - frontend
       - backend
