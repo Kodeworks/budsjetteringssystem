@@ -2,6 +2,8 @@ FROM node:12.8-alpine
 
 WORKDIR /frontend/code
 
+ARG REACT_APP_BASE_URL
+
 # Install dependencies
 # We don't want the modules to be installed in the workdir,
 # which is overwritten when we mount the host volume,

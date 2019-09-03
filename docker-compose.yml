@@ -23,7 +23,10 @@ services:
     depends_on:
       - db
   frontend:
-    build: frontend
+    build:
+      context: frontend
+      args:
+        - REACT_APP_BASE_URL=http://localhost:${NGINX_PORT:-8000}/api
     environment:
       - REACT_APP_BASE_URL=http://localhost:${NGINX_PORT:-8000}/api
     networks:
