@@ -34,22 +34,16 @@ const TransactionProvider: React.FC = ({ children }) => {
   const auth = useAuthState();
 
   React.useEffect(() => {
-    if (auth) {
-      auth.companies.forEach(async c => {
-        if (state.transactions.find(e => e.id !== c.company_id)) {
-          return;
-        }
-        await TransactionActions.doGetAllTransactions(c.company_id, dispatch);
-        if (state.recurring.find(e => e.id !== c.company_id)) {
-          return;
-        }
-        await TransactionActions.doGetAllRecurringTransactions(
-          c.company_id,
-          dispatch
-        );
-      });
+    if (auth && auth.selectedCompany) {
+      // For now, in development, we will simply make it fetch all of the transactions on mount
+      // This should be changed later to improve performance, and prevent redundant fetches.
+      TransactionActions.doGetAllTransactions(auth.selectedCompany, dispatch);
+      TransactionActions.doGetAllRecurringTransactions(
+        auth.selectedCompany,
+        dispatch
+      );
     }
-  }, [auth, state.recurring, state.transactions]);
+  }, [auth]);
 
   return (
     <TransactionStateContext.Provider value={state}>

@@ -86,11 +86,11 @@ describe('actions returning plural transactions', () => {
     const [transaction, clean1] = await createTx(company.id);
     const [transaction2, clean2] = await createTx(company.id);
 
-    const txs = await api.getAllTransactions(company.id);
+    const txs = await (await api.getAllTransactions(company.id)).next();
 
-    expect(txs.results.length).toBeGreaterThanOrEqual(2);
-    expect(txs.results.find(e => e.id === transaction2.id)).not.toBeUndefined();
-    expect(txs.results.find(e => e.id === transaction.id)).not.toBeUndefined();
+    expect(txs.value.length).toBeGreaterThanOrEqual(2);
+    expect(txs.value.find(e => e.id === transaction2.id)).not.toBeUndefined();
+    expect(txs.value.find(e => e.id === transaction.id)).not.toBeUndefined();
 
     await clean1();
     await clean2();
@@ -99,9 +99,12 @@ describe('actions returning plural transactions', () => {
   test('get transactions by date', async () => {
     const [transaction, clean] = await createTx(company.id);
 
-    const txs = await api.getTransactionsByDate(company.id, transaction.date);
+    const txs = await (await api.getTransactionsByDate(
+      company.id,
+      transaction.date
+    )).next();
 
-    expect(txs.results.find(e => e.id === transaction.id)).not.toBeUndefined();
+    expect(txs.value.find(e => e.id === transaction.id)).not.toBeUndefined();
 
     await clean();
   });
@@ -109,13 +112,13 @@ describe('actions returning plural transactions', () => {
   test('get transactions by date range', async () => {
     const [transaction, clean] = await createTx(company.id);
 
-    const txs = await api.getTransactionsByDateRange(
+    const txs = await (await api.getTransactionsByDateRange(
       company.id,
       transaction.date,
       transaction.date
-    );
+    )).next();
 
-    expect(txs.results.find(e => e.id === transaction.id)).not.toBeUndefined();
+    expect(txs.value.find(e => e.id === transaction.id)).not.toBeUndefined();
     await clean();
   });
 
@@ -147,21 +150,23 @@ describe('actions returning plural transactions', () => {
     });
 
     test('get all income transactions', async () => {
-      const txs = await api.getAllIncomeTransactions(company.id);
+      const txs = await (await api.getAllIncomeTransactions(company.id)).next();
 
-      expect(txs.results.find(e => e.id === incomeTx.id)).not.toBeUndefined();
+      expect(txs.value.find(e => e.id === incomeTx.id)).not.toBeUndefined();
 
-      txs.results.forEach(t => {
+      txs.value.forEach(t => {
         expect(t.type).toBe('IN');
       });
     });
 
     test('get all expense transactions', async () => {
-      const txs = await api.getAllExpenseTransactions(company.id);
+      const txs = await (await api.getAllExpenseTransactions(
+        company.id
+      )).next();
 
-      expect(txs.results.find(e => e.id === expsenseTx.id)).not.toBeUndefined();
+      expect(txs.value.find(e => e.id === expsenseTx.id)).not.toBeUndefined();
 
-      txs.results.forEach(t => {
+      txs.value.forEach(t => {
         expect(t.type).toBe('EX');
       });
     });
@@ -246,17 +251,21 @@ describe('recurring transactions', () => {
     });
 
     test('get all active', async () => {
-      const resp = await api.getActiveRecurringTransactions(company.id);
+      const resp = await (await api.getActiveRecurringTransactions(
+        company.id
+      )).next();
 
-      expect(resp.results.find(e => e.id === rtx1.id)).not.toBeUndefined();
-      expect(resp.results.find(e => e.id === rtx2.id)).toBeUndefined();
+      expect(resp.value.find(e => e.id === rtx1.id)).not.toBeUndefined();
+      expect(resp.value.find(e => e.id === rtx2.id)).toBeUndefined();
     });
 
     test('get all', async () => {
-      const resp = await api.getAllRecurringTransactions(company.id);
+      const resp = await (await api.getAllRecurringTransactions(
+        company.id
+      )).next();
 
-      expect(resp.results.find(e => e.id === rtx1.id)).not.toBeUndefined();
-      expect(resp.results.find(e => e.id === rtx2.id)).not.toBeUndefined();
+      expect(resp.value.find(e => e.id === rtx1.id)).not.toBeUndefined();
+      expect(resp.value.find(e => e.id === rtx2.id)).not.toBeUndefined();
     });
 
     test.todo('get by date');
