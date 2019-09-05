@@ -38,6 +38,7 @@ const TransactionProvider: React.FC = ({ children }) => {
       // For now, in development, we will simply make it fetch all of the transactions on mount
       // This should be changed later to improve performance, and prevent redundant fetches.
       TransactionActions.doGetAllTransactions(auth.selectedCompany, dispatch);
+      TransactionActions.doGetAllRecurringTransactions(auth.selectedCompany, dispatch);
     }
   }, [auth]);
 
