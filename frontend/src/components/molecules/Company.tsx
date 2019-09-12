@@ -37,6 +37,9 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
     }
   };
 
+  const isOwner =
+    company.users.find(u => u.user_id === auth!.id)!.role === 'OW';
+
   const onClickDelete: React.MouseEventHandler = async () => {
     await CompanyActions.doDeleteCompany(company.id, dispatch);
   };
@@ -48,10 +51,10 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
       <h3>Members</h3>
       <ul>
         {company.users.map(u => (
-          <CompanyUser user={u} key={u.user_id} />
+          <CompanyUser user={u} key={u.user_id} isOwner={isOwner} />
         ))}
       </ul>
-      {company.users.find(u => u.user_id === auth!.id)!.role === 'OW' && (
+      {isOwner && (
         <>
           <form onSubmit={onSubmitAddNewUser}>
             <Input

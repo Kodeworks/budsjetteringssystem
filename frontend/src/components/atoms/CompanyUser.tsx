@@ -12,9 +12,14 @@ type Role = import('../../declarations/company').Role;
 interface ICompanyUserProps {
   user: import('../../declarations/company').ICompanyUser;
   className?: string;
+  isOwner: boolean;
 }
 
-const CompanyUser: React.FC<ICompanyUserProps> = ({ className, user }) => {
+const CompanyUser: React.FC<ICompanyUserProps> = ({
+  className,
+  user,
+  isOwner,
+}) => {
   const [name, setName] = React.useState(
     `Loading name of user ${user.user_id}...`
   );
@@ -34,6 +39,16 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({ className, user }) => {
     );
   };
 
+  const onClickRemoveUserFromCompany: React.MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
+    await CompanyActions.doRemoveUserFromCompany(
+      user.company_id,
+      user.user_id,
+      companyDispatch
+    );
+  };
+
   React.useEffect(() => {
     (async () => {
       const { first_name, last_name } = await API.getUserById(user.user_id);
@@ -43,21 +58,26 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({ className, user }) => {
 
   return (
     <div className={className}>
-      <li>
-        <h2>{name}</h2>
-        {auth!.id !== user.user_id && (
-          <Select
-            values={[
-              { name: 'Owner', value: 'OW' },
-              { name: 'Reporter', value: 'RE' },
-              { name: 'User', value: 'US' },
-            ]}
-            value={role}
-            setState={setRole}
-            onChange={onRoleChange}
-          />
-        )}
-      </li>
+      <h2>{name}</h2>
+      {auth!.id !== user.user_id && (
+        <Select
+          values={[
+            { name: 'Owner', value: 'OW' },
+            { name: 'Reporter', value: 'RE' },
+            { name: 'User', value: 'US' },
+          ]}
+          value={role}
+          setState={setRole}
+          onChange={onRoleChange}
+        />
+      )}
+      {(isOwner || auth!.id === user.user_id) && (
+        <button onClick={onClickRemoveUserFromCompany}>
+          {auth!.id === user.user_id
+            ? 'Leave company'
+            : 'Remove user from company?'}
+        </button>
+      )}
     </div>
   );
 };
