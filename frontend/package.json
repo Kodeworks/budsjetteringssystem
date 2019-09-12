@@ -36,7 +36,7 @@
     "trailingComma": "es5"
   },
   "lint-staged": {
-    "src/**": [
+    "frontend/src/**": [
       "tslint --fix",
       "git add"
     ]
