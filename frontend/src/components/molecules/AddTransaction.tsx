@@ -38,14 +38,13 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
   const [intervalTypeValue, setIntervalType] = React.useState<IntervalType>(
     'MO'
   );
-  const [, setError] = React.useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       if (!recurring) {
-        TransactionActions.doCreateTransaction(
+        await TransactionActions.doCreateTransaction(
           {
             company_id: auth!.selectedCompany!,
             date,
@@ -57,7 +56,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
           dispatch
         );
       } else {
-        TransactionActions.doCreateRecurringTransaction(
+        await TransactionActions.doCreateRecurringTransaction(
           {
             company_id: auth!.selectedCompany!,
             end_date: endDate,
@@ -74,10 +73,9 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
         );
       }
     } catch (e) {
-      setError(e.message);
       /* TODO: handle and display error to the user */
       // tslint:disable-next-line: no-console
-      console.error(e.message);
+      console.error(e);
     }
   };
 

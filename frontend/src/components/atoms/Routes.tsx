@@ -16,6 +16,18 @@ import Page from '../templates/Page';
 const Routes: React.FC<RouteComponentProps<{}>> = props => {
   const user = useAuthState();
 
+  /**
+   * This is responsible for redirecting the user to the login
+   * page when the access and refresh tokens are expired.
+   *
+   * The solution is not perfect, but it does work.
+   */
+  React.useEffect(() => {
+    if (!localStorage.getItem('access')) {
+      props.history.push('/login');
+    }
+  }, [localStorage]);
+
   if (!localStorage.getItem('access')) {
     // If path is not /login or /register. Done like this to make the list easy to extend
     if (['/login', '/register'].indexOf(props.location.pathname) === -1) {
