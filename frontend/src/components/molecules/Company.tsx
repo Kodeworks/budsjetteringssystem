@@ -2,8 +2,10 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import { useAuthState } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
 import { CompanyActions } from '../../store/reducers/company';
+import CompanyUser from '../atoms/CompanyUser';
 import Input from '../atoms/Input';
 
 interface ICompanyProps {
@@ -14,6 +16,7 @@ interface ICompanyProps {
 const Company: React.FC<ICompanyProps> = ({ className, company }) => {
   const [newUserEmail, setNewUserEmail] = React.useState('');
   const dispatch = useCompanyDispatch();
+  const auth = useAuthState();
 
   const onSubmitAddNewUser: React.FormEventHandler = async e => {
     e.preventDefault();
@@ -42,39 +45,36 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
     <div className={className}>
       <h2>{company.name}</h2>
       <h5>Organizational number: {company.org_nr}</h5>
-      <form onSubmit={onSubmitAddNewUser}>
-        <Input
-          placeholder="fredrik@kodeklubben.biz"
-          value={newUserEmail}
-          setState={setNewUserEmail}
-          type="text"
-          id="newUserEmail"
-        >
-          Email of user to add
-        </Input>
-        <input type="submit" value="Add user to company" />
-      </form>
-      <h4>Members</h4>
+      <h3>Members</h3>
       <ul>
         {company.users.map(u => (
-          <li key={u.user_id}>
-            {u.user_id} - {u.role}
-          </li>
+          <CompanyUser user={u} key={u.user_id} />
         ))}
       </ul>
-      <button onClick={onClickDelete}>Delete company?</button>
+      {company.users.find(u => u.user_id === auth!.id)!.role === 'OW' && (
+        <>
+          <form onSubmit={onSubmitAddNewUser}>
+            <Input
+              placeholder="bob@ross.biz"
+              value={newUserEmail}
+              setState={setNewUserEmail}
+              type="text"
+              id="newUserEmail"
+            >
+              Email of user to add
+            </Input>
+            <input type="submit" value="Add user to company" />
+          </form>
+          <button onClick={onClickDelete}>Delete company?</button>
+        </>
+      )}
     </div>
   );
 };
 
 export default styled(Company)`
-  h2 {
-    font-weight: normal;
-  }
-
-  h4 {
-    margin-top: 0.7em;
-    font-weight: normal;
+  form {
+    margin-bottom: 1em;
   }
 
   h5 {
@@ -83,6 +83,7 @@ export default styled(Company)`
 
   ul {
     list-style-type: none;
+    margin-bottom: 0.5em;
 
     li {
       font-size: 0.7em;

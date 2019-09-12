@@ -38,6 +38,8 @@ const Companies: React.FC<{ className?: string }> = props => {
 
       <hr />
 
+      <h2>Create a new company</h2>
+
       <form onSubmit={onSubmit}>
         <Input
           placeholder="Goggle Inc."
