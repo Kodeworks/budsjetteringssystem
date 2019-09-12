@@ -71,7 +71,7 @@ export const fetchNewToken = async (): Promise<string> => {
     case 200:
       return ((await res.json()) as ITokenResponse).access;
     default:
-      throw (await res.json()) as IError;
+      throw new Error(await res.text());
   }
 };
 
@@ -119,7 +119,7 @@ export const fetchWithCallback = async <T>(
     201: async resp => (await resp.json()) as T,
     204: async () => true,
     400: async resp => {
-      throw (await resp.json()) as IError;
+      throw new Error(await resp.text());
     },
     401: async resp => {
       const parsed = (await resp.json()) as IError;
@@ -133,13 +133,13 @@ export const fetchWithCallback = async <T>(
       return await fetchWithCallback(path, queryParams, options, callbacks);
     },
     403: async resp => {
-      throw (await resp.json()) as IError;
+      throw new Error(await resp.text());
     },
     404: async resp => {
-      throw (await resp.json()) as IError;
+      throw new Error(await resp.text());
     },
     500: async resp => {
-      throw (await resp.json()) as IError;
+      throw new Error(await resp.text());
     },
     ...callbacks,
   } as ICallbacks)[res.status](res);
