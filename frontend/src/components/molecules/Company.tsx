@@ -7,6 +7,7 @@ import { useCompanyDispatch } from '../../store/contexts/company';
 import { CompanyActions } from '../../store/reducers/company';
 import CompanyUser from '../atoms/CompanyUser';
 import Input from '../atoms/Input';
+import UpdateCompanyForm from '../atoms/UpdateCompanyForm';
 
 interface ICompanyProps {
   company: import('../../declarations/company').ICompany;
@@ -15,6 +16,7 @@ interface ICompanyProps {
 
 const Company: React.FC<ICompanyProps> = ({ className, company }) => {
   const [newUserEmail, setNewUserEmail] = React.useState('');
+  const [showUpdateForm, setShowUpdateForm] = React.useState<boolean>(false);
   const dispatch = useCompanyDispatch();
   const auth = useAuthState();
 
@@ -44,10 +46,17 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
     await CompanyActions.doDeleteCompany(company.id, dispatch);
   };
 
+  const toggleShowUpdateForm: React.MouseEventHandler<HTMLButtonElement> = () =>
+    setShowUpdateForm(_ => !_);
+
   return (
     <div className={className}>
       <h2>{company.name}</h2>
       <h5>Organizational number: {company.org_nr}</h5>
+      <button onClick={toggleShowUpdateForm}>
+        {showUpdateForm ? 'Hide' : 'Show'} update company form
+      </button>
+      {showUpdateForm && <UpdateCompanyForm company={company} />}
       <h3>Members</h3>
       <ul>
         {company.users.map(u => (

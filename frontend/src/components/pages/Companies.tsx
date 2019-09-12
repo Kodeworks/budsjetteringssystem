@@ -31,7 +31,7 @@ const Companies: React.FC<{ className?: string }> = props => {
         description="Create and edit your companies"
       />
       {companies
-        .sort((c1, c2) => (c1.name > c2.name ? 1 : -1))
+        .sort((c1, c2) => (c1.id > c2.id ? 1 : -1))
         .map(company => (
           <Company company={company} key={company.id} />
         ))}
