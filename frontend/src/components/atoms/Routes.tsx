@@ -26,7 +26,7 @@ const Routes: React.FC<RouteComponentProps<{}>> = props => {
     if (!localStorage.getItem('access')) {
       props.history.push('/login');
     }
-  }, [localStorage, props.history]);
+  }, [props.history]);
 
   if (!localStorage.getItem('access')) {
     // If path is not /login or /register. Done like this to make the list easy to extend

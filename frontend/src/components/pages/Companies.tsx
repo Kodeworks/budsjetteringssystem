@@ -1,11 +1,16 @@
 import React from 'react';
+
+import styled from 'styled-components';
+import Input from '../atoms/Input';
+import PageTitle from '../atoms/PageTitle';
+import Company from '../molecules/Company';
+
 import { useAuth } from '../../store/contexts/auth';
 import { useCompany } from '../../store/contexts/company';
 import { AuthActions } from '../../store/reducers/auth';
 import { CompanyActions } from '../../store/reducers/company';
-import Input from '../atoms/Input';
 
-const Companies: React.FC = props => {
+const Companies: React.FC<{ className?: string }> = props => {
   const [companies, dispatch] = useCompany();
   const [auth, authDispatch] = useAuth();
 
@@ -20,20 +25,18 @@ const Companies: React.FC = props => {
   };
 
   return (
-    <>
-      <h1>All my cool companies :)</h1>
-      {companies.map(company => (
-        <div key={company.id}>
-          <h1>{company.name}</h1>
-          <ul>
-            {company.users.map(u => (
-              <li key={u.user_id}>
-                {u.user_id} - {u.role}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <div className={props.className}>
+      <PageTitle
+        title="Companies"
+        description="Create and edit your companies"
+      />
+      {companies
+        .sort((c1, c2) => (c1.name > c2.name ? 1 : -1))
+        .map(company => (
+          <Company company={company} key={company.id} />
+        ))}
+
+      <hr />
 
       <form onSubmit={onSubmit}>
         <Input
@@ -57,8 +60,12 @@ const Companies: React.FC = props => {
 
         <input type="submit" value="Create" />
       </form>
-    </>
+    </div>
   );
 };
 
-export default Companies;
+export default styled(Companies)`
+  hr {
+    margin: 1em 0;
+  }
+`;
