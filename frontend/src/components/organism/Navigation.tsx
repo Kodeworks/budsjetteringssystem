@@ -13,8 +13,9 @@ import Select from '../atoms/Select';
 const links: Array<{ to: string; name: string }> = [
   { to: '', name: 'Dashboard' },
   { to: 'transactions', name: 'Transactions' },
-  { to: 'balances', name: 'Balances' },
-  { to: 'faq', name: 'FAQ' },
+  { to: 'projections', name: 'Projections' },
+  // { to: 'balances', name: 'Balances' },
+  // { to: 'faq', name: 'FAQ' },
   { to: 'companies', name: 'Companies' },
 ];
 
