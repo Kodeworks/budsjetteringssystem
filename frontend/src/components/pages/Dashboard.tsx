@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import PageTitle from '../atoms/PageTitle';
-import Tab from '../molecules/Tab';
-import TabsContainer from '../molecules/TabsContainer';
 
 const Dashboard: React.FC<{ className?: string }> = props => {
   return (
@@ -14,17 +12,6 @@ const Dashboard: React.FC<{ className?: string }> = props => {
           description="Showing key performance indicators for current company"
         />
       </div>
-      <TabsContainer className="tabs-container">
-        <Tab label="Minimum Liquidity">
-          <h3>Projected minimum liquidity</h3>
-        </Tab>
-        <Tab label="Transaction Volumes">
-          <h3>Transaction volumes</h3>
-        </Tab>
-        <Tab label="Balances">
-          <h3>Monthly balances</h3>
-        </Tab>
-      </TabsContainer>
     </div>
   );
 };
