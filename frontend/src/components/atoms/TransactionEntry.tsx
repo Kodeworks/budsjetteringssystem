@@ -8,7 +8,6 @@ import EditTransaction from '../molecules/EditTransaction';
 import OverrideRecurringForm from '../molecules/OverrideRecurringForm';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
-type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
 
 interface ITransactionEntryProps extends ITransaction {
   className?: string;
