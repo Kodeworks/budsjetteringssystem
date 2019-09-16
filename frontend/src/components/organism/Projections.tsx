@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 import { useTransactionState } from '../../store/contexts/transactions';
+import PageTitle from '../atoms/PageTitle';
 
 const Projections: React.FC<{ className?: string }> = ({ className }) => {
   const transactionState = useTransactionState();
@@ -32,16 +33,23 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
         );
       });
   return (
-    <table className={className}>
-      <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>In</th>
-        <th>Out</th>
-        <th>Available</th>
-      </tr>
-      {renderTransactions()}
-    </table>
+    <>
+      <PageTitle
+        title="Projections"
+        description="View the projected liquidity of your company."
+      />
+
+      <table className={className}>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>In</th>
+          <th>Out</th>
+          <th>Available</th>
+        </tr>
+        {renderTransactions()}
+      </table>
+    </>
   );
 };
 
