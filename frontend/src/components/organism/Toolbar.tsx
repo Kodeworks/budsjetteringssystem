@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { AuthDispatch, useAuth } from '../../store/contexts/auth';
 import { AuthActions } from '../../store/reducers/auth';
+
 import moment from 'moment';
 
 const ToolbarContainer = styled.div`
@@ -31,7 +32,7 @@ const ToolbarContainer = styled.div`
     }
   }
 
-  &>p:first-child {
+  & > p:first-child {
     margin-right: auto;
   }
 `;
