@@ -1,31 +1,19 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import PageTitle from '../atoms/PageTitle';
+import CurrentBalance from '../molecules/CurrentBalance';
 
-const Dashboard: React.FC<{ className?: string }> = props => {
+const Dashboard: React.FC = props => {
   return (
-    <div className={props.className}>
-      <div className="page-title">
-        <PageTitle
-          title="Dashboard"
-          description="Showing key performance indicators for current company"
-        />
-      </div>
-    </div>
+    <>
+      <PageTitle
+        title="Dashboard"
+        description="Showing key performance indicators for current company"
+      />
+
+      <CurrentBalance />
+    </>
   );
 };
 
-export default styled(Dashboard)`
-  display: grid;
-  grid-template-columns: repeat(12, calc(100% / 12));
-  grid-template-rows: 25% auto;
-
-  .page-title {
-    grid-column: 1 / span 12;
-  }
-
-  .tabs-container {
-    grid-column: 1 / span 12;
-  }
-`;
+export default Dashboard;

@@ -8,7 +8,6 @@ import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
 import Filters from '../molecules/Filters';
 import IncomeTransactions from '../molecules/IncomeTransactions';
-import TransactionCalculator from '../molecules/TransactionCalculator';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
 type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
@@ -24,7 +23,7 @@ const Content = styled.div`
 const intervalTypeConverter = (t: IRecurringTransaction['interval_type']) =>
   ({ DA: 'd' as const, MO: 'M' as const }[t]);
 
-const Transactions: React.FC<{ className?: string }> = ({ className }) => {
+const Transactions: React.FC = () => {
   const store = useTransactionState();
 
   const [filter, setFilter] = React.useState<(t: ITransaction) => boolean>(
@@ -78,26 +77,18 @@ const Transactions: React.FC<{ className?: string }> = ({ className }) => {
   );
 
   return (
-    <div className={className}>
-      <div>
-        <h1>Transactions</h1>
-        <h5>Showing all transactions</h5>
-        <Content>
-          <AddTransaction />
-          <Filters setFilter={setFilter} />
+    <div>
+      <h1>Transactions</h1>
+      <h5>Showing all transactions</h5>
+      <Content>
+        <AddTransaction />
+        <Filters setFilter={setFilter} />
 
-          <IncomeTransactions tx={txs} />
-          <ExpenseTransactions tx={txs} />
-        </Content>
-      </div>
-      <TransactionCalculator />
+        <IncomeTransactions tx={txs} />
+        <ExpenseTransactions tx={txs} />
+      </Content>
     </div>
   );
 };
 
-export default styled(Transactions)`
-  display: grid;
-
-  grid-template-columns: calc(70% - 2em) calc(30% - 2em);
-  grid-gap: 4em;
-`;
+export default Transactions;
