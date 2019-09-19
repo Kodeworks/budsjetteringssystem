@@ -40,14 +40,16 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
       />
 
       <table className={className}>
-        <tr>
-          <th>Date</th>
-          <th>Description</th>
-          <th>In</th>
-          <th>Out</th>
-          <th>Available</th>
-        </tr>
-        {renderTransactions()}
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>In</th>
+            <th>Out</th>
+            <th>Available</th>
+          </tr>
+        </thead>
+        <tbody>{renderTransactions()}</tbody>
       </table>
     </>
   );
