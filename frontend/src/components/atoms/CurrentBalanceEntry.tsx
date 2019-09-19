@@ -17,7 +17,9 @@ const CurrentBalanceEntry: React.FC<ICurrentBalanceEntryProps> = ({
   name,
 }) => {
   const [liquidity, setLiquidity] = React.useState<number>();
-  const [liquidity30DaysAgo, setLiquidity30DaysAgo] = React.useState<number>();
+  const [liquidityOneMonthAgo, setLiquidityOneMonthAgo] = React.useState<
+    number
+  >();
 
   React.useEffect(() => {
     (async () => {
@@ -26,7 +28,7 @@ const CurrentBalanceEntry: React.FC<ICurrentBalanceEntryProps> = ({
           100
       );
 
-      setLiquidity30DaysAgo(
+      setLiquidityOneMonthAgo(
         (await API.getBalanceForDay(
           id,
           moment()
@@ -44,23 +46,23 @@ const CurrentBalanceEntry: React.FC<ICurrentBalanceEntryProps> = ({
         <h2>{liquidity === undefined ? 'Loading...' : liquidity}</h2>
       </div>
       <div>
-        <p>Change last 30 days</p>
+        <p>Change last month</p>
         <h2>
-          {liquidity !== undefined && liquidity30DaysAgo !== undefined
-            ? liquidity - liquidity30DaysAgo > 0
-              ? `+${liquidity - liquidity30DaysAgo}`
-              : liquidity - liquidity30DaysAgo
+          {liquidity !== undefined && liquidityOneMonthAgo !== undefined
+            ? liquidity - liquidityOneMonthAgo > 0
+              ? `+${liquidity - liquidityOneMonthAgo}`
+              : liquidity - liquidityOneMonthAgo
             : 'Loading...'}
         </h2>
         {liquidity !== 0 &&
           liquidity !== undefined &&
-          liquidity30DaysAgo !== 0 &&
-          liquidity30DaysAgo !== undefined && (
+          liquidityOneMonthAgo !== 0 &&
+          liquidityOneMonthAgo !== undefined && (
             <small>
               (
-              {liquidity / liquidity30DaysAgo > 0
-                ? `+${(liquidity / liquidity30DaysAgo).toFixed(0)}`
-                : (liquidity / liquidity30DaysAgo).toFixed(0)}
+              {liquidity / liquidityOneMonthAgo > 0
+                ? `+${(liquidity / liquidityOneMonthAgo).toFixed(0)}`
+                : (liquidity / liquidityOneMonthAgo).toFixed(0)}
               %)
             </small>
           )}
@@ -82,7 +84,7 @@ export default styled(CurrentBalanceEntry)`
   }
 
   &:not(:last-child) {
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
   }
 
   display: flex;
