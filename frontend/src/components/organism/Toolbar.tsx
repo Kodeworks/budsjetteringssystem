@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { AuthDispatch, useAuth } from '../../store/contexts/auth';
 import { AuthActions } from '../../store/reducers/auth';
+import moment from 'moment';
 
 const ToolbarContainer = styled.div`
   /* Pos */
@@ -29,6 +30,10 @@ const ToolbarContainer = styled.div`
       margin-right: 0.5em;
     }
   }
+
+  &>p:first-child {
+    margin-right: auto;
+  }
 `;
 
 const LogoutButton = styled.button`
@@ -51,6 +56,7 @@ const Toolbar: React.FC = () => {
 
   return (
     <ToolbarContainer>
+      <p>{moment().format('dddd Do of MMMM YYYY')}</p>
       <p>Welcome, {`${user.first_name} ${user.last_name}`}</p>
       <LogoutButton onClick={onLogout}>Sign out</LogoutButton>
     </ToolbarContainer>

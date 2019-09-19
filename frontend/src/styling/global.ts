@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
 
   /* Typography */
 
-  h1, h2, h3, h4, h5, h6, p, a, span, li, strong, label, input, textarea, option, select, button, td, th {
+  * {
     font-family: "Open Sans", sans-serif;
   }
 
@@ -39,5 +39,9 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 400;
 
     margin: .75em 0;
+  }
+
+  small {
+    font-weight: 100;
   }
 `;
