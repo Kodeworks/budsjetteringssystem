@@ -10,7 +10,7 @@ const ToolbarContainer = styled.div`
   /* Pos */
   display: flex;
   justify-content: flex-end;
-  padding: 1em;
+  padding: 1em 4em;
   position: sticky;
   top: 0;
   /**
