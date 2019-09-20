@@ -9,6 +9,7 @@ import { useAuth } from '../../store/contexts/auth';
 import { useCompany } from '../../store/contexts/company';
 import { AuthActions } from '../../store/reducers/auth';
 import { CompanyActions } from '../../store/reducers/company';
+import Button from '../atoms/Button';
 
 const Companies: React.FC<{ className?: string }> = props => {
   const [companies, dispatch] = useCompany();
@@ -60,7 +61,7 @@ const Companies: React.FC<{ className?: string }> = props => {
           Organization number
         </Input>
 
-        <input type="submit" value="Create" />
+        <Button type="submit">Create</Button>
       </form>
     </div>
   );
@@ -69,5 +70,9 @@ const Companies: React.FC<{ className?: string }> = props => {
 export default styled(Companies)`
   hr {
     margin: 1em 0;
+  }
+
+  & > h2 ~ form > * {
+    margin-top: 1em;
   }
 `;

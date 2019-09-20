@@ -5,6 +5,8 @@ import * as API from '../../mitochondria';
 import { useAuthState } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
 import { CompanyActions } from '../../store/reducers/company';
+
+import Button from './Button';
 import Select from './Select';
 
 type Role = import('../../declarations/company').Role;
@@ -58,7 +60,7 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
 
   return (
     <div className={className}>
-      <h2>{name}</h2>
+      <h3>{name}</h3>
       {auth!.id !== user.user_id && (
         <Select
           values={[
@@ -72,20 +74,22 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
         />
       )}
       {(isOwner || auth!.id === user.user_id) && (
-        <button onClick={onClickRemoveUserFromCompany}>
+        <Button onClick={onClickRemoveUserFromCompany}>
           {auth!.id === user.user_id
             ? 'Leave company'
             : 'Remove user from company?'}
-        </button>
+        </Button>
       )}
     </div>
   );
 };
 
 export default styled(CompanyUser)`
-  h2 {
+  h3 {
     font-weight: normal;
   }
 
   margin-bottom: 0.7em;
+  display: flex;
+  justify-content: space-between;
 `;

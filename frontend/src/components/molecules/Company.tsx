@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { useAuthState } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
 import { CompanyActions } from '../../store/reducers/company';
+import Button from '../atoms/Button';
+import Collapsable from '../atoms/Collapsable';
 import CompanyUser from '../atoms/CompanyUser';
 import Input from '../atoms/Input';
 import UpdateCompanyForm from '../atoms/UpdateCompanyForm';
@@ -51,11 +53,13 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
 
   return (
     <div className={className}>
+      <hr />
       <h2>{company.name}</h2>
       <h5>Organizational number: {company.org_nr}</h5>
-      <button onClick={toggleShowUpdateForm}>
+      <Button onClick={toggleShowUpdateForm}>
         {showUpdateForm ? 'Hide' : 'Show'} update company form
-      </button>
+      </Button>
+      <Button onClick={onClickDelete}>Delete company?</Button>
       {showUpdateForm && <UpdateCompanyForm company={company} />}
       <h3>Members</h3>
       <ul>
@@ -64,7 +68,7 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
         ))}
       </ul>
       {isOwner && (
-        <>
+        <Collapsable heading={<h3>Add a new user</h3>}>
           <form onSubmit={onSubmitAddNewUser}>
             <Input
               placeholder="bob@ross.biz"
@@ -75,10 +79,9 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
             >
               Email of user to add
             </Input>
-            <input type="submit" value="Add user to company" />
+            <Button type="submit">Add user to company</Button>
           </form>
-          <button onClick={onClickDelete}>Delete company?</button>
-        </>
+        </Collapsable>
       )}
     </div>
   );
@@ -87,10 +90,27 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
 export default styled(Company)`
   form {
     margin-bottom: 1em;
+
+    div ~ button {
+      margin-top: 0.6em;
+    }
   }
 
   h5 {
     margin-bottom: 1em;
+
+    & ~ button {
+      margin: 0.6em 0 1em;
+    }
+
+    & ~ button,
+    & ~ button ~ button {
+      display: inline-block;
+
+      &:not(:last-of-type) {
+        margin-right: 0.7em;
+      }
+    }
   }
 
   ul {

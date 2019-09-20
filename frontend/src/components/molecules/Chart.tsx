@@ -39,6 +39,7 @@ const Chart: React.FC<{ className?: string }> = ({ className }) => {
     <div className={className}>
       <h2>Balance next 9 months</h2>
       <ApexChart
+        height={600}
         series={Object.entries(balances).map(([name, bs]) => ({
           data: bs
             .sort((a, b) =>
