@@ -9,27 +9,32 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
   const currentBalance = 0;
   let accumulatedBalance = currentBalance;
   // render transactions from first day of current month until five years in the future
-  const renderTransactions = () =>
-    transactions
-      .filter(t =>
-        moment(t.date).isBetween(
-          moment().startOf('month'),
-          moment().add(5, 'years')
-        )
-      )
-      .sort((t1, t2) => (t2.date > t1.date ? -1 : 1))
-      .map(t => {
-        accumulatedBalance += (t.type === 'IN' ? t.money : -t.money) / 100;
-        return (
-          <tr key={`id${t.id}`}>
-            <td>{t.date}</td>
-            <td>{t.description}</td>
-            <td>{t.type === 'IN' ? (t.money / 100).toFixed(2) : ''}</td>
-            <td>{t.type === 'EX' ? (t.money / 100).toFixed(2) : ''}</td>
-            <td>{accumulatedBalance.toFixed(2)}</td>
-          </tr>
-        );
-      });
+  const renderTransactions = () => {
+    return (
+      <tbody>
+        {transactions
+          .filter(t =>
+            moment(t.date).isBetween(
+              moment().startOf('month'),
+              moment().add(5, 'years')
+            )
+          )
+          .sort((t1, t2) => (t2.date > t1.date ? -1 : 1))
+          .map(t => {
+            accumulatedBalance += (t.type === 'IN' ? t.money : -t.money) / 100;
+            return (
+              <tr key={`id${t.id}`}>
+                <td>{t.date}</td>
+                <td>{t.description}</td>
+                <td>{t.type === 'IN' ? (t.money / 100).toFixed(2) : ''}</td>
+                <td>{t.type === 'EX' ? (t.money / 100).toFixed(2) : ''}</td>
+                <td>{accumulatedBalance.toFixed(2)}</td>
+              </tr>
+            );
+          })}
+      </tbody>
+    );
+  };
   return (
     <table className={className}>
       <thead>
