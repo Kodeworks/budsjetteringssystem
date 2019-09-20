@@ -2,8 +2,9 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { useAuthState } from '../../store/contexts/auth';
+import { useAuth } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
+import { AuthActions } from '../../store/reducers/auth';
 import { CompanyActions } from '../../store/reducers/company';
 import Button from '../atoms/Button';
 import Collapsable from '../atoms/Collapsable';
@@ -20,7 +21,7 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
   const [newUserEmail, setNewUserEmail] = React.useState('');
   const [showUpdateForm, setShowUpdateForm] = React.useState<boolean>(false);
   const dispatch = useCompanyDispatch();
-  const auth = useAuthState();
+  const [auth, authDispatch] = useAuth();
 
   const onSubmitAddNewUser: React.FormEventHandler = async e => {
     e.preventDefault();
@@ -45,6 +46,7 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
     company.users.find(u => u.user_id === auth!.id)!.role === 'OW';
 
   const onClickDelete: React.MouseEventHandler = async () => {
+    await AuthActions.doRemoveCompanyFromUser(company.id, authDispatch);
     await CompanyActions.doDeleteCompany(company.id, dispatch);
   };
 

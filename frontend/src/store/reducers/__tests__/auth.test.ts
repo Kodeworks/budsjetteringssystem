@@ -51,4 +51,34 @@ describe('alter user', () => {
       ...updateParams,
     });
   });
+
+  test('remove company from user', () => {
+    const testUser: IUser = {
+      ...user,
+      companies: [
+        {
+          company_id: 0,
+          role: 'OW',
+          user_id: user.id,
+        },
+        {
+          company_id: 2,
+          role: 'US',
+          user_id: user.id,
+        },
+      ],
+    };
+
+    const resp = authReducer(
+      authReducer(null, AuthActionCreators.login(testUser)),
+      AuthActionCreators.removeCompanyFromUser(0)
+    );
+
+    expect(resp!.companies.length).toBe(1);
+    expect(resp!.companies[0]).toEqual({
+      company_id: 2,
+      role: 'US',
+      user_id: user.id,
+    });
+  });
 });

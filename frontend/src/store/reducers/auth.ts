@@ -10,6 +10,7 @@ const REGISTER = 'REGISTER' as const;
 const LOGOUT = 'LOGOUT' as const;
 const UPDATE_USER = 'UPDATE_USER' as const;
 const SET_ACTIVE_COMPANY = 'SET_ACTIVE_COMPANY' as const;
+const REMOVE_COMPANY_FROM_USER = 'REMOVE_COMPANY_FROM_USER' as const;
 
 export type AuthState = IUser & { selectedCompany?: number } | null;
 
@@ -99,6 +100,15 @@ const doSetActiveCompany = (
   dispatch(setActiveCompany(id));
 };
 
+const removeCompanyFromUser = (id: number) => ({
+  payload: id,
+  type: REMOVE_COMPANY_FROM_USER,
+});
+const doRemoveCompanyFromUser = (
+  id: number,
+  dispatch: React.Dispatch<ICreatedAction>
+) => dispatch(removeCompanyFromUser(id));
+
 /**
  * Under here you will find action creators, the reducer, and created action creators.
  */
@@ -107,6 +117,7 @@ export const AuthActionCreators = {
   login,
   logout,
   register,
+  removeCompanyFromUser,
   setActiveCompany,
   updateUser,
 };
@@ -116,6 +127,7 @@ export const AuthActions = {
   doLogin,
   doLogout,
   doRegister,
+  doRemoveCompanyFromUser,
   doSetActiveCompany,
   doSetUser,
   doUpdateUser,
@@ -146,6 +158,13 @@ export const authReducer = (
       return { ...state, ...action.payload, companies: state!.companies };
     case SET_ACTIVE_COMPANY:
       return { ...state!, selectedCompany: action.payload };
+    case REMOVE_COMPANY_FROM_USER:
+      return {
+        ...state!,
+        companies: state!.companies.filter(
+          e => e.company_id !== action.payload
+        ),
+      };
   }
 
   return state;
