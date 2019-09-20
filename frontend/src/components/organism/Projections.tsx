@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import { useTransactionState } from '../../store/contexts/transactions';
 
 const Projections: React.FC<{ className?: string }> = ({ className }) => {
-  const transactionState = useTransactionState();
-  const transactions = transactionState.transactions;
+  const { transactions } = useTransactionState();
+  // Note: currentBalance should be changed to be the incoming balance to the current month (first day of the month)
   const currentBalance = 0;
   let accumulatedBalance = currentBalance;
+  // render transactions from first day of current month until five years in the future
   const renderTransactions = () =>
     transactions
       .filter(t =>
