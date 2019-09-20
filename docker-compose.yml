@@ -26,9 +26,9 @@ services:
     build:
       context: frontend
       args:
-        - REACT_APP_BASE_URL=http://localhost:${NGINX_PORT:-8000}/api
+        - REACT_APP_BASE_URL=/api
     environment:
-      - REACT_APP_BASE_URL=http://localhost:${NGINX_PORT:-8000}/api
+      - REACT_APP_BASE_URL=/api
     networks:
       - nginx_network
   nginx:
