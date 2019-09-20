@@ -39,6 +39,11 @@ const CurrentBalanceEntry: React.FC<ICurrentBalanceEntryProps> = ({
     })();
   }, [id]);
 
+  const diff =
+    liquidity !== undefined && liquidityOneMonthAgo !== undefined
+      ? liquidity - liquidityOneMonthAgo
+      : undefined;
+
   return (
     <div className={className}>
       <div>
@@ -48,21 +53,17 @@ const CurrentBalanceEntry: React.FC<ICurrentBalanceEntryProps> = ({
       <div>
         <p>Change last month</p>
         <h2>
-          {liquidity !== undefined && liquidityOneMonthAgo !== undefined
-            ? liquidity - liquidityOneMonthAgo > 0
-              ? `+${liquidity - liquidityOneMonthAgo}`
-              : liquidity - liquidityOneMonthAgo
-            : 'Loading...'}
+          {diff !== undefined ? (diff > 0 ? `+${diff}` : diff) : 'Loading...'}
         </h2>
-        {liquidity !== 0 &&
-          liquidity !== undefined &&
+        {diff !== 0 &&
+          diff !== undefined &&
           liquidityOneMonthAgo !== 0 &&
           liquidityOneMonthAgo !== undefined && (
             <small>
               (
-              {liquidity / liquidityOneMonthAgo > 0
-                ? `+${(liquidity / liquidityOneMonthAgo).toFixed(0)}`
-                : (liquidity / liquidityOneMonthAgo).toFixed(0)}
+              {diff / liquidityOneMonthAgo > 0
+                ? `+${((diff / liquidityOneMonthAgo) * 100).toFixed(0)}`
+                : ((diff / liquidityOneMonthAgo) * 100).toFixed(0)}
               %)
             </small>
           )}
