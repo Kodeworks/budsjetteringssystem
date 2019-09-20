@@ -49,6 +49,7 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
 export default styled(Projections)`
   width: 60%;
   border-collapse: collapse;
+
   td,
   th {
     padding: 8px;
