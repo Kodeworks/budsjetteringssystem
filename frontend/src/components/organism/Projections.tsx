@@ -7,6 +7,7 @@ import { useTransactionState } from '../../store/contexts/transactions';
 import PageTitle from '../atoms/PageTitle';
 
 const Projections: React.FC<{ className?: string }> = ({ className }) => {
+<<<<<<< HEAD
   const store = useTransactionState();
   const auth = useAuthState();
 
@@ -68,12 +69,59 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
         <tbody>{renderTransactions()}</tbody>
       </table>
     </>
+=======
+  const { transactions } = useTransactionState();
+  // Note: currentBalance should be changed to be the incoming balance to the current month (first day of the month)
+  const currentBalance = 0;
+  let accumulatedBalance = currentBalance;
+  // render transactions from first day of current month until five years in the future
+  const renderTransactions = () => {
+    return (
+      <tbody>
+        {transactions
+          .filter(t =>
+            moment(t.date).isBetween(
+              moment().startOf('month'),
+              moment().add(5, 'years')
+            )
+          )
+          .sort((t1, t2) => (t2.date > t1.date ? -1 : 1))
+          .map(t => {
+            accumulatedBalance += (t.type === 'IN' ? t.money : -t.money) / 100;
+            return (
+              <tr key={t.id}>
+                <td>{t.date}</td>
+                <td>{t.description}</td>
+                <td>{t.type === 'IN' ? (t.money / 100).toFixed(2) : ''}</td>
+                <td>{t.type === 'EX' ? (t.money / 100).toFixed(2) : ''}</td>
+                <td>{accumulatedBalance.toFixed(2)}</td>
+              </tr>
+            );
+          })}
+      </tbody>
+    );
+  };
+  return (
+    <table className={className}>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>In</th>
+          <th>Out</th>
+          <th>Available</th>
+        </tr>
+      </thead>
+      {renderTransactions()}
+    </table>
+>>>>>>> origin
   );
 };
 
 export default styled(Projections)`
   width: 60%;
   border-collapse: collapse;
+
   td,
   th {
     padding: 8px;
