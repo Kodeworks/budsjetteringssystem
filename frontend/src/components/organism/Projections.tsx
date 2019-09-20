@@ -1,14 +1,29 @@
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
+import explodeRecurring from '../../helpers/explode_recurring';
+import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionState } from '../../store/contexts/transactions';
 import PageTitle from '../atoms/PageTitle';
 
 const Projections: React.FC<{ className?: string }> = ({ className }) => {
-  const transactionState = useTransactionState();
-  const transactions = transactionState.transactions;
-  const currentBalance = 0;
-  let accumulatedBalance = currentBalance;
+  const store = useTransactionState();
+  const auth = useAuthState();
+
+  const recurringTransactions = React.useMemo(() => explodeRecurring(store), [
+    store,
+  ]);
+
+  const transactions = React.useMemo(
+    () =>
+      store.transactions
+        .concat(recurringTransactions)
+        .filter(e => e.company_id === auth!.selectedCompany!),
+    [auth, recurringTransactions, store.transactions]
+  );
+
+  let accumulatedBalance = 0;
+
   const renderTransactions = () =>
     transactions
       .filter(t =>
@@ -32,6 +47,7 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
           </tr>
         );
       });
+
   return (
     <>
       <PageTitle
