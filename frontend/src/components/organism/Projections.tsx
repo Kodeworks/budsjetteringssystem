@@ -19,9 +19,7 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
       )
       .sort((t1, t2) => (t2.date > t1.date ? -1 : 1))
       .map(t => {
-        t.type === 'IN'
-          ? (accumulatedBalance += t.money / 100)
-          : (accumulatedBalance -= t.money / 100);
+        accumulatedBalance += (t.type === 'IN' ? t.money : -t.money) / 100;
         return (
           <tr key={`id${t.id}`}>
             <td>{t.date}</td>
@@ -34,13 +32,15 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
       });
   return (
     <table className={className}>
-      <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>In</th>
-        <th>Out</th>
-        <th>Available</th>
-      </tr>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>In</th>
+          <th>Out</th>
+          <th>Available</th>
+        </tr>
+      </thead>
       {renderTransactions()}
     </table>
   );
