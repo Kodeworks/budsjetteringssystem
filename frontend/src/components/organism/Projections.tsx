@@ -23,7 +23,7 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
           .map(t => {
             accumulatedBalance += (t.type === 'IN' ? t.money : -t.money) / 100;
             return (
-              <tr key={`id${t.id}`}>
+              <tr key={t.id}>
                 <td>{t.date}</td>
                 <td>{t.description}</td>
                 <td>{t.type === 'IN' ? (t.money / 100).toFixed(2) : ''}</td>
