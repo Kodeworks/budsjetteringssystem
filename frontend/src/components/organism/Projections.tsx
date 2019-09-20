@@ -39,7 +39,7 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
           : (accumulatedBalance -= t.money / 100);
         return (
           <tr key={`id${t.id}`}>
-            <td>{t.date}</td>
+            <td>{moment(t.date, moment.ISO_8601).format('DD/MM/YYYY')}</td>
             <td>{t.description}</td>
             <td>{t.type === 'IN' ? (t.money / 100).toFixed(2) : ''}</td>
             <td>{t.type === 'EX' ? (t.money / 100).toFixed(2) : ''}</td>
