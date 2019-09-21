@@ -1,6 +1,7 @@
 NGINX_TEST_PORT=8839
 
 COMPOSE=docker-compose
+COMPOSE_PROD=$(COMPOSE) -f docker-compose.yml -f docker-compose.prod.yml
 TEST_BASE_URL=http://nginx:80/api
 TEST_PROJECT=liquidator-test
 FRONTEND_RUN=$(COMPOSE) run --rm frontend
@@ -10,10 +11,27 @@ FRONTEND_TEST_RUN=$(FRONTEND_TEST_PROJECT) run --rm -e REACT_APP_BASE_URL=$(TEST
 
 BACKEND_RUN=$(COMPOSE) run --rm backend
 BACKEND_MANAGE=$(BACKEND_RUN) python manage.py
+PROD_BACKEND_MANAGE=$(COMPOSE_PROD) run --rm backend python manage.py
 
 
 .PHONY: all
-all: update-backend migrate up
+all: migrate up
+
+.PHONY: prod
+prod: build prod-migrate
+	$(COMPOSE_PROD) up
+
+.PHONY: prod-background
+prod-background: build prod-migrate
+	$(COMPOSE_PROD) up -d
+
+.PHONY: prod-down
+prod-logs:
+	$(COMPOSE_PROD) logs
+
+.PHONY: prod-down
+prod-down:
+	$(COMPOSE_PROD) down
 
 .PHONY: build
 build:
@@ -78,6 +96,10 @@ makemigrations:
 .PHONY: migrate
 migrate:
 	$(BACKEND_MANAGE) migrate $(DCMD)
+
+.PHONY: prod-migrate
+prod-migrate:
+	$(PROD_BACKEND_MANAGE) migrate $(DCMD)
 
 .PHONY: createsuperuser
 createsuperuser:

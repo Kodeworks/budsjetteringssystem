@@ -1,3 +1,9 @@
+# Docker won't update packages during build unless this file has changed.
+# This can be done either by specifying updated version requirements when
+# packages release new versions, or by updating the timestamp below,
+# letting pip install the newest versions of the packages.
+
+# Last updated 2019-09-21 14:00
 gunicorn
 django
 psycopg2-binary
