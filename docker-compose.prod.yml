@@ -3,6 +3,13 @@ version: '3'
 services:
   backend:
     command: gunicorn --chdir liquidator --bind :8000 liquidator.wsgi:application
+    build:
+      args:
+        - PROD=true
+        - DJANGO_SECRET_KEY
+    environment:
+      - PROD=true
+      - DJANGO_SECRET_KEY
   frontend:
     command: cp -r /frontend/build/ /frontend/static/
     user: root

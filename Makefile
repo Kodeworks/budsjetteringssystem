@@ -11,17 +11,18 @@ FRONTEND_TEST_RUN=$(FRONTEND_TEST_PROJECT) run --rm -e REACT_APP_BASE_URL=$(TEST
 
 BACKEND_RUN=$(COMPOSE) run --rm backend
 BACKEND_MANAGE=$(BACKEND_RUN) python manage.py
+PROD_BACKEND_MANAGE=$(COMPOSE_PROD) run --rm backend python manage.py
 
 
 .PHONY: all
 all: migrate up
 
 .PHONY: prod
-prod: build migrate
+prod: build prod-migrate
 	$(COMPOSE_PROD) up
 
 .PHONY: prod-background
-prod-background: build migrate
+prod-background: build prod-migrate
 	$(COMPOSE_PROD) up -d
 
 .PHONY: prod-down
@@ -95,6 +96,10 @@ makemigrations:
 .PHONY: migrate
 migrate:
 	$(BACKEND_MANAGE) migrate $(DCMD)
+
+.PHONY: prod-migrate
+prod-migrate:
+	$(PROD_BACKEND_MANAGE) migrate $(DCMD)
 
 .PHONY: createsuperuser
 createsuperuser:
