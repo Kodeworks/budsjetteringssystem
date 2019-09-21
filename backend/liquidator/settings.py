@@ -33,6 +33,10 @@ ALLOWED_HOSTS = [
     'backend',
 ]
 
+extra_hosts = os.environ.get('DJANGO_ALLOWED_HOSTS')
+if extra_hosts:
+    ALLOWED_HOSTS += extra_hosts.split(',')
+
 
 # Application definition
 

@@ -14,6 +14,8 @@ services:
       - postgres_data:/var/lib/postgresql/data/
   backend:
     build: backend
+    environment:
+      - DJANGO_ALLOWED_HOSTS
     volumes:
       - backend_static:/backend/static
       - backend_media:/backend/media
