@@ -2,8 +2,7 @@ version: '3'
 
 services:
   backend:
-    #command: python manage.py runserver
-    command: gunicorn --chdir liquidator --bind :8000 liquidator.wsgi:application
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/backend/code
   frontend:
