@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuthState } from '../../store/contexts/auth';
 
 import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
+
 import Login from '../organism/authentication/Login';
 import Register from '../organism/authentication/Register';
 import Navigation from '../organism/Navigation';
@@ -27,7 +28,7 @@ const Routes: React.FC<RouteComponentProps<{}>> = props => {
     if (!localStorage.getItem('access')) {
       props.history.push('/login');
     }
-  }, [localStorage]);
+  }, [props.history]);
 
   if (!localStorage.getItem('access')) {
     // If path is not /login or /register. Done like this to make the list easy to extend

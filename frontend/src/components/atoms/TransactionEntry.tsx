@@ -6,9 +6,9 @@ import { useTransactions } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
 import EditTransaction from '../molecules/EditTransaction';
 import OverrideRecurringForm from '../molecules/OverrideRecurringForm';
+import Button from './Button';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
-type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
 
 interface ITransactionEntryProps extends ITransaction {
   className?: string;
@@ -77,15 +77,15 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
       {showMore && (
         <div>
           <p>{props.notes}</p>
-          <button onClick={onClickDelete}>Delete</button>
-          <button onClick={invert(setShowUpdate)}>
+          <Button onClick={onClickDelete}>Delete</Button>
+          <Button onClick={invert(setShowUpdate)}>
             {showUpdate ? 'Hide update form' : 'Show update form'}
-          </button>
+          </Button>
           {props.recurring_transaction_id && !isOverride && (
-            <button onClick={invert(setShowRecurringOverrideCreator)}>
+            <Button onClick={invert(setShowRecurringOverrideCreator)}>
               {showRecurringOverrideCreator ? 'Hide' : 'Show'} override
               recurring entry
-            </button>
+            </Button>
           )}
           {showUpdate && <EditTransaction tx={props} isOverride={isOverride} />}
           {showRecurringOverrideCreator && <OverrideRecurringForm tx={props} />}

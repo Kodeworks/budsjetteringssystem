@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import { AuthDispatch, useAuth } from '../../store/contexts/auth';
 import { AuthActions } from '../../store/reducers/auth';
 
+import moment from 'moment';
+
 const ToolbarContainer = styled.div`
   /* Pos */
   display: flex;
   justify-content: flex-end;
-  padding: 1em;
+  padding: 1em 4em;
   position: sticky;
   top: 0;
   /**
@@ -28,6 +30,10 @@ const ToolbarContainer = styled.div`
     &:not(:last-child) {
       margin-right: 0.5em;
     }
+  }
+
+  & > p:first-child {
+    margin-right: auto;
   }
 `;
 
@@ -51,6 +57,7 @@ const Toolbar: React.FC = () => {
 
   return (
     <ToolbarContainer>
+      <p>{moment().format('dddd Do of MMMM YYYY')}</p>
       <p>Welcome, {`${user.first_name} ${user.last_name}`}</p>
       <LogoutButton onClick={onLogout}>Sign out</LogoutButton>
     </ToolbarContainer>

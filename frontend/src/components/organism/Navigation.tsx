@@ -50,11 +50,13 @@ const Navigation: React.FC<{ className?: string } & RouteComponentProps> = ({
     <nav className={className}>
       <NavigationBrand />
       <NavigationSeparator />
-      <Select
-        values={options}
-        value={auth!.selectedCompany}
-        setState={setActiveCompany}
-      />
+      <div className="company-selector">
+        <Select
+          values={options}
+          value={auth!.selectedCompany}
+          setState={setActiveCompany}
+        />
+      </div>
       <NavigationSeparator />
       <div>
         {auth!.companies.length === 0 && (
@@ -78,15 +80,16 @@ const Navigation: React.FC<{ className?: string } & RouteComponentProps> = ({
 };
 
 export default styled(withRouter(Navigation))`
-  /* Positioning and size */
   width: ${navbarWidth};
   height: 100vh;
 
-  /* Colors */
   background: ${props => props.theme.palette.secondary.main};
 
-  /* Content management */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+
+  .company-selector {
+    margin: 0 0.5em;
+  }
 `;

@@ -16,8 +16,12 @@ const Select: React.FC<ISelectProps> = ({
   setState,
   ...props
 }) => {
-  const onSelected = (e: React.FormEvent<HTMLSelectElement>) =>
+  const onSelected = (e: React.FormEvent<HTMLSelectElement>) => {
     setState(e.currentTarget.value);
+    if (props.onChange) {
+      props.onChange(e);
+    }
+  };
 
   return (
     <div>

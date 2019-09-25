@@ -138,8 +138,6 @@ const Balances: React.FC<{ className?: string }> = props => {
 };
 
 export default styled(Balances)`
-  margin: 2em;
-
   display: grid;
   grid-template-columns: calc(100% - 2em);
   grid-gap: 4em;

@@ -1,17 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import moment from 'moment';
-import { flatMap } from '../../helpers/flatMap';
+import explodeRecurring from '../../helpers/explode_recurring';
 import { useTransactionState } from '../../store/contexts/transactions';
 import AddTransaction from '../molecules/AddTransaction';
 import ExpenseTransactions from '../molecules/ExpenseTransactions';
 import Filters from '../molecules/Filters';
 import IncomeTransactions from '../molecules/IncomeTransactions';
-import TransactionCalculator from '../molecules/TransactionCalculator';
 
 type ITransaction = import('../../declarations/transaction').ITransaction;
-type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
 
 const Content = styled.div`
   display: grid;
@@ -21,56 +18,16 @@ const Content = styled.div`
   margin-top: 2em;
 `;
 
-const intervalTypeConverter = (t: IRecurringTransaction['interval_type']) =>
-  ({ DA: 'd' as const, MO: 'M' as const }[t]);
-
-const Transactions: React.FC<{ className?: string }> = ({ className }) => {
+const Transactions: React.FC = () => {
   const store = useTransactionState();
 
   const [filter, setFilter] = React.useState<(t: ITransaction) => boolean>(
     () => (t: ITransaction) => true
   );
 
-  const recurringTransactions = React.useMemo(
-    () =>
-      flatMap(store.recurring, e => {
-        const dates: Array<string> = [];
-
-        for (
-          const d = moment(e.start_date);
-          d.isSameOrBefore(moment(e.end_date));
-          d.add(e.interval, intervalTypeConverter(e.interval_type))
-        ) {
-          if (
-            // Check if this date has been overwritten
-            store.transactions.find(
-              t =>
-                moment(t.date).isSame(d) &&
-                t.recurring_transaction_id === e.id &&
-                t.company_id === e.company_id
-            )
-          ) {
-            continue;
-          }
-          dates.push(d.format('YYYY-MM-DD'));
-        }
-
-        return dates.map(
-          (date, index) =>
-            ({
-              company_id: e.company_id,
-              date,
-              description: e.template.description,
-              id: index,
-              money: e.template.money,
-              notes: e.template.notes,
-              recurring_transaction_id: e.id,
-              type: e.template.type,
-            } as ITransaction)
-        );
-      }),
-    [store.recurring, store.transactions]
-  );
+  const recurringTransactions = React.useMemo(() => explodeRecurring(store), [
+    store,
+  ]);
 
   const txs = React.useMemo(
     () => store.transactions.concat(recurringTransactions).filter(filter),
@@ -78,26 +35,18 @@ const Transactions: React.FC<{ className?: string }> = ({ className }) => {
   );
 
   return (
-    <div className={className}>
-      <div>
-        <h1>Transactions</h1>
-        <h5>Showing all transactions</h5>
-        <Content>
-          <AddTransaction />
-          <Filters setFilter={setFilter} />
+    <div>
+      <h1>Transactions</h1>
+      <h5>Showing all transactions</h5>
+      <Content>
+        <AddTransaction />
+        <Filters setFilter={setFilter} />
 
-          <IncomeTransactions tx={txs} />
-          <ExpenseTransactions tx={txs} />
-        </Content>
-      </div>
-      <TransactionCalculator />
+        <IncomeTransactions tx={txs} />
+        <ExpenseTransactions tx={txs} />
+      </Content>
     </div>
   );
 };
 
-export default styled(Transactions)`
-  display: grid;
-
-  grid-template-columns: calc(70% - 2em) calc(30% - 2em);
-  grid-gap: 4em;
-`;
+export default Transactions;
