@@ -1,18 +1,16 @@
 import queryString from 'query-string';
 
-export interface IError {
-  detail?: string;
-  error?: string;
+interface IErrorInstance {
+  code: string;
+  detail: string;
 }
 
-export interface IExpiredTokenResponse {
-  detail: string;
-  code: string;
-  messages?: Array<{
-    token_class: string;
-    token_type: string;
-    message: string;
-  }>;
+export interface IError {
+  error_type: 'error' | 'form_error' | 'jwt_error';
+  errors: Array<IErrorInstance>;
+  field_errors: {
+    [field: string]: Array<IErrorInstance>;
+  };
 }
 
 // Add endpoints here as needed
@@ -72,55 +70,10 @@ export const fetchNewToken = async (): Promise<string> => {
   switch (res.status) {
     case 200:
       return ((await res.json()) as ITokenResponse).access;
-    case 400:
-      throw new Error(`Invalid request for new token. Refresh: ${refresh}.`);
-    case 401:
-      const parsed = (await res.json()) as IExpiredTokenResponse;
-
-      if (parsed.code === 'token_not_valid') {
-        throw new Error('Refresh token has expired.');
-      } else {
-        throw new Error(
-          `Unexpected response from backend when refreshing token: ${JSON.stringify(
-            parsed
-          )}.`
-        );
-      }
     default:
-      throw new Error(
-        `Unexpected response from server when fetching new access token.`
-      );
+      throw new Error(await res.text());
   }
 };
-
-class ResponseError extends Error {
-  constructor(
-    status: number,
-    statusText: string,
-    url: string,
-    options: RequestInit,
-    body: string
-  ) {
-    super(`Error callback for status ${status} ${statusText}.
-Path was ${url}.
-Options were ${JSON.stringify(options)}.
-
-${body}
-`);
-
-    Object.setPrototypeOf(this, ResponseError.prototype);
-  }
-}
-
-async function errorHandler(url: string, options: RequestInit, res: Response) {
-  throw new ResponseError(
-    res.status,
-    res.statusText,
-    url,
-    options,
-    JSON.stringify(await res.json())
-  );
-}
 
 interface ICallbacks {
   [statusCode: number]: (resp: Response) => Promise<any>;
@@ -161,48 +114,35 @@ export const fetchWithCallback = async <T>(
   });
 
   // Call the callback with a status corresponding to the response.
-  try {
-    return await ({
-      200: async resp => (await resp.json()) as T,
-      201: async resp => (await resp.json()) as T,
-      204: async () => true,
-      400: async resp => errorHandler(url, options, resp),
-      401: async resp => {
-        const parsed = (await resp.json()) as IExpiredTokenResponse;
+  return await ({
+    200: async resp => (await resp.json()) as T,
+    201: async resp => (await resp.json()) as T,
+    204: async () => true,
+    400: async resp => {
+      throw new Error(await resp.text());
+    },
+    401: async resp => {
+      const parsed = (await resp.json()) as IError;
 
-        if (parsed.code !== 'token_not_valid') {
-          throw new ResponseError(
-            resp.status,
-            resp.statusText,
-            url,
-            options,
-            JSON.stringify(parsed)
-          );
-        }
+      if (parsed.error_type !== 'jwt_error') {
+        throw parsed;
+      }
 
-        const newToken = await fetchNewToken();
-        localStorage.setItem('access', newToken);
-        return await fetchWithCallback(path, queryParams, options, callbacks);
-      },
-      403: async resp => errorHandler(url, options, resp),
-      404: async resp => errorHandler(url, options, resp),
-      500: async resp => errorHandler(url, options, resp),
-      ...callbacks,
-    } as ICallbacks)[res.status](res);
-  } catch (e) {
-    if (e instanceof ResponseError) {
-      throw e;
-    }
-
-    throw new Error(`Encountered unhandled response from server for status ${
-      res.status
-    }: ${res.statusText}.
-Path was ${url}.
-Options were ${JSON.stringify(options)}.
-
-${JSON.stringify(e.message)}
-`);
-  }
+      const newToken = await fetchNewToken();
+      localStorage.setItem('access', newToken);
+      return await fetchWithCallback(path, queryParams, options, callbacks);
+    },
+    403: async resp => {
+      throw new Error(await resp.text());
+    },
+    404: async resp => {
+      throw new Error(await resp.text());
+    },
+    500: async resp => {
+      throw new Error(await resp.text());
+    },
+    ...callbacks,
+  } as ICallbacks)[res.status](res);
 };
 
 // Re-export everything from mitochondria for easier imports
