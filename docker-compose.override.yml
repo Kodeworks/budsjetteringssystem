@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  backend:
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/backend/code
+  frontend:
+    command: yarn start
+    volumes:
+      - ./frontend:/frontend/code
+    environment:
+      - CI
+  nginx:
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d

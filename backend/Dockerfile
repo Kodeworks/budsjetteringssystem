@@ -1,5 +1,8 @@
 FROM python:3.7-slim
 
+ARG PROD
+ARG DJANGO_SECRET_KEY
+
 ENV PYTHONUNBUFFERED 1
 
 RUN useradd django -u 1000 -U -s /bin/false
@@ -15,5 +18,3 @@ COPY . ./
 RUN ./manage.py collectstatic --no-input
 
 USER django
-
-CMD ["gunicorn", "--chdir", "liquidator", "--bind", ":8000", "liquidator.wsgi:application"]

@@ -5,6 +5,7 @@ import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import Login from '../organism/authentication/Login';
 import Register from '../organism/authentication/Register';
 import Navigation from '../organism/Navigation';
+import Projections from '../organism/Projections';
 import Transactions from '../organism/Transactions';
 import Balances from '../pages/Balances';
 import Companies from '../pages/Companies';
@@ -49,6 +50,7 @@ const Routes: React.FC<RouteComponentProps<{}>> = props => {
         <Page>
           <Route path="/" exact={true} component={Dashboard} />
           <Route path="/faq" component={FAQ} />
+          <Route path="/projections" component={Projections} />
           <Route path="/transactions" component={Transactions} />
           <Route path="/balances" component={Balances} />
           <Route path="/companies" component={Companies} />
