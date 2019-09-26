@@ -30,7 +30,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
       .add(1, 'year')
       .format('YYYY-MM-DD')
   );
-  const [amount, setAmount] = React.useState(0);
+  const [amount, setAmount] = React.useState();
   const [description, setDescription] = React.useState('');
   const [notes, setNotes] = React.useState('');
   const [recurring, setRecurring] = React.useState(false);
