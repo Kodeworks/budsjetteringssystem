@@ -24,6 +24,31 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
 
   let accumulatedBalance = 0;
 
+  const renderMonthlyTables = () => {
+    const monthlyTransactions = {};
+    let currentMonth = moment();
+    transactions
+      .filter(t =>
+        moment(t.date).isBetween(
+          currentMonth.startOf('month'),
+          currentMonth.add(5, 'years')
+        )
+      )
+      .sort((t1, t2) => (t2.date > t1.date ? -1 : 1))
+      .map(t => {
+        accumulatedBalance += (t.type === 'IN' ? t.money : -t.money) / 100;
+        return (
+          <tr key={`id${t.id}`}>
+            <td>{moment(t.date, moment.ISO_8601).format('DD/MM/YYYY')}</td>
+            <td>{t.description}</td>
+            <td>{t.type === 'IN' ? (t.money / 100).toFixed(2) : ''}</td>
+            <td>{t.type === 'EX' ? (t.money / 100).toFixed(2) : ''}</td>
+            <td>{accumulatedBalance.toFixed(2)}</td>
+          </tr>
+        );
+      });
+  };
+
   const renderTransactions = () =>
     transactions
       .filter(t =>
