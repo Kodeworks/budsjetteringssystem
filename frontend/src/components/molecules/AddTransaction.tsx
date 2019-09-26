@@ -49,7 +49,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             company_id: auth!.selectedCompany!,
             date,
             description,
-            money: amount || 0 * 100,
+            money: amount * 100 || 0,
             notes,
             type: transactionType,
           },
@@ -65,7 +65,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             start_date: date,
             template: {
               description,
-              money: amount || 0 * 100,
+              money: amount * 100 || 0,
               type: transactionType,
             },
           },
