@@ -65,9 +65,7 @@ const Form: React.FC<IFormProps> = props => {
 
     try {
       await props.onSubmit(values);
-      setValues(freshState);
     } catch (e) {
-      // tslint:disable-next-line: no-console
       const errorResp = JSON.parse(e.message) as IError;
 
       if (errorResp.error_type === 'form_error') {
