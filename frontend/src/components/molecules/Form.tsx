@@ -50,13 +50,18 @@ const Form: React.FC<IFormProps> = props => {
     freshState
   );
 
-  const [errors, setErrors] = React.useState<{ [name: string]: Array<string> }>(
-    freshErrors
-  );
+  const [fieldErrors, setFieldErrors] = React.useState<{
+    [name: string]: Array<{ code: string; detail: string }>;
+  }>(freshErrors);
+
+  const [errors, setErrors] = React.useState<
+    Array<{ code: string; detail: string }>
+  >([]);
 
   const onSubmit: React.FormEventHandler = async e => {
     e.preventDefault();
-    setErrors(freshErrors);
+    setFieldErrors(freshErrors);
+    setErrors([]);
 
     try {
       await props.onSubmit(values);
@@ -65,13 +70,13 @@ const Form: React.FC<IFormProps> = props => {
       // tslint:disable-next-line: no-console
       const errorResp = JSON.parse(e.message) as IError;
 
-      if (errorResp.error_type !== 'form_error') {
-        throw e;
+      if (errorResp.error_type === 'form_error') {
+        Object.entries(errorResp.field_errors).forEach(([field, errs]) => {
+          setFieldErrors(er => ({ ...er, [field]: errs }));
+        });
+      } else if (errorResp.error_type === 'error') {
+        setErrors(errorResp.errors);
       }
-
-      Object.entries(errorResp.field_errors).forEach(([field, errs]) => {
-        setErrors(er => ({ ...er, [field]: errs.map(x => x.detail) }));
-      });
     }
   };
 
@@ -83,24 +88,39 @@ const Form: React.FC<IFormProps> = props => {
     setValues(vs => ({ ...vs, [name]: v }));
 
   return (
-    <form onSubmit={onSubmit}>
-      {props.schema.map(e => (
-        <div key={e.id}>
-          <Input
-            value={values[e.name]}
-            setState={setter(e.name)}
-            id={e.id}
-            type={e.type}
-            placeholder={e.placeholder}
-          >
-            {e.label}
-          </Input>
-          {errors[e.name].length ? <p>{errors[e.name].join(' ')}</p> : null}
+    <div>
+      {errors.length > 0 ? (
+        <div>
+          {errors.map(err => (
+            <p key={err.code}>{err.detail}</p>
+          ))}
         </div>
-      ))}
+      ) : null}
+      <form onSubmit={onSubmit}>
+        {props.schema.map(e => (
+          <div key={e.id}>
+            <Input
+              value={values[e.name]}
+              setState={setter(e.name)}
+              id={e.id}
+              type={e.type}
+              placeholder={e.placeholder}
+            >
+              {e.label}
+            </Input>
+            {fieldErrors[e.name].length > 0 ? (
+              <div>
+                {fieldErrors[e.name].map(err => (
+                  <p key={err.code}>{err.detail}</p>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        ))}
 
-      <Button type="submit">{props.children}</Button>
-    </form>
+        <Button type="submit">{props.children}</Button>
+      </form>
+    </div>
   );
 };
 

@@ -4,7 +4,7 @@ import React from 'react';
 
 import Authentication, {
   AuthType,
-} from '../components/organism/authentication/Authentication';
+} from '../components/organism/authentication/AuthenticationCard';
 
 //  const Wrapper = styled.div`
 //   min-width: 200px;
