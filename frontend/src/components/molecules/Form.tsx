@@ -103,6 +103,7 @@ const Form: React.FC<IFormProps> = props => {
               id={e.id}
               type={e.type}
               placeholder={e.placeholder}
+              ariaLabel={e.name}
             >
               {e.label}
             </Input>

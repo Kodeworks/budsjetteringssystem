@@ -1,7 +1,6 @@
 import { addDecorator, storiesOf } from '@storybook/react';
 import React from 'react';
 import App from '../App';
-import CardContainer from '../components/atoms/CardContainer';
 import Checkbox from '../components/atoms/Checkbox';
 import Input from '../components/atoms/Input';
 import NavigationBrand from '../components/atoms/NavigationBrand';
@@ -14,6 +13,7 @@ import Select from '../components/atoms/Select';
 import TextArea from '../components/atoms/TextArea';
 import TransactionEntry from '../components/atoms/TransactionEntry';
 import AddTransaction from '../components/molecules/AddTransaction';
+import Card from '../components/molecules/Card';
 import Filters from '../components/molecules/Filters';
 import Tab from '../components/molecules/Tab';
 import TabsContainer from '../components/molecules/TabsContainer';
@@ -77,15 +77,14 @@ storiesOf('Button/Outlined', module).add('Normal', () => (
 
 storiesOf('LandingPage', module).add('Full', () => <LandingPage />);
 
-storiesOf('Dashboard', module)
+storiesOf('Card', module)
   .addDecorator(fn => (
     <div style={{ margin: '2em', background: theme.palette.primary.main }}>
       {fn()}
     </div>
   ))
-  .add('Transactions', () => <Transactions />)
-  .add('CardContainer', () => (
-    <CardContainer>
+  .add('default', () => (
+    <Card>
       <header>Card</header>
       <p>
         Lorem ipsum dolor amet waistcoat VHS migas, you probably haven't heard
@@ -97,8 +96,16 @@ storiesOf('Dashboard', module)
         charcoal tattooed direct trade aesthetic narwhal asymmetrical retro food
         truck paleo keytar.
       </p>
-    </CardContainer>
+    </Card>
+  ));
+
+storiesOf('Dashboard', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
   ))
+  .add('Transactions', () => <Transactions />)
   .add('TabsContainer', () => (
     <TabsContainer>
       <Tab label="Minimum liquidity">

@@ -3,8 +3,8 @@ import React from 'react';
 import { useAuthDispatch } from '../../../store/contexts/auth';
 import { AuthActions } from '../../../store/reducers/auth';
 import AccentedLink from '../../atoms/AccentedLink';
+import AuthenticationCard from '../../molecules/Card';
 import Form from '../../molecules/Form';
-import AuthenticationCard from './AuthenticationCard';
 
 const Login: React.FC<
   import('react-router').RouteComponentProps<{}>
@@ -18,20 +18,20 @@ const Login: React.FC<
 
   return (
     <AuthenticationCard>
-      <h1>Sign in</h1>
+      <h1 data-testid="authform-header">Sign in</h1>
 
       <Form
         schema={[
           {
             id: 'email',
-            label: 'Email',
+            label: 'email',
             name: 'email',
             placeholder: 'jon@doe.com',
-            type: 'text',
+            type: 'email',
           },
           {
             id: 'password',
-            label: 'Password',
+            label: 'password',
             name: 'password',
             placeholder: '********',
             type: 'password',
