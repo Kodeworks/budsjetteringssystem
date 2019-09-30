@@ -1,7 +1,6 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import Input from '../atoms/Input';
 import PageTitle from '../atoms/PageTitle';
 import Company from '../molecules/Company';
 
@@ -9,7 +8,6 @@ import { useAuth } from '../../store/contexts/auth';
 import { useCompany } from '../../store/contexts/company';
 import { AuthActions } from '../../store/reducers/auth';
 import { CompanyActions } from '../../store/reducers/company';
-import Button from '../atoms/Button';
 import Form from '../molecules/Form';
 
 const Companies: React.FC<{ className?: string }> = props => {

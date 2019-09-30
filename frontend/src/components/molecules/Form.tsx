@@ -1,6 +1,7 @@
 import React from 'react';
-import Input from '../atoms/Input';
+import { IError } from '../../mitochondria';
 import Button from '../atoms/Button';
+import Input from '../atoms/Input';
 
 /**
  * What do we need in a form
@@ -30,26 +31,47 @@ interface IFormProps {
 }
 
 const Form: React.FC<IFormProps> = props => {
-  const freshState = React.useMemo(() => 
-    props.schema.reduce(
-      (prev, curr) => ({ ...prev, [curr.name]: curr.value || '' }),
-      {}
-    )
-  , [props.schema])
+  const freshState = React.useMemo(
+    () =>
+      props.schema.reduce(
+        (prev, curr) => ({ ...prev, [curr.name]: curr.value || '' }),
+        {}
+      ),
+    [props.schema]
+  );
+
+  const freshErrors = React.useMemo(
+    () =>
+      props.schema.reduce((prev, curr) => ({ ...prev, [curr.name]: [] }), {}),
+    [props.schema]
+  );
 
   const [values, setValues] = React.useState<{ [name: string]: any }>(
     freshState
   );
 
+  const [errors, setErrors] = React.useState<{ [name: string]: Array<string> }>(
+    freshErrors
+  );
+
   const onSubmit: React.FormEventHandler = async e => {
     e.preventDefault();
+    setErrors(freshErrors);
 
     try {
       await props.onSubmit(values);
       setValues(freshState);
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.error(e);
+      const errorResp = JSON.parse(e.message) as IError;
+
+      if (errorResp.error_type !== 'form_error') {
+        throw e;
+      }
+
+      Object.entries(errorResp.field_errors).forEach(([field, errs]) => {
+        setErrors(er => ({ ...er, [field]: errs.map(x => x.detail) }));
+      });
     }
   };
 
@@ -63,16 +85,18 @@ const Form: React.FC<IFormProps> = props => {
   return (
     <form onSubmit={onSubmit}>
       {props.schema.map(e => (
-        <Input
-          value={values[e.name]}
-          setState={setter(e.name)}
-          key={e.id}
-          id={e.id}
-          type={e.type}
-          placeholder={e.placeholder}
-        >
-          {e.label}
-        </Input>
+        <div key={e.id}>
+          <Input
+            value={values[e.name]}
+            setState={setter(e.name)}
+            id={e.id}
+            type={e.type}
+            placeholder={e.placeholder}
+          >
+            {e.label}
+          </Input>
+          {errors[e.name].length ? <p>{errors[e.name].join(' ')}</p> : null}
+        </div>
       ))}
 
       <Button type="submit">{props.children}</Button>
