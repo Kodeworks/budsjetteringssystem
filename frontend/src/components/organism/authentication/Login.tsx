@@ -23,14 +23,14 @@ const Login: React.FC<
       <Form
         schema={[
           {
-            id: 'email',
+            id: 'login-email',
             label: 'email',
             name: 'email',
             placeholder: 'jon@doe.com',
             type: 'email',
           },
           {
-            id: 'password',
+            id: 'login-password',
             label: 'password',
             name: 'password',
             placeholder: '********',

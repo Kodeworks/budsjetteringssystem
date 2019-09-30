@@ -3,8 +3,8 @@ import React from 'react';
 import { useAuthDispatch } from '../../../store/contexts/auth';
 import { AuthActions } from '../../../store/reducers/auth';
 import AccentedLink from '../../atoms/AccentedLink';
-import Form from '../../molecules/Form';
 import AuthenticationCard from '../../molecules/Card';
+import Form from '../../molecules/Form';
 
 const Register: React.FC<
   import('react-router').RouteComponentProps<{}>
@@ -29,28 +29,28 @@ const Register: React.FC<
       <Form
         schema={[
           {
-            id: 'first_name',
+            id: 'register-first_name',
             label: 'first name',
             name: 'first_name',
             placeholder: 'John',
             type: 'text',
           },
           {
-            id: 'last_name',
+            id: 'register-last_name',
             label: 'last name',
             name: 'last_name',
             placeholder: 'Doe',
             type: 'text',
           },
           {
-            id: 'email',
+            id: 'register-email',
             label: 'email',
             name: 'email',
             placeholder: 'jon@doe.com',
             type: 'email',
           },
           {
-            id: 'password',
+            id: 'register-password',
             label: 'password',
             name: 'password',
             placeholder: '********',

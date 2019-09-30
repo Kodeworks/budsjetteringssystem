@@ -38,14 +38,14 @@ const Companies: React.FC<{ className?: string }> = props => {
       <Form
         schema={[
           {
-            id: 'name',
+            id: 'create-company-name',
             label: 'Name',
             name: 'name',
             placeholder: 'Google Inc.',
             type: 'text',
           },
           {
-            id: 'orgNr',
+            id: 'create-company-org_nr',
             label: 'Organization number',
             name: 'org_nr',
             placeholder: '01189998819991197253',

@@ -65,7 +65,7 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
           <Form
             schema={[
               {
-                id: 'email',
+                id: 'add-user-to-company-email',
                 label: 'Email of new user',
                 name: 'email',
                 placeholder: 'bob@ross.com',

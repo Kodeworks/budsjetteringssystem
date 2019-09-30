@@ -9,6 +9,7 @@ import OutlinedButton from '../atoms/OutlinedButton';
 import RadioButton from '../atoms/RadioButton';
 import RecurringTransactionOptions from '../atoms/RecurringTransactionOptions';
 import TextArea from '../atoms/TextArea';
+import Form from './Form';
 
 type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
 type TransactionType = import('../../declarations/transaction').TransactionType;
@@ -145,21 +146,14 @@ const EditRecurringTransaction: React.FC<IEditTransactionProps> = props => {
 };
 
 const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
-  const [date, setDate] = React.useState(props.tx.date);
-  const [amount, setAmount] = React.useState(props.tx.money / 100);
-  const [name, setName] = React.useState(props.tx.description);
-  const [notes, setNotes] = React.useState(props.tx.notes || '');
-
   const dispatch = useTransactionDispatch();
 
-  const onSubmit: React.FormEventHandler = async e => {
-    e.preventDefault();
-
+  const onSubmit = async ({ date, description, amount, notes }: any) => {
     await TransactionActions.doUpdateTransaction(
       {
         company_id: props.tx.company_id,
         date,
-        description: name,
+        description,
         id: props.tx.id,
         money: amount * 100,
         notes,
@@ -171,38 +165,42 @@ const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <Input value={date} id="date" type="date" setState={setDate}>
-        Date
-      </Input>
-      <Input
-        value={amount}
-        id="amount"
-        type="number"
-        setState={setAmount}
-        placeholder="0.00"
-      >
-        Amount
-      </Input>
-      <Input
-        value={name}
-        id="name"
-        type="text"
-        setState={setName}
-        placeholder="John Doe"
-      >
-        Name
-      </Input>
-      <TextArea
-        value={notes}
-        id="notes"
-        setState={setNotes}
-        placeholder="Notes regarding the transaction"
-      >
-        Notes
-      </TextArea>
-      <OutlinedButton type="submit">Edit transaction</OutlinedButton>
-    </form>
+    <Form
+      schema={[
+        {
+          id: 'edit-regular-date',
+          label: 'Date',
+          name: 'date',
+          type: 'date',
+          value: props.tx.date,
+        },
+        {
+          id: 'edit-regular-description',
+          label: 'Description',
+          name: 'description',
+          type: 'text',
+          value: props.tx.description,
+        },
+        {
+          id: 'edit-regular-amount',
+          label: 'Amount',
+          name: 'amount',
+          type: 'number',
+          value: props.tx.money / 100,
+        },
+        {
+          id: 'edit-regular-notes',
+          label: 'Notes',
+          name: 'notes',
+          placeholder: 'Relevant info about transaction',
+          type: 'textarea',
+          value: props.tx.notes,
+        },
+      ]}
+      onSubmit={onSubmit}
+    >
+      Edit transaction
+    </Form>
   );
 };
 

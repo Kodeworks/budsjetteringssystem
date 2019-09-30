@@ -10,6 +10,7 @@ interface ITextAreaProps {
   placeholder?: string;
   setState: React.Dispatch<React.SetStateAction<any>>;
   value: string | number;
+  ariaLabel?: string;
 }
 
 const TextArea: React.FC<ITextAreaProps> = props => {
@@ -24,6 +25,7 @@ const TextArea: React.FC<ITextAreaProps> = props => {
         onChange={updateState}
         id={props.id}
         placeholder={props.placeholder}
+        aria-label={props.ariaLabel}
       />
     </div>
   );

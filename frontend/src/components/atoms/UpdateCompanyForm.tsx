@@ -21,14 +21,14 @@ const UpdateCompanyForm: React.FC<IUpdateCompanyFormProps> = ({ company }) => {
     <Form
       schema={[
         {
-          id: 'name',
+          id: 'update-company-name',
           label: 'Name',
           name: 'name',
           type: 'text',
           value: company.name,
         },
         {
-          id: 'org_nr',
+          id: 'update-company-org_nr',
           label: 'Organization number',
           name: 'org_nr',
           type: 'number',

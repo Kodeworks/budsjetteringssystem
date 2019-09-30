@@ -1,26 +1,23 @@
 import React from 'react';
 import { IError } from '../../mitochondria';
 import Button from '../atoms/Button';
+import Checkbox from '../atoms/Checkbox';
 import Input from '../atoms/Input';
-
-/**
- * What do we need in a form
- *
- * onSubmit which takes { name: value }
- * schema with relevant info
- * - checkbox
- * - text/number
- * - date
- * - radio
- */
+import RadioButton from '../atoms/RadioButton';
+import Select from '../atoms/Select';
+import TextArea from '../atoms/TextArea';
 
 interface IInput {
   type: string;
   name: string;
+  // Because date transforms into start_date
+  aliasName?: string;
   id: string;
   label: string;
   value?: string | number;
+  selectValues?: Array<{ value: any; name: string }>;
   placeholder?: string;
+  visible?: (values: any) => boolean;
 }
 
 type IFormSchema = Array<IInput>;
@@ -31,23 +28,32 @@ interface IFormProps {
 }
 
 const Form: React.FC<IFormProps> = props => {
-  const freshState = React.useMemo(
+  const freshState = React.useMemo<{ [name: string]: any }>(
     () =>
       props.schema.reduce(
-        (prev, curr) => ({ ...prev, [curr.name]: curr.value || '' }),
+        (prev, curr) => ({
+          ...prev,
+          [curr.name]: curr.value || '',
+        }),
         {}
       ),
     [props.schema]
   );
 
-  const freshErrors = React.useMemo(
-    () =>
-      props.schema.reduce((prev, curr) => ({ ...prev, [curr.name]: [] }), {}),
-    [props.schema]
-  );
-
   const [values, setValues] = React.useState<{ [name: string]: any }>(
     freshState
+  );
+
+  const freshErrors = React.useMemo(
+    () =>
+      props.schema.reduce(
+        (prev, curr) => ({
+          ...prev,
+          [curr.name]: [],
+        }),
+        {}
+      ),
+    [props.schema]
   );
 
   const [fieldErrors, setFieldErrors] = React.useState<{
@@ -72,6 +78,10 @@ const Form: React.FC<IFormProps> = props => {
         Object.entries(errorResp.field_errors).forEach(([field, errs]) => {
           setFieldErrors(er => ({ ...er, [field]: errs }));
         });
+
+        if (errorResp.errors.length > 0) {
+          setErrors(errorResp.errors);
+        }
       } else if (errorResp.error_type === 'error') {
         setErrors(errorResp.errors);
       }
@@ -85,6 +95,23 @@ const Form: React.FC<IFormProps> = props => {
   const setter = (name: string) => (v: any) =>
     setValues(vs => ({ ...vs, [name]: v }));
 
+  const renderErrors = (e: IInput) => {
+    const name = e.name;
+
+    let errs = fieldErrors[name];
+    if (e.aliasName) {
+      errs = errs.concat(fieldErrors[e.aliasName] || []);
+    }
+
+    return errors.length > 0 ? (
+      <div>
+        {errs.map(err => (
+          <p key={err.code}>{err.detail}</p>
+        ))}
+      </div>
+    ) : null;
+  };
+
   return (
     <div>
       {errors.length > 0 ? (
@@ -95,27 +122,90 @@ const Form: React.FC<IFormProps> = props => {
         </div>
       ) : null}
       <form onSubmit={onSubmit}>
-        {props.schema.map(e => (
-          <div key={e.id}>
-            <Input
-              value={values[e.name]}
-              setState={setter(e.name)}
-              id={e.id}
-              type={e.type}
-              placeholder={e.placeholder}
-              ariaLabel={e.name}
-            >
-              {e.label}
-            </Input>
-            {fieldErrors[e.name].length > 0 ? (
-              <div>
-                {fieldErrors[e.name].map(err => (
-                  <p key={err.code}>{err.detail}</p>
-                ))}
-              </div>
-            ) : null}
-          </div>
-        ))}
+        {props.schema.map(e => {
+          const name = e.name;
+
+          if (e.visible && !e.visible(values)) {
+            return null;
+          }
+
+          switch (e.type) {
+            case 'select':
+              return (
+                <div key={e.id}>
+                  <Select
+                    name={name}
+                    values={e.selectValues!}
+                    id={e.id}
+                    value={values[name]}
+                    setState={setter(name)}
+                  >
+                    {e.label}
+                  </Select>
+                  {renderErrors(e)}
+                </div>
+              );
+            case 'checkbox':
+              return (
+                <div key={e.id}>
+                  <Checkbox
+                    name={name}
+                    id={e.id}
+                    value={values[name]}
+                    setState={setter(name)}
+                  >
+                    {e.label}
+                  </Checkbox>
+                  {renderErrors(e)}
+                </div>
+              );
+            case 'radio':
+              return (
+                <div key={e.id}>
+                  <RadioButton
+                    name={name}
+                    value={e.value}
+                    checked={values[name] === e.value}
+                    setState={setter(name)}
+                  >
+                    {e.label}
+                  </RadioButton>
+                  {renderErrors(e)}
+                </div>
+              );
+            case 'textarea':
+              return (
+                <div key={e.id}>
+                  <TextArea
+                    value={values[name]}
+                    setState={setter(name)}
+                    id={e.id}
+                    placeholder={e.placeholder}
+                    ariaLabel={name}
+                  >
+                    {e.label}
+                  </TextArea>
+                  {renderErrors(e)}
+                </div>
+              );
+            default:
+              return (
+                <div key={e.id}>
+                  <Input
+                    value={values[name]}
+                    setState={setter(name)}
+                    id={e.id}
+                    type={e.type}
+                    placeholder={e.placeholder}
+                    ariaLabel={name}
+                  >
+                    {e.label}
+                  </Input>
+                  {renderErrors(e)}
+                </div>
+              );
+          }
+        })}
 
         <Button type="submit">{props.children}</Button>
       </form>
