@@ -28,8 +28,10 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
     transactions
       .filter(t =>
         moment(t.date).isBetween(
-          moment().startOf('month'),
-          moment().add(5, 'years')
+          moment(),
+          moment().add(5, 'years'),
+          'month',
+          '[]'
         )
       )
       .sort((t1, t2) => (t2.date > t1.date ? -1 : 1))
