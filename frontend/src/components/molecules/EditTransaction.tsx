@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import {
   useTransactionDispatch,
@@ -18,6 +19,7 @@ type IntervalType = IRecurringTransaction['interval_type'];
 interface IEditTransactionProps {
   tx: import('../../declarations/transaction').ITransaction;
   isOverride: boolean;
+  toggleMore: () => void;
 }
 
 const EditTransaction: React.FC<IEditTransactionProps> = props => {
@@ -35,113 +37,101 @@ const EditRecurringTransaction: React.FC<IEditTransactionProps> = props => {
     e => e.id === props.tx.recurring_transaction_id
   )!;
 
-  const [transactionType, setTransactionType] = React.useState<TransactionType>(
-    rec.template.type
-  );
-
-  const [date, setDate] = React.useState(rec.start_date);
-  const [endDate, setEndDate] = React.useState(rec.end_date);
-  const [amount, setAmount] = React.useState(rec.template.money / 100);
-  const [description, setDescription] = React.useState(
-    rec.template.description
-  );
-  const [notes, setNotes] = React.useState(rec.template.notes || '');
-  const [interval, setInterval] = React.useState(rec.interval);
-  const [intervalTypeValue, setIntervalType] = React.useState<IntervalType>(
-    rec.interval_type
-  );
-
-  const onSubmit: React.FormEventHandler = async e => {
-    e.preventDefault();
+  const onSubmit = async ({
+    date,
+    description,
+    end_date,
+    interval,
+    interval_type,
+    money,
+    notes,
+  }: any) => {
     await TransactionActions.doUpdateRecurringTransaction(
       {
         ...rec,
-        end_date: endDate,
+        end_date,
         interval,
-        interval_type: intervalTypeValue,
+        interval_type,
         start_date: date,
         template: {
           ...rec.template,
           description,
-          money: amount * 100,
+          money: money * 100,
           notes,
-          type: transactionType,
+          type: rec.template.type,
         },
       },
       dispatch
     );
   };
 
-  const handleTransactionTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setTransactionType({ income: 'IN', expense: 'EX' }[
-      event.target.value as 'income' | 'expense'
-    ] as TransactionType);
-  };
-
-  const recurringTransactionOptions = (
-    <RecurringTransactionOptions
-      intervalValue={interval}
-      intervalTypeValue={intervalTypeValue}
-      setInterval={setInterval}
-      setTypeInterval={setIntervalType}
-    />
-  );
-
   return (
-    <form onSubmit={onSubmit}>
-      <RadioButton
-        name="transactionType"
-        value="expense"
-        checked={transactionType === 'EX'}
-        handler={handleTransactionTypeChange}
-      >
-        Expense
-      </RadioButton>
-      <RadioButton
-        name="transactionType"
-        value="income"
-        checked={transactionType === 'IN'}
-        handler={handleTransactionTypeChange}
-      >
-        Income
-      </RadioButton>
-      <Input value={date} id="date" type="date" setState={setDate}>
-        Start date
-      </Input>
-      <Input value={endDate} id="end-date" type="date" setState={setEndDate}>
-        End date
-      </Input>
-      <Input
-        value={amount}
-        id="amount"
-        type="number"
-        setState={setAmount}
-        placeholder="0.00"
-      >
-        Amount
-      </Input>
-      <Input
-        value={description}
-        id="description"
-        type="text"
-        setState={setDescription}
-        placeholder="Kakefestballong"
-      >
-        Description
-      </Input>
-      <TextArea
-        value={notes}
-        id="notes"
-        setState={setNotes}
-        placeholder="Notes regarding the transaction"
-      >
-        Notes
-      </TextArea>
-      {recurringTransactionOptions}
-      <OutlinedButton type="submit">Edit recurring</OutlinedButton>
-    </form>
+    <Form
+      successCallback={props.toggleMore}
+      schema={[
+        {
+          aliasName: 'start_date',
+          id: 'add-transaction-date',
+          label: 'Date',
+          name: 'date',
+          type: 'date',
+          value: rec.start_date,
+        },
+        {
+          id: 'add-transaction-end-date',
+          label: 'End date',
+          name: 'end_date',
+          type: 'date',
+          value: rec.end_date,
+        },
+        {
+          id: 'add-transaction-amount',
+          label: 'Amount',
+          name: 'money',
+          placeholder: '0.00',
+          type: 'number',
+          value: rec.template.money / 100,
+        },
+        {
+          id: 'add-transaction-description',
+          label: 'Description',
+          name: 'description',
+          placeholder: rec.template.description,
+          type: 'text',
+          value: rec.template.description,
+        },
+        {
+          id: 'add-transaction-notes',
+          label: 'Notes',
+          name: 'notes',
+          placeholder: 'Relevant info about transaction',
+          type: 'textarea',
+          value: rec.template.notes,
+        },
+        {
+          id: 'add-transaction-interval-count',
+          label: 'Interval period',
+          name: 'interval',
+          placeholder: `${rec.interval}`,
+          type: 'number',
+          value: rec.interval,
+        },
+        {
+          id: 'add-transaction-interval-type',
+          label: 'Interval type',
+          name: 'interval_type',
+          selectValues: [
+            { name: 'Day', value: 'DA' },
+            { name: 'Month', value: 'MO' },
+          ],
+          type: 'select',
+          value: rec.interval_type,
+        },
+      ]}
+      onSubmit={onSubmit}
+    >
+      Update transaction
+    </Form>
   );
 };
 
@@ -166,6 +156,7 @@ const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
 
   return (
     <Form
+      successCallback={props.toggleMore}
       schema={[
         {
           id: 'edit-regular-date',

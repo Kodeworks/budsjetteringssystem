@@ -50,6 +50,8 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
     }
   };
 
+  const toggleMore = () => setShowMore(_ => !_);
+
   // invert setState hook value
   const invert = (fn: (value: React.SetStateAction<boolean>) => void) => () =>
     fn(_ => !_);
@@ -87,7 +89,13 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
               recurring entry
             </Button>
           )}
-          {showUpdate && <EditTransaction tx={props} isOverride={isOverride} />}
+          {showUpdate && (
+            <EditTransaction
+              tx={props}
+              isOverride={isOverride}
+              toggleMore={toggleMore}
+            />
+          )}
           {showRecurringOverrideCreator && <OverrideRecurringForm tx={props} />}
         </div>
       )}

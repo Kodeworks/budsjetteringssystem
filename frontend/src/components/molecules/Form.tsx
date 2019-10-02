@@ -25,6 +25,7 @@ type IFormSchema = Array<IInput>;
 interface IFormProps {
   schema: IFormSchema;
   onSubmit: (values: object) => Promise<void>;
+  successCallback?: () => void;
 }
 
 const FormComponentContainer: React.FC<{ id: string }> = ({ id, children }) => (
@@ -76,6 +77,10 @@ const Form: React.FC<IFormProps> = props => {
     try {
       await props.onSubmit(values);
       setValues(freshState);
+
+      if (props.successCallback) {
+        props.successCallback();
+      }
     } catch (e) {
       const errorResp = JSON.parse(e.message) as IError;
 
