@@ -38,7 +38,7 @@ const explodeRecurring = (
           company_id: e.company_id,
           date,
           description: e.template.description,
-          id: `${date}-${index}}`,
+          id: `${date}-${index}`,
           money: e.template.money,
           notes: e.template.notes,
           recurring_transaction_id: e.id,

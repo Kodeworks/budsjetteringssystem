@@ -9,6 +9,7 @@ interface ICheckboxProps {
   id: string;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   value: boolean;
+  name: string;
 }
 
 const Checkbox: React.FC<ICheckboxProps> = props => {
@@ -25,6 +26,7 @@ const Checkbox: React.FC<ICheckboxProps> = props => {
         onChange={updateState}
         type="checkbox"
         id={props.id}
+        name={props.name}
       />
     </div>
   );

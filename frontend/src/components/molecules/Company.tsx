@@ -9,8 +9,8 @@ import { CompanyActions } from '../../store/reducers/company';
 import Button from '../atoms/Button';
 import Collapsable from '../atoms/Collapsable';
 import CompanyUser from '../atoms/CompanyUser';
-import Input from '../atoms/Input';
 import UpdateCompanyForm from '../atoms/UpdateCompanyForm';
+import Form from './Form';
 
 interface ICompanyProps {
   company: import('../../declarations/company').ICompany;
@@ -18,28 +18,19 @@ interface ICompanyProps {
 }
 
 const Company: React.FC<ICompanyProps> = ({ className, company }) => {
-  const [newUserEmail, setNewUserEmail] = React.useState('');
   const [showUpdateForm, setShowUpdateForm] = React.useState<boolean>(false);
   const dispatch = useCompanyDispatch();
   const [auth, authDispatch] = useAuth();
 
-  const onSubmitAddNewUser: React.FormEventHandler = async e => {
-    e.preventDefault();
-
-    try {
-      await CompanyActions.doAddUserToCompany(
-        {
-          company_id: company.id,
-          email: newUserEmail,
-          role: 'US',
-        },
-        dispatch
-      );
-
-      setNewUserEmail('');
-    } catch (e) {
-      alert('Could not add new user!');
-    }
+  const onSubmitAddNewUser = async (values: any) => {
+    await CompanyActions.doAddUserToCompany(
+      {
+        company_id: company.id,
+        email: values.email,
+        role: 'US',
+      },
+      dispatch
+    );
   };
 
   const isOwner =
@@ -71,18 +62,20 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
       </ul>
       {isOwner && (
         <Collapsable heading={<h3>Add a new user</h3>}>
-          <form onSubmit={onSubmitAddNewUser}>
-            <Input
-              placeholder="bob@ross.biz"
-              value={newUserEmail}
-              setState={setNewUserEmail}
-              type="text"
-              id="newUserEmail"
-            >
-              Email of user to add
-            </Input>
-            <Button type="submit">Add user to company</Button>
-          </form>
+          <Form
+            schema={[
+              {
+                id: 'add-user-to-company-email',
+                label: 'Email of new user',
+                name: 'email',
+                placeholder: 'bob@ross.com',
+                type: 'email',
+              },
+            ]}
+            onSubmit={onSubmitAddNewUser}
+          >
+            Add new user
+          </Form>
         </Collapsable>
       )}
     </div>

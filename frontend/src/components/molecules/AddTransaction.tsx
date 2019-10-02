@@ -4,164 +4,144 @@ import styled from 'styled-components';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
-import Checkbox from '../atoms/Checkbox';
 import Collapsable from '../atoms/Collapsable';
-import Input from '../atoms/Input';
-import OutlinedButton from '../atoms/OutlinedButton';
-import RadioButton from '../atoms/RadioButton';
-import RecurringTransactionOptions, {
-  IntervalType,
-} from '../atoms/RecurringTransactionOptions';
-import TextArea from '../atoms/TextArea';
-
-type TransactionType = import('../../declarations/transaction').TransactionType;
+import Form from './Form';
 
 const AddTransaction: React.FC<{ className?: string }> = props => {
   const dispatch = useTransactionDispatch();
   const auth = useAuthState();
 
-  const [transactionType, setTransactionType] = React.useState<TransactionType>(
-    'EX'
-  );
-
-  const [date, setDate] = React.useState(moment().format('YYYY-MM-DD'));
-  const [endDate, setEndDate] = React.useState(
-    moment()
-      .add(1, 'year')
-      .format('YYYY-MM-DD')
-  );
-  const [amount, setAmount] = React.useState();
-  const [description, setDescription] = React.useState('');
-  const [notes, setNotes] = React.useState('');
-  const [recurring, setRecurring] = React.useState(false);
-  const [interval, setInterval] = React.useState(1);
-  const [intervalTypeValue, setIntervalType] = React.useState<IntervalType>(
-    'MO'
-  );
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      if (!recurring) {
-        await TransactionActions.doCreateTransaction(
-          {
-            company_id: auth!.selectedCompany!,
-            date,
+  const onSubmit = async ({
+    recurring,
+    money,
+    type,
+    description,
+    notes,
+    date,
+    end_date,
+    interval_type,
+    interval,
+  }: any) => {
+    if (!recurring) {
+      await TransactionActions.doCreateTransaction(
+        {
+          company_id: auth!.selectedCompany!,
+          date,
+          description,
+          money: money * 100,
+          notes,
+          type,
+        },
+        dispatch
+      );
+    } else {
+      await TransactionActions.doCreateRecurringTransaction(
+        {
+          company_id: auth!.selectedCompany!,
+          end_date,
+          interval,
+          interval_type,
+          start_date: date,
+          template: {
             description,
-            money: amount * 100,
-            notes,
-            type: transactionType,
+            money: money * 100,
+            type,
           },
-          dispatch
-        );
-      } else {
-        await TransactionActions.doCreateRecurringTransaction(
-          {
-            company_id: auth!.selectedCompany!,
-            end_date: endDate,
-            interval,
-            interval_type: intervalTypeValue,
-            start_date: date,
-            template: {
-              description,
-              money: amount * 100,
-              type: transactionType,
-            },
-          },
-          dispatch
-        );
-      }
-    } catch (e) {
-      /* TODO: handle and display error to the user */
-      // tslint:disable-next-line: no-console
-      console.error(e);
+        },
+        dispatch
+      );
     }
   };
-
-  const handleTransactionTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setTransactionType({ income: 'IN', expense: 'EX' }[
-      event.target.value as 'income' | 'expense'
-    ] as TransactionType);
-  };
-
-  const recurringTransactionOptions = (
-    <RecurringTransactionOptions
-      intervalValue={interval}
-      intervalTypeValue={intervalTypeValue}
-      setInterval={setInterval}
-      setTypeInterval={setIntervalType}
-    />
-  );
 
   return (
     <Collapsable heading={<h1>Add new transaction</h1>}>
       <div className={props.className}>
-        <form onSubmit={handleSubmit}>
-          <RadioButton
-            name="transactionType"
-            value="expense"
-            checked={transactionType === 'EX'}
-            handler={handleTransactionTypeChange}
-          >
-            Expense
-          </RadioButton>
-          <RadioButton
-            name="transactionType"
-            value="income"
-            checked={transactionType === 'IN'}
-            handler={handleTransactionTypeChange}
-          >
-            Income
-          </RadioButton>
-          <Input value={date} id="date" type="date" setState={setDate}>
-            {recurring ? 'Start date' : 'Date'}
-          </Input>
-          {recurring && (
-            <Input
-              value={endDate}
-              id="end-date"
-              type="date"
-              setState={setEndDate}
-            >
-              End date
-            </Input>
-          )}
-          <Input
-            value={amount}
-            id="amount"
-            type="number"
-            setState={setAmount}
-            placeholder="0.00"
-          >
-            Amount
-          </Input>
-          <Input
-            value={description}
-            id="description"
-            type="text"
-            setState={setDescription}
-            placeholder="Kakefestballong"
-          >
-            Description
-          </Input>
-          <TextArea
-            value={notes}
-            id="notes"
-            setState={setNotes}
-            placeholder="Notes regarding the transaction"
-          >
-            Notes
-          </TextArea>
-          <Checkbox value={recurring} setState={setRecurring} id="recurring">
-            Recurring?
-          </Checkbox>
-          <br />
-          {recurring && recurringTransactionOptions}
-          <OutlinedButton type="submit">Add transaction</OutlinedButton>
-        </form>
+        <Form
+          schema={[
+            {
+              id: 'add-transaction-income',
+              label: 'Income',
+              name: 'type',
+              type: 'radio',
+              value: 'IN',
+            },
+            {
+              id: 'add-transaction-expense',
+              label: 'Expense',
+              name: 'type',
+              type: 'radio',
+              value: 'EX',
+            },
+            {
+              aliasName: 'start_date',
+              id: 'add-transaction-date',
+              label: 'Date',
+              name: 'date',
+              type: 'date',
+              value: moment().format('YYYY-MM-DD'),
+            },
+            {
+              id: 'add-transaction-end-date',
+              label: 'End date',
+              name: 'end_date',
+              type: 'date',
+              value: moment()
+                .add(2, 'years')
+                .format('YYYY-MM-DD'),
+              visible: values => values.recurring,
+            },
+            {
+              id: 'add-transaction-amount',
+              label: 'Amount',
+              name: 'money',
+              placeholder: '0.00',
+              type: 'number',
+            },
+            {
+              id: 'add-transaction-description',
+              label: 'Description',
+              name: 'description',
+              placeholder: 'Birthday Party for React.js',
+              type: 'text',
+            },
+            {
+              id: 'add-transaction-notes',
+              label: 'Notes',
+              name: 'notes',
+              placeholder: 'Relevant info about transaction',
+              type: 'textarea',
+            },
+            {
+              id: 'add-transaction-recurring',
+              label: 'Recurring',
+              name: 'recurring',
+              type: 'checkbox',
+            },
+            {
+              id: 'add-transaction-interval-count',
+              label: 'Interval period',
+              name: 'interval',
+              placeholder: '3',
+              type: 'number',
+              visible: values => values.recurring,
+            },
+            {
+              id: 'add-transaction-interval-type',
+              label: 'Interval type',
+              name: 'interval_type',
+              selectValues: [
+                { name: 'Day', value: 'DA' },
+                { name: 'Month', value: 'MO' },
+              ],
+              type: 'select',
+              value: 'MO',
+              visible: values => values.recurring,
+            },
+          ]}
+          onSubmit={onSubmit}
+        >
+          Create new transaction
+        </Form>
       </div>
     </Collapsable>
   );
@@ -172,6 +152,14 @@ export default styled(AddTransaction)`
     grid-gap: 1em;
     display: grid;
     grid-template-columns: 50% 50%;
+
+    button[type='submit'] {
+      grid-column: 1 / span 2;
+    }
+
+    #form-container-add-transaction-recurring {
+      grid-column: 1 / span 2;
+    }
   }
 
   margin-top: 1em;
