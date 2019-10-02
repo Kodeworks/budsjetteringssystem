@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
+import { currencyFormat } from '../../helpers/currency';
 import explodeRecurring from '../../helpers/explode_recurring';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionState } from '../../store/contexts/transactions';
@@ -33,49 +34,88 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
         )
       )
       .sort((t1, t2) => (t2.date > t1.date ? -1 : 1))
-      .map((t, i) => {
+      .map((t, i, arr) => {
         accumulatedBalance += (t.type === 'IN' ? t.money : -t.money) / 100;
+        const date = moment(t.date, moment.ISO_8601);
         return (
-          <tr key={`${t.id}-${i}`}>
-            <td>{moment(t.date, moment.ISO_8601).format('DD/MM/YYYY')}</td>
-            <td>{t.description}</td>
-            <td>{t.type === 'IN' ? (t.money / 100).toFixed(2) : ''}</td>
-            <td>{t.type === 'EX' ? (t.money / 100).toFixed(2) : ''}</td>
-            <td>{accumulatedBalance.toFixed(2)}</td>
-          </tr>
+          <React.Fragment key={`${t.id}-${i}`}>
+            {i === 0 ||
+            (arr[i - 1] &&
+              !moment(arr[i - 1].date, moment.ISO_8601).isSame(
+                date,
+                'month'
+              )) ? (
+              <h3>{date.format('MMMM YYYY')}</h3>
+            ) : null}
+            <div className="projection-row">
+              <p>{date.format('DD/MM/YYYY')}</p>
+              <p>{t.description}</p>
+              <p>{currencyFormat(t.type === 'IN' ? t.money / 100 : 0)}</p>
+              <p>{currencyFormat(t.type === 'EX' ? t.money / 100 : 0)}</p>
+              <p>{currencyFormat(accumulatedBalance)}</p>
+            </div>
+          </React.Fragment>
         );
       });
 
   return (
-    <>
+    <div className={className}>
       <PageTitle
         title="Projections"
         description="View the projected liquidity of your company."
       />
 
-      <table className={className}>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>In</th>
-            <th>Out</th>
-            <th>Available</th>
-          </tr>
-        </thead>
-        <tbody>{renderTransactions()}</tbody>
-      </table>
-    </>
+      <div className="projection-row projection-header">
+        <strong>Date</strong>
+        <strong>Description</strong>
+        <strong>Income</strong>
+        <strong>Expense</strong>
+        <strong>Balance</strong>
+      </div>
+      <div className="projection-table">{renderTransactions()}</div>
+    </div>
   );
 };
 
 export default styled(Projections)`
-  width: 60%;
-  border-collapse: collapse;
+  .projection-row {
+    font-size: 1.2em;
+    font-weight: normal;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 
-  td,
-  th {
-    padding: 8px;
-    border: 1px solid black;
+    p {
+      align-self: center;
+    }
+
+    p:nth-last-child(-n + 3),
+    strong:nth-last-child(-n + 3) {
+      text-align: right;
+    }
+  }
+
+  h3 {
+    grid-column: 1 / span 5;
+
+    &:not(:first-child) {
+      margin-top: 2em;
+    }
+  }
+
+  .projection-table {
+    margin-top: 2em;
+  }
+
+  .projection-header {
+    strong {
+      font-weight: 600;
+    }
+
+    position: sticky;
+    top: 4em;
+    padding: 1.5em 1em 1em;
+    margin: -1.5em -1em 0; /* Negate the effect of padding when not stuck */
+    background: ${props => props.theme.palette.background.default};
+    border-bottom: 2px solid ${props => props.theme.palette.primary.default};
   }
 `;
