@@ -27,6 +27,10 @@ interface IFormProps {
   onSubmit: (values: object) => Promise<void>;
 }
 
+const FormComponentContainer: React.FC<{ id: string }> = ({ id, children }) => (
+  <div id={`form-container-${id}`}>{children}</div>
+);
+
 const Form: React.FC<IFormProps> = props => {
   const freshState = React.useMemo<{ [name: string]: any }>(
     () =>
@@ -71,6 +75,7 @@ const Form: React.FC<IFormProps> = props => {
 
     try {
       await props.onSubmit(values);
+      setValues(freshState);
     } catch (e) {
       const errorResp = JSON.parse(e.message) as IError;
 
@@ -132,7 +137,7 @@ const Form: React.FC<IFormProps> = props => {
           switch (e.type) {
             case 'select':
               return (
-                <div key={e.id}>
+                <FormComponentContainer id={e.id} key={e.id}>
                   <Select
                     name={name}
                     values={e.selectValues!}
@@ -143,11 +148,11 @@ const Form: React.FC<IFormProps> = props => {
                     {e.label}
                   </Select>
                   {renderErrors(e)}
-                </div>
+                </FormComponentContainer>
               );
             case 'checkbox':
               return (
-                <div key={e.id}>
+                <FormComponentContainer id={e.id} key={e.id}>
                   <Checkbox
                     name={name}
                     id={e.id}
@@ -157,11 +162,11 @@ const Form: React.FC<IFormProps> = props => {
                     {e.label}
                   </Checkbox>
                   {renderErrors(e)}
-                </div>
+                </FormComponentContainer>
               );
             case 'radio':
               return (
-                <div key={e.id}>
+                <FormComponentContainer id={e.id} key={e.id}>
                   <RadioButton
                     name={name}
                     value={e.value}
@@ -171,11 +176,11 @@ const Form: React.FC<IFormProps> = props => {
                     {e.label}
                   </RadioButton>
                   {renderErrors(e)}
-                </div>
+                </FormComponentContainer>
               );
             case 'textarea':
               return (
-                <div key={e.id}>
+                <FormComponentContainer id={e.id} key={e.id}>
                   <TextArea
                     value={values[name]}
                     setState={setter(name)}
@@ -186,11 +191,11 @@ const Form: React.FC<IFormProps> = props => {
                     {e.label}
                   </TextArea>
                   {renderErrors(e)}
-                </div>
+                </FormComponentContainer>
               );
             default:
               return (
-                <div key={e.id}>
+                <FormComponentContainer id={e.id} key={e.id}>
                   <Input
                     value={values[name]}
                     setState={setter(name)}
@@ -202,7 +207,7 @@ const Form: React.FC<IFormProps> = props => {
                     {e.label}
                   </Input>
                   {renderErrors(e)}
-                </div>
+                </FormComponentContainer>
               );
           }
         })}

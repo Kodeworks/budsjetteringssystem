@@ -33,10 +33,10 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
         )
       )
       .sort((t1, t2) => (t2.date > t1.date ? -1 : 1))
-      .map(t => {
+      .map((t, i) => {
         accumulatedBalance += (t.type === 'IN' ? t.money : -t.money) / 100;
         return (
-          <tr key={`id${t.id}`}>
+          <tr key={`${t.id}-${i}`}>
             <td>{moment(t.date, moment.ISO_8601).format('DD/MM/YYYY')}</td>
             <td>{t.description}</td>
             <td>{t.type === 'IN' ? (t.money / 100).toFixed(2) : ''}</td>

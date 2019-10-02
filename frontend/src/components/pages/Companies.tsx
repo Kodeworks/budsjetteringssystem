@@ -8,6 +8,7 @@ import { useAuth } from '../../store/contexts/auth';
 import { useCompany } from '../../store/contexts/company';
 import { AuthActions } from '../../store/reducers/auth';
 import { CompanyActions } from '../../store/reducers/company';
+import Collapsable from '../atoms/Collapsable';
 import Form from '../molecules/Form';
 
 const Companies: React.FC<{ className?: string }> = props => {
@@ -33,29 +34,29 @@ const Companies: React.FC<{ className?: string }> = props => {
 
       <hr />
 
-      <h2>Create a new company</h2>
-
-      <Form
-        schema={[
-          {
-            id: 'create-company-name',
-            label: 'Name',
-            name: 'name',
-            placeholder: 'Google Inc.',
-            type: 'text',
-          },
-          {
-            id: 'create-company-org_nr',
-            label: 'Organization number',
-            name: 'org_nr',
-            placeholder: '01189998819991197253',
-            type: 'number',
-          },
-        ]}
-        onSubmit={onSubmit}
-      >
-        Create company
-      </Form>
+      <Collapsable heading={<h2>Create a new company</h2>}>
+        <Form
+          schema={[
+            {
+              id: 'create-company-name',
+              label: 'Name',
+              name: 'name',
+              placeholder: 'Google Inc.',
+              type: 'text',
+            },
+            {
+              id: 'create-company-org_nr',
+              label: 'Organization number',
+              name: 'org_nr',
+              placeholder: '01189998819991197253',
+              type: 'number',
+            },
+          ]}
+          onSubmit={onSubmit}
+        >
+          Create company
+        </Form>
+      </Collapsable>
     </div>
   );
 };
@@ -65,7 +66,15 @@ export default styled(Companies)`
     margin: 1em 0;
   }
 
-  & > h2 ~ form > * {
+  form:last-of-type {
     margin-top: 1em;
+    display: grid;
+    grid-gap: 1em;
+
+    grid-template-columns: 1fr 1fr;
+
+    button[type='submit'] {
+      grid-column: 1 / span 2;
+    }
   }
 `;

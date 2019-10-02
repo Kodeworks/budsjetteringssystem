@@ -152,6 +152,14 @@ export default styled(AddTransaction)`
     grid-gap: 1em;
     display: grid;
     grid-template-columns: 50% 50%;
+
+    button[type='submit'] {
+      grid-column: 1 / span 2;
+    }
+
+    #form-container-add-transaction-recurring {
+      grid-column: 1 / span 2;
+    }
   }
 
   margin-top: 1em;
