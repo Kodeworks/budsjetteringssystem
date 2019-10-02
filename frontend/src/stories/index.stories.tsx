@@ -220,7 +220,11 @@ storiesOf('Input/Checkbox', module)
       setState,
       value,
     };
-    return <Checkbox {...props}>Lipsum?</Checkbox>;
+    return (
+      <Checkbox name="test" {...props}>
+        Lipsum?
+      </Checkbox>
+    );
   })
   .add('Ticked', () => {
     const [value, setState] = React.useState(true);
@@ -229,7 +233,11 @@ storiesOf('Input/Checkbox', module)
       setState,
       value,
     };
-    return <Checkbox {...props}>Lipsum?</Checkbox>;
+    return (
+      <Checkbox name="test" {...props}>
+        Lipsum?
+      </Checkbox>
+    );
   });
 
 storiesOf('Filters', module)
