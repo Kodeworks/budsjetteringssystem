@@ -123,7 +123,12 @@ const Filters: React.FC<IFiltersProps & RouteComponentProps<{}>> = props => {
           Description
         </Input>
         <br /> {/* Simple hack to force checkbox to render on the next row */}
-        <Checkbox value={recurring} setState={setRecurring} id="recurring">
+        <Checkbox
+          value={recurring}
+          setState={setRecurring}
+          id="recurring"
+          name="filters-recurring-only"
+        >
           Only recurring?
         </Checkbox>
       </div>
