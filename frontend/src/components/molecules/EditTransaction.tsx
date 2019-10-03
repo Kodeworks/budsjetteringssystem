@@ -1,20 +1,12 @@
-import moment from 'moment';
 import React from 'react';
 import {
   useTransactionDispatch,
   useTransactions,
 } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
-import Input from '../atoms/Input';
-import OutlinedButton from '../atoms/OutlinedButton';
-import RadioButton from '../atoms/RadioButton';
-import RecurringTransactionOptions from '../atoms/RecurringTransactionOptions';
-import TextArea from '../atoms/TextArea';
 import Form from './Form';
 
 type IRecurringTransaction = import('../../declarations/transaction').IRecurringTransaction;
-type TransactionType = import('../../declarations/transaction').TransactionType;
-type IntervalType = IRecurringTransaction['interval_type'];
 
 interface IEditTransactionProps {
   tx: import('../../declarations/transaction').ITransaction;
