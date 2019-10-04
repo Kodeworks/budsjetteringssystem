@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 
+import { currencyFormat } from '../../helpers/currency';
 import { useTransactions } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
 import EditTransaction from '../molecules/EditTransaction';
@@ -68,8 +69,8 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
       <h4 onClick={invert(setShowMore)}>{props.description}</h4>
       <strong>
         {props.type === 'EX'
-          ? `(${(props.money / 100).toFixed(2)})`
-          : (props.money / 100).toFixed(2)}
+          ? `(${currencyFormat(props.money / 100)})`
+          : currencyFormat(props.money / 100)}
       </strong>
       <h6>
         {moment(props.date).format('L')}
