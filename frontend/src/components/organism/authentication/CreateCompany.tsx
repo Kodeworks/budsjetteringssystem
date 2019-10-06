@@ -27,6 +27,7 @@ const CreateCompany: React.FC<
       <h1 data-testid="authform-header">Create company</h1>
 
       <Form
+        disrupting={true}
         schema={[
           {
             id: 'create-company-name',

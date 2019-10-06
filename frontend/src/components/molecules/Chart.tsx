@@ -16,22 +16,26 @@ const Chart: React.FC<{ className?: string }> = ({ className }) => {
 
   React.useEffect(() => {
     (async () => {
-      // Change to for..of for async
-      companies.forEach(async c => {
-        const result = await API.getBalanceByDateRange(
-          c.id,
-          moment()
-            .subtract(3, 'months')
-            .format('YYYY-MM-DD'),
-          moment()
-            .add(9, 'months')
-            .format('YYYY-MM-DD')
-        );
-        setBalances(e => ({
-          ...e,
-          [c.name]: e[c.name] !== undefined ? e[c.name].concat(result) : result,
-        }));
-      });
+      try {
+        for (const c of companies) {
+          const result = await API.getBalanceByDateRange(
+            c.id,
+            moment()
+              .subtract(3, 'months')
+              .format('YYYY-MM-DD'),
+            moment()
+              .add(9, 'months')
+              .format('YYYY-MM-DD')
+          );
+          setBalances(e => ({
+            ...e,
+            [c.name]:
+              e[c.name] !== undefined ? e[c.name].concat(result) : result,
+          }));
+        }
+      } catch (e) {
+        // Unexpected event happened. Most likely due to IDs being incorrect - hence the try/catch.
+      }
     })();
   }, [companies]);
 

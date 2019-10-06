@@ -23,19 +23,24 @@ const CurrentBalanceEntry: React.FC<ICurrentBalanceEntryProps> = ({
 
   React.useEffect(() => {
     (async () => {
-      setLiquidity(
-        (await API.getBalanceForDay(id, moment().format('YYYY-MM-DD'))).money /
-          100
-      );
+      try {
+        setLiquidity(
+          (await API.getBalanceForDay(id, moment().format('YYYY-MM-DD')))
+            .money / 100
+        );
 
-      setLiquidityOneMonthAgo(
-        (await API.getBalanceForDay(
-          id,
-          moment()
-            .subtract(1, 'month')
-            .format('YYYY-MM-DD')
-        )).money / 100
-      );
+        setLiquidityOneMonthAgo(
+          (await API.getBalanceForDay(
+            id,
+            moment()
+              .subtract(1, 'month')
+              .format('YYYY-MM-DD')
+          )).money / 100
+        );
+      } catch (e) {
+        setLiquidity(0);
+        setLiquidityOneMonthAgo(0);
+      }
     })();
   }, [id]);
 
