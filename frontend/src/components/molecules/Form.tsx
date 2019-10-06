@@ -26,6 +26,7 @@ interface IFormProps {
   schema: IFormSchema;
   onSubmit: (values: object) => Promise<void>;
   successCallback?: () => void;
+  disrupting?: boolean;
 }
 
 const FormComponentContainer: React.FC<{ id: string }> = ({ id, children }) => (
@@ -75,6 +76,14 @@ const Form: React.FC<IFormProps> = props => {
     setErrors([]);
 
     try {
+      /**
+       * This exists because of forms like register and login, which may redirect the user.
+       * Without this, we will run into a memory leak where it will try to perform actions
+       * on an unmounted component.
+       */
+      if (props.disrupting) {
+        return await props.onSubmit(values);
+      }
       await props.onSubmit(values);
       setValues(freshState);
 
@@ -113,7 +122,7 @@ const Form: React.FC<IFormProps> = props => {
       errs = errs.concat(fieldErrors[e.aliasName] || []);
     }
 
-    return errors.length > 0 ? (
+    return errs.length > 0 ? (
       <div>
         {errs.map(err => (
           <p key={err.code}>{err.detail}</p>
