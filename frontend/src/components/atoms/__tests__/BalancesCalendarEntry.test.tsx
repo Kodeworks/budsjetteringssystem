@@ -18,9 +18,9 @@ test('BalancesCalendarEntry renders correct data for given entry-object', () => 
   );
 
   expect(getByText('28.'));
-  expect(getByText('10,000.00'));
-  expect(getByText('(20,000.00)'));
-  expect(getByText('100,000.00'));
+  expect(getByText('10 000.00'));
+  expect(getByText('(20 000.00)'));
+  expect(getByText('100 000.00'));
   expect(container.querySelector('hr')).not.toBe(null);
 });
 
