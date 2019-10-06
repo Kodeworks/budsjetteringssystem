@@ -19,7 +19,6 @@ const Register: React.FC<
       password,
       dispatch
     );
-    props.history.push('/');
   };
 
   return (

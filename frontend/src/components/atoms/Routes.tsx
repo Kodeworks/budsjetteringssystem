@@ -3,6 +3,7 @@ import { useAuthState } from '../../store/contexts/auth';
 
 import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
 
+import CreateCompany from '../organism/authentication/CreateCompany';
 import Login from '../organism/authentication/Login';
 import Register from '../organism/authentication/Register';
 import Navigation from '../organism/Navigation';
@@ -10,7 +11,6 @@ import Projections from '../organism/Projections';
 import Transactions from '../organism/Transactions';
 import Balances from '../pages/Balances';
 import Companies from '../pages/Companies';
-import CreateCompany from '../pages/CreateCompany';
 import Dashboard from '../pages/Dashboard';
 import FAQ from '../pages/FAQ';
 import Page from '../templates/Page';
@@ -44,6 +44,8 @@ const Routes: React.FC<RouteComponentProps<{}>> = props => {
     );
   } else if (!user) {
     return <h1>Loading...</h1>;
+  } else if (user.companies.length === 0) {
+    return <CreateCompany {...props} />;
   } else {
     return (
       <>
@@ -55,7 +57,6 @@ const Routes: React.FC<RouteComponentProps<{}>> = props => {
           <Route path="/transactions" component={Transactions} />
           <Route path="/balances" component={Balances} />
           <Route path="/companies" component={Companies} />
-          <Route path="/create-company" component={CreateCompany} />
         </Page>
       </>
     );

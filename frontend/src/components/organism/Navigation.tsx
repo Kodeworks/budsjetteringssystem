@@ -59,15 +59,6 @@ const Navigation: React.FC<{ className?: string } & RouteComponentProps> = ({
       </div>
       <NavigationSeparator />
       <div>
-        {auth!.companies.length === 0 && (
-          <NavigationPill
-            key="create-company"
-            to="/create-company"
-            active={pathname === '/create-company'}
-          >
-            <strong>Create a company</strong>
-          </NavigationPill>
-        )}
         {links.map(l => (
           <NavigationPill key={l.to} to={l.to} active={pathname === `/${l.to}`}>
             {l.name}
