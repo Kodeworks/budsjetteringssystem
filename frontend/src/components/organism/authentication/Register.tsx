@@ -27,6 +27,7 @@ const Register: React.FC<
       <h1 data-testid="authform-header">Sign up</h1>
 
       <Form
+        disrupting={true}
         schema={[
           {
             id: 'register-first_name',

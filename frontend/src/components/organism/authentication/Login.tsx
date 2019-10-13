@@ -21,6 +21,7 @@ const Login: React.FC<
       <h1 data-testid="authform-header">Sign in</h1>
 
       <Form
+        disrupting={true}
         schema={[
           {
             id: 'login-email',
