@@ -33,8 +33,12 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
     );
   };
 
-  const isOwner =
-    company.users.find(u => u.user_id === auth!.id)!.role === 'OW';
+  let isOwner: boolean;
+  try {
+    isOwner = company.users.find(u => u.user_id === auth!.id)!.role === 'OW';
+  } catch (e) {
+    isOwner = false;
+  }
 
   const onClickDelete: React.MouseEventHandler = async () => {
     await AuthActions.doRemoveCompanyFromUser(company.id, authDispatch);
