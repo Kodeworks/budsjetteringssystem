@@ -13,6 +13,12 @@ BACKEND_RUN=$(COMPOSE) run --rm backend
 BACKEND_MANAGE=$(BACKEND_RUN) python manage.py
 PROD_BACKEND_MANAGE=$(COMPOSE_PROD) run --rm backend python manage.py
 
+ifeq ($(OS),Windows_NT)
+	TEST_NGINX_PREFIX=
+else
+	TEST_NGINX_PREFIX=NGINX_PORT=$(NGINX_TEST_PORT)
+endif
+
 
 .PHONY: all
 all: migrate up
@@ -72,7 +78,7 @@ test-frontend:
 
 .PHONY: test-frontend-api
 test-frontend-api:
-	NGINX_PORT=$(NGINX_TEST_PORT) $(FRONTEND_TEST_PROJECT) up -d
+	$(TEST_NGINX_PREFIX) $(FRONTEND_TEST_PROJECT) up -d
 	$(FRONTEND_TEST_PROJECT) exec backend python manage.py migrate
 	$(FRONTEND_TEST_PROJECT) exec backend python manage.py flush --no-input
 	$(FRONTEND_TEST_RUN) yarn test:api $(YCMD)
