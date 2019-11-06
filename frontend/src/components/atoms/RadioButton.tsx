@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Label from './Label';
 
 interface IRadioButtonProps {
   setState: React.Dispatch<React.SetStateAction<any>>;
@@ -10,30 +9,41 @@ interface IRadioButtonProps {
 const RadioButton: React.FC<
   IRadioButtonProps & React.HTMLProps<HTMLInputElement>
 > = props => {
-  const onChange: React.ChangeEventHandler = () => props.setState(props.value);
+  const onChange: React.MouseEventHandler = () => props.setState(props.value);
 
   return (
-    <div className={props.className}>
-      <Label
-        checkboxLabel={true}
-        htmlFor={`radio-${props.name}-${props.value}`}
-      >
-        {props.children}
-      </Label>
+    <div className={props.className} onClick={onChange}>
+      <span>{props.children}</span>
       <input
-        checked={props.checked}
+        readOnly={true}
         type="radio"
-        id={`radio-${props.name}-${props.value}`}
         name={props.name}
-        value={props.value}
-        onChange={onChange}
+        checked={props.checked}
+        id={`radio${props.name}-${props.value}`}
       />
     </div>
   );
 };
 
 export default styled(RadioButton)`
-  * {
-    vertical-align: middle;
+  input {
+    margin-right: 0.5em;
+    align-self: center;
   }
+
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 0.8em;
+  padding: 0.5em 0.75em;
+  background: ${props => props.theme.palette.primary.main};
+  border: 2px solid ${props => props.theme.palette.primary.contrast};
+  border-radius: 3px;
+  color: ${props => props.theme.palette.primary.contrast};
+  outline: none;
+  transition: background 0.1s, color 0.1s;
+
+  ${props =>
+    props.checked &&
+    `background: ${props.theme.palette.primary.contrast}; color: ${props.theme.palette.primary.main};`}
 `;
