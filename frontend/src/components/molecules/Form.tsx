@@ -27,6 +27,7 @@ interface IFormProps {
   onSubmit: (values: object) => Promise<void>;
   successCallback?: () => void;
   disrupting?: boolean;
+  stateReset?: boolean;
 }
 
 const FormComponentContainer: React.FC<{ id: string }> = ({ id, children }) => (
@@ -85,7 +86,9 @@ const Form: React.FC<IFormProps> = props => {
         return await props.onSubmit(values);
       }
       await props.onSubmit(values);
-      setValues(freshState);
+
+      // If state reset prop is set, refresh values to fresh state.
+      props.stateReset && setValues(freshState);
 
       if (props.successCallback) {
         props.successCallback();

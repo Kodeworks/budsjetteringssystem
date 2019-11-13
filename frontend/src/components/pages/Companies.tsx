@@ -53,6 +53,7 @@ const Companies: React.FC<{ className?: string }> = props => {
             },
           ]}
           onSubmit={onSubmit}
+          stateReset={true}
         >
           Create company
         </Form>

@@ -139,6 +139,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             },
           ]}
           onSubmit={onSubmit}
+          stateReset={true}
         >
           Create new transaction
         </Form>

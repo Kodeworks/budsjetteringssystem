@@ -6,7 +6,11 @@ import Routes from './components/atoms/Routes';
 import Wrap from './helpers/GlobalWrapper';
 import { navbarWidth } from './styling/sizes';
 
-const App: React.FC<{ className?: string }> = props => (
+interface IAppProps {
+  className?: string;
+}
+
+const App: React.FC<IAppProps> = props => (
   <Wrap className={props.className}>
     <Routes />
   </Wrap>

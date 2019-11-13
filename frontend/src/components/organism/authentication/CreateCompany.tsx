@@ -45,6 +45,7 @@ const CreateCompany: React.FC<
           },
         ]}
         onSubmit={onSubmit}
+        stateReset={true}
       >
         Create company
       </Form>
