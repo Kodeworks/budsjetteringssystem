@@ -6,9 +6,9 @@ import { useAuthState } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
 import { CompanyActions } from '../../store/reducers/company';
 
+import { guardAction } from '../../helpers/guardAction';
 import Button from './Button';
 import Select from './Select';
-import { guardAction } from '../../helpers/guardAction';
 
 type Role = import('../../declarations/company').Role;
 
