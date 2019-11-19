@@ -2,11 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 import * as API from '../../mitochondria';
-import { useAuthState } from '../../store/contexts/auth';
+import { useAuth } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
-import { CompanyActions } from '../../store/reducers/company';
+import {
+  CompanyActionCreators,
+  CompanyActions,
+} from '../../store/reducers/company';
 
 import { guardAction } from '../../helpers/guardAction';
+import { AuthActionCreators } from '../../store/reducers/auth';
 import Button from './Button';
 import Select from './Select';
 
@@ -31,7 +35,7 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
 
   const [role, setRole] = React.useState<Role>(user.role);
 
-  const auth = useAuthState();
+  const [auth, authDispatch] = useAuth();
   const companyDispatch = useCompanyDispatch();
 
   const onRoleChange: React.FormEventHandler<HTMLSelectElement> = async e => {
@@ -48,7 +52,7 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
     HTMLButtonElement
   > = () => {
     guardAction(
-      isOwner
+      user.user_id === auth!.id
         ? `Are you sure you want to leave ${companyName}?`
         : `Are you sure you want to remove ${name} from ${companyName}?`,
       async () => {
@@ -57,6 +61,12 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
           user.user_id,
           companyDispatch
         );
+        if (user.user_id === auth!.id) {
+          authDispatch(
+            AuthActionCreators.removeCompanyFromUser(user.company_id)
+          );
+          companyDispatch(CompanyActionCreators.deleteCompany(user.company_id));
+        }
       }
     );
   };
@@ -71,7 +81,7 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
   return (
     <div className={className}>
       <h3>{name}</h3>
-      {auth!.id !== user.user_id && (
+      {auth!.id !== user.user_id && isOwner && (
         <Select
           values={[
             { name: 'Owner', value: 'OW' },
