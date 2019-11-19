@@ -51,6 +51,7 @@ const OverrideRecurringForm: React.FC<IOverrideRecurringFormProps> = props => {
         },
       ]}
       onSubmit={onSubmit}
+      stateReset={true}
     >
       Create override
     </Form>
