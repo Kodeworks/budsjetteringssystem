@@ -23,7 +23,15 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
     [auth, recurringTransactions, store.transactions]
   );
 
-  let accumulatedBalance = 0;
+  const pastAccumulatedBalance = React.useMemo(
+    () =>
+      transactions
+        .filter(t => moment(t.date).isBefore(moment(), 'day'))
+        .reduce((prev, curr) => prev + curr.money / 100, 0),
+    [transactions]
+  );
+
+  let accumulatedBalance = pastAccumulatedBalance;
 
   const renderTransactions = () =>
     transactions
