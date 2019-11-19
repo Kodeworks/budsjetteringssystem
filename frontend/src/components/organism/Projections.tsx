@@ -27,7 +27,11 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
     () =>
       transactions
         .filter(t => moment(t.date).isBefore(moment(), 'day'))
-        .reduce((prev, curr) => prev + curr.money / 100, 0),
+        .reduce(
+          (prev, curr) =>
+            prev + (curr.type === 'IN' ? curr.money : -curr.money) / 100,
+          0
+        ),
     [transactions]
   );
 
