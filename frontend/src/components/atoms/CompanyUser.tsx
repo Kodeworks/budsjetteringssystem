@@ -6,6 +6,7 @@ import { useAuthState } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
 import { CompanyActions } from '../../store/reducers/company';
 
+import { guardAction } from '../../helpers/guardAction';
 import Button from './Button';
 import Select from './Select';
 
@@ -15,12 +16,14 @@ interface ICompanyUserProps {
   user: import('../../declarations/company').ICompanyUser;
   className?: string;
   isOwner: boolean;
+  companyName: string;
 }
 
 const CompanyUser: React.FC<ICompanyUserProps> = ({
   className,
   user,
   isOwner,
+  companyName,
 }) => {
   const [name, setName] = React.useState(
     `Loading name of user ${user.user_id}...`
@@ -43,11 +46,18 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
 
   const onClickRemoveUserFromCompany: React.MouseEventHandler<
     HTMLButtonElement
-  > = async () => {
-    await CompanyActions.doRemoveUserFromCompany(
-      user.company_id,
-      user.user_id,
-      companyDispatch
+  > = () => {
+    guardAction(
+      isOwner
+        ? `Are you sure you want to leave ${companyName}?`
+        : `Are you sure you want to remove ${name} from ${companyName}?`,
+      async () => {
+        await CompanyActions.doRemoveUserFromCompany(
+          user.company_id,
+          user.user_id,
+          companyDispatch
+        );
+      }
     );
   };
 

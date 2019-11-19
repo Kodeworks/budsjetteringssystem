@@ -12,6 +12,8 @@ import CompanyUser from '../atoms/CompanyUser';
 import UpdateCompanyForm from '../atoms/UpdateCompanyForm';
 import Form from './Form';
 
+import { guardAction } from '../../helpers/guardAction';
+
 interface ICompanyProps {
   company: import('../../declarations/company').ICompany;
   className?: string;
@@ -40,9 +42,14 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
     isOwner = false;
   }
 
-  const onClickDelete: React.MouseEventHandler = async () => {
-    await AuthActions.doRemoveCompanyFromUser(company.id, authDispatch);
-    await CompanyActions.doDeleteCompany(company.id, dispatch);
+  const onClickDelete: React.MouseEventHandler = () => {
+    guardAction(
+      `Are you sure you want to delete the company ${company.name}?`,
+      async () => {
+        AuthActions.doRemoveCompanyFromUser(company.id, authDispatch);
+        await CompanyActions.doDeleteCompany(company.id, dispatch);
+      }
+    );
   };
 
   const toggleShowUpdateForm: React.MouseEventHandler<HTMLButtonElement> = () =>
@@ -61,7 +68,12 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
       <h3>Members</h3>
       <ul>
         {company.users.map(u => (
-          <CompanyUser user={u} key={u.user_id} isOwner={isOwner} />
+          <CompanyUser
+            companyName={company.name}
+            user={u}
+            key={u.user_id}
+            isOwner={isOwner}
+          />
         ))}
       </ul>
       {isOwner && (
