@@ -81,7 +81,7 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
   return (
     <div className={className}>
       <h3>{name}</h3>
-      {auth!.id !== user.user_id && (
+      {auth!.id !== user.user_id && isOwner && (
         <Select
           values={[
             { name: 'Owner', value: 'OW' },
