@@ -54,7 +54,7 @@ const Chart: React.FC<{ className?: string }> = ({ className }) => {
                 : 1
             )
             .map(e => ({
-              x: moment(e.date, moment.ISO_8601).unix(),
+              x: moment(e.date, 'YYYY-MM-DD').unix(),
               y: e.money / 100,
             })),
           name,
@@ -71,7 +71,7 @@ const Chart: React.FC<{ className?: string }> = ({ className }) => {
           tooltip: {
             x: {
               formatter: (timestamp: number) =>
-                moment.unix(timestamp).format('Mo MMMM YYYY'),
+                moment.unix(timestamp).format('Do MMMM YYYY'),
             },
           },
           xaxis: {
@@ -80,6 +80,12 @@ const Chart: React.FC<{ className?: string }> = ({ className }) => {
                 moment.unix(timestamp).format("DD/MM-'YY"),
             },
             type: 'datetime',
+            min: moment()
+              .subtract(3, 'months')
+              .unix(),
+            max: moment()
+              .add(9, 'months')
+              .unix(),
           },
         }}
         type="line"
