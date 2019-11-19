@@ -75,7 +75,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             {
               aliasName: 'start_date',
               id: 'add-transaction-date',
-              label: 'Date',
+              label: values => (values.recurring ? 'Start date' : 'Date'),
               name: 'date',
               type: 'date',
               value: moment().format('YYYY-MM-DD'),
