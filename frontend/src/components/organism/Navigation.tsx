@@ -39,9 +39,7 @@ const Navigation: React.FC<{ className?: string } & RouteComponentProps> = ({
 
     return {
       // It might not be there yet, as we're loading this async in contexts/company
-      name: company
-        ? company.name
-        : `Loading company with ID ${c.company_id}...`,
+      name: company ? company.name : `Loading company...`,
       value: c.company_id,
     };
   });
