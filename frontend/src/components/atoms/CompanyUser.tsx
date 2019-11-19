@@ -5,14 +5,14 @@ import * as API from '../../mitochondria';
 import { useAuth } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
 import {
-  CompanyActions,
   CompanyActionCreators,
+  CompanyActions,
 } from '../../store/reducers/company';
 
 import { guardAction } from '../../helpers/guardAction';
+import { AuthActionCreators } from '../../store/reducers/auth';
 import Button from './Button';
 import Select from './Select';
-import { AuthActionCreators } from '../../store/reducers/auth';
 
 type Role = import('../../declarations/company').Role;
 
