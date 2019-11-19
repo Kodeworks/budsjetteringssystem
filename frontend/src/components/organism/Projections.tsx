@@ -126,7 +126,7 @@ export default styled(Projections)`
     }
 
     position: sticky;
-    top: 4em;
+    top: calc(4em - 3px);
     padding: 1.5em 1em 1em;
     margin: -1.5em -1em 0; /* Negate the effect of padding when not stuck */
     background: ${props => props.theme.palette.background.default};
