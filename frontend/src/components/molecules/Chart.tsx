@@ -79,13 +79,13 @@ const Chart: React.FC<{ className?: string }> = ({ className }) => {
               formatter: (timestamp: number) =>
                 moment.unix(timestamp).format("DD/MM-'YY"),
             },
-            type: 'datetime',
-            min: moment()
-              .subtract(3, 'months')
-              .unix(),
             max: moment()
               .add(9, 'months')
               .unix(),
+            min: moment()
+              .subtract(3, 'months')
+              .unix(),
+            type: 'datetime',
           },
         }}
         type="line"
