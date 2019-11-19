@@ -13,7 +13,7 @@ interface IInput {
   // Because date transforms into start_date
   aliasName?: string;
   id: string;
-  label: string;
+  label: string | ((values: any) => string);
   value?: string | number;
   selectValues?: Array<{ value: any; name: string }>;
   placeholder?: string;
@@ -148,8 +148,18 @@ const Form: React.FC<IFormProps> = props => {
       <form onSubmit={onSubmit}>
         {props.schema.map(e => {
           const name = e.name;
+          let label = e.label;
 
-          if (e.visible && !e.visible(values)) {
+          /**
+           * If the label passed down is a function, evaulate the function and
+           * set the new label name to the return value of the function. If it
+           * is a string, simply use that.
+           */
+          if (typeof label === 'function') {
+            label = label(values);
+          }
+
+          if (e.visible !== undefined && !e.visible(values)) {
             return null;
           }
 
@@ -164,7 +174,7 @@ const Form: React.FC<IFormProps> = props => {
                     value={values[name]}
                     setState={setter(name)}
                   >
-                    {e.label}
+                    {label}
                   </Select>
                   {renderErrors(e)}
                 </FormComponentContainer>
@@ -178,7 +188,7 @@ const Form: React.FC<IFormProps> = props => {
                     value={values[name]}
                     setState={setter(name)}
                   >
-                    {e.label}
+                    {label}
                   </Checkbox>
                   {renderErrors(e)}
                 </FormComponentContainer>
@@ -192,7 +202,7 @@ const Form: React.FC<IFormProps> = props => {
                     checked={values[name] === e.value}
                     setState={setter(name)}
                   >
-                    {e.label}
+                    {label}
                   </RadioButton>
                   {renderErrors(e)}
                 </FormComponentContainer>
@@ -207,7 +217,7 @@ const Form: React.FC<IFormProps> = props => {
                     placeholder={e.placeholder}
                     ariaLabel={name}
                   >
-                    {e.label}
+                    {label}
                   </TextArea>
                   {renderErrors(e)}
                 </FormComponentContainer>
@@ -223,7 +233,7 @@ const Form: React.FC<IFormProps> = props => {
                     placeholder={e.placeholder}
                     ariaLabel={name}
                   >
-                    {e.label}
+                    {label}
                   </Input>
                   {renderErrors(e)}
                 </FormComponentContainer>
