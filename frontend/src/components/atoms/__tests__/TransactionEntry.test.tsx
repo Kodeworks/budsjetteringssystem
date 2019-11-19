@@ -41,7 +41,7 @@ test('TransactionEntry', () => {
   expect(paragraph).toBe(null);
   expect(strong).not.toBe(null);
   if (strong) {
-    expect(strong.textContent).toEqual(`${(testMoney / 100).toFixed(2)}`);
+    expect(strong.textContent).toEqual(`${(testMoney / 100).toFixed(0)}`);
   }
 
   /* Hovering over TransactionEntry component should display paragraph */
