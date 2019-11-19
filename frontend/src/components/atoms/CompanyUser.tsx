@@ -2,13 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 import * as API from '../../mitochondria';
-import { useAuthState } from '../../store/contexts/auth';
+import { useAuth } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
-import { CompanyActions } from '../../store/reducers/company';
+import {
+  CompanyActions,
+  CompanyActionCreators,
+} from '../../store/reducers/company';
 
 import { guardAction } from '../../helpers/guardAction';
 import Button from './Button';
 import Select from './Select';
+import { AuthActionCreators } from '../../store/reducers/auth';
 
 type Role = import('../../declarations/company').Role;
 
@@ -31,7 +35,7 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
 
   const [role, setRole] = React.useState<Role>(user.role);
 
-  const auth = useAuthState();
+  const [auth, authDispatch] = useAuth();
   const companyDispatch = useCompanyDispatch();
 
   const onRoleChange: React.FormEventHandler<HTMLSelectElement> = async e => {
@@ -57,6 +61,12 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
           user.user_id,
           companyDispatch
         );
+        if (user.user_id === auth!.id) {
+          authDispatch(
+            AuthActionCreators.removeCompanyFromUser(user.company_id)
+          );
+          companyDispatch(CompanyActionCreators.deleteCompany(user.company_id));
+        }
       }
     );
   };
