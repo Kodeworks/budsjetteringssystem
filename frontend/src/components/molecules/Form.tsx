@@ -28,6 +28,11 @@ interface IFormProps {
   successCallback?: () => void;
   disrupting?: boolean;
   stateReset?: boolean;
+  /**
+   * Fields specified here will not be updated by the freshState update. Thus
+   * depends on stateReset being true.
+   */
+  freezeFields?: Array<string>;
 }
 
 const FormComponentContainer: React.FC<{ id: string }> = ({ id, children }) => (
@@ -89,7 +94,14 @@ const Form: React.FC<IFormProps> = props => {
 
       // If state reset prop is set, refresh values to fresh state.
       if (props.stateReset) {
-        setValues(freshState);
+        if (props.freezeFields) {
+          const overrides = Object.fromEntries(
+            props.freezeFields.map(f => [f, values[f]])
+          );
+          setValues({ ...freshState, ...overrides });
+        } else {
+          setValues(freshState);
+        }
       }
 
       if (props.successCallback) {

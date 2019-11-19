@@ -140,6 +140,14 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
           ]}
           onSubmit={onSubmit}
           stateReset={true}
+          freezeFields={[
+            'type',
+            'date',
+            'recurring',
+            'end_date',
+            'interval',
+            'interval_type',
+          ]}
         >
           Create new transaction
         </Form>
