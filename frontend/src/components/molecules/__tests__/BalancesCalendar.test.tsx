@@ -45,14 +45,10 @@ test('BalancesCalendar renders entries correct', () => {
     expect(getByText(`${i + 1}.`));
   }
 
-  expect(getByText('1.').parentElement).toHaveTextContent(
-    '(2 000.00)100 000.00'
-  );
-  expect(getByText('8.').parentElement).toHaveTextContent('2 000.00');
-  expect(getByText('15.').parentElement).toHaveTextContent(
-    '4 000.00106 000.00'
-  );
-  expect(getByText('2.').parentElement).not.toHaveTextContent('(2 000.00)');
+  expect(getByText('1.').parentElement).toHaveTextContent('(2 000)100 000');
+  expect(getByText('8.').parentElement).toHaveTextContent('2 000');
+  expect(getByText('15.').parentElement).toHaveTextContent('15.4 000106 000');
+  expect(getByText('2.').parentElement).not.toHaveTextContent('(2 000)');
 
   // Check that it renders empty divs upto the day of the first of the month.
   // For June this would be 5 leading empty divs.
