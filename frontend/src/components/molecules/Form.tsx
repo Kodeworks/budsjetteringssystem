@@ -88,7 +88,9 @@ const Form: React.FC<IFormProps> = props => {
       await props.onSubmit(values);
 
       // If state reset prop is set, refresh values to fresh state.
-      props.stateReset && setValues(freshState);
+      if (props.stateReset) {
+        setValues(freshState);
+      }
 
       if (props.successCallback) {
         props.successCallback();
