@@ -52,7 +52,7 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
     HTMLButtonElement
   > = () => {
     guardAction(
-      isOwner
+      user.user_id === auth!.id
         ? `Are you sure you want to leave ${companyName}?`
         : `Are you sure you want to remove ${name} from ${companyName}?`,
       async () => {
