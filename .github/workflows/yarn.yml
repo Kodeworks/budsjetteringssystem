@@ -10,11 +10,14 @@ jobs:
       uses: CultureHQ/actions-yarn@master
       with:
         args: install
+        working-directory: ./frontend
     - name: Lint
       uses: CultureHQ/actions-yarn@master
       with:
         args: lint
+        working-directory: ./frontend
     - name: Test
       uses: CultureHQ/actions-yarn@master
       with:
         args: test
+        working-directory: ./frontend
