@@ -33,6 +33,7 @@ const UpdateCompanyForm: React.FC<IUpdateCompanyFormProps> = ({ company }) => {
           name: 'org_nr',
           type: 'number',
           value: company.org_nr,
+          min: 0
         },
       ]}
       onSubmit={onSubmit}

@@ -50,6 +50,7 @@ const Companies: React.FC<{ className?: string }> = props => {
               name: 'org_nr',
               placeholder: '01189998819991197253',
               type: 'number',
+              min: 0
             },
           ]}
           onSubmit={onSubmit}

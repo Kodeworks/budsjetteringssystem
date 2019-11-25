@@ -29,9 +29,10 @@ const OverrideRecurringForm: React.FC<IOverrideRecurringFormProps> = props => {
           id: 'override-recurring-amount',
           label: 'Amount',
           name: 'amount',
-          placeholder: '0.00',
+          placeholder: '1',
           type: 'number',
           value: props.tx.money / 100,
+          min: 1
         },
         {
           id: 'override-recurring-description',

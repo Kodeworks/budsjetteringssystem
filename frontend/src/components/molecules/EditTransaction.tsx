@@ -80,9 +80,10 @@ const EditRecurringTransaction: React.FC<IEditTransactionProps> = props => {
           id: 'add-transaction-amount',
           label: 'Amount',
           name: 'money',
-          placeholder: '0.00',
+          placeholder: '1',
           type: 'number',
           value: rec.template.money / 100,
+          min: 1
         },
         {
           id: 'add-transaction-description',
@@ -107,6 +108,7 @@ const EditRecurringTransaction: React.FC<IEditTransactionProps> = props => {
           placeholder: `${rec.interval}`,
           type: 'number',
           value: rec.interval,
+          min: 1,
         },
         {
           id: 'add-transaction-interval-type',
@@ -170,6 +172,7 @@ const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
           name: 'amount',
           type: 'number',
           value: props.tx.money / 100,
+          min: 1
         },
         {
           id: 'edit-regular-notes',

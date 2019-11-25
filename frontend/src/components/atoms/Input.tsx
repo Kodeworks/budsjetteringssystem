@@ -12,6 +12,8 @@ interface IInputProps {
   setState?: React.Dispatch<React.SetStateAction<any>>;
   value?: string | number;
   ariaLabel?: string;
+  min?: number;
+  max?: number;
 }
 
 const Input: React.FC<IInputProps> = props => {
@@ -27,6 +29,8 @@ const Input: React.FC<IInputProps> = props => {
         id={props.id}
         placeholder={props.placeholder}
         aria-label={props.ariaLabel}
+        min={props.min}
+        max={props.max}
       />
     </div>
   );
