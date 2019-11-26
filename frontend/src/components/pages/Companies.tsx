@@ -47,10 +47,10 @@ const Companies: React.FC<{ className?: string }> = props => {
             {
               id: 'create-company-org_nr',
               label: 'Organization number',
+              min: 0,
               name: 'org_nr',
               placeholder: '01189998819991197253',
               type: 'number',
-              min: 0
             },
           ]}
           onSubmit={onSubmit}

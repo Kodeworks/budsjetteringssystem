@@ -93,10 +93,10 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             {
               id: 'add-transaction-amount',
               label: 'Amount',
+              min: 1,
               name: 'money',
               placeholder: '1',
               type: 'number',
-              min: 1
             },
             {
               id: 'add-transaction-description',
@@ -121,11 +121,11 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             {
               id: 'add-transaction-interval-count',
               label: 'Interval period',
+              min: 1,
               name: 'interval',
               placeholder: '3',
               type: 'number',
               visible: values => values.recurring,
-              min: 1,
             },
             {
               id: 'add-transaction-interval-type',

@@ -39,10 +39,10 @@ const CreateCompany: React.FC<
           {
             id: 'create-company-org_nr',
             label: 'organization number',
+            min: 0,
             name: 'org_nr',
             placeholder: '01189998819991197253',
             type: 'number',
-            min: 0
           },
         ]}
         onSubmit={onSubmit}
