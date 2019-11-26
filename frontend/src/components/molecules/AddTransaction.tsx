@@ -93,8 +93,9 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             {
               id: 'add-transaction-amount',
               label: 'Amount',
+              min: 1,
               name: 'money',
-              placeholder: '0.00',
+              placeholder: '1',
               type: 'number',
             },
             {
@@ -120,6 +121,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
             {
               id: 'add-transaction-interval-count',
               label: 'Interval period',
+              min: 1,
               name: 'interval',
               placeholder: '3',
               type: 'number',

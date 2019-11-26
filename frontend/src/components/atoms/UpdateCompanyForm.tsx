@@ -30,6 +30,7 @@ const UpdateCompanyForm: React.FC<IUpdateCompanyFormProps> = ({ company }) => {
         {
           id: 'update-company-org_nr',
           label: 'Organization number',
+          min: 0,
           name: 'org_nr',
           type: 'number',
           value: company.org_nr,

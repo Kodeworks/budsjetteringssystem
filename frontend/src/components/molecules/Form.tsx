@@ -15,6 +15,8 @@ interface IInput {
   id: string;
   label: string | ((values: any) => string);
   value?: string | number;
+  min?: number;
+  max?: number;
   selectValues?: Array<{ value: any; name: string }>;
   placeholder?: string;
   visible?: (values: any) => boolean;
@@ -234,6 +236,25 @@ const Form: React.FC<IFormProps> = props => {
                   {renderErrors(e)}
                 </FormComponentContainer>
               );
+            case 'number':
+              return (
+                <FormComponentContainer id={e.id} key={e.id}>
+                  <Input
+                    value={values[name]}
+                    setState={setter(name)}
+                    id={e.id}
+                    type={e.type}
+                    placeholder={e.placeholder}
+                    ariaLabel={name}
+                    min={e.min}
+                    max={e.max}
+                  >
+                    {label}
+                  </Input>
+                  {renderErrors(e)}
+                </FormComponentContainer>
+              );
+
             default:
               return (
                 <FormComponentContainer id={e.id} key={e.id}>
