@@ -61,7 +61,18 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
               )) ? (
               <h3>{date.format('MMMM YYYY')}</h3>
             ) : null}
-            <div className="projection-row">
+            <div
+              className={
+                t.type === 'IN'
+                  ? 'projection-row projection-row-in'
+                  : 'projection-row projection-row-ex'
+              }
+              style={
+                arr[i - 1] && arr[i].type === arr[i - 1].type
+                  ? { margin: '0em' }
+                  : {}
+              }
+            >
               <p>{date.format('DD/MM/YYYY')}</p>
               <p>{t.description}</p>
               <p>{currencyFormat(t.type === 'IN' ? t.money / 100 : 0)}</p>
@@ -98,14 +109,28 @@ export default styled(Projections)`
     display: grid;
     grid-template-columns: repeat(5, 1fr);
 
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-top: 0.3em;
+
     p {
       align-self: center;
+      margin-top: 0.2em;
+      margin-bottom: 0.2em;
     }
 
     p:nth-last-child(-n + 3),
     strong:nth-last-child(-n + 3) {
       text-align: right;
     }
+  }
+
+  .projection-row-in {
+    background: #d6fccf;
+  }
+
+  .projection-row-ex {
+    background: #fae2e6;
   }
 
   h3 {
