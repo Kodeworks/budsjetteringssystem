@@ -14,6 +14,14 @@ export const theme = {
       default: '#f6f6f2',
       paper: '#fff',
     },
+    background_expense: {
+      contrast: '#fff',
+      main: '#fae2e6',
+    },
+    background_income: {
+      contrast: '#fff',
+      main: '#d6fccf',
+    },
     error: {
       contrast: '#fff',
       main: '#ff6961',

@@ -126,11 +126,11 @@ export default styled(Projections)`
   }
 
   .projection-row-in {
-    background: #d6fccf;
+    background: ${props => props.theme.palette.background_income.main};
   }
 
   .projection-row-ex {
-    background: #fae2e6;
+    background: ${props => props.theme.palette.background_expense.main};
   }
 
   h3 {
