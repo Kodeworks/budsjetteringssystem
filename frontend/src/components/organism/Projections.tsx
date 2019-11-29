@@ -6,6 +6,7 @@ import explodeRecurring from '../../helpers/explode_recurring';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionState } from '../../store/contexts/transactions';
 import PageTitle from '../atoms/PageTitle';
+import { ProjectionRowEntry } from '../atoms/ProjectionRowEntry';
 
 const Projections: React.FC<{ className?: string }> = ({ className }) => {
   const store = useTransactionState();
@@ -61,24 +62,17 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
               )) ? (
               <h3>{date.format('MMMM YYYY')}</h3>
             ) : null}
-            <div
-              className={
-                t.type === 'IN'
-                  ? 'projection-row projection-row-in'
-                  : 'projection-row projection-row-ex'
-              }
-              style={
-                arr[i - 1] && arr[i].type === arr[i - 1].type
-                  ? { margin: '0em' }
-                  : {}
-              }
+
+            <ProjectionRowEntry
+              type={t.type}
+              gapAbove={arr[i - 1] && arr[i].type !== arr[i - 1].type}
             >
               <p>{date.format('DD/MM/YYYY')}</p>
               <p>{t.description}</p>
               <p>{currencyFormat(t.type === 'IN' ? t.money / 100 : 0)}</p>
               <p>{currencyFormat(t.type === 'EX' ? t.money / 100 : 0)}</p>
               <p>{currencyFormat(accumulatedBalance)}</p>
-            </div>
+            </ProjectionRowEntry>
           </React.Fragment>
         );
       });
@@ -90,49 +84,23 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
         description="View the projected liquidity of your company."
       />
 
-      <div className="projection-row projection-header">
+      <ProjectionRowEntry
+        type={undefined}
+        gapAbove={false}
+        className="projection-header"
+      >
         <strong>Date</strong>
         <strong>Description</strong>
         <strong>Income</strong>
         <strong>Expense</strong>
         <strong>Balance</strong>
-      </div>
+      </ProjectionRowEntry>
       <div className="projection-table">{renderTransactions()}</div>
     </div>
   );
 };
 
 export default styled(Projections)`
-  .projection-row {
-    font-size: 1.2em;
-    font-weight: normal;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    margin-top: 0.3em;
-
-    p {
-      align-self: center;
-      margin-top: 0.2em;
-      margin-bottom: 0.2em;
-    }
-
-    p:nth-last-child(-n + 3),
-    strong:nth-last-child(-n + 3) {
-      text-align: right;
-    }
-  }
-
-  .projection-row-in {
-    background: ${props => props.theme.palette.background_income.main};
-  }
-
-  .projection-row-ex {
-    background: ${props => props.theme.palette.background_expense.main};
-  }
-
   h3 {
     grid-column: 1 / span 5;
 
@@ -146,15 +114,15 @@ export default styled(Projections)`
   }
 
   .projection-header {
-    strong {
-      font-weight: 600;
-    }
-
     position: sticky;
     top: calc(4em - 3px);
     padding: 1.5em 1em 1em;
     margin: -1.5em -1em 0; /* Negate the effect of padding when not stuck */
     background: ${props => props.theme.palette.background.default};
     border-bottom: 2px solid ${props => props.theme.palette.primary.default};
+
+    strong {
+      font-weight: 600;
+    }
   }
 `;
