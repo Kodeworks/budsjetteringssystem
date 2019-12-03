@@ -6,7 +6,10 @@ import explodeRecurring from '../../helpers/explode_recurring';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionState } from '../../store/contexts/transactions';
 import PageTitle from '../atoms/PageTitle';
-import { ProjectionRowEntry } from '../atoms/ProjectionRowEntry';
+import {
+  ProjectionRowEntry,
+  ProjectionRowHeader,
+} from '../atoms/ProjectionRow';
 
 const Projections: React.FC<{ className?: string }> = ({ className }) => {
   const store = useTransactionState();
@@ -84,13 +87,13 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
         description="View the projected liquidity of your company."
       />
 
-      <ProjectionRowEntry gapAbove={false} className="projection-header">
+      <ProjectionRowHeader>
         <strong>Date</strong>
         <strong>Description</strong>
         <strong>Income</strong>
         <strong>Expense</strong>
         <strong>Balance</strong>
-      </ProjectionRowEntry>
+      </ProjectionRowHeader>
       <div className="projection-table">{renderTransactions()}</div>
     </div>
   );
@@ -107,18 +110,5 @@ export default styled(Projections)`
 
   .projection-table {
     margin-top: 2em;
-  }
-
-  .projection-header {
-    position: sticky;
-    top: calc(4em - 3px);
-    padding: 1.5em 1em 1em;
-    margin: -1.5em -1em 0; /* Negate the effect of padding when not stuck */
-    background: ${props => props.theme.palette.background.default};
-    border-bottom: 2px solid ${props => props.theme.palette.primary.default};
-
-    strong {
-      font-weight: 600;
-    }
   }
 `;
