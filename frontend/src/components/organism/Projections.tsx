@@ -6,6 +6,10 @@ import explodeRecurring from '../../helpers/explode_recurring';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionState } from '../../store/contexts/transactions';
 import PageTitle from '../atoms/PageTitle';
+import {
+  ProjectionRowEntry,
+  ProjectionRowHeader,
+} from '../atoms/ProjectionRow';
 
 const Projections: React.FC<{ className?: string }> = ({ className }) => {
   const store = useTransactionState();
@@ -61,13 +65,17 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
               )) ? (
               <h3>{date.format('MMMM YYYY')}</h3>
             ) : null}
-            <div className="projection-row">
+
+            <ProjectionRowEntry
+              type={t.type}
+              gapAbove={arr[i - 1] && arr[i].type !== arr[i - 1].type}
+            >
               <p>{date.format('DD/MM/YYYY')}</p>
               <p>{t.description}</p>
               <p>{currencyFormat(t.type === 'IN' ? t.money / 100 : 0)}</p>
               <p>{currencyFormat(t.type === 'EX' ? t.money / 100 : 0)}</p>
               <p>{currencyFormat(accumulatedBalance)}</p>
-            </div>
+            </ProjectionRowEntry>
           </React.Fragment>
         );
       });
@@ -79,35 +87,19 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
         description="View the projected liquidity of your company."
       />
 
-      <div className="projection-row projection-header">
+      <ProjectionRowHeader>
         <strong>Date</strong>
         <strong>Description</strong>
         <strong>Income</strong>
         <strong>Expense</strong>
         <strong>Balance</strong>
-      </div>
+      </ProjectionRowHeader>
       <div className="projection-table">{renderTransactions()}</div>
     </div>
   );
 };
 
 export default styled(Projections)`
-  .projection-row {
-    font-size: 1.2em;
-    font-weight: normal;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-
-    p {
-      align-self: center;
-    }
-
-    p:nth-last-child(-n + 3),
-    strong:nth-last-child(-n + 3) {
-      text-align: right;
-    }
-  }
-
   h3 {
     grid-column: 1 / span 5;
 
@@ -118,18 +110,5 @@ export default styled(Projections)`
 
   .projection-table {
     margin-top: 2em;
-  }
-
-  .projection-header {
-    strong {
-      font-weight: 600;
-    }
-
-    position: sticky;
-    top: calc(4em - 3px);
-    padding: 1.5em 1em 1em;
-    margin: -1.5em -1em 0; /* Negate the effect of padding when not stuck */
-    background: ${props => props.theme.palette.background.default};
-    border-bottom: 2px solid ${props => props.theme.palette.primary.default};
   }
 `;
