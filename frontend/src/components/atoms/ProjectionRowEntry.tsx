@@ -3,7 +3,7 @@ import styled from 'styled-components';
 type ITransaction = import('../../declarations/transaction').ITransaction;
 
 interface IProjectionRowEntryProps {
-  readonly type: ITransaction['type'] | undefined;
+  readonly type?: ITransaction['type'];
   readonly gapAbove: boolean;
 }
 
@@ -15,8 +15,8 @@ export const ProjectionRowEntry = styled.div<IProjectionRowEntryProps>`
 
   padding-left: 0.5em;
   padding-right: 0.5em;
-  
-  margin-top: ${props => (props.gapAbove ? '0.3em' : '0em')}
+
+  margin-top: ${props => (props.gapAbove ? '0.3em' : '0em')};
 
   background: ${props =>
     props.type && props.type === 'IN'

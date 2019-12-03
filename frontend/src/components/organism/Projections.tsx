@@ -84,11 +84,7 @@ const Projections: React.FC<{ className?: string }> = ({ className }) => {
         description="View the projected liquidity of your company."
       />
 
-      <ProjectionRowEntry
-        type={undefined}
-        gapAbove={false}
-        className="projection-header"
-      >
+      <ProjectionRowEntry gapAbove={false} className="projection-header">
         <strong>Date</strong>
         <strong>Description</strong>
         <strong>Income</strong>
