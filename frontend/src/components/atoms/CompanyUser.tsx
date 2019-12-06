@@ -11,7 +11,7 @@ import {
 
 import { guardAction } from '../../helpers/guardAction';
 import { AuthActionCreators } from '../../store/reducers/auth';
-import Button from './Button';
+import { DangerZoneButton } from './Button';
 import Select from './Select';
 
 type Role = import('../../declarations/company').Role;
@@ -94,11 +94,11 @@ const CompanyUser: React.FC<ICompanyUserProps> = ({
         />
       )}
       {(isOwner || auth!.id === user.user_id) && (
-        <Button onClick={onClickRemoveUserFromCompany}>
+        <DangerZoneButton onClick={onClickRemoveUserFromCompany}>
           {auth!.id === user.user_id
             ? 'Leave company'
-            : 'Remove user from company?'}
-        </Button>
+            : 'Remove user from company'}
+        </DangerZoneButton>
       )}
     </div>
   );

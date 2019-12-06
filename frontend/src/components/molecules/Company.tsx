@@ -6,7 +6,7 @@ import { useAuth } from '../../store/contexts/auth';
 import { useCompanyDispatch } from '../../store/contexts/company';
 import { AuthActions } from '../../store/reducers/auth';
 import { CompanyActions } from '../../store/reducers/company';
-import Button from '../atoms/Button';
+import Button, { DangerZoneButton } from '../atoms/Button';
 import Collapsable from '../atoms/Collapsable';
 import CompanyUser from '../atoms/CompanyUser';
 import UpdateCompanyForm from '../atoms/UpdateCompanyForm';
@@ -59,11 +59,13 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
     <div className={className}>
       <hr />
       <h2>{company.name}</h2>
-      <h5>Organizational number: {company.org_nr}</h5>
+      <h5>Organization number: {company.org_nr}</h5>
       <Button onClick={toggleShowUpdateForm}>
-        {showUpdateForm ? 'Hide' : 'Show'} update company form
+        {showUpdateForm ? 'Stop editing company' : 'Edit company'}
       </Button>
-      <Button onClick={onClickDelete}>Delete company?</Button>
+      <DangerZoneButton onClick={onClickDelete}>
+        Delete company
+      </DangerZoneButton>
       {showUpdateForm && <UpdateCompanyForm company={company} />}
       <h3>Members</h3>
       <ul>
@@ -90,7 +92,7 @@ const Company: React.FC<ICompanyProps> = ({ className, company }) => {
             ]}
             onSubmit={onSubmitAddNewUser}
           >
-            Add new user
+            Add user
           </Form>
         </Collapsable>
       )}

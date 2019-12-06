@@ -80,22 +80,42 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
       {showMore && (
         <div>
           <p>{props.notes}</p>
-          <Button onClick={onClickDelete}>Delete</Button>
-          <Button onClick={invert(setShowUpdate)}>
-            {showUpdate ? 'Hide update form' : 'Show update form'}
+          <Button onClick={onClickDelete}>
+            {props.recurring_transaction_id
+              ? isOverride
+                ? 'Revert override'
+                : 'Delete recurring transaction'
+              : 'Delete transaction'}
           </Button>
-          {props.recurring_transaction_id && !isOverride && (
-            <Button onClick={invert(setShowRecurringOverrideCreator)}>
-              {showRecurringOverrideCreator ? 'Hide' : 'Show'} override
-              recurring entry
-            </Button>
-          )}
+
+          <Button onClick={invert(setShowUpdate)}>
+            {props.recurring_transaction_id
+              ? isOverride
+                ? showUpdate
+                  ? 'Stop editing override'
+                  : 'Edit override'
+                : showUpdate
+                ? 'Stop editing recurring transaction'
+                : 'Edit recurring transaction'
+              : showUpdate
+              ? 'Stop editing transaction'
+              : 'Edit transaction'}
+          </Button>
+
           {showUpdate && (
             <EditTransaction
               tx={props}
               isOverride={isOverride}
               toggleMore={toggleMore}
             />
+          )}
+
+          {props.recurring_transaction_id && !isOverride && (
+            <Button onClick={invert(setShowRecurringOverrideCreator)}>
+              {showRecurringOverrideCreator
+                ? 'Stop overriding single entry'
+                : 'Override single entry'}
+            </Button>
           )}
           {showRecurringOverrideCreator && <OverrideRecurringForm tx={props} />}
         </div>
