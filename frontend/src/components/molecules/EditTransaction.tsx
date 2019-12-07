@@ -185,7 +185,7 @@ const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
       ]}
       onSubmit={onSubmit}
     >
-      Edit transaction
+      Update transaction
     </Form>
   );
 };

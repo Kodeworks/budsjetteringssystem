@@ -22,6 +22,10 @@ export const theme = {
       contrast: '#fff',
       main: '#d6fccf',
     },
+    danger: {
+      contrast: '#fff',
+      main: '#a22c2c',
+    },
     error: {
       contrast: '#fff',
       main: '#ff6961',
