@@ -129,7 +129,7 @@ export default styled(TransactionEntry)`
   display: grid;
   grid-template-rows: 1.6em 1em auto;
   grid-template-columns: 70% 30%;
-  transition: padding 0.2s, margin 0.2s, background-color 0.25s;
+  transition: padding 0.2s, margin 0.2s, background-color 0.2s;
   text-decoration: none;
   color: black;
   cursor: pointer;
@@ -156,6 +156,6 @@ export default styled(TransactionEntry)`
   &:hover {
     padding-left: 0.3em;
     border-left: 2px solid black;
-    background-color: #ebeff2;
+    background-color: ${props => props.theme.palette.hover.main};
   }
 `;
