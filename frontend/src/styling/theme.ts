@@ -30,6 +30,10 @@ export const theme = {
       contrast: '#fff',
       main: '#ff6961',
     },
+    hover: {
+      contrast: '#fff',
+      main: '#ebeff2',
+    },
     primary: {
       contrast: '#0c374d',
       main: '#f9f9f9',
