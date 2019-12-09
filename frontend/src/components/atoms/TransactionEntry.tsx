@@ -59,24 +59,25 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
 
   return (
     <div
-      className={props.className}
       style={
         isInIntermediary
           ? { paddingLeft: '.6em', borderLeft: '4px solid black' }
           : {}
       }
     >
-      <h4 onClick={invert(setShowMore)}>{props.description}</h4>
-      <strong>
-        {props.type === 'EX'
-          ? `(${currencyFormat(props.money / 100)})`
-          : currencyFormat(props.money / 100)}
-      </strong>
-      <h6>
-        {moment(props.date).format('L')}
-        {props.recurring_transaction_id &&
-          ` - Recurring${isOverride ? ' override' : ''}`}
-      </h6>
+      <div className={props.className} onClick={invert(setShowMore)}>
+        <h4>{props.description}</h4>
+        <strong>
+          {props.type === 'EX'
+            ? `(${currencyFormat(props.money / 100)})`
+            : currencyFormat(props.money / 100)}
+        </strong>
+        <h6>
+          {moment(props.date).format('L')}
+          {props.recurring_transaction_id &&
+            ` - Recurring${isOverride ? ' override' : ''}`}
+        </h6>
+      </div>
       {showMore && (
         <div>
           <p>{props.notes}</p>
@@ -128,9 +129,11 @@ export default styled(TransactionEntry)`
   display: grid;
   grid-template-rows: 1.6em 1em auto;
   grid-template-columns: 70% 30%;
-  transition: padding 0.2s, margin 0.2s;
+  transition: padding 0.2s, margin 0.2s, background-color 0.25s;
   text-decoration: none;
   color: black;
+  cursor: pointer;
+  padding-right: 0.3em;
 
   & > *:nth-child(2n):not(div) {
     text-align: right;
@@ -143,7 +146,6 @@ export default styled(TransactionEntry)`
 
   h4 {
     font-weight: 400;
-    cursor: pointer;
   }
 
   div {
@@ -154,5 +156,6 @@ export default styled(TransactionEntry)`
   &:hover {
     padding-left: 0.3em;
     border-left: 2px solid black;
+    background-color: #ebeff2;
   }
 `;
