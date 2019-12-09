@@ -128,7 +128,7 @@ const TransactionEntry: React.FC<ITransactionEntryProps> = props => {
 export default styled(TransactionEntry)`
   display: grid;
   grid-template-rows: 1.6em 1em auto;
-  grid-template-columns: 70% 30%;
+  grid-template-columns: auto auto;
   transition: padding 0.2s, margin 0.2s, background-color 0.2s;
   text-decoration: none;
   color: black;
@@ -139,13 +139,15 @@ export default styled(TransactionEntry)`
     text-align: right;
   }
 
+  h4 {
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   h6,
   strong {
     font-weight: 300;
-  }
-
-  h4 {
-    font-weight: 400;
   }
 
   div {
