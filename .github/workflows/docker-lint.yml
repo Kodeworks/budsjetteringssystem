@@ -4,24 +4,23 @@ on: [push]
 
 jobs:
   docker-lint-backend:
-
     runs-on: ubuntu-latest
-    
-
     steps:
+    - name: Checkout
+      uses: actions/checkout@master
     - name: Docker Lint Backend
       uses: luke142367/Docker-Lint-Action@v1.0.0
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        target: backend/Dockerfile
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET: backend/Dockerfile
 
   docker-lint-frontend:
-
     runs-on: ubuntu-latest
-
     steps:
+    - name: Checkout
+      uses: actions/checkout@master
     - name: Docker Lint Backend
       uses: luke142367/Docker-Lint-Action@v1.0.0
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        target: frontend/Dockerfile
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET: frontend/Dockerfile
