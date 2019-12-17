@@ -12,7 +12,7 @@ jobs:
     - name: Docker Lint Backend
       uses: luke142367/Docker-Lint-Action@v1.0.0
       with:
-        github_token: ${{ secrets.github_token }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         target: backend/Dockerfile
 
   docker-lint-frontend:
@@ -23,5 +23,5 @@ jobs:
     - name: Docker Lint Backend
       uses: luke142367/Docker-Lint-Action@v1.0.0
       with:
-        github_token: ${{ secrets.github_token }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         target: frontend/Dockerfile
