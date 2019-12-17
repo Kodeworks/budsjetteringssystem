@@ -30,19 +30,44 @@ const Navigation: React.FC<{ className?: string } & RouteComponentProps> = ({
     AuthActions.doSetActiveCompany(Number(id), authDispatch);
   };
 
+  const [companyOptions, setCompanyOptions] = React.useState<
+    Array<{ name: string; value: number }>
+  >(
+    auth!.companies.map(e => ({
+      name: 'Loading company...',
+      value: e.company_id,
+    }))
+  );
+
   /**
    * This is used for rendering and providing values to the select which allows the user
    * to select a company.
    */
-  const options = auth!.companies.map(c => {
-    const company = companies.find(e => e.id === c.company_id);
+  React.useEffect(() => {
+    auth!.companies.forEach(c => {
+      /**
+       * x Check if new company in auth is in previous setState object
+       * - Check if we can retrieve the name from the newly generated company variable
+       * - Update the name if we can, and if not, just leave it
+       */
+      if (!companyOptions.find(e => e.value === c.company_id)) {
+        setCompanyOptions(prevState => [
+          ...prevState,
+          { name: 'Loading company...', value: c.company_id },
+        ]);
+      }
 
-    return {
-      // It might not be there yet, as we're loading this async in contexts/company
-      name: company ? company.name : `Loading company...`,
-      value: c.company_id,
-    };
-  });
+      const company = companies.find(e => e.id === c.company_id);
+
+      if (!company) {
+        return;
+      }
+
+      setCompanyOptions(
+        companyOptions.map(e => ({ ...e, name: company.name }))
+      );
+    });
+  }, [auth, companies, companyOptions]);
 
   return (
     <nav className={className}>
@@ -50,7 +75,7 @@ const Navigation: React.FC<{ className?: string } & RouteComponentProps> = ({
       <NavigationSeparator />
       <div className="company-selector">
         <Select
-          values={options}
+          values={companyOptions}
           value={auth!.selectedCompany}
           setState={setActiveCompany}
         />
