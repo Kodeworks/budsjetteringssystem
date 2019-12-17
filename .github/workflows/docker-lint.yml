@@ -8,7 +8,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-    - name: Docker Lint Backend
+    - name: backend-dockerfile-lint
       uses: luke142367/Docker-Lint-Action@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -19,7 +19,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-    - name: Docker Lint Frontend
+    - name: frontend-dockerfile-lint
       uses: luke142367/Docker-Lint-Action@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
