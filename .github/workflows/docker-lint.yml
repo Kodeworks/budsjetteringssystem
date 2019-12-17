@@ -1,0 +1,26 @@
+name: CI
+
+on: [push]
+
+jobs:
+  docker-lint-backend:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Docker Lint Backend
+      uses: luke142367/Docker-Lint-Action@v1.0.0
+      with:
+        # Paths to dockerfiles
+        target: backend/Dockerfile
+
+  docker-lint-frontend:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Docker Lint Backend
+      uses: luke142367/Docker-Lint-Action@v1.0.0
+      with:
+        # Paths to dockerfiles
+        target: frontend/Dockerfile
