@@ -1,16 +1,33 @@
-# Docker won't update packages during build unless this file has changed.
-# This can be done either by specifying updated version requirements when
-# packages release new versions, or by updating the timestamp below,
-# letting pip install the newest versions of the packages.
-
-# Last updated 2019-09-21 14:00
-gunicorn
-django
-psycopg2-binary
-djangorestframework
-djangorestframework_simplejwt
-flake8
-django-cors-headers
-python-dateutil
-drf-yasg
-packaging
+certifi==2019.9.11
+chardet==3.0.4
+coreapi==2.3.3
+coreschema==0.0.4
+Django==2.2.7
+django-cors-headers==3.2.0
+djangorestframework==3.10.3
+djangorestframework-simplejwt==4.3.0
+drf-yasg==1.17.0
+entrypoints==0.3
+flake8==3.7.9
+gunicorn==20.0.0
+idna==2.8
+inflection==0.3.1
+itypes==1.1.0
+Jinja2==2.10.3
+MarkupSafe==1.1.1
+mccabe==0.6.1
+packaging==19.2
+psycopg2-binary==2.8.4
+pycodestyle==2.5.0
+pyflakes==2.1.1
+PyJWT==1.7.1
+pyparsing==2.4.5
+python-dateutil==2.8.1
+pytz==2019.3
+requests==2.22.0
+ruamel.yaml==0.16.5
+ruamel.yaml.clib==0.2.0
+six==1.13.0
+sqlparse==0.3.0
+uritemplate==3.0.0
+urllib3==1.25.7
