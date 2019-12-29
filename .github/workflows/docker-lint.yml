@@ -1,0 +1,28 @@
+name: CI
+
+on: [push]
+
+jobs:
+  docker-lint-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: backend-dockerfile-lint
+      uses: luke142367/Docker-Lint-Action@v1.0.0
+      with:
+        target: backend/Dockerfile      
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  docker-lint-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: frontend-dockerfile-lint
+      uses: luke142367/Docker-Lint-Action@v1.0.0
+      with:
+        target: frontend/Dockerfile
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
