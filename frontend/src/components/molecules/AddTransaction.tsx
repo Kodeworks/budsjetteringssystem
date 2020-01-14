@@ -67,6 +67,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
                 { name: 'Expense', value: 'EX' },
               ],
               type: 'select',
+              value: 'IN',
             },
             {
               aliasName: 'start_date',
