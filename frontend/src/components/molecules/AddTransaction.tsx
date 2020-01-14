@@ -59,18 +59,14 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
         <Form
           schema={[
             {
-              id: 'add-transaction-income',
-              label: 'Income',
+              id: 'add-transaction-type',
+              label: 'Type',
               name: 'type',
-              type: 'radio',
-              value: 'IN',
-            },
-            {
-              id: 'add-transaction-expense',
-              label: 'Expense',
-              name: 'type',
-              type: 'radio',
-              value: 'EX',
+              selectValues: [
+                { name: 'Income', value: 'IN' },
+                { name: 'Expense', value: 'EX' },
+              ],
+              type: 'select',
             },
             {
               aliasName: 'start_date',
