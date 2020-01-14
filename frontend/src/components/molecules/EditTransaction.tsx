@@ -132,7 +132,7 @@ const EditRecurringTransaction: React.FC<IEditTransactionProps> = props => {
 const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
   const dispatch = useTransactionDispatch();
 
-  const onSubmit = async ({ date, description, amount, notes }: any) => {
+  const onSubmit = async ({ date, description, amount, notes, type }: any) => {
     await TransactionActions.doUpdateTransaction(
       {
         company_id: props.tx.company_id,
@@ -142,7 +142,7 @@ const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
         money: amount * 100,
         notes,
         recurring_transaction_id: props.tx.recurring_transaction_id,
-        type: props.tx.type,
+        type,
       },
       dispatch
     );
@@ -152,6 +152,17 @@ const EditRegularTransaction: React.FC<IEditTransactionProps> = props => {
     <Form
       successCallback={props.toggleMore}
       schema={[
+        {
+          id: 'edit-transaction-type',
+          label: 'Type',
+          name: 'type',
+          selectValues: [
+            { name: 'Income', value: 'IN' },
+            { name: 'Expense', value: 'EX' },
+          ],
+          type: 'select',
+          value: props.tx.type,
+        },
         {
           id: 'edit-regular-date',
           label: 'Date',
