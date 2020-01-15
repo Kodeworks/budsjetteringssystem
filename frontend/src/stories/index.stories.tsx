@@ -25,6 +25,7 @@ import { ITransaction } from '../declarations/transaction';
 import GlobalWrapper from '../helpers/GlobalWrapper';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
+import SnackBarContainer from '../components/atoms/SnackBarContainer';
 
 addDecorator(storyFn => <GlobalWrapper>{storyFn()}</GlobalWrapper>);
 
@@ -299,3 +300,11 @@ storiesOf('Input/Select', module)
       </Select>
     );
   });
+
+storiesOf('SnackBarContainer', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('Default', () => <SnackBarContainer good={false} content="Hello" />);
