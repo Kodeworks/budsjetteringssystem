@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import SnackBarCloseButton from './SnackBarCloseButton';
 import { theme } from '../../styling/theme';
 import SnackBarSymbol from './SnackBarSymbol';
+import SnackBarLoader from './SnackBarLoader';
 
 interface ISnackBarProps {
   content: string;
@@ -19,10 +20,14 @@ const SnackBarContainer: React.FC<ISnackBarProps> = ({
   return (
     <div className={className}>
       <p>
+        {/*
+        Symbol if wanted, but it seems to look better without and it follows the standard for snackbars better.
         <SnackBarSymbol>{good ? '✓' : '!'}</SnackBarSymbol>
+        */}
         {content}
-        <SnackBarCloseButton>X</SnackBarCloseButton>
       </p>
+      <SnackBarCloseButton>X</SnackBarCloseButton>
+      <SnackBarLoader />
     </div>
   );
 };
@@ -40,6 +45,7 @@ export default styled(SnackBarContainer)`
   left: 20px;
   display: inline-block;
   min-width: 200px;
+  max-width: 70vw;
   padding-left: 1em;
   -webkit-box-shadow: 10px 10px 16px -7px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 10px 10px 16px -7px rgba(0, 0, 0, 0.75);
@@ -47,5 +53,6 @@ export default styled(SnackBarContainer)`
 
   & > p {
     width: 100%;
+    padding-right: 4em;
   }
 `;

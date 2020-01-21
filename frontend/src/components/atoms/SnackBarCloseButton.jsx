@@ -2,9 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styling/theme';
 
-export default styled.span`
+export default styled.button`
+  background-color: ${theme.palette.primary.main};
+  border: none;
   padding-right: 0.5em;
   float: right;
+  position: absolute;
+  right: 10px;
+  top: 1.2em;
   color: ${theme.palette.primary.contrast};
   font-weight: 600;
   transition: 0.1s linear;

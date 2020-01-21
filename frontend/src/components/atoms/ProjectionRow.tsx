@@ -20,6 +20,7 @@ const ProjectionRow = styled.div`
     align-self: center;
     margin-top: 0.2em;
     margin-bottom: 0.2em;
+    word-break: break-word;
   }
 
   p:nth-last-child(-n + 3),

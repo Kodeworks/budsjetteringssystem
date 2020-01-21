@@ -307,4 +307,17 @@ storiesOf('SnackBarContainer', module)
       {fn()}
     </div>
   ))
-  .add('Default', () => <SnackBarContainer good={false} content="Hello" />);
+  .add('Long', () => (
+    <SnackBarContainer
+      good={false}
+      content="You are currently signed in as [insert user here]. A really long sentence to test max length capacity. It is red. It will only break after hitting 70vw."
+    />
+  ));
+
+storiesOf('SnackBarContainer', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('Default', () => <SnackBarContainer good={true} content="Hello" />);
