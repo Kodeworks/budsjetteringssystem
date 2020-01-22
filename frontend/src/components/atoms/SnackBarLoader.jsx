@@ -1,6 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 import { keyframes } from 'styled-components';
+import { theme } from '../../styling/theme';
 
 const shrinkBar = keyframes`
 from {
@@ -12,9 +12,8 @@ to {
 `;
 
 export default styled.div`
-  width: 100%;
   height: 5px;
-  background-color: grey;
+  background-color: ${theme.palette.primary.contrast};
   padding: 0;
   margin: 0;
   position: absolute;
@@ -24,4 +23,5 @@ export default styled.div`
   animation-duration: 8s;
   animation-iteration-count: 1;
   animation-timing-function: linear;
+  border-radius: 0 3px 3px 0;
 `;

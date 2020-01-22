@@ -1,45 +1,53 @@
 import React from 'react';
-
 import styled from 'styled-components';
 import SnackBarCloseButton from './SnackBarCloseButton';
 import { theme } from '../../styling/theme';
-import SnackBarSymbol from './SnackBarSymbol';
 import SnackBarLoader from './SnackBarLoader';
 
 interface ISnackBarProps {
   content: string;
   good: boolean;
   className?: string;
+  speed?: string;
 }
+
+const LoaderSpeed = (speed = '6s') => {
+  if (speed == 'fast') {
+    return '4s';
+  } else if (speed == 'slow') {
+    return '8s';
+  } else {
+    return '6s';
+  }
+};
 
 const SnackBarContainer: React.FC<ISnackBarProps> = ({
   content,
   good,
   className,
+  speed,
 }) => {
   return (
     <div className={className}>
-      <p>
-        {/*
-        Symbol if wanted, but it seems to look better without and it follows the standard for snackbars better.
-        <SnackBarSymbol>{good ? '✓' : '!'}</SnackBarSymbol>
-        */}
-        {content}
-      </p>
-      <SnackBarCloseButton>X</SnackBarCloseButton>
-      <SnackBarLoader />
+      <p>{content}</p>
+      <SnackBarCloseButton>x</SnackBarCloseButton>
+      <SnackBarLoader
+        style={{
+          animationDuration: LoaderSpeed(speed),
+        }}
+      />
     </div>
   );
 };
 
 export default styled(SnackBarContainer)`
-  color: ${props => (props.good ? 'green' : 'red')};
-  background-color: ${props =>
-    props.good ? theme.palette.success : theme.palette.error};
+  color: ${theme.palette.primary.contrast};
+  background-color: ${theme.palette.background.default};
   padding: 0.5em;
-  border-radius: 2px;
+  border-radius: 3px;
   border: 3px solid;
-  border-color: ${props => (props.good ? 'green' : 'red')};
+  border-color: ${props =>
+    props.good ? theme.palette.success.main : theme.palette.danger.main};
   position: fixed;
   bottom: 20px;
   left: 20px;

@@ -1,15 +1,50 @@
 import moment from 'moment';
-import React from 'react';
+import React, { useReducer, ReactElement } from 'react';
 import styled from 'styled-components';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
 import Collapsable from '../atoms/Collapsable';
 import Form from './Form';
+import SnackBarContainer from '../atoms/SnackBarContainer';
+
+const initialState = { snax: <div></div>, content: '' };
+
+type stateType = {
+  snax: ReactElement;
+  content: string;
+};
+
+type ActionType = {
+  type: 'clear' | 'good' | 'bad';
+};
+
+const reducer = (state: stateType, action: ActionType): stateType => {
+  switch (action.type) {
+    case 'clear':
+      return initialState;
+    case 'good':
+      return {
+        snax: <SnackBarContainer good={true} content={state.content} />,
+        content: state.content,
+      };
+    case 'bad':
+      return {
+        snax: <SnackBarContainer good={false} content={state.content} />,
+        content: state.content,
+      };
+    default:
+      return initialState;
+  }
+};
 
 const AddTransaction: React.FC<{ className?: string }> = props => {
   const dispatch = useTransactionDispatch();
   const auth = useAuthState();
+  const [state, snaxDispatch] = useReducer(reducer, {
+    snax: <div></div>,
+    content: '',
+  });
 
   const onSubmit = async ({
     recurring,
@@ -22,39 +57,49 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
     interval_type,
     interval,
   }: any) => {
-    if (!recurring) {
-      await TransactionActions.doCreateTransaction(
-        {
-          company_id: auth!.selectedCompany!,
-          date,
-          description,
-          money: money * 100,
-          notes,
-          type,
-        },
-        dispatch
-      );
-    } else {
-      await TransactionActions.doCreateRecurringTransaction(
-        {
-          company_id: auth!.selectedCompany!,
-          end_date,
-          interval,
-          interval_type,
-          start_date: date,
-          template: {
+    if (!(description.length > 140) && !(notes.length > 140)) {
+      state.content = 'Transaction added successfully';
+      snaxDispatch({ type: 'good' });
+      setTimeout(() => snaxDispatch({ type: 'clear' }), 6000);
+      console.log(state.snax);
+      if (!recurring) {
+        await TransactionActions.doCreateTransaction(
+          {
+            company_id: auth!.selectedCompany!,
+            date,
             description,
             money: money * 100,
+            notes,
             type,
           },
-        },
-        dispatch
-      );
+          dispatch
+        );
+      } else {
+        await TransactionActions.doCreateRecurringTransaction(
+          {
+            company_id: auth!.selectedCompany!,
+            end_date,
+            interval,
+            interval_type,
+            start_date: date,
+            template: {
+              description,
+              money: money * 100,
+              type,
+            },
+          },
+          dispatch
+        );
+      }
+    } else {
+      state.content = 'Too many characters.';
+      snaxDispatch({ type: 'bad' });
+      setTimeout(() => snaxDispatch({ type: 'clear' }), 6000);
     }
   };
-
   return (
     <Collapsable heading={<h1>Add new transaction</h1>}>
+      <div>{state.snax}</div>
       <div className={props.className}>
         <Form
           schema={[

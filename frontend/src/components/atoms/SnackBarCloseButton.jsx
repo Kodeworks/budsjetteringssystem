@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styling/theme';
 
@@ -12,11 +11,12 @@ export default styled.button`
   top: 1.2em;
   color: ${theme.palette.primary.contrast};
   font-weight: 600;
+  text-transform: uppercase;
   transition: 0.1s linear;
   margin-left: 1em;
 
   &:hover {
-    color: red;
+    color: ${theme.palette.danger.main};
     transition: 0.1s linear;
     cursor: pointer;
   }

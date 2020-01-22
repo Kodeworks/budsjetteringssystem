@@ -311,6 +311,7 @@ storiesOf('SnackBarContainer', module)
     <SnackBarContainer
       good={false}
       content="You are currently signed in as [insert user here]. A really long sentence to test max length capacity. It is red. It will only break after hitting 70vw."
+      speed="fast"
     />
   ));
 
@@ -320,4 +321,19 @@ storiesOf('SnackBarContainer', module)
       {fn()}
     </div>
   ))
-  .add('Default', () => <SnackBarContainer good={true} content="Hello" />);
+  .add('Fast', () => (
+    <SnackBarContainer good={true} content="Short and fast" speed="fast" />
+  ));
+storiesOf('SnackBarContainer', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('Medium', () => (
+    <SnackBarContainer
+      good={true}
+      content="Medium speed and medium length."
+      speed="medium"
+    />
+  ));
