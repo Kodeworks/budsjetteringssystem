@@ -9,12 +9,13 @@ interface ISnackBarProps {
   good: boolean;
   className?: string;
   speed?: string;
+  clicker?: () => void;
 }
 
 const LoaderSpeed = (speed = '6s') => {
-  if (speed == 'fast') {
+  if (speed === 'fast') {
     return '4s';
-  } else if (speed == 'slow') {
+  } else if (speed === 'slow') {
     return '8s';
   } else {
     return '6s';
@@ -26,11 +27,12 @@ const SnackBarContainer: React.FC<ISnackBarProps> = ({
   good,
   className,
   speed,
+  clicker,
 }) => {
   return (
     <div className={className}>
       <p>{content}</p>
-      <SnackBarCloseButton>x</SnackBarCloseButton>
+      <SnackBarCloseButton onClick={clicker}>x</SnackBarCloseButton>
       <SnackBarLoader
         style={{
           animationDuration: LoaderSpeed(speed),

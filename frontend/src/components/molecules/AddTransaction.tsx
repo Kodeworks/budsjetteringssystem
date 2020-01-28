@@ -13,6 +13,7 @@ const initialState = { snax: <div></div>, content: '' };
 type stateType = {
   snax: ReactElement;
   content: string;
+  clicker?: () => void;
 };
 
 type ActionType = {
@@ -25,12 +26,24 @@ const reducer = (state: stateType, action: ActionType): stateType => {
       return initialState;
     case 'good':
       return {
-        snax: <SnackBarContainer good={true} content={state.content} />,
+        snax: (
+          <SnackBarContainer
+            clicker={state.clicker}
+            good={true}
+            content={state.content}
+          />
+        ),
         content: state.content,
       };
     case 'bad':
       return {
-        snax: <SnackBarContainer good={false} content={state.content} />,
+        snax: (
+          <SnackBarContainer
+            clicker={state.clicker}
+            good={false}
+            content={state.content}
+          />
+        ),
         content: state.content,
       };
     default:
@@ -46,6 +59,10 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
     content: '',
   });
 
+  const onButtonClickHandler = () => {
+    snaxDispatch({ type: 'clear' });
+  };
+
   const onSubmit = async ({
     recurring,
     money,
@@ -59,9 +76,9 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
   }: any) => {
     if (!(description.length > 140) && !(notes.length > 140)) {
       state.content = 'Transaction added successfully';
+      state.clicker = onButtonClickHandler;
       snaxDispatch({ type: 'good' });
-      setTimeout(() => snaxDispatch({ type: 'clear' }), 6000);
-      console.log(state.snax);
+
       if (!recurring) {
         await TransactionActions.doCreateTransaction(
           {
@@ -92,6 +109,7 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
         );
       }
     } else {
+      state.clicker = onButtonClickHandler;
       state.content = 'Too many characters.';
       snaxDispatch({ type: 'bad' });
       setTimeout(() => snaxDispatch({ type: 'clear' }), 6000);
