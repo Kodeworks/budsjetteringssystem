@@ -9,6 +9,7 @@ import OutlinedButton from '../components/atoms/OutlinedButton';
 import RecurringTransactionOptions, {
   IntervalType,
 } from '../components/atoms/RecurringTransactionOptions';
+import SnackBarContainer from '../components/atoms/SnackBarContainer';
 import Select from '../components/atoms/Select';
 import TextArea from '../components/atoms/TextArea';
 import TransactionEntry from '../components/atoms/TransactionEntry';
@@ -25,7 +26,6 @@ import { ITransaction } from '../declarations/transaction';
 import GlobalWrapper from '../helpers/GlobalWrapper';
 import { navbarWidth } from '../styling/sizes';
 import { theme } from '../styling/theme';
-import SnackBarContainer from '../components/atoms/SnackBarContainer';
 
 addDecorator(storyFn => <GlobalWrapper>{storyFn()}</GlobalWrapper>);
 

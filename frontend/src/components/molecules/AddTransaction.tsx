@@ -8,24 +8,25 @@ import Collapsable from '../atoms/Collapsable';
 import Form from './Form';
 import SnackBarContainer from '../atoms/SnackBarContainer';
 
-const initialState = { snax: <div></div>, content: '' };
+const initialState = { snax: <div />, content: '' };
 
-type stateType = {
+interface IState {
   snax: ReactElement;
   content: string;
   clicker?: () => void;
-};
+}
 
-type ActionType = {
+interface IAction {
   type: 'clear' | 'good' | 'bad';
-};
+}
 
-const reducer = (state: stateType, action: ActionType): stateType => {
+const reducer = (state: IState, action: IAction): IState => {
   switch (action.type) {
     case 'clear':
       return initialState;
     case 'good':
       return {
+        content: state.content,
         snax: (
           <SnackBarContainer
             clicker={state.clicker}
@@ -33,10 +34,10 @@ const reducer = (state: stateType, action: ActionType): stateType => {
             content={state.content}
           />
         ),
-        content: state.content,
       };
     case 'bad':
       return {
+        content: state.content,
         snax: (
           <SnackBarContainer
             clicker={state.clicker}
@@ -44,7 +45,6 @@ const reducer = (state: stateType, action: ActionType): stateType => {
             content={state.content}
           />
         ),
-        content: state.content,
       };
     default:
       return initialState;
@@ -55,8 +55,8 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
   const dispatch = useTransactionDispatch();
   const auth = useAuthState();
   const [state, snaxDispatch] = useReducer(reducer, {
-    snax: <div></div>,
     content: '',
+    snax: <div />,
   });
 
   const onButtonClickHandler = () => {

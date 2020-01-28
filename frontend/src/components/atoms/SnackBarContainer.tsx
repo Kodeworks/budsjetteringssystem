@@ -1,15 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
 import SnackBarCloseButton from './SnackBarCloseButton';
-import { theme } from '../../styling/theme';
 import SnackBarLoader from './SnackBarLoader';
+import styled from 'styled-components';
+import { theme } from '../../styling/theme';
 
 interface ISnackBarProps {
+  className?: string;
+  clicker?: () => void;
   content: string;
   good: boolean;
-  className?: string;
   speed?: string;
-  clicker?: () => void;
 }
 
 const LoaderSpeed = (speed = '6s') => {
@@ -23,11 +23,11 @@ const LoaderSpeed = (speed = '6s') => {
 };
 
 const SnackBarContainer: React.FC<ISnackBarProps> = ({
+  className,
+  clicker,
   content,
   good,
-  className,
   speed,
-  clicker,
 }) => {
   return (
     <div className={className}>
