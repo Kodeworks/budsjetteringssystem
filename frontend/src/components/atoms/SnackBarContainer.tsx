@@ -1,8 +1,8 @@
 import React from 'react';
-import SnackBarCloseButton from './SnackBarCloseButton';
-import SnackBarLoader from './SnackBarLoader';
 import styled from 'styled-components';
 import { theme } from '../../styling/theme';
+import SnackBarCloseButton from './SnackBarCloseButton';
+import SnackBarLoader from './SnackBarLoader';
 
 interface ISnackBarProps {
   className?: string;

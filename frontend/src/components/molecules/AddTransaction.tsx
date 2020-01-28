@@ -1,12 +1,12 @@
 import moment from 'moment';
-import React, { useReducer, ReactElement } from 'react';
+import React, { ReactElement, useReducer } from 'react';
 import styled from 'styled-components';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
 import Collapsable from '../atoms/Collapsable';
-import Form from './Form';
 import SnackBarContainer from '../atoms/SnackBarContainer';
+import Form from './Form';
 
 const initialState = { snax: <div />, content: '' };
 

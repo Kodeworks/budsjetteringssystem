@@ -9,8 +9,8 @@ import OutlinedButton from '../components/atoms/OutlinedButton';
 import RecurringTransactionOptions, {
   IntervalType,
 } from '../components/atoms/RecurringTransactionOptions';
-import SnackBarContainer from '../components/atoms/SnackBarContainer';
 import Select from '../components/atoms/Select';
+import SnackBarContainer from '../components/atoms/SnackBarContainer';
 import TextArea from '../components/atoms/TextArea';
 import TransactionEntry from '../components/atoms/TransactionEntry';
 import AddTransaction from '../components/molecules/AddTransaction';
