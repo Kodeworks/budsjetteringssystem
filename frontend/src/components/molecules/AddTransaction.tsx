@@ -1,66 +1,53 @@
 import moment from 'moment';
-import React, { ReactElement, useReducer } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
+import { snackReducer } from '../../store/reducers/transactions';
+
 import Collapsable from '../atoms/Collapsable';
 import SnackBarContainer from '../atoms/SnackBarContainer';
 import Form from './Form';
 
-const initialState = { snax: <div />, content: '' };
-
-interface IState {
-  snax: ReactElement;
-  content: string;
-  clicker?: () => void;
-}
-
-interface IAction {
-  type: 'clear' | 'good' | 'bad';
-}
-
-const reducer = (state: IState, action: IAction): IState => {
-  switch (action.type) {
-    case 'clear':
-      return initialState;
-    case 'good':
-      return {
-        content: state.content,
-        snax: (
-          <SnackBarContainer
-            clicker={state.clicker}
-            good={true}
-            content={state.content}
-          />
-        ),
-      };
-    case 'bad':
-      return {
-        content: state.content,
-        snax: (
-          <SnackBarContainer
-            clicker={state.clicker}
-            good={false}
-            content={state.content}
-          />
-        ),
-      };
-    default:
-      return initialState;
-  }
-};
-
 const AddTransaction: React.FC<{ className?: string }> = props => {
   const dispatch = useTransactionDispatch();
   const auth = useAuthState();
-  const [state, snaxDispatch] = useReducer(reducer, {
-    content: '',
-    snax: <div />,
-  });
+  const [store, snackDispatch] = React.useReducer(snackReducer, [] as Array<{
+    content: string;
+    variant: boolean;
+    speed: number;
+  }>);
 
-  const onButtonClickHandler = () => {
-    snaxDispatch({ type: 'clear' });
+  let delayTimer = setTimeout(null, 0);
+
+  const onButtonClickHandler = (
+    content: string,
+    speed: number,
+    variant: boolean
+  ) => {
+    snackDispatch({
+      payload: { content, speed, variant },
+      type: 'REMOVE_SNACK',
+    });
+    // For some reason the delayTimer ID will be different if it is true or false, which is why it needs to either be +1 or -1 to make sure it gets the right ID.
+    if (variant === true) {
+      clearTimeout(delayTimer + 1);
+    } else {
+      clearTimeout(delayTimer - 1);
+    }
+  };
+  const createSnack = (content: string, variant: boolean, speed: number) => {
+    snackDispatch({
+      payload: { content, speed, variant },
+      type: 'ADD_SNACK',
+    });
+    delayTimer = setTimeout(() => {
+      snackDispatch({
+        payload: { content, speed, variant },
+        type: 'REMOVE_SNACK',
+      });
+    }, speed);
   };
 
   const onSubmit = async ({
@@ -74,50 +61,63 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
     interval_type,
     interval,
   }: any) => {
-    if (!(description.length > 140) && !(notes.length > 140)) {
-      state.content = 'Transaction added successfully';
-      state.clicker = onButtonClickHandler;
-      snaxDispatch({ type: 'good' });
-
-      if (!recurring) {
-        await TransactionActions.doCreateTransaction(
-          {
-            company_id: auth!.selectedCompany!,
-            date,
+    if (description.length > 140 && notes.length > 140) {
+      createSnack(
+        'Too many characters in notes or description. Please try again',
+        false,
+        6000
+      );
+      return;
+    }
+    if (!recurring) {
+      await TransactionActions.doCreateTransaction(
+        {
+          company_id: auth!.selectedCompany!,
+          date,
+          description,
+          money: money * 100,
+          notes,
+          type,
+        },
+        dispatch
+      );
+    } else {
+      await TransactionActions.doCreateRecurringTransaction(
+        {
+          company_id: auth!.selectedCompany!,
+          end_date,
+          interval,
+          interval_type,
+          start_date: date,
+          template: {
             description,
             money: money * 100,
-            notes,
             type,
           },
-          dispatch
-        );
-      } else {
-        await TransactionActions.doCreateRecurringTransaction(
-          {
-            company_id: auth!.selectedCompany!,
-            end_date,
-            interval,
-            interval_type,
-            start_date: date,
-            template: {
-              description,
-              money: money * 100,
-              type,
-            },
-          },
-          dispatch
-        );
-      }
-    } else {
-      state.clicker = onButtonClickHandler;
-      state.content = 'Too many characters.';
-      snaxDispatch({ type: 'bad' });
-      setTimeout(() => snaxDispatch({ type: 'clear' }), 6000);
+        },
+        dispatch
+      );
     }
+    createSnack('Transaction added successfully', true, 6000);
   };
   return (
     <Collapsable heading={<h1>Add new transaction</h1>}>
-      <div>{state.snax}</div>
+      <div>
+        {store[0] && (
+          <SnackBarContainer
+            content={store[0].content as string}
+            good={store[0].variant as boolean}
+            snackBarCloseHandler={() =>
+              onButtonClickHandler(
+                store[0].content,
+                store[0].speed,
+                store[0].variant
+              )
+            }
+            speed={store[0].speed}
+          />
+        )}
+      </div>
       <div className={props.className}>
         <Form
           schema={[

@@ -311,7 +311,7 @@ storiesOf('SnackBarContainer', module)
     <SnackBarContainer
       good={false}
       content="You are currently signed in as [insert user here]. A really long sentence to test max length capacity. It is red. It will only break after hitting 70vw."
-      speed="fast"
+      speed={4000}
     />
   ));
 
@@ -322,7 +322,7 @@ storiesOf('SnackBarContainer', module)
     </div>
   ))
   .add('Fast', () => (
-    <SnackBarContainer good={true} content="Short and fast" speed="fast" />
+    <SnackBarContainer good={true} content="Short and fast" speed={4000} />
   ));
 storiesOf('SnackBarContainer', module)
   .addDecorator(fn => (
@@ -334,6 +334,6 @@ storiesOf('SnackBarContainer', module)
     <SnackBarContainer
       good={true}
       content="Medium speed and medium length."
-      speed="medium"
+      speed={6000}
     />
   ));

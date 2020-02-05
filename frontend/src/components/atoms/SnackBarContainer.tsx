@@ -1,41 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styling/theme';
 import SnackBarCloseButton from './SnackBarCloseButton';
 import SnackBarLoader from './SnackBarLoader';
 
-interface ISnackBarProps {
+interface ISnackBar {
   className?: string;
-  clicker?: () => void;
+  snackBarCloseHandler?: React.MouseEventHandler<HTMLButtonElement>;
   content: string;
   good: boolean;
-  speed?: string;
+  speed?: number;
 }
 
-const LoaderSpeed = (speed = '6s') => {
-  if (speed === 'fast') {
-    return '4s';
-  } else if (speed === 'slow') {
-    return '8s';
-  } else {
-    return '6s';
+const loaderSpeed = (speed: number = 6000) => {
+  switch (speed) {
+    case 4000:
+      return '4s';
+    case 6000:
+      return '6s';
+    case 8000:
+      return '8s';
   }
 };
 
-const SnackBarContainer: React.FC<ISnackBarProps> = ({
+const SnackBarContainer: React.FC<ISnackBar> = ({
   className,
-  clicker,
+  snackBarCloseHandler,
   content,
-  good,
   speed,
 }) => {
   return (
     <div className={className}>
       <p>{content}</p>
-      <SnackBarCloseButton onClick={clicker}>x</SnackBarCloseButton>
+      <SnackBarCloseButton onClick={snackBarCloseHandler}>
+        x
+      </SnackBarCloseButton>
       <SnackBarLoader
         style={{
-          animationDuration: LoaderSpeed(speed),
+          animationDuration: loaderSpeed(speed),
         }}
       />
     </div>
@@ -43,13 +44,15 @@ const SnackBarContainer: React.FC<ISnackBarProps> = ({
 };
 
 export default styled(SnackBarContainer)`
-  color: ${theme.palette.primary.contrast};
-  background-color: ${theme.palette.background.default};
+  color: ${props => props.theme.palette.primary.contrast};
+  background-color: ${props => props.theme.palette.background.default};
   padding: 0.5em;
   border-radius: 3px;
   border: 3px solid;
   border-color: ${props =>
-    props.good ? theme.palette.success.main : theme.palette.danger.main};
+    props.good
+      ? props.theme.palette.success.main
+      : props.theme.palette.danger.main};
   position: fixed;
   bottom: 20px;
   left: 20px;

@@ -313,6 +313,31 @@ export const TransactionActions = {
   doUpdateTransaction,
 };
 
+export interface ISnackAction {
+  type: 'ADD_SNACK' | 'REMOVE_SNACK';
+  payload: { content: string; variant: boolean; speed: number };
+}
+
+export const snackReducer = (
+  state: Array<{ content: string; variant: boolean; speed: number }> = [],
+  action: ISnackAction
+) => {
+  switch (action.type) {
+    case 'ADD_SNACK':
+      return [...state, action.payload];
+    case 'REMOVE_SNACK':
+      const currentSnack = state.findIndex(e => e === action.payload);
+
+      if (currentSnack !== -1) {
+        return [
+          ...state.slice(0, currentSnack),
+          ...state.slice(currentSnack + 1),
+        ];
+      }
+      return []; // currently set to yeet the entire array, can probably be modified to only yeet the correct element.
+  }
+};
+
 /**
  * The return types of all the elements in ActionCreators
  * NOTE: Should not be modified!

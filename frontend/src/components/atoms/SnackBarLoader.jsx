@@ -1,19 +1,18 @@
 import styled from 'styled-components';
 import { keyframes } from 'styled-components';
-import { theme } from '../../styling/theme';
 
 const shrinkBar = keyframes`
-from {
-  width: 100%;
-}
-to {
-  width: 0%;
-}
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
 `;
 
 export default styled.div`
   height: 5px;
-  background-color: ${theme.palette.primary.contrast};
+  background-color: ${props => props.theme.palette.primary.contrast};
   padding: 0;
   margin: 0;
   position: absolute;
