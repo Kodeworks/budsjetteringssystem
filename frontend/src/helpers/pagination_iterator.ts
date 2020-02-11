@@ -16,7 +16,9 @@ export async function* paginationIterator<T>(res: IPaginated<T>) {
 
     // Extract the url and queryParams and retrieve the pathname from the url, as we already handle prepending the BASE_URL in the fetchWithCallback function
     const { url, query } = queryString.parseUrl(resp.next);
-    const path = new URL(url).pathname;
+
+    // Hack to prevent it from querying .../api/api/...
+    const path = new URL(url).pathname.replace('/api', '');
 
     resp = await fetchWithCallback<IPaginated<T>>(path as ApiEndpoint, query);
   }
