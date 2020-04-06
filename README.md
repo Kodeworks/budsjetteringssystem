@@ -1,16 +1,14 @@
-![Build - CircleCI](https://img.shields.io/circleci/build/github/Kodeworks/liquidator/master.svg)
-![Closed issues](https://img.shields.io/github/issues-closed/kodeworks/liquidator.svg)
-![License](https://img.shields.io/github/license/kodeworks/liquidator.svg)
+![Build - CircleCI](https://img.shields.io/circleci/build/github/Kodeworks/budsjetteringssystem/master.svg)
+![Closed issues](https://img.shields.io/github/issues-closed/kodeworks/budsjetteringssystem.svg)
+![License](https://img.shields.io/github/license/kodeworks/budsjetteringssystem.svg)
 
-[**Milestones**](https://github.com/Kodeworks/liquidator-frontend/milestones) and [**Project Board**](https://github.com/Kodeworks/liquidator-frontend/projects/2)
+[**Milestones**](https://github.com/Kodeworks/budsjetteringssystem/milestones) and [**Project Board**](https://github.com/Kodeworks/budsjetteringssystem/projects/2)
 
 [API specification](https://app.swaggerhub.com/apis/kw-liquidator/Liquidator/1.0.0#/)
 
-# Liquidator [Frontend]
+# Frontend
 
-This is the frontend for liquidator.
-
-To run this (with hot-reload), simply run the command
+To run the frontend in developer mode (with hot-reload), simply run the command
 
 ```bash
 yarn start
@@ -33,10 +31,10 @@ Other than that, it's just a create-react-app, so the normal `yarn build` etc. w
 To test the application, we have three different commands;
 
 1. `yarn test` -- Runs the component and reducer tests. Does not require a backend running.
-2. `yarn test:api` -- Only run the backend integration tests. Requires a running instance of [`liquidator-backend`](https://github.com/kodeworks/liquidator-backend).
-3. `yarn test:all` -- Runs _everything_. Requires a running instance of `liquidator-backend`.
+2. `yarn test:api` -- Only run the backend integration tests. Requires a running instance of the backend.
+3. `yarn test:all` -- Runs _everything_. Requires a running instance of the backend.
 
-# Liquidator [Backend]
+# Backend
 
 ## Setup
 
@@ -81,7 +79,7 @@ Migrations created in the container are synced back to the source tree, and shou
 ### Without docker
 
 The server can be run as a normal django server, but then you have to install a database manually.
-The django settings can be overriden by creating the file `liquidator/local_settings.py` and overriding any variables set in `settings.py`.
+The django settings can be overriden by creating the file `backend/local_settings.py` and overriding any variables set in `settings.py`.
 
 
 Happy hacking! :tada:
