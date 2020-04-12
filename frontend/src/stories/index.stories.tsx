@@ -10,6 +10,7 @@ import RecurringTransactionOptions, {
   IntervalType,
 } from '../components/atoms/RecurringTransactionOptions';
 import Select from '../components/atoms/Select';
+import SnackBarContainer from '../components/atoms/SnackBarContainer';
 import TextArea from '../components/atoms/TextArea';
 import TransactionEntry from '../components/atoms/TransactionEntry';
 import AddTransaction from '../components/molecules/AddTransaction';
@@ -299,3 +300,40 @@ storiesOf('Input/Select', module)
       </Select>
     );
   });
+
+storiesOf('SnackBarContainer', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('Long', () => (
+    <SnackBarContainer
+      good={false}
+      content="You are currently signed in as [insert user here]. A really long sentence to test max length capacity. It is red. It will only break after hitting 70vw."
+      speed={4000}
+    />
+  ));
+
+storiesOf('SnackBarContainer', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('Fast', () => (
+    <SnackBarContainer good={true} content="Short and fast" speed={4000} />
+  ));
+storiesOf('SnackBarContainer', module)
+  .addDecorator(fn => (
+    <div style={{ margin: '2em', background: theme.palette.primary.main }}>
+      {fn()}
+    </div>
+  ))
+  .add('Medium', () => (
+    <SnackBarContainer
+      good={true}
+      content="Medium speed and medium length."
+      speed={6000}
+    />
+  ));

@@ -4,12 +4,51 @@ import styled from 'styled-components';
 import { useAuthState } from '../../store/contexts/auth';
 import { useTransactionDispatch } from '../../store/contexts/transactions';
 import { TransactionActions } from '../../store/reducers/transactions';
+import { snackReducer } from '../../store/reducers/transactions';
+
 import Collapsable from '../atoms/Collapsable';
+import SnackBarContainer from '../atoms/SnackBarContainer';
 import Form from './Form';
 
 const AddTransaction: React.FC<{ className?: string }> = props => {
   const dispatch = useTransactionDispatch();
   const auth = useAuthState();
+  const [store, snackDispatch] = React.useReducer(snackReducer, [] as Array<{
+    content: string;
+    variant: boolean;
+    speed: number;
+  }>);
+
+  let delayTimer = setTimeout(null, 0);
+
+  const onButtonClickHandler = (
+    content: string,
+    speed: number,
+    variant: boolean
+  ) => {
+    snackDispatch({
+      payload: { content, speed, variant },
+      type: 'REMOVE_SNACK',
+    });
+    // For some reason the delayTimer ID will be different if it is true or false, which is why it needs to either be +1 or -1 to make sure it gets the right ID.
+    if (variant === true) {
+      clearTimeout(delayTimer + 1);
+    } else {
+      clearTimeout(delayTimer - 1);
+    }
+  };
+  const createSnack = (content: string, variant: boolean, speed: number) => {
+    snackDispatch({
+      payload: { content, speed, variant },
+      type: 'ADD_SNACK',
+    });
+    delayTimer = setTimeout(() => {
+      snackDispatch({
+        payload: { content, speed, variant },
+        type: 'REMOVE_SNACK',
+      });
+    }, speed);
+  };
 
   const onSubmit = async ({
     recurring,
@@ -22,6 +61,14 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
     interval_type,
     interval,
   }: any) => {
+    if (description.length > 140 && notes.length > 140) {
+      createSnack(
+        'Too many characters in notes or description. Please try again',
+        false,
+        6000
+      );
+      return;
+    }
     if (!recurring) {
       await TransactionActions.doCreateTransaction(
         {
@@ -51,10 +98,26 @@ const AddTransaction: React.FC<{ className?: string }> = props => {
         dispatch
       );
     }
+    createSnack('Transaction added successfully', true, 6000);
   };
-
   return (
     <Collapsable heading={<h1>Add new transaction</h1>}>
+      <div>
+        {store[0] && (
+          <SnackBarContainer
+            content={store[0].content as string}
+            good={store[0].variant as boolean}
+            snackBarCloseHandler={() =>
+              onButtonClickHandler(
+                store[0].content,
+                store[0].speed,
+                store[0].variant
+              )
+            }
+            speed={store[0].speed}
+          />
+        )}
+      </div>
       <div className={props.className}>
         <Form
           schema={[
