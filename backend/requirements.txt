@@ -20,7 +20,7 @@ packaging==19.2
 psycopg2-binary==2.8.4
 pycodestyle==2.5.0
 pyflakes==2.1.1
-PyJWT==1.7.1
+PyJWT==2.4.0
 pyparsing==2.4.5
 python-dateutil==2.8.1
 pytz==2019.3
